@@ -1,0 +1,276 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#marketCategory ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+}
+
+#marketCategory ul li {
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.activeCategory {
+    font-weight: bold;
+}
+
+.list::-webkit-scrollbar-track {
+    border-radius: 0.125rem;
+    background-color: lightgray;
+}
+
+.list::-webkit-scrollbar {
+    height: 0.3rem;
+    width: 0.25rem;
+    border-radius: 0.125rem;
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 0.125rem;
+    background-color: gray;
+}
+
+hr {
+    margin: 0px;
+}
+
+#marketContainer {
+    margin: 10px;
+    border: 1px solid lightgray;
+}
+
+#marketNameContainer {
+    margin: 10px;
+}
+
+#infoContainer, .marketRatingContainer {
+    display: flex;
+    align-items: end;
+}
+
+#marketImageContainer {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border: 1px solid lightgray;
+    overflow: hidden;
+}
+
+#marketImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.yellowStar {
+    color: #f7ce08;
+}
+
+.grayStar {
+    color: lightgray;
+}
+
+#marketInfoContainer {
+    width: 75%;
+    margin: auto;
+}
+
+#marketRating {
+    margin-left: 5px;
+}
+
+#marketNumberContainer {
+    display: none;
+}
+
+input[type="radio"] {
+    display: none;
+}
+
+input[type="radio"] + label {
+    display: inline-block;
+    padding: 15px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+input[type="radio"] + label:hover {
+    background: #eeeeee;
+}
+
+input[type="radio"]:checked + label {
+    border-color: lightgray lightgray #ffb36f lightgray;
+    color: #ffb36f;
+    border-width: 1px 1px 5px 1px;
+}
+
+.tab_content {
+    padding: 0px 10px;
+}
+
+.tabs {
+    display: flex;
+}
+
+.conbox {
+    width: 100%;
+    margin: 0 auto;
+    display: none;
+    border: 1px solid lightgray;
+}
+
+.conbox.active {
+    display:block;
+}
+
+.menuCategoryContainer {
+    background: #eeeeee;
+    border: solid lightgray;
+    border-width: 0px 0px 1px 0px;
+}
+
+.menuCategoryBtn {
+    width: 100%;
+    padding: 15px;
+    text-align: left;
+}
+
+.menuCategoryBtnContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menuList {
+    padding: 10px;
+    border: solid lightgray;
+    border-width: 0px 0px 1px 0px;
+}
+
+.menuListInfo {
+    display: flex;
+    align-items: end;
+}
+
+.menuInfoContainer {
+    width: 80%;
+    margin: auto;
+}
+
+.menuIntro {
+    font-size: 14px;
+    color: #999999;
+}
+
+.menuImageContainer {
+    width: 100px;
+    height: 80px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.menuImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#reviewRatingContainer {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+#reviewMarketRating {
+    font-size: 40px;
+    text-align: center;
+}
+
+#ratingInfoContainer {
+    margin-left: 40px;
+}
+
+.ratingInfo {
+    font-size: 14px;
+    display: flex;
+    align-items: end;
+}
+
+#reviewRatingAvg {
+    margin: auto 0;
+}
+
+.graph {
+    width: 80px;
+    height: 5px;
+    background: #ccc;
+    border-radius: 40px;
+    margin: auto;
+    margin-left: 5px;
+}
+
+.graph span {
+    display: block;
+    width: 75%;
+    height: 5px;
+    line-height: 40px;
+    text-align: right;
+    background: #f7ce08;
+    border-radius: 40px;
+}
+
+.reviewContainer {
+    margin: 10px;
+}
+
+.reviewWriterContainer {
+    display: flex;
+    align-items: end;
+    margin: 10px;
+}
+
+.reviewImageContainer {
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+}
+
+.reviewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviewContent {
+    margin: 10px;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    #marketNumberContainer {
+        display: block;
+    }
+}

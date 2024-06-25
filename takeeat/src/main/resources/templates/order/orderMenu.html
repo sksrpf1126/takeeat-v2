@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/css/order/marketMenuStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/order/orderMenuStyle.css">
 </head>
 <body>
 
@@ -59,11 +59,11 @@
 
     <div class="tab_content">
         <div class="tabs">
-            <input type="radio" name="tabmenu" id="tab01" checked>
+            <input type="radio" class="tabmenu" name="tabmenu" id="tab01" checked>
             <label for="tab01">메뉴</label>
-            <input type="radio" name="tabmenu" id="tab02">
+            <input type="radio" class="tabmenu" name="tabmenu" id="tab02">
             <label for="tab02">리뷰</label>
-            <input type="radio" name="tabmenu" id="tab03" onclick="showInfoTab()">
+            <input type="radio" class="tabmenu" name="tabmenu" id="tab03" onclick="showInfoTab()">
             <label for="tab03">정보</label>
         </div>
 
@@ -79,7 +79,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="dropdown01">
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown menuList">
+                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
                             <div class="menuListInfo">
                                 <div class="menuInfoContainer">
                                     <div><strong>바삭한허니비</strong></div>
@@ -89,7 +89,7 @@
                                 <div class="menuImageContainer"><img class="menuImage" src="/images/pizzaSample.jpeg"/></div>
                             </div>
                         </li>
-                        <li class="nav-item dropdown menuList">
+                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
                             <div class="menuListInfo">
                                 <div class="menuInfoContainer">
                                     <div><strong>[인기]할라불고기</strong></div>
@@ -99,7 +99,7 @@
                                 <div class="menuImageContainer"><img class="menuImage" src="/images/pizzaSample.jpeg"/></div>
                             </div>
                         </li>
-                        <li class="nav-item dropdown menuList">
+                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
                             <div class="menuListInfo">
                                 <div class="menuInfoContainer">
                                     <div><strong>[신메뉴]메가모짜 치즈디쉬</strong></div>
@@ -123,7 +123,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="dropdown02">
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown menuList">
+                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
                             <div class="menuListInfo">
                                 <div class="menuInfoContainer">
                                     <div><strong>바삭한허니비</strong></div>
@@ -189,6 +189,7 @@
 
             <div class="reviewContainer">
                 <div class="reviewWriterContainer">
+                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
                     <div><strong>우디누나 님</strong></div>
                     <div class="writeTime">&nbsp;&nbsp;2024년 6월 24일</div>
                 </div>
@@ -212,6 +213,7 @@
             <hr/>
             <div class="reviewContainer">
                 <div class="reviewWriterContainer">
+                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
                     <div><strong>다이어트는내일부터 님</strong></div>
                     <div class="writeTime">&nbsp;&nbsp;2024년 6월 20일</div>
                 </div>
@@ -260,8 +262,95 @@
             </div>
         </div>
     </div>
+
+    <div id="bottomBtnContainer">
+        <div id="cartBtn" onclick="location.href='/order/cart'">장바구니</div>
+        <div id="orderBtn">주문하기</div>
+    </div>
+
+    <div class="modal" id="optionChoiceModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">메뉴상세</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="menuImageInModalContainer"><img src="/images/pizzaSample.jpeg" id="menuImageInModal"/></div>
+                    <div id="menuNameInModal"><strong>바삭한허니비</strong></div>
+                    <div id="menuInfoInModal">바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화</div>
+                    <hr/>
+                    <div id="menuPriceInModalContainer">
+                        <div id="menuPriceTitleInModal">가격</div>
+                        <div id="menuPriceInModal">18,900원</div>
+                    </div>
+                    <hr/>
+                    <div>
+                        <div class="optionCategory">포테이토피자 사이즈 / 엣지선택</div>
+                        <div class="checkContainer">
+                            <input type="radio" id="option01-01" name="option01" checked>
+                            <label for="option01-01" class="optionNameContainer">
+                                <div class="optionName">오리지널 R</div>
+                                <div class="optionPrice">추가비용없음</div>
+                            </label>
+                        </div>
+                        <div class="checkContainer">
+                            <input type="radio" id="option01-02" name="option01">
+                            <label for="option01-02" class="optionNameContainer">
+                                <div class="optionName">고구마골드 R</div>
+                                <div class="optionPrice">+3,000원</div>
+                            </label>
+                        </div>
+                        <div class="checkContainer">
+                            <input type="radio" id="option01-03" name="option01">
+                            <label for="option01-03" class="optionNameContainer">
+                                <div class="optionName">오리지널 L</div>
+                                <div class="optionPrice">+5,000원</div>
+                            </label>
+                        </div>
+                        <div class="checkContainer">
+                            <input type="radio" id="option01-04" name="option01">
+                            <label for="option01-04" class="optionNameContainer">
+                                <div class="optionName">슈크림무스 L</div>
+                                <div class="optionPrice">+9,000원</div>
+                            </label>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div>
+                        <div class="optionCategory">추가토핑</div>
+                        <div class="checkContainer">
+                            <input type="checkbox" id="option02-01" name="option02">
+                            <label for="option02-01" class="optionNameContainer">
+                            <div class="optionName">치즈듬뿍모짜렐라치즈(100g)</div>
+                            <div class="optionPrice">+3,000원</div>
+                            </label>
+                        </div>
+                        <div class="checkContainer">
+                            <input type="checkbox" id="option02-02" name="option02">
+                            <label for="option02-02" class="optionNameContainer">
+                                <div class="optionName">칠리새우(8개)</div>
+                                <div class="optionPrice">+2,500원</div>
+                            </label>
+                        </div>
+                        <div class="checkContainer">
+                            <input type="checkbox" id="option02-03" name="option02">
+                            <label for="option02-03" class="optionNameContainer">
+                                <div class="optionName">버섯</div>
+                                <div class="optionPrice">+500원</div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">장바구니에 추가</button>
+                    <button type="button" class="btn" style="background: #ffb36f;">주문하기</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
-<script src="/js/order/marketMenuScript.js"></script>
+<script src="/js/order/orderMenuScript.js"></script>
 </body>
 </html>

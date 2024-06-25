@@ -16,6 +16,11 @@ public class OrderController {
     @GetMapping("/menuList")
     public String menuList(Model model) {
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
-        return "order/marketMenu";
+        return "order/orderMenu";
+    }
+
+    @GetMapping("/cart")
+    public String cart() {
+        return "order/cart";
     }
 }

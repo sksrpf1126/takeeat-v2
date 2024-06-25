@@ -1,4 +1,4 @@
-//탭 메뉴
+//==== 탭 메뉴 ====
 document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.tabs input');
     const contents = document.querySelectorAll('.conbox');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     showContent();
 });
 
-//지도 api
+//==== 지도 api ====
 var map = null;
 
 window.onload = function() {
@@ -56,4 +56,10 @@ function showInfoTab() {
 function relayout() {
     map.relayout();
     map.setCenter(new kakao.maps.LatLng(33.450701, 126.570667));
+}
+
+//==== 옵션 선택 모달 ====
+function showOptionModal() {
+    const modal = new bootstrap.Modal(document.getElementById('optionChoiceModal'));
+    modal.show();
 }

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/myPage/reviewListStyle.css">
+</head>
+<body>
+
+<div id="contents">
+
+    <div id="titleContainer">
+        <div><img id="backIcon" src="/images/backIcon.png"/></div>
+        <div id="reviewListTitle"><strong>리뷰관리</strong></div>
+    </div>
+    <hr/>
+
+    <div id="reviewCount"><strong>내가 쓴 총 리뷰 37개</strong></div>
+    <hr/>
+
+    <div class="reviewContainer">
+        <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
+        <div class="reviewInfoContainer">
+            <div class="reviewRating">
+                <div class="yellowStar">★★★★</div>
+                <div class="grayStar">★</div>
+                <div class="writeTime">이번 주</div>
+            </div>
+            <div class="reviewControlBtnContainer">
+                <div><button class="modifyReviewBtn" type="button">수정</button></div>
+                <div><button class="deleteReviewBtn" type="button">삭제</button></div>
+            </div>
+        </div>
+        <div class="reviewImageContainer">
+            <img class="reviewImage" src="/images/reviewSample.jpg"/>
+            <img class="reviewImage" src="/images/reviewSample.jpg"/>
+            <img class="reviewImage" src="/images/reviewSample.jpg"/>
+        </div>
+        <div class="reviewContent">도우도 쫄깃하고 너무 맛있습니다.</div>
+    </div>
+    <hr/>
+    <div class="reviewContainer">
+        <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
+        <div class="reviewInfoContainer">
+            <div class="reviewRating">
+                <div class="yellowStar">★★★★★</div>
+                <div class="writeTime">지난 달</div>
+            </div>
+            <div class="reviewControlBtnContainer">
+                <div><button class="modifyReviewBtn" type="button">수정</button></div>
+                <div><button class="deleteReviewBtn" type="button">삭제</button></div>
+            </div>
+        </div>
+        <div class="reviewImageContainer">
+        </div>
+        <div class="reviewContent">맛있게 잘먹었습니다. 너무 맛있어요.</div>
+    </div>
+    <hr/>
+
+
+</div>
+
+</body>
+</html>

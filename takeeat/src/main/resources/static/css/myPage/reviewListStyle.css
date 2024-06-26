@@ -1,0 +1,88 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#titleContainer {
+    display: flex;
+    align-items : center;
+    margin: 10px;
+}
+
+#backIcon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#reviewListTitle {
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+#reviewCount {
+    font-size: 20px;
+    margin: 10px;
+}
+
+.reviewContainer {
+    margin: 10px;
+}
+
+.yellowStar {
+    color: #fddb41;
+}
+
+.grayStar {
+    color: lightgray;
+}
+
+.reviewRating {
+    display: flex;
+    align-items: center;
+}
+
+.writeTime {
+    margin-left: 5px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+.reviewInfoContainer, .reviewControlBtnContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modifyReviewBtn, .deleteReviewBtn {
+    border: none;
+    border-radius: 15px;
+    padding: 1px 10px;
+    color: black;
+    margin-left: 5px;
+}
+
+.reviewImageContainer {
+    margin: 10px 0px;
+}
+
+.reviewImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+}

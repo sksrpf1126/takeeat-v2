@@ -1,0 +1,95 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#titleContainer {
+    display: flex;
+    align-items : center;
+    margin: 10px;
+}
+
+#backIcon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#orderListTitle {
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+hr {
+    margin: 0px;
+}
+
+.orderContainer {
+    margin: 10px;
+    padding: 10px 20px;
+    border: 1px solid lightgray;
+}
+
+.orderStatusContainer {
+    display: flex;
+    align-items : center;
+    justify-content: space-between;
+}
+
+.orderDetail {
+    border: none;
+    border-radius: 15px;
+    padding: 1px 10px;
+    color: black;
+}
+
+.orderInfoContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.marketImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.orderInfo {
+    margin-left: 10px;
+    width: 100%;
+}
+
+.reviewWriteBtn {
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid #ffb36f;
+    color: #ffb36f;
+    text-align: center;
+}
+
+.reviewCompleteBtn {
+    padding: 5px;
+    margin-top: 5px;
+    border: 1px solid lightgray;
+    color: lightgray;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+}

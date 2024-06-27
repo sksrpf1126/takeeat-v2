@@ -9,16 +9,6 @@
     padding: 20px;
     background-color: #fff;
 }
-@media (max-width: 768px) {
-     body {
-         flex-direction: column;
-     }
-     .line-container {
-         flex-direction: column;
-         align-items: flex-start;
-         margin-right: 20px;
-     }
- }
 
  /*사이드바*/
  input[id="menuicon"] {
@@ -33,23 +23,24 @@
  }
  input[id="menuicon"]+label span {
      margin-left: 20px;
-     disply:block;
-     position:absolute;
-     width:100%;
+     display:block;
+     position:fixed;
+     width:28px;
      height:3px;
-     border-eadius:30px;
+     border-radius:30px;
      background:#000;
      transition:all .35s;
+     margin-top: 30px;
  }
  input[id="menuicon"]+label span:nth-child(1) {
      top:0;
  }
  input[id="menuicon"]+label span:nth-child(2) {
-     top:50%;
+     top:0.97%;
      transform:translateY(-50%);
  }
  input[id="menuicon"]+label span:nth-child(3) {
-     bottom:0;
+     top:1.6%;
  }
  input[id="menuicon"]:checked + label span {
      z-index:2;
@@ -58,14 +49,14 @@
      background:#fff;
  }
  input[id="menuicon"]:checked + label span:nth-child(1) {
-     top:50%;
+     top:5px;
      transform:translateY(-50%) rotate(45deg);
  }
  input[id="menuicon"]:checked + label span:nth-child(2) {
      opacity:0;
  }
  input[id="menuicon"]:checked + label span:nth-child(3) {
-     bottom:50%;
+     top:2.4px;
      transform:translateY(50%) rotate(-45deg);
  }
  div[class="sidebar"] {
@@ -127,6 +118,13 @@
  .margin-top-20 {
      margin-top: 20px;
  }
+ .margin-top-40 {
+    margin-top: 40px;
+ }
+.margin-bottom-10 {
+  margin-bottom: 10px;
+}
+
  .margin-bottom-15 {
      margin-bottom: 15px;
  }
@@ -165,7 +163,6 @@
      border: solid 2px #D8D8D8;
      border-radius: 10px;
      height: auto;
-     padding-top: 40px;
      padding-left: 60px;
      padding-right: 60px;
      padding-bottom: 30px;
@@ -174,6 +171,27 @@
  .info-text {
      font-size: 16px;
  }
+  .l-info-text {
+      font-size: 18px;
+  }
+ .s-info-text {
+      font-size: 14px;
+  }
+.line-text {
+   font-size: 14px;
+   text-align: center;
+   color: #A4A4A4;
+   margin-top: -27px;
+   cursor: pointer;
+}
+.s-line-text {
+    font-size: 13px;
+    text-align: center;
+    color: #A4A4A4;
+    margin-top: -27px;
+    margin-bottom: -8px;
+    cursor: pointer;
+}
  /*입력상자*/
  .input-box {
      width: 327px;
@@ -194,6 +212,7 @@
  .dup-button {
      margin-top: 10px;
      height: 36px;
+     color: white;
      border-radius: 2px;
      background-color: #FFB36F;
      border: solid 2px #FFB36F;
@@ -207,6 +226,14 @@
      background-color: #D8D8D8;
      border: none;
  }
+  .hr-margin-b {
+      margin-top: 30px;
+      margin-bottom: 30px;
+      height: 3px;
+      width: 102%;
+      background-color: #A4A4A4;
+      border: none;
+  }
  /*큰 입력 상자*/
  .l-input-box {
      width: 100%;
@@ -222,6 +249,38 @@
      border: solid 2px #A4A4A4;
      font-size: 14px;
  }
+  .m-input-box {
+      width: 320px;
+      height: 30px;
+      border-radius: 2px;
+      border: solid 2px #D8D8D8;
+      font-size: 14px;
+  }
+  .m-input-box:hover {
+      width: 320px;
+      height: 30px;
+      border-radius: 2px;
+      border: solid 2px #A4A4A4;
+      font-size: 14px;
+  }
+  .s-input-box {
+      width: 72px;
+      height: 30px;
+      border-radius: 2px;
+      border: solid 2px #D8D8D8;
+      font-size: 14px;
+      display: flex;
+      justify-content: end;
+  }
+  .s-input-box:hover {
+    width: 72px;
+    height: 30px;
+    border-radius: 2px;
+    border: solid 2px #A4A4A4;
+    font-size: 14px;
+    display: flex;
+    justify-content: end;
+  }
  /*드롭다운*/
  .dropdown {
      position: relative;
@@ -286,6 +345,7 @@
  /*제출, 취소 버튼*/
  .form-button-submit {
      margin-top: 30px;
+     color: white;
      width: 47px;
      height: 30px;
      border-radius: 2px;
@@ -299,4 +359,87 @@
      border-radius: 2px;
      background-color: #D8D8D8;
      border: solid 2px #D8D8D8;
+ }
+ /*마우스 호버 시 팁 상자*/
+ .tip-container {
+     position: relative; /* 부모 요소에 위치 설정 추가 */
+ }
+
+ .tip {
+     position: absolute;
+     font-size: 11px;
+     margin-left: 4px;
+     margin-top: 3px;
+     align-items: left;
+
+     background-color: #D8D8D8;
+     border-radius: 50%;
+     width: 17px;
+     height: 17px;
+     cursor: default;
+ }
+
+ .tip:before {
+     margin-left: 5.5px;
+     content: '?';
+     font-weight: bold;
+     color: #fff;
+ }
+
+ .tip:hover p {
+     visibility: visible;
+     opacity: 1;
+ }
+
+ .tip p {
+     opacity: 0;
+     visibility: hidden;
+
+     color: #fff;
+     font-size: 13px;
+     line-height: 1.4;
+     text-align: left;
+     background-color: #FFB36F;
+     display: inline-block;
+     padding: 12px;
+     border-radius: 3px;
+     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(0, 0, 0, 0.2);
+     position: absolute;
+     top: 25px; /* Tip 아이콘 아래에 위치하도록 설정 */
+     left: 0;
+     white-space: nowrap; /* 텍스트가 한 줄로 표시되도록 설정 */
+     transition: visibility 0s, opacity 0.5s linear;
+ }
+ .img-style {
+    height: 120px;
+    width: 160px;
+    object-fit: cover;
+    text-align: center;
+ }
+ .file-style {
+     margin-left: 20px;
+     margin-top: 105px;
+ }
+ .no_dot {
+   list-style-type: none;
+   padding-left:0;
+ }
+ .input-file-button{
+   padding: 6px 15px;
+   background-color:#FFB36F;
+   border-radius: 4px;
+   color: white;
+   cursor: pointer;
+   margin-top: 105px;
+   margin-left: 15px;
+   font-size: 13px;
+ }
+ .del-button {
+    margin-top: 10px;
+    margin-left:auto;
+    width: 120px;
+    height: 30px;
+    border-radius: 2px;
+    background-color: #D8D8D8;
+    border: solid 2px #D8D8D8;
  }

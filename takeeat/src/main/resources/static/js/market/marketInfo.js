@@ -18,3 +18,18 @@ window.onclick = function(event) {
         }
     }
 }
+// 이미지 미리보기 함수
+document.getElementById('input-file').addEventListener('change', function(event) {
+    var input = event.target;
+    var reader = new FileReader();
+
+    reader.onload = function(){
+        var dataURL = reader.result;
+        var imgPreview = document.getElementById('img-preview');
+        imgPreview.src = dataURL;
+    };
+
+    if (input.files && input.files[0]) {
+        reader.readAsDataURL(input.files[0]);
+    }
+});

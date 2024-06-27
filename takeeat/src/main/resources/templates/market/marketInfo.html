@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
@@ -56,7 +57,7 @@
             <br/>
             <form>
                 <div class="info-box">
-                    <div class="info-text">가게 이름을 입력해주세요.</div>
+                    <div class="info-text">가게 이름을 입력하세요.</div>
                     <div class="line-container">
                         <input type="text" id="marketName" name="marketName" class="input-box margin-top-10"/>
                         <button class="dup-button margin-left-10">중복확인</button>
@@ -64,8 +65,11 @@
                     <hr class="hr-margin"/>
 
                     <div class="info-text">가게를 대표하는 사진을 넣어주세요.</div>
-                    <img src="/images/no-image.jpg" class="img-style margin-top-15"/>
-                    <input type="file" class="file-style">
+                    <div class="line-container">
+                        <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview">
+                        <label class="input-file-button" for="input-file">업로드</label>
+                        <input type="file" id="input-file" class="file-style" style="display:none">
+                    </div>
                     <hr class="hr-margin"/>
 
                     <div class="info-text">주소를 입력하세요.</div>

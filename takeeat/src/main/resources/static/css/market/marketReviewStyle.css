@@ -346,3 +346,9 @@ textarea {
     font-size: 14px;
     color: lightgray;
 }
+
+@media (max-width: 600px) {
+    #container {
+        margin-left: 250px;
+    }
+}

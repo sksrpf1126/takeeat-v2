@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/myPage/orderListStyle.css">
+</head>
+<body>
+
+<div id="contents">
+
+    <div id="titleContainer">
+        <div><img id="backIcon" src="/images/back-icon.png"/></div>
+        <div id="orderListTitle"><strong>주문내역</strong></div>
+    </div>
+    <hr/>
+
+    <div class="orderContainer">
+        <div class="orderStatusContainer">
+            <div>2024-06-26 · 준비중</div>
+            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
+        </div>
+        <div class="orderInfoContainer">
+            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
+            <div class="orderInfo">
+                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
+                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
+            </div>
+        </div>
+    </div>
+    <div class="orderContainer">
+        <div class="orderStatusContainer">
+            <div>2024-06-20 · 픽업완료</div>
+            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
+        </div>
+        <div class="orderInfoContainer">
+            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
+            <div class="orderInfo">
+                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
+                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
+                <a href="/myPage/writeReview"><div class="reviewWriteBtn">리뷰 쓰기</div></a>
+            </div>
+        </div>
+    </div>
+    <div class="orderContainer">
+        <div class="orderStatusContainer">
+            <div>2024-05-05 · 픽업완료</div>
+            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
+        </div>
+        <div class="orderInfoContainer">
+            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
+            <div class="orderInfo">
+                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
+                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
+                <div class="reviewCompleteBtn">리뷰 작성 완료</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

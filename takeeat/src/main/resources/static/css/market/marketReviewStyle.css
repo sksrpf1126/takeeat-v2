@@ -1,0 +1,354 @@
+/*사이드바*/
+input[id="menuicon"] {
+    display:none;
+}
+
+input[id="menuicon"]+label {
+    display:block;
+    width:30px;
+    height:20px;
+    position:relative;
+    cursor:pointer;
+}
+
+input[id="menuicon"]+label span {
+    margin-left: 20px;
+    disply:block;
+    position:fixed;
+    width:30px;
+    height:3px;
+    border-radius:30px;
+    background:#000;
+    transition:all .35s;
+    margin-top: 30px;
+}
+
+input[id="menuicon"]+label span:nth-child(1) {
+    top:0;
+}
+
+input[id="menuicon"]+label span:nth-child(2) {
+    top:0.97%;
+    transform:translateY(-50%);
+}
+
+input[id="menuicon"]+label span:nth-child(3) {
+    top: 1.6%;
+}
+
+input[id="menuicon"]:checked + label span {
+    z-index:2;
+}
+
+input[id="menuicon"]:checked + label span {
+    background:#fff;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(1) {
+    top:5px;
+    transform:translateY(-50%) rotate(45deg);
+}
+
+input[id="menuicon"]:checked + label span:nth-child(2) {
+    opacity:0;
+}
+
+input[id="menuicon"]:checked + label span:nth-child(3) {
+    top: 2.4px;
+    transform:translateY(50%) rotate(-45deg);
+}
+
+div[class="sidebar"] {
+    width:220px;
+    height:100%;
+    background:#222;
+    position:fixed;
+    top:0;
+    left:-300px;
+    z-index:1;
+    transition:all .35s;
+}
+
+input[id="menuicon"]:checked + label + div {
+    left:0;
+}
+
+/*정렬*/
+.line-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+.line-container-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.length-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/*사이드바 글자*/
+.main-menu {
+    margin-left: 10px;
+    font-size: 20px;
+    color: white;
+}
+
+.sub-menu {
+    margin-left: 10px;
+    margin-top:10px;
+    font-size: 14px;
+    color: white;
+}
+
+.icon-size{
+    width: 30px;
+    height: auto;
+}
+
+.side-margin{
+    margin-left: 35px;
+    margin-top: 80px;
+}
+
+/*마진*/
+.margin-top-10 {
+    margin-top: 10px;
+}
+
+.margin-top-15 {
+    margin-top: 15px;
+}
+
+.margin-top-20 {
+    margin-top: 20px;
+}
+
+.margin-bottom-15 {
+    margin-bottom: 15px;
+}
+
+.margin-bottom-30 {
+    margin-bottom: 30px;
+}
+
+.margin-right-10 {
+    margin-right: 10px;
+}
+
+.margin-left-10 {
+    margin-left: 10px;
+}
+
+.margin-left-20 {
+    margin-left: 20px;
+}
+
+/* ================================== */
+
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#container {
+    flex: 1;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    padding: 20px;
+    background-color: #fff;
+}
+
+#reviewSummaryContainer {
+    width: 530px;
+    border: 2px solid #D8D8D8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+#reviewCount, #reviewAvgTitle {
+    font-size: 20px;
+}
+
+#reviewAvg {
+    font-size: 30px;
+    text-align: center;
+}
+
+#reviewSummary {
+    display: flex;
+    justify-content: center;
+    margin: 5px;
+}
+
+#ratingInfoContainer {
+    margin-left: 40px;
+}
+
+.ratingInfo {
+    font-size: 14px;
+    display: flex;
+    align-items: end;
+}
+
+.graph {
+    width: 80px;
+    height: 5px;
+    background: #ccc;
+    border-radius: 40px;
+    margin: auto;
+    margin-left: 5px;
+}
+
+.graph span {
+    display: block;
+    width: 75%;
+    height: 5px;
+    line-height: 40px;
+    text-align: right;
+    background: #fddb41;
+    border-radius: 40px;
+}
+
+.tabmenu {
+    display: none;
+}
+
+.tabmenu + label {
+    display: inline-block;
+    padding: 15px;
+    border-right: 2px solid #D8D8D8;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+.tabmenu + label:hover {
+    background: #eeeeee;
+}
+
+.tabmenu:checked + label {
+    border-bottom: 5px solid #ffb36f;
+    color: #ffb36f;
+}
+
+.tab_content {
+    margin-top: 20px;
+    width: 530px;
+}
+
+.tabs {
+    display: flex;
+    border-top: 2px solid #D8D8D8;
+    border-left: 2px solid #D8D8D8;
+}
+
+.conbox {
+    width: 100%;
+    margin: 0 auto;
+    display: none;
+    border: 2px solid #D8D8D8;
+    border-bottom: 0px;
+    margin-bottom: 40px;
+}
+
+.conbox.active {
+    display:block;
+}
+
+.reviewContainer {
+    margin: 10px;
+}
+
+.reviewRatingContainer {
+    display: flex;
+    align-items: start;
+}
+
+.writerAndTime {
+    display: flex;
+    align-items: center;
+}
+
+.reviewTime {
+    font-size: 14px;
+    color: #999999;
+}
+
+.yellowStar {
+    color: #fddb41;
+}
+
+.grayStar {
+    color: lightgray;
+}
+
+.reportBtn {
+    border: none;
+    background: none;
+    font-size: 14px;
+    margin: 0px;
+    padding: 0px;
+    color: black;
+}
+
+.reportBtn:hover {
+    color: #ffb36f;
+}
+
+.reviewImageContainer {
+    margin-top: 10px;
+}
+
+.reviewImage {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+.ownerReviewContainer {
+    margin: 10px;
+    display: flex;
+    align-items: end;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border-color: lightgray;
+}
+
+.ownerReviewWriteBtn {
+    border: none;
+    background: #ffb36f;
+    margin-left: 10px;
+    font-size: 15px;
+    white-space: nowrap;
+    padding: 5px 10px;
+}
+
+.reviewAndForm {
+    border-bottom: 2px solid #D8D8D8;
+}
+
+.writeInfoAndReport {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#reportReviewInfo {
+    font-size: 14px;
+    color: lightgray;
+}
+
+@media (max-width: 600px) {
+    #container {
+        margin-left: 250px;
+    }
+}

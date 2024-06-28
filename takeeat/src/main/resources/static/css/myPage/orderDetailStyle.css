@@ -1,0 +1,80 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#titleContainer {
+    display: flex;
+    align-items : center;
+    margin: 10px;
+}
+
+#backIcon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#orderDetailTitle {
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+hr {
+    margin: 0px;
+}
+
+.orderInfo {
+    margin: 20px 10px;
+}
+
+#orderStatus {
+    color: #ffb36f;
+}
+
+#marketName {
+    font-size: 18px;
+}
+
+.menuContainer {
+    margin: 10px;
+}
+
+.hrDotted {
+    border: 3px dashed gray;
+}
+
+#orderMenuTitle {
+    margin: 20px 10px;
+    font-size: 20px;
+}
+
+.nameAndPrice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.totalMenuPrice {
+    font-size: 20px;
+    text-align: end;
+}
+
+#totalPriceContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+    margin: 20px 10px;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+}

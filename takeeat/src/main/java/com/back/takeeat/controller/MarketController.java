@@ -8,9 +8,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/market")
 public class MarketController {
 
+
+    @GetMapping("/info")
+    public String marketInfo() {
+        return "/market/marketInfo";
+    }
+    @GetMapping("/menu")
+    public String marketMenu() {
+        return "/market/marketMenu";
+    }
+    @GetMapping("/option")
+    public String marketOption() {
+        return "/market/marketOption";
+    }
+
     @GetMapping("/review")
     public String marketInfo() {
         return "market/marketReview";
     }
+
 
 }

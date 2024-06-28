@@ -39,7 +39,7 @@
      transform:translateY(-50%);
  }
  input[id="menuicon"]+label span:nth-child(3) {
-     top:1.6%;
+     top:1.64%;
  }
  input[id="menuicon"]:checked + label span {
      z-index:2;

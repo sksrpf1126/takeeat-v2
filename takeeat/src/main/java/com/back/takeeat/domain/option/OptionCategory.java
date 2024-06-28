@@ -13,6 +13,8 @@ public class OptionCategory {
 
     private String optionCategoryName;
 
+    private int optionMaxCount;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu;

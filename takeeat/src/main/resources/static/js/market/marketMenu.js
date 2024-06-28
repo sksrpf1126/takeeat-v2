@@ -13,6 +13,7 @@ document.addEventListener('click', function(e) {
         <div id="menu-${menuCount}">
             <ul class='no_dot'>
                 <li>
+                <button class="delete-menu-button del-button" data-menu-id="${menuCount}">메뉴 삭제</button>
                     <div class="line-container margin-top-20">
                         <div class="length-container">
                             <div class="s-info-text">메뉴를 입력하세요.</div>
@@ -44,10 +45,9 @@ document.addEventListener('click', function(e) {
 
                     <div class="line-container">
                         <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview-${menuCount}"/>
-                        <label class="input-file-button" for="input-file">업로드</label>
-                        <input type="file" id="input-file" class="file-style" onchange="previewImage(event, ${menuCount})" style="display:none">
+                        <label class="input-file-button" for="input-file-${menuCount}">이미지 업로드</label>
+                        <input type="file" id="input-file-${menuCount}" class="file-style" onchange="previewImage(event, ${menuCount})" style="display:none">
                     </div>
-                    <button class="delete-menu-button del-button" data-menu-id="${menuCount}">메뉴 삭제하기</button>
                     <hr class="hr-margin"/>
 
                 </li>
@@ -66,13 +66,13 @@ document.addEventListener('click', function(e) {
             <div class="category-container" id="category-${categoryCount}">
                 <ul class='no_dot'>
                     <li>
-
-                        <div class="length-container margin-top-40">
+                        <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
+                        <div class="length-container margin-top-20">
                             <div class="info-text">메뉴 카테고리를 입력하세요.</div>
                             <input type="text" id="menuCategory-${categoryCount}" name="menuCategory" class="l-input-box margin-top-10"/>
                         </div>
                         <div class="menu-container">
-                            <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제하기</button>
+
                             <!-- 여기에 해당 카테고리의 메뉴들이 추가될 부분 -->
                             <hr class="hr-margin"/>
                         </div>
@@ -103,14 +103,18 @@ document.addEventListener('click', function(e) {
 
     function deleteMenu(menuId) {
         const menuElement = document.getElementById(`menu-${menuId}`);
-        if (menuElement) {
+        if (!confirm ("아래 메뉴를 정말 삭제하시겠습니까?")) {
+            event.preventDefault();
+        } else {
             menuElement.remove();
         }
     }
 
     function deleteCategory(categoryId) {
         const categoryElement = document.getElementById(`category-${categoryId}`);
-        if (categoryElement) {
+        if (!confirm("카테고리를 삭제하면 하위 메뉴가 삭제됩니다. 정말 삭제하시겠습니까?")) {
+            event.preventDefault();
+        } else {
             categoryElement.remove();
         }
     }

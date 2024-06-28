@@ -6,7 +6,7 @@
     <title>TakeEat</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/market/marketMenuStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/market/marketOptionStyle.css">
 </head>
 <body>
     <input type="checkbox" id="menuicon">
@@ -46,10 +46,10 @@
                 <div class="rectangle">
                     <div class="bar-text">기본정보</div>
                 </div>
-                <div class="rectangle margin-left-20 rectangle-color">
+                <div class="rectangle margin-left-20">
                     <div class="bar-text">메뉴등록</div>
                 </div>
-                <div class="rectangle margin-left-20">
+                <div class="rectangle margin-left-20 rectangle-color">
                     <div class="bar-text">옵션등록</div>
                 </div>
             </div>
@@ -57,19 +57,21 @@
             <form>
                 <div class="info-box">
                     <div class="line-container margin-top-40">
-                        <div class="l-info-text">메뉴 등록</div>
+                        <div class="l-info-text">옵션 등록</div>
                         <div class="tip-container">
                             <div class="tip" style="margin-top: 6px;">
-                                <p>메뉴 카테고리와 하위 메뉴들을 등록해주세요.<br>예) 치킨 카테고리에 후라이드 치킨, 양념치킨 메뉴 <br>&emsp;&nbsp;&nbsp;사이드 카테고리에 소떡소떡, 한입 붕어빵 메뉴</p>
+                                <p>옵션 카테고리와 하위 옵션들을 등록해주세요.<br>단일 옵션만 지원됩니다. 다중 옵션은 메뉴에서 등록해주세요.<br>예) 떡 선택 카테고리에 밀떡, 쌀떡 옵션<br>&emsp;&nbsp;&nbsp;맵기단계 카테고리에 보통맛, 매운맛 옵션</p>
                             </div>
                         </div>
                     </div>
-                    <div class="menu-container">
-                        <!-- 여기에 카테고리와 메뉴들이 추가될 부분 -->
+
+                    <div class="option-container">
+                        <!-- 카테고리와 옵션들이 추가될 부분 -->
                     </div>
                     <hr class="hr-margin"/>
                     <div id="category-container"></div>
-                    <div class="line-text" id="add-category-button">메뉴 카테고리 추가하기 +</div>
+                    <div class="line-text" id="add-category-button">옵션 카테고리 추가하기 +</div>
+
 
                     <div class="line-container-center">
                         <button type="submit" class="form-button-submit margin-right-10">저장</button>
@@ -79,6 +81,6 @@
             </form>
         </div>
     </div>
-    <script src="/js/market/marketMenu.js"></script>
+    <script src="/js/market/marketOption.js"></script>
 </body>
 </html>

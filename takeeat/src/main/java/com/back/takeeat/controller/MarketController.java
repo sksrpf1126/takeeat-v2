@@ -16,4 +16,8 @@ public class MarketController {
     public String marketMenu() {
         return "/market/marketMenu";
     }
+    @GetMapping("/option")
+    public String marketOption() {
+        return "/market/marketOption";
+    }
 }

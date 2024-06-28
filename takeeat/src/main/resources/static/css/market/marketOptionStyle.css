@@ -9,7 +9,11 @@
     padding: 20px;
     background-color: #fff;
 }
-
+@media (max-width: 600px) {
+    #container {
+        margin-left: 250px;
+    }
+}
  /*사이드바*/
  input[id="menuicon"] {
      display:none;

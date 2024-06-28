@@ -23,7 +23,7 @@ public class MarketController {
     }
 
     @GetMapping("/review")
-    public String marketInfo() {
+    public String marketReview() {
         return "market/marketReview";
     }
 

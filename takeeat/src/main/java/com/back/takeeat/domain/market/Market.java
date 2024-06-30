@@ -2,8 +2,12 @@ package com.back.takeeat.domain.market;
 
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Market {
 
     @Id
@@ -29,6 +33,10 @@ public class Market {
 
     private String marketNumber;
 
+    private String businessNumber;
+
+    private String operationTime;
+
     @Column(length = 3000)
     private String marketIntroduction;
 
@@ -40,5 +48,8 @@ public class Market {
     private Double marketRating;
 
     private int reviewCount;
+
+    private String closedDays;
+
 
 }

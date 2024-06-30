@@ -188,6 +188,7 @@ input[id="menuicon"]:checked + label + div {
 /*중복확인 버튼*/
 .dup-button {
     margin-top: 10px;
+    width: 70px;
     height: 36px;
     border-radius: 2px;
     color: white;

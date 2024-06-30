@@ -13,9 +13,6 @@ public class NotificationController {
         return "notification/notificationMember";
     }
 
-    @GetMapping("/market")
-    public String marketOrder() {
-        return "notification/marketOrder";
-    }
+
 
 }

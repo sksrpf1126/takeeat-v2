@@ -17,21 +17,21 @@
                         <div class="order-status-div">
                             <i class="fa-solid fa-hourglass-start"></i>
                             <p>접수대기</p>
-                            <p>0건</p>
+                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).WAIT]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('processing')">
                         <div class="order-status-div">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <p>처리중</p>
-                            <p>0건</p>
+                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).ACCEPT]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('completed')">
                         <div class="order-status-div">
                             <i class="fa-solid fa-user-check"></i>
                             <p>완료</p>
-                            <p>0건</p>
+                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).COMPLETE]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('list-select')">

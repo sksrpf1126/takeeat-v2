@@ -1,13 +1,18 @@
 package com.back.takeeat.domain.order;
 
+import com.back.takeeat.common.domain.BaseTimeEntity;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.payment.Payment;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.util.List;
 
 @Entity
 @Table(name = "orders")
-public class Order {
+@Getter
+public class Order extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,5 +37,8 @@ public class Order {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "payment_id")
     private Payment payment;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderMenu> orderMenus;
 
 }

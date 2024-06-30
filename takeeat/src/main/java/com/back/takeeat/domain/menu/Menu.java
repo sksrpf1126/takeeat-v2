@@ -1,14 +1,18 @@
 package com.back.takeeat.domain.menu;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
+@Builder
 public class Menu {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "menu_id")
     private Long id;
+
+    private String menuName;
 
     @Column(length = 1000)
     private String menuIntroduction;

@@ -2,8 +2,10 @@ package com.back.takeeat.domain.option;
 
 import com.back.takeeat.domain.menu.Menu;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
+@Builder
 public class OptionCategory {
 
     @Id

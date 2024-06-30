@@ -1,9 +1,11 @@
 package com.back.takeeat.domain.option;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
 @Table(name = "options")
+@Builder
 public class Option {
 
     @Id

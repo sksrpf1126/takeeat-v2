@@ -48,6 +48,15 @@ body {
     font-weight: bold;
 }
 
+.active {
+    color: white;
+}
+
+.active-background {
+    color:  white;
+    background-color: #343434;
+}
+
 .sidebar li.active {
     color:  white;
     background-color: #343434;
@@ -89,11 +98,22 @@ body {
 }
 
 .order-list {
+    height: 90%;
+    overflow-y: auto;
+}
 
+.order-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.order-list::-webkit-scrollbar-thumb {
+    background-color: skyblue;
+    border-radius: 15px;
 }
 
 .order-item {
     padding: 20px;
+    cursor: pointer;
 }
 
 .order-item-top-div {

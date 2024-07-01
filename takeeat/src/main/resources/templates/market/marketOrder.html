@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <link rel="stylesheet" href="/css/notification/marketOrder.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
 </head>
@@ -44,8 +45,8 @@
             </div>
             <div class="container">
                 <div class="order-select-condition-div">
-                    <div>최신순</div>
-                    <div>과거순</div>
+                    <div id="latest" class="active">최신순</div>
+                    <div id="oldest">과거순</div>
                 </div>
                 <div class="order-list">
                     <div th:each="order : ${marketOrdersResponses}" class="order-item">
@@ -153,14 +154,90 @@
     </div>
 
 <script>
-    function showTab(tabId) {
+    const pathname = window.location.pathname;
+    const pathParts = pathname.split('/');
+    const marketId = pathParts[2]; // URL 형식: /market/{marketId}/order 라고 가정
+    let sortOrder = 'latest';
 
+    function showTab(tabId) {
         // 사이드바 탭 활성화
-        var tabs = document.querySelectorAll('.sidebar li');
-        tabs.forEach(function(tab) {
-            tab.classList.remove('active');
+        $('.sidebar li').removeClass('active');
+        $('.sidebar li[onclick="showTab(\'' + tabId + '\')"]').addClass('active');
+
+        // AJAX 요청을 통해 데이터 가져오기
+        let status;
+        if (tabId === 'pending') {
+            status = 'WAIT';
+        } else if (tabId === 'processing') {
+            status = 'ACCEPT';
+        } else if (tabId === 'completed') {
+            status = 'COMPLETE';
+        }
+
+        if (status) {
+
+            $.ajax({
+                url:  /market/ + marketId + '/orders',
+                type: 'GET',
+                data: {orderStatus: status, sortOrder: sortOrder},
+                success: function (data) {
+                    updateOrderList(data);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Error fetching order data:', error);
+                }
+            });
+        }
+    }
+
+    function updateOrderList(data) {
+        const orderList = $('.order-list');
+        orderList.empty();
+
+        data.forEach(function (order) {
+            const orderItem = $('<div>', {
+                class: 'order-item',
+                'data-order-id': order.orderId
+            });
+
+            const topDiv = $('<div>', {
+                class: 'order-item-top-div',
+                text: new Date(order.orderCreateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+            });
+
+            const bottomDiv = $('<div>', { class: 'order-item-bottom-div' });
+            const menuDiv = $('<div>', { text: '[메뉴 ' + order.menuCount + '개]' });
+            const priceDiv = $('<div>', { text: order.totalPrice + '원' });
+
+            bottomDiv.append(menuDiv).append(priceDiv);
+            orderItem.append(topDiv).append(bottomDiv);
+
+            orderList.append(orderItem);
         });
-        document.querySelector('.sidebar li[onclick="showTab(\'' + tabId + '\')"]').classList.add('active');
+
+
+        $('.order-item').click(function () {
+            const orderId = $(this).data('order-id');
+
+            $('.order-item').removeClass('active-background');
+
+
+            $(this).addClass('active-background');
+            fetchOrderDetails(orderId);
+        });
+    }
+
+    function fetchOrderDetails(orderId) {
+        $.ajax({
+            url: '/market/order/' + orderId,
+            type: 'GET',
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (xhr, status, error) {
+                console.error('Error fetching order details:', error);
+            }
+        });
     }
 
     const decreaseButton = document.getElementById("decrease");
@@ -195,6 +272,19 @@
             }
         }
     });
+
+    // 정렬 순서 변경 이벤트 핸들러
+    $('.order-select-condition-div div').click(function () {
+        $('.order-select-condition-div div').removeClass('active');
+        $(this).addClass('active');
+        sortOrder = $(this).attr('id') === 'latest' ? 'latest' : 'oldest';
+        // 선택된 탭 다시 로드
+        const activeTab = $('.sidebar li.active').attr('onclick').match(/showTab\('(\w+)'\)/)[1];
+        showTab(activeTab);
+    });
+
+    showTab('pending');
+
 </script>
 </body>
 </html>

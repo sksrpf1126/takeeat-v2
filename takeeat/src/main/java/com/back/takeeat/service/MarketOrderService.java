@@ -1,8 +1,11 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.dto.marketorder.request.MarketOrderSearchRequest;
+import com.back.takeeat.dto.marketorder.response.DetailMarketOrderResponse;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.marketorder.response.OrdersCountResponse;
 import com.back.takeeat.repository.MarketOrderRepository;
@@ -38,6 +41,14 @@ public class MarketOrderService {
         List<Order> findOrders = marketOrderRepository.findAllWithSortOrder(marketId, searchRequest);
 
         return MarketOrdersResponse.listOf(findOrders);
+    }
+
+    @Transactional(readOnly = true)
+    public DetailMarketOrderResponse findDetailMarketOrder(Long orderId) {
+        Order findOrderWithMenus = marketOrderRepository.findWithOrderMenus(orderId)
+                                        .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
+
+        return DetailMarketOrderResponse.of(findOrderWithMenus);
     }
 
 }

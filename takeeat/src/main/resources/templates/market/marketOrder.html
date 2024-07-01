@@ -235,7 +235,7 @@
                 console.log(data);
             },
             error: function (xhr, status, error) {
-                console.error('Error fetching order details:', error);
+                alert(xhr.responseJSON.message);
             }
         });
     }

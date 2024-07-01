@@ -3,13 +3,14 @@ package com.back.takeeat.repository;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.dto.marketorder.response.OrdersCountResponse;
+import com.back.takeeat.repository.Marketorder.MarketOrderRepositoryCustom;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface MarketOrderRepository extends JpaRepository<Order, Long> {
+public interface MarketOrderRepository extends JpaRepository<Order, Long>, MarketOrderRepositoryCustom {
 
     @Query(
             "SELECT new com.back.takeeat.dto.marketorder.response.OrdersCountResponse(o.orderStatus, COUNT(o.orderStatus)) " +

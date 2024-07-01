@@ -59,7 +59,7 @@ function relayout() {
 }
 
 //==== 옵션 선택 모달 ====
-function showOptionModal() {
-    const modal = new bootstrap.Modal(document.getElementById('optionChoiceModal'));
+function showOptionModal(menuId) {
+    const modal = new bootstrap.Modal(document.getElementById('optionChoiceModal' + menuId));
     modal.show();
 }

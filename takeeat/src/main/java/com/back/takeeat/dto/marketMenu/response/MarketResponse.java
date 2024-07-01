@@ -27,7 +27,7 @@ public class MarketResponse {
     private int reviewCount;
     private String closedDays;
 
-    public static MarketResponse createMarketResponse(Market market) {
+    public static MarketResponse createByMarket(Market market) {
         return MarketResponse.builder()
                 .marketId(market.getId())
                 .marketName(market.getMarketName())

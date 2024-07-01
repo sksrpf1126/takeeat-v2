@@ -17,6 +17,9 @@ public class OptionCategory {
 
     private int optionMaxCount;
 
+    @Enumerated(EnumType.STRING)
+    private OptionSelect optionSelect;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private Menu menu;

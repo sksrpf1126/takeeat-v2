@@ -6,13 +6,14 @@ import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.domain.option.OptionCategory;
+import com.back.takeeat.domain.option.OptionSelect;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-@Component
+//@Component
 @RequiredArgsConstructor
 public class InitMarketDB {
 
@@ -57,41 +58,41 @@ public class InitMarketDB {
             Menu menu01_01 = createMenu(menuCategory01, "바삭한허니비", "바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화", 100, "/images/pizza-sample.jpeg", 18900);
             em.persist(menu01_01);
 
-            OptionCategory optionCategory01_01_01 = createOptionCategory(menu01_01, "피자 사이즈 선택", 1);
+            OptionCategory optionCategory01_01_01 = createOptionCategory(menu01_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
             em.persist(optionCategory01_01_01);
-            Option option01_01_01_01 = createOption(optionCategory01_01_01, "R사이즈 (1~2인)", 0, "SINGLE");
+            Option option01_01_01_01 = createOption(optionCategory01_01_01, "R사이즈 (1~2인)", 0);
             em.persist(option01_01_01_01);
-            Option option01_01_01_02 = createOption(optionCategory01_01_01, "L사이즈 (2~3인)", 4000, "SINGLE");
+            Option option01_01_01_02 = createOption(optionCategory01_01_01, "L사이즈 (2~3인)", 4000);
             em.persist(option01_01_01_02);
 
-            OptionCategory optionCategory01_01_02 = createOptionCategory(menu01_01, "피자토핑 추가", 2);
+            OptionCategory optionCategory01_01_02 = createOptionCategory(menu01_01, "피자토핑 추가", OptionSelect.MULTI, 2);
             em.persist(optionCategory01_01_02);
-            Option option01_01_02_01 = createOption(optionCategory01_01_02, "치즈 추가 (80g)", 3000, "MULTI");
+            Option option01_01_02_01 = createOption(optionCategory01_01_02, "치즈 추가 (80g)", 3000);
             em.persist(option01_01_02_01);
-            Option option01_01_02_02 = createOption(optionCategory01_01_02, "페페로니 추가 (20개)", 2000, "MULTI");
+            Option option01_01_02_02 = createOption(optionCategory01_01_02, "페페로니 추가 (20개)", 2000);
             em.persist(option01_01_02_02);
-            Option option01_01_02_03 = createOption(optionCategory01_01_02, "옥수수 추가", 1000, "MULTI");
+            Option option01_01_02_03 = createOption(optionCategory01_01_02, "옥수수 추가", 1000);
             em.persist(option01_01_02_03);
 
             Menu menu01_02 = createMenu(menuCategory01, "[인기]할라불고기", "할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자", 100, "/images/pizza-sample.jpeg", 19900);
             em.persist(menu01_02);
 
-            OptionCategory optionCategory01_02_01 = createOptionCategory(menu01_02, "크러스트 추가", 1);
+            OptionCategory optionCategory01_02_01 = createOptionCategory(menu01_02, "크러스트 추가", OptionSelect.SINGLE, 1);
             em.persist(optionCategory01_02_01);
-            Option option01_02_01_01 = createOption(optionCategory01_02_01, "기본", 0, "SINGLE");
+            Option option01_02_01_01 = createOption(optionCategory01_02_01, "기본", 0);
             em.persist(option01_02_01_01);
-            Option option01_02_01_02 = createOption(optionCategory01_02_01, "치즈크러스트", 4000, "SINGLE");
+            Option option01_02_01_02 = createOption(optionCategory01_02_01, "치즈크러스트", 4000);
             em.persist(option01_02_01_02);
-            Option option01_02_01_03 = createOption(optionCategory01_02_01, "통치즈크러스트(더욱 꽉 찬)", 5000, "SINGLE");
+            Option option01_02_01_03 = createOption(optionCategory01_02_01, "통치즈크러스트(더욱 꽉 찬)", 5000);
             em.persist(option01_02_01_03);
 
-            OptionCategory optionCategory01_02_02 = createOptionCategory(menu01_02, "사이드메뉴 추가", 3);
+            OptionCategory optionCategory01_02_02 = createOptionCategory(menu01_02, "사이드메뉴 추가", OptionSelect.MULTI, 3);
             em.persist(optionCategory01_02_02);
-            Option option01_02_02_01 = createOption(optionCategory01_02_02, "[신메뉴]갈릭도그스틱", 11900, "MULTI");
+            Option option01_02_02_01 = createOption(optionCategory01_02_02, "[신메뉴]갈릭도그스틱", 11900);
             em.persist(option01_02_02_01);
-            Option option01_02_02_02 = createOption(optionCategory01_02_02, "[신메뉴]베이컨대파크림치즈스틱", 11900, "MULTI");
+            Option option01_02_02_02 = createOption(optionCategory01_02_02, "[신메뉴]베이컨대파크림치즈스틱", 11900);
             em.persist(option01_02_02_02);
-            Option option01_02_02_03 = createOption(optionCategory01_02_02, "알리오올리오파스타 추가", 5900, "MULTI");
+            Option option01_02_02_03 = createOption(optionCategory01_02_02, "알리오올리오파스타 추가", 5900);
             em.persist(option01_02_02_03);
 
             MenuCategory menuCategory02 = createMenuCategory(market, "프리미엄 청년피자");
@@ -100,20 +101,20 @@ public class InitMarketDB {
             Menu menu02_01 = createMenu(menuCategory02, "[신메뉴]메가모짜 치즈디쉬", "치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.", 100, "/images/pizza-sample.jpeg", 23900);
             em.persist(menu02_01);
 
-            OptionCategory optionCategory02_01_01 = createOptionCategory(menu02_01, "피자 사이즈 선택", 1);
+            OptionCategory optionCategory02_01_01 = createOptionCategory(menu02_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
             em.persist(optionCategory02_01_01);
-            Option option02_01_01_01 = createOption(optionCategory02_01_01, "R사이즈 (1~2인)", 0, "SINGLE");
+            Option option02_01_01_01 = createOption(optionCategory02_01_01, "R사이즈 (1~2인)", 0);
             em.persist(option02_01_01_01);
-            Option option02_01_01_02 = createOption(optionCategory02_01_01, "L사이즈 (2~3인)", 4000, "SINGLE");
+            Option option02_01_01_02 = createOption(optionCategory02_01_01, "L사이즈 (2~3인)", 4000);
             em.persist(option02_01_01_02);
 
-            OptionCategory optionCategory02_01_02 = createOptionCategory(menu02_01, "피자토핑 추가", 2);
+            OptionCategory optionCategory02_01_02 = createOptionCategory(menu02_01, "피자토핑 추가", OptionSelect.MULTI, 2);
             em.persist(optionCategory02_01_02);
-            Option option02_01_02_01 = createOption(optionCategory02_01_02, "치즈 추가 (80g)", 3000, "MULTI");
+            Option option02_01_02_01 = createOption(optionCategory02_01_02, "치즈 추가 (80g)", 3000);
             em.persist(option02_01_02_01);
-            Option option02_01_02_02 = createOption(optionCategory02_01_02, "페페로니 추가 (20개)", 2000, "MULTI");
+            Option option02_01_02_02 = createOption(optionCategory02_01_02, "페페로니 추가 (20개)", 2000);
             em.persist(option02_01_02_02);
-            Option option02_01_02_03 = createOption(optionCategory02_01_02, "옥수수 추가", 1000, "MULTI");
+            Option option02_01_02_03 = createOption(optionCategory02_01_02, "옥수수 추가", 1000);
             em.persist(option02_01_02_03);
         }
 
@@ -158,20 +159,20 @@ public class InitMarketDB {
                     .build();
         }
 
-        private OptionCategory createOptionCategory(Menu menu, String optionCategoryName, int optionMaxCount) {
+        private OptionCategory createOptionCategory(Menu menu, String optionCategoryName, OptionSelect optionSelect, int optionMaxCount) {
             return OptionCategory.builder()
                     .menu(menu)
                     .optionCategoryName(optionCategoryName)
                     .optionMaxCount(optionMaxCount)
+                    .optionSelect(optionSelect)
                     .build();
         }
 
-        private Option createOption(OptionCategory optionCategory, String optionName, int optionPrice, String optionSelect) {
+        private Option createOption(OptionCategory optionCategory, String optionName, int optionPrice) {
             return Option.builder()
                     .optionCategory(optionCategory)
                     .optionName(optionName)
                     .optionPrice(optionPrice)
-                    .optionSelect(optionSelect)
                     .build();
         }
     }

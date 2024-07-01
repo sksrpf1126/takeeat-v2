@@ -28,14 +28,14 @@ window.onload = function() {
     kakao.maps.load(function() {
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+                center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
                 level: 3 // 지도의 확대 레벨
             };
 
         map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
 
         // 마커가 표시될 위치입니다
-        var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
+        var markerPosition  = new kakao.maps.LatLng(latitude, longitude);
 
         // 마커를 생성합니다
         var marker = new kakao.maps.Marker({
@@ -55,7 +55,7 @@ function showInfoTab() {
 
 function relayout() {
     map.relayout();
-    map.setCenter(new kakao.maps.LatLng(33.450701, 126.570667));
+    map.setCenter(new kakao.maps.LatLng(latitude, longitude));
 }
 
 //==== 옵션 선택 모달 ====

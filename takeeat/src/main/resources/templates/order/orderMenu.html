@@ -39,21 +39,25 @@
     <hr/>
 
     <div id="marketContainer">
-        <div id="marketNameContainer">청년피자 - 서초직영점</div>
+        <div id="marketNameContainer" th:text="${marketMenuResponse.marketResponse.marketName}">가게이름</div>
         <hr/>
         <div id="infoContainer">
-            <div id="marketImageContainer"><img id="marketImage" src="/images/market-sample.png"/></div>
+            <div id="marketImageContainer"><img id="marketImage" th:src="${marketMenuResponse.marketResponse.marketImage}"/></div>
             <div id="marketInfoContainer">
                 <div class="marketRatingContainer">
-                    <div class="yellowStar">★★★★</div>
-                    <div class="grayStar">★</div>
-                    <div id="marketRating">4.6</div>
+                    <div class="yellowStar">
+                        <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
+                    </div>
+                    <div class="grayStar">
+                        <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
+                    </div>
+                    <div id="marketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
                 </div>
                 <div id="marketAddressContainer">
-                    <strong>주소</strong> 서울특별시 서초구 서초동 1628-10 URBANTREE(어반트리) 지하1층 101호
+                    <strong>주소</strong>&nbsp;[[${marketMenuResponse.marketResponse.query}]]&nbsp;[[${marketMenuResponse.marketResponse.addressDetail}]]
                 </div>
                 <div id="marketNumberContainer">
-                    <strong>영업시간</strong> 11:00 - 23:00 &nbsp; <strong>전화번호</strong> 02-111-1111
+                    <strong>영업시간</strong>&nbsp;[[${marketMenuResponse.marketResponse.operationTime}]]&nbsp;<strong>전화번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.marketNumber}]]
                 </div>
             </div>
         </div>
@@ -64,7 +68,7 @@
             <input type="radio" class="tabmenu" name="tabmenu" id="tab01" checked>
             <label for="tab01">메뉴</label>
             <input type="radio" class="tabmenu" name="tabmenu" id="tab02">
-            <label for="tab02">리뷰</label>
+            <label for="tab02">리뷰 ([[${marketMenuResponse.marketResponse.reviewCount}]])</label>
             <input type="radio" class="tabmenu" name="tabmenu" id="tab03" onclick="showInfoTab()">
             <label for="tab03">정보</label>
         </div>
@@ -259,23 +263,18 @@
                 script.type = "text/javascript";
                 script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false";
                 document.head.appendChild(script);
+
+                var latitude = [[${marketMenuResponse.marketResponse.latitude}]];
+                var longitude = [[${marketMenuResponse.marketResponse.longitude}]];
             </script>
 
-            <div id="marketIntro">★세상에서 가장 맛있는 도우, ‘청년피자 고메밀크도우’ 출시!★
-도우가 아닌 피자 브랜드 역사상 가장 맛있는 빵을 만들기 위해
-빵의 본질 자체에 집중한, 청년피자의 고집과 집념이 담긴
-고메밀크도우 출시.
-
-우유를 넣어 부드럽고 촉촉한 도우에 버터를 발라 구워 진한 풍미와
-크리스피한 식감을 제공합니다.
-
-완전히 새롭게 달라진, 세상에서 가장 맛있는 도우를 경험해보세요.</div>
+            <div id="marketIntro" th:text="${marketMenuResponse.marketResponse.marketIntroduction}">가게소개글</div>
             <hr/>
             <div id="marketIntroContainer">
-                <strong>영업시간</strong>&nbsp;11:00 - 23:00<br/>
-                <strong>전화번호</strong>&nbsp;02-111-1111<br/>
-                <strong>주소</strong>&nbsp;서울특별시 서초구 서초동 1628-10 URBANTREE(어반트리) 지하1층 101호<br/>
-                <strong>사업자등록번호</strong>&nbsp;123-12-12345<br/>
+                <strong>영업시간</strong>&nbsp;[[${marketMenuResponse.marketResponse.operationTime}]]<br/>
+                <strong>전화번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.marketNumber}]]<br/>
+                <strong>주소</strong>&nbsp;[[${marketMenuResponse.marketResponse.query}]]&nbsp;[[${marketMenuResponse.marketResponse.addressDetail}]]<br/>
+                <strong>사업자등록번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.businessNumber}]]<br/>
             </div>
         </div>
     </div>

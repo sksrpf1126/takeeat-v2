@@ -48,4 +48,11 @@ public class MarketResponse {
                 .build();
     }
 
+    public int getYellowStarNumber() {
+        return (int)Math.floor(marketRating);
+    }
+
+    public int getGrayStarNumber() {
+        return 5 - (int)Math.floor(marketRating);
+    }
 }

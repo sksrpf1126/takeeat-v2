@@ -27,6 +27,4 @@ public interface MarketOrderRepository extends JpaRepository<Order, Long> {
     )
     List<Order> findAllWithOrderMenus(@Param("marketId") Long marketId, @Param("orderStatus") OrderStatus orderStatus);
 
-
-
 }

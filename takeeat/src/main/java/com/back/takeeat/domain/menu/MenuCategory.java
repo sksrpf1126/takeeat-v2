@@ -4,6 +4,8 @@ import com.back.takeeat.domain.market.Market;
 import jakarta.persistence.*;
 import lombok.Builder;
 
+import java.util.List;
+
 @Entity
 @Builder
 public class MenuCategory {
@@ -19,4 +21,6 @@ public class MenuCategory {
     @JoinColumn(name = "market_id")
     private Market market;
 
+    @OneToMany(mappedBy = "menuCategory")
+    private List<Menu> menus;
 }

@@ -3,8 +3,10 @@ package com.back.takeeat.domain.order;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.option.Option;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class OrderMenu {
 
     @Id

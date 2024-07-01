@@ -1,22 +1,9 @@
 package com.back.takeeat.repository;
 
 import com.back.takeeat.domain.market.Market;
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-@RequiredArgsConstructor
-public class MarketInfoRepository {
+public interface MarketInfoRepository extends JpaRepository<Market, Long> {
 
-    private final EntityManager em;
-
-    public void saveMarket(Market market) {
-        if (market.getId() == null) {
-            em.persist(market);
-        } else {
-            em.merge(market);
-        }
-    }
 
 }

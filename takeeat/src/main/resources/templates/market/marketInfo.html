@@ -47,19 +47,20 @@
                 <div class="rectangle rectangle-color">
                     <div class="bar-text">기본정보</div>
                 </div>
-                <div class="rectangle margin-left-20">
+                <div class="rectangle margin-left-20" onclick="location.href='/market/menu'" style="cursor: pointer;">
                     <div class="bar-text">메뉴등록</div>
                 </div>
-                <div class="rectangle margin-left-20">
+                <div class="rectangle margin-left-20" onclick="location.href='/market/option'" style="cursor: pointer;">
                     <div class="bar-text">옵션등록</div>
                 </div>
             </div>
             <br/>
-            <form>
+            <form th:action="@{/market/save}" th:object="${marketInfoRequest}" method="post">
                 <div class="info-box">
                     <div class="info-text">가게 이름을 입력하세요.</div>
                     <div class="line-container">
-                        <input type="text" id="marketName" name="marketName" class="input-box margin-top-10"/>
+                        <input type="text" th:field="*{marketName}" id="marketName" name="marketName" class="input-box margin-top-10"/>
+
                         <button class="dup-button margin-left-10">중복확인</button>
                     </div>
                     <hr class="hr-margin"/>
@@ -68,25 +69,25 @@
                     <div class="line-container">
                         <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview">
                         <label class="input-file-button" for="input-file">이미지 업로드</label>
-                        <input type="file" id="input-file" class="file-style" style="display:none">
+                        <input type="file" id="input-file" th:field="*{marketImage}" name="marketImage" class="file-style" style="display:none">
                     </div>
                     <hr class="hr-margin"/>
 
                     <div class="info-text">주소를 입력하세요.</div>
                     <div class="line-container">
-                        <input type="text" id="marketAddress" name="marketAddress" class="input-box margin-top-10"/>
+                        <input type="text" id="marketAddress" th:field="*{query}" name="query" class="input-box margin-top-10"/>
                         <button class="dup-button margin-left-10 margin-bottom-15">주소찾기</button>
                     </div>
                     <div class="info-text">상세주소</div>
-                    <input type="text" id="detailAddress" name="detailAddress" class="l-input-box margin-top-10" placeholder="  동, 호수"/>
+                    <input type="text" id="addressDetail" th:field="*{addressDetail}" name="addressDetail" class="l-input-box margin-top-10" placeholder="  동, 호수"/>
                     <hr class="hr-margin"/>
 
                     <div class="info-text">사업자번호</div>
-                    <input type="text" id="marketNumber" name="marketNumber" class="l-input-box margin-top-10"/>
+                    <input type="text" id="businessNumber" th:field="*{businessNumber}" name="businessNumber" class="l-input-box margin-top-10"/>
                     <hr class="hr-margin"/>
 
                     <div class="info-text">전화번호</div>
-                    <input type="text" id="marketTel" name="marketTel" class="l-input-box margin-top-10"/>
+                    <input type="text" id="marketNumber" th:field="*{marketNumber}" name="marketNumber" class="l-input-box margin-top-10"/>
                     <hr class="hr-margin"/>
 
                     <div class="info-text">가게 카테고리</div>
@@ -95,6 +96,7 @@
                             <p class="dropdown-text">카테고리를 선택하세요(필수)</p>
                             <div class="dropdown-triangle"></div>
                         </div>
+                        <input type="hidden" id="marketCategory" th:field="*{marketCategory}" name="marketCategory">
                         <div class="dropdown-content" id="dropdownContent">
                             <p onclick="selectCategory('치킨')">치킨</p>
                             <p onclick="selectCategory('피자·양식')">피자·양식</p>
@@ -110,17 +112,17 @@
                         </div>
                     </div>
                     <div class="info-text margin-top-15">가게를 소개해주세요.</div>
-                    <textarea id="marketIntro" name="marketIntro" class="margin-top-10 intro-box" placeholder="  이벤트, 원산지 등"></textarea>
+                    <textarea id="marketIntroduction" th:field="*{marketIntroduction}" name="marketIntroduction" class="margin-top-10 intro-box" placeholder="  이벤트, 원산지 등"></textarea>
                     <hr class="hr-margin"/>
 
                     <div class="info-text margin-top-15">운영시간을 입력하세요.</div>
-                    <input type="time" id="openTime" name="openTime" class="margin-top-10 time-box margin-right-10"/>
+                    <input type="time" id="openTime" th:field="*{openTime}" name="openTime" class="margin-top-10 time-box margin-right-10"/>
                         ~
-                    <input type="time" id="closeTime" name="closeTime" class="time-box margin-left-10"/>
+                    <input type="time" id="closeTime" th:field="*{closeTime}" name="closeTime" class="time-box margin-left-10"/>
                     <hr class="hr-margin"/>
 
                     <div class="info-text margin-top-15">휴무일이 있나요?</div>
-                    <input type="text" id="offDay" name="offDay" class="l-input-box margin-top-10 margin-bottom-10" placeholder="  예)월요일휴무"/>
+                    <input type="text" id="closedDays" th:field="*{closedDays}" name="closedDays" class="l-input-box margin-top-10 margin-bottom-10" placeholder="  예)월요일휴무"/>
                     <div class="line-container-center">
                         <button type="submit" class="form-button-submit margin-right-10">저장</button>
                         <button type="reset" class="form-button-reset">취소</button>

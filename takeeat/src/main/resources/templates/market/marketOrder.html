@@ -48,28 +48,13 @@
                     <div>과거순</div>
                 </div>
                 <div class="order-list">
-                    <div class="order-item">
-                        <div class="order-item-top-div">13:22</div>
+                    <div th:each="order : ${marketOrdersResponses}" class="order-item">
+                        <div class="order-item-top-div" th:text="${#temporals.format(order.orderCreateTime, 'HH:mm')}"></div>
                         <div class="order-item-bottom-div">
-                            <div>[메뉴 2개]</div>
-                            <div>32,800원</div>
+                            <div th:text="'[메뉴 ' + ${order.menuCount} + '개]'"></div>
+                            <div th:text="${order.totalPrice} + '원'"></div>
                         </div>
                     </div>
-                    <div class="order-item">
-                        <div class="order-item-top-div">13:22</div>
-                        <div class="order-item-bottom-div">
-                            <div>[메뉴 3개]</div>
-                            <div>42,800원</div>
-                        </div>
-                    </div>
-                    <div class="order-item">
-                        <div class="order-item-top-div">13:21</div>
-                        <div class="order-item-bottom-div">
-                            <div>[메뉴 1개]</div>
-                            <div>12,800원</div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div id="order-item-detail-div">

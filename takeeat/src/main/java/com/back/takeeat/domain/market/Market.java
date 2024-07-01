@@ -2,9 +2,11 @@ package com.back.takeeat.domain.market;
 
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 
 @Entity
+@Builder
 @Getter
 public class Market {
 
@@ -40,6 +42,10 @@ public class Market {
 
     private String marketCategory;
 
+    private String operationTime;
+
+    private String businessNumber;
+
     @Enumerated(EnumType.STRING)
     private MarketStatus marketStatus;
 
@@ -48,6 +54,5 @@ public class Market {
     private int reviewCount;
 
     private String closedDays;
-
 
 }

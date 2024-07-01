@@ -2,8 +2,10 @@ package com.back.takeeat.domain.option;
 
 import com.back.takeeat.domain.menu.Menu;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
+@Builder
 public class OptionCategory {
 
     @Id
@@ -14,6 +16,9 @@ public class OptionCategory {
     private String optionCategoryName;
 
     private int optionMaxCount;
+
+    @Enumerated(EnumType.STRING)
+    private OptionSelect optionSelect;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")

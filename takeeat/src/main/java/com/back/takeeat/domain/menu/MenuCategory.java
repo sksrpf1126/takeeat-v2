@@ -2,8 +2,10 @@ package com.back.takeeat.domain.menu;
 
 import com.back.takeeat.domain.market.Market;
 import jakarta.persistence.*;
+import lombok.Builder;
 
 @Entity
+@Builder
 public class MenuCategory {
 
     @Id

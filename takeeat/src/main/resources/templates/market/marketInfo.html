@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TakeEat</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/market/marketInfoStyle.css">
+</head>
+<body>
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon" class="margin-top-20">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+        <div class="side-margin">
+            <div class="line-container">
+                <img src="/images/store-icon.svg" alt="store_image" class="icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu">가게 정보</div>
+                    <div class="sub-menu">기본 정보</div>
+                    <div class="sub-menu">메뉴 정보</div>
+                    <div class="sub-menu margin-bottom-30">옵션 정보</div>
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/order-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30">주문</div>
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/review-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30">리뷰</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="length-container">
+            <div class="line-container">
+                <div class="rectangle rectangle-color">
+                    <div class="bar-text">기본정보</div>
+                </div>
+                <div class="rectangle margin-left-20">
+                    <div class="bar-text">메뉴등록</div>
+                </div>
+                <div class="rectangle margin-left-20">
+                    <div class="bar-text">옵션등록</div>
+                </div>
+            </div>
+            <br/>
+            <form>
+                <div class="info-box">
+                    <div class="info-text">가게 이름을 입력하세요.</div>
+                    <div class="line-container">
+                        <input type="text" id="marketName" name="marketName" class="input-box margin-top-10"/>
+                        <button class="dup-button margin-left-10">중복확인</button>
+                    </div>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text">가게를 대표하는 사진을 넣어주세요.</div>
+                    <div class="line-container">
+                        <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview">
+                        <label class="input-file-button" for="input-file">이미지 업로드</label>
+                        <input type="file" id="input-file" class="file-style" style="display:none">
+                    </div>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text">주소를 입력하세요.</div>
+                    <div class="line-container">
+                        <input type="text" id="marketAddress" name="marketAddress" class="input-box margin-top-10"/>
+                        <button class="dup-button margin-left-10 margin-bottom-15">주소찾기</button>
+                    </div>
+                    <div class="info-text">상세주소</div>
+                    <input type="text" id="detailAddress" name="detailAddress" class="l-input-box margin-top-10" placeholder="  동, 호수"/>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text">사업자번호</div>
+                    <input type="text" id="marketNumber" name="marketNumber" class="l-input-box margin-top-10"/>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text">전화번호</div>
+                    <input type="text" id="marketTel" name="marketTel" class="l-input-box margin-top-10"/>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text">가게 카테고리</div>
+                    <div class="dropdown">
+                        <div class="dropdown-button margin-top-10" id="dropdownButton">
+                            <p class="dropdown-text">카테고리를 선택하세요(필수)</p>
+                            <div class="dropdown-triangle"></div>
+                        </div>
+                        <div class="dropdown-content" id="dropdownContent">
+                            <p onclick="selectCategory('치킨')">치킨</p>
+                            <p onclick="selectCategory('피자·양식')">피자·양식</p>
+                            <p onclick="selectCategory('돈까스·일식')">돈까스·일식</p>
+                            <p onclick="selectCategory('족발·보쌈')">족발·보쌈</p>
+                            <p onclick="selectCategory('분식')">분식</p>
+                            <p onclick="selectCategory('중식')">중식</p>
+                            <p onclick="selectCategory('한식')">한식</p>
+                            <p onclick="selectCategory('아시안')">아시안</p>
+                            <p onclick="selectCategory('버거')">버거</p>
+                            <p onclick="selectCategory('카페')">카페</p>
+                            <p onclick="selectCategory('찜·탕')">찜·탕</p>
+                        </div>
+                    </div>
+                    <div class="info-text margin-top-15">가게를 소개해주세요.</div>
+                    <textarea id="marketIntro" name="marketIntro" class="margin-top-10 intro-box" placeholder="  이벤트, 원산지 등"></textarea>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text margin-top-15">운영시간을 입력하세요.</div>
+                    <input type="time" id="openTime" name="openTime" class="margin-top-10 time-box margin-right-10"/>
+                        ~
+                    <input type="time" id="closeTime" name="closeTime" class="time-box margin-left-10"/>
+                    <hr class="hr-margin"/>
+
+                    <div class="info-text margin-top-15">휴무일이 있나요?</div>
+                    <input type="text" id="offDay" name="offDay" class="l-input-box margin-top-10 margin-bottom-10" placeholder="  예)월요일휴무"/>
+                    <div class="line-container-center">
+                        <button type="submit" class="form-button-submit margin-right-10">저장</button>
+                        <button type="reset" class="form-button-reset">취소</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="/js/market/marketInfo.js"></script>
+</body>
+</html>

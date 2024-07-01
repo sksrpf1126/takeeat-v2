@@ -31,6 +31,10 @@ public class Market {
 
     private String marketNumber;
 
+    private String businessNumber;
+
+    private String operationTime;
+
     @Column(length = 3000)
     private String marketIntroduction;
 
@@ -42,5 +46,8 @@ public class Market {
     private Double marketRating;
 
     private int reviewCount;
+
+    private String closedDays;
+
 
 }

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TakeEat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/market/marketMenuStyle.css">
+</head>
+<body>
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon" class="margin-top-20">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+        <div class="side-margin">
+            <div class="line-container">
+                <img src="/images/store-icon.svg" alt="store_image" class="icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu">가게 정보</div>
+                    <div class="sub-menu">기본 정보</div>
+                    <div class="sub-menu">메뉴 정보</div>
+                    <div class="sub-menu margin-bottom-30">옵션 정보</div>
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/order-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30">주문</div>
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/review-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30">리뷰</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container">
+        <div class="length-container">
+            <div class="line-container">
+                <div class="rectangle">
+                    <div class="bar-text">기본정보</div>
+                </div>
+                <div class="rectangle margin-left-20 rectangle-color">
+                    <div class="bar-text">메뉴등록</div>
+                </div>
+                <div class="rectangle margin-left-20">
+                    <div class="bar-text">옵션등록</div>
+                </div>
+            </div>
+            <br/>
+            <form>
+                <div class="info-box">
+                    <div class="line-container margin-top-40">
+                        <div class="l-info-text">메뉴 등록</div>
+                        <div class="tip-container">
+                            <div class="tip" style="margin-top: 6px;">
+                                <p>메뉴 카테고리와 하위 메뉴들을 등록해주세요.<br>예) 치킨 카테고리에 후라이드 치킨, 양념치킨 메뉴 <br>&emsp;&nbsp;&nbsp;사이드 카테고리에 소떡소떡, 한입 붕어빵 메뉴</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu-container">
+                        <!-- 여기에 카테고리와 메뉴들이 추가될 부분 -->
+                    </div>
+                    <hr class="hr-margin"/>
+                    <div id="category-container"></div>
+                    <div class="line-text" id="add-category-button">메뉴 카테고리 추가하기 +</div>
+
+                    <div class="line-container-center">
+                        <button type="submit" class="form-button-submit margin-right-10">저장</button>
+                        <button type="reset" class="form-button-reset">취소</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/js/market/marketMenu.js"></script>
+</body>
+</html>

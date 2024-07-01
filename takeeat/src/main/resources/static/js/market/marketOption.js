@@ -61,8 +61,8 @@ document.addEventListener('click', function(e) {
                                         </div>
                                     </div>
                                     <div class="line-container  margin-top-10">
-                                        <input type="radio" id="single-${categoryCount}" name="select" onclick="handleOptionSelect(${categoryCount}, 'single')" checked/>단일
-                                        <input type="radio" id="multi-${categoryCount}" name="select" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'multi')"/>다중
+                                        <input type="radio" id="single-${categoryCount}" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'single')" checked/>단일
+                                        <input type="radio" id="multi-${categoryCount}" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'multi')"/>다중
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +119,7 @@ document.addEventListener('click', function(e) {
 
     function deleteCategory(categoryId) {
         const categoryElement = document.getElementById(`category-${categoryId}`);
-        if (!confirm("카테고리를 삭제하면 하위 옵션이 삭제됩니다. 정말 삭제하시겠습니까?")) {
+        if (!confirm("카테고리를 삭제하면 하위 옵션이 삭제됩니다.                             정말 삭제하시겠습니까?")) {
             event.preventDefault();
         } else {
             categoryElement.remove();

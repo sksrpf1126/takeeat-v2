@@ -1,0 +1,308 @@
+html, ul, p, h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.market-order-header-div {
+    background-color: black;
+    height: 5%;
+}
+
+.market-order-header-div > h3 {
+    color: white;
+    margin: 10px 0px;
+}
+
+.market-order-contents-div {
+    display: flex;
+    height: 95%;
+}
+
+.main-container {
+    display: flex;
+    width: 100vw;
+    height: 99.5vh;
+    flex-direction: column;
+}
+.sidebar {
+    height: 100%;
+    width: 5%;
+}
+
+.sidebar ul {
+    list-style-type: none;
+    height: 100%;
+}
+
+.sidebar li {
+    height: 25%;
+    background-color: black;
+    cursor: pointer;
+    color: #5f5e5e;
+    font-weight: bold;
+}
+
+.sidebar li.active {
+    color:  white;
+    background-color: #343434;
+}
+
+.order-status-div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.order-status-div > i {
+    margin-bottom: 10px;
+}
+
+.container {
+    width: 25%;
+    height: 100%;
+    background-color: black;
+    color: white;
+}
+
+.order-select-condition-div {
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    color: #5f5e5e;
+    font-weight: bold;
+}
+
+.order-select-condition-div > div {
+    cursor: pointer;
+}
+
+.order-select-condition-div div:first-child {
+    margin-right: 10px;
+}
+
+.order-list {
+
+}
+
+.order-item {
+    padding: 20px;
+}
+
+.order-item-top-div {
+    margin-bottom: 10px;
+}
+
+.order-item-bottom-div {
+    display: flex;
+    justify-content: space-between;
+}
+
+#order-item-detail-div {
+    width: 70%;
+    padding: 25px;
+}
+
+#order-item-title {
+    font-size: 30px;
+    color: #00d5cb;
+    margin-bottom: 10px;
+}
+
+#order-item-sub-title {
+    display: flex;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#order-item-detail-header-div {
+    height: 12%;
+}
+
+#order-item-detail-contents-div {
+    display: flex;
+    height: 88%;
+}
+
+#order-item-detail-contents-left {
+    width: 60%;
+}
+
+#order-item-detail-contents-right {
+    width: 40%;
+}
+
+#order-item-detail-contents-div h4 {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#order-item-requirement-div {
+    margin-bottom: 20px;
+    height: 15%;
+}
+
+#order-item-requirement-div > h4 {
+    margin-bottom: 10px;
+}
+
+#order-item-information-div {
+    height: 75%;
+}
+
+#order-item-information-div > h4 {
+    margin-bottom: 10px;
+}
+
+.order-item-detail-border {
+    padding: 15px;
+    border: 1px solid #cdcdcd;
+}
+
+.order-menu-main-div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.order-menu-option-div {
+    color: #939393;
+}
+
+.menu-name {
+    width: 50%;
+}
+
+.menu-quantity {
+    width: 10%;
+    text-align: right;
+}
+
+.menu-price {
+    width: 40%;
+    text-align: right;
+}
+
+.order-menu-div {
+    margin-bottom: 25px;
+}
+
+#order-menu-list-div {
+    height: 85%;
+    border-bottom: 1px solid;
+    overflow-y: auto;
+}
+
+#order-menu-list-print {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #929292;
+    cursor: pointer;
+}
+
+#order-item-detail-contents-right {
+    margin-left: 20px;
+}
+
+#order-detail-information-div {
+    height: 35%;
+    min-height: 250px;
+}
+
+#market-select-div {
+    height: 55%;
+}
+
+#member-phone-div {
+    margin-bottom: 30px;
+}
+
+#member-phone-div > h4 {
+    margin-bottom: 15px;
+}
+
+#member-phone-number {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.safe-phone-string {
+    color: #838383;
+    font-size: 13px;
+}
+
+.order-sub-info-div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.order-sub-info-div > h4 {
+    margin-right: 50px;
+}
+
+#market-select-div {
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    background-color: #fff;
+}
+
+.action-button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#reject {
+    background-color: #f44336;
+    color: white;
+}
+
+#accept {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.action-button:hover {
+    opacity: 0.8;
+}
+
+.time-control {
+    display: flex;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.control-button {
+    border: none;
+}
+
+.control-button:hover {
+    background-color: #ccc;
+}
+
+#timeInput {
+    width: 60px;
+    text-align: center;
+    font-size: 16px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}

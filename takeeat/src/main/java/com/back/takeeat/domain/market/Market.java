@@ -3,10 +3,11 @@ package com.back.takeeat.domain.market;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.Builder;
-import lombok.Setter;
+import lombok.Getter;
 
 @Entity
 @Builder
+@Getter
 public class Market {
 
     @Id
@@ -31,6 +32,10 @@ public class Market {
     private Double longitude;
 
     private String marketNumber;
+
+    private String businessNumber;
+
+    private String operationTime;
 
     @Column(length = 3000)
     private String marketIntroduction;

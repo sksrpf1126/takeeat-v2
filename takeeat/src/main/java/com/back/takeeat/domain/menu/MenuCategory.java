@@ -2,12 +2,17 @@ package com.back.takeeat.domain.menu;
 
 import com.back.takeeat.domain.market.Market;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class MenuCategory {
 
     @Id

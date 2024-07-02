@@ -52,4 +52,5 @@ public class Market {
 
     private String closedDays;
 
+    
 }

@@ -2,12 +2,17 @@ package com.back.takeeat.domain.option;
 
 import com.back.takeeat.domain.menu.Menu;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class OptionCategory {
 
     @Id

@@ -1,8 +1,10 @@
+// 드롭다운 카테고리 함수
 document.getElementById('dropdownButton').addEventListener('click', function() {
     document.getElementById('dropdownContent').classList.toggle('show');
 });
 
 function selectCategory(category) {
+    $('#category-error').hide();
     document.getElementById('dropdownButton').textContent = category;
     document.getElementById('marketCategory').value = category;
     document.getElementById('dropdownContent').classList.remove('show');
@@ -19,6 +21,7 @@ window.onclick = function(event) {
         }
     }
 }
+
 // 이미지 미리보기 함수
 document.getElementById('input-file').addEventListener('change', function(event) {
     var input = event.target;
@@ -31,6 +34,7 @@ document.getElementById('input-file').addEventListener('change', function(event)
     };
 
     if (input.files && input.files[0]) {
+        $('#image-error').hide();
         reader.readAsDataURL(input.files[0]);
     }
 });
@@ -43,6 +47,7 @@ document.getElementById('input-file').addEventListener('change', function(event)
         element_wrap.style.display = 'none';
     }
 
+// 주소 검색
 function sample3_execDaumPostcode() {
     // 현재 scroll 위치를 저장해놓는다.
     var currentScroll = Math.max(document.body.scrollTop, document.documentElement.scrollTop);
@@ -84,6 +89,7 @@ function sample3_execDaumPostcode() {
                 document.getElementById("sample3_extraAddress").value = '';
             }
 
+            $('#query-error').hide();
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
             document.getElementById('sample3_postcode').value = data.zonecode;
             document.getElementById("sample3_address").value = addr;
@@ -109,8 +115,10 @@ function sample3_execDaumPostcode() {
     element_wrap.style.display = 'block';
 }
 
+// 중복검사 ajax
 $(document).ready(function() {
     $('.dup-button').on('click', function() {
+
         var baseUrl = window.location.origin;
 
         $.ajax({
@@ -122,6 +130,7 @@ $(document).ready(function() {
             success: function(isAvailable) {
                 if (isAvailable === false) {  // explicitly check for true
                     $('#nameNotAvailable').hide();
+                    $('#not-blank').hide();
                     $('#nameAvailable').show().text('사용 가능한 이름입니다.');
                 } else if (isAvailable === true) {  // explicitly check for false
                     $('#nameAvailable').hide();

@@ -371,6 +371,9 @@ input[id="menuicon"]:checked + label + div {
     color : #dc3545;
     font-size: 14px;
 }
+.field-error-border {
+    border-color : #dc3545;
+}
 .valid-feedback {
     font-size: 14px;
     color : #0040FF;

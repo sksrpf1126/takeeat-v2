@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -60,36 +61,27 @@ public class MarketMenuService {
 
         //OptionCategoryResponse(List -> Map)
         List<Long> menuIds = new ArrayList<>();
-        Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId = new HashMap<>();
-        for (OptionCategoryResponse optionCategory : optionCategoryResponses) {
-            if (!optionCategoryMapByMenuId.containsKey(optionCategory.getMenuId())) {
-                menuIds.add(optionCategory.getMenuId());
-                optionCategoryMapByMenuId.put(optionCategory.getMenuId(), new ArrayList<>(List.of(optionCategory)));
-            } else {
-                optionCategoryMapByMenuId.get(optionCategory.getMenuId()).add(optionCategory);
-            }
-        }
+        Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId = optionCategoryResponses.stream()
+                .peek(optionCategory -> {
+                    if (!menuIds.contains(optionCategory.getMenuId())) {
+                        menuIds.add(optionCategory.getMenuId());
+                    }
+                })
+                .collect(Collectors.groupingBy(OptionCategoryResponse::getMenuId));
 
         //OptionResponse
-        List<OptionResponse> OptionResponses = menuRepository.findOptionByMarketId(marketId);
+        List<OptionResponse> optionResponses = menuRepository.findOptionByMarketId(marketId);
 
         //OptionResponse(List -> Map)
-        Map<Long, List<OptionResponse>> optionMapByOptionCategoryId = new HashMap<>();
-        for (OptionResponse option : OptionResponses) {
-            if (!optionMapByOptionCategoryId.containsKey(option.getOptionCategoryId())) {
-                optionMapByOptionCategoryId.put(option.getOptionCategoryId(), new ArrayList<>(List.of(option)));
-            } else {
-                optionMapByOptionCategoryId.get(option.getOptionCategoryId()).add(option);
-            }
-        }
+        Map<Long, List<OptionResponse>> optionMapByOptionCategoryId = optionResponses.stream()
+                .collect(Collectors.groupingBy(OptionResponse::getOptionCategoryId));
 
         //Review
         List<Review> reviews = reviewRepository.findByMarketId(marketId);
         //Review -> ReviewResponse
-        List<ReviewResponse> reviewResponses = new ArrayList<>();
-        for (Review review : reviews) {
-            reviewResponses.add(ReviewResponse.createByReview(review));
-        }
+        List<ReviewResponse> reviewResponses = reviews.stream()
+                .map(ReviewResponse::createByReview)
+                .collect(Collectors.toList());
 
         //Rating
         List<MarketRatingResponse> marketRatingResponses = reviewRepository.findRatingCountByMarketId(marketId);

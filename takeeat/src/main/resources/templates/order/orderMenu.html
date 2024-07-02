@@ -39,21 +39,25 @@
     <hr/>
 
     <div id="marketContainer">
-        <div id="marketNameContainer">청년피자 - 서초직영점</div>
+        <div id="marketNameContainer" th:text="${marketMenuResponse.marketResponse.marketName}">가게이름</div>
         <hr/>
         <div id="infoContainer">
-            <div id="marketImageContainer"><img id="marketImage" src="/images/market-sample.png"/></div>
+            <div id="marketImageContainer"><img id="marketImage" th:src="${marketMenuResponse.marketResponse.marketImage}"/></div>
             <div id="marketInfoContainer">
                 <div class="marketRatingContainer">
-                    <div class="yellowStar">★★★★</div>
-                    <div class="grayStar">★</div>
-                    <div id="marketRating">4.6</div>
+                    <div class="yellowStar">
+                        <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
+                    </div>
+                    <div class="grayStar">
+                        <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
+                    </div>
+                    <div id="marketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
                 </div>
                 <div id="marketAddressContainer">
-                    <strong>주소</strong> 서울특별시 서초구 서초동 1628-10 URBANTREE(어반트리) 지하1층 101호
+                    <strong>주소</strong>&nbsp;[[${marketMenuResponse.marketResponse.query}]]&nbsp;[[${marketMenuResponse.marketResponse.addressDetail}]]
                 </div>
                 <div id="marketNumberContainer">
-                    <strong>영업시간</strong> 11:00 - 23:00 &nbsp; <strong>전화번호</strong> 02-111-1111
+                    <strong>영업시간</strong>&nbsp;[[${marketMenuResponse.marketResponse.operationTime}]]&nbsp;<strong>전화번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.marketNumber}]]
                 </div>
             </div>
         </div>
@@ -64,75 +68,31 @@
             <input type="radio" class="tabmenu" name="tabmenu" id="tab01" checked>
             <label for="tab01">메뉴</label>
             <input type="radio" class="tabmenu" name="tabmenu" id="tab02">
-            <label for="tab02">리뷰</label>
+            <label for="tab02">리뷰 ([[${marketMenuResponse.marketResponse.reviewCount}]])</label>
             <input type="radio" class="tabmenu" name="tabmenu" id="tab03" onclick="showInfoTab()">
             <label for="tab03">정보</label>
         </div>
 
         <div class="conbox con1">
-            <div>
+            <div th:each="menuCategoryId : ${marketMenuResponse.menuCategoryIds}">
                 <div class="menuCategoryContainer">
-                    <button class="navbar-toggler menuCategoryBtn" type="button" data-bs-toggle="collapse" data-bs-target="#dropdown01" aria-controls="dropdown01" aria-expanded="false" aria-label="Toggle navigation">
+                    <button class="navbar-toggler menuCategoryBtn" type="button" data-bs-toggle="collapse" th:data-bs-target="'#dropdown' + ${menuCategoryId}" th:aria-controls="'dropdown' + ${menuCategoryId}" aria-expanded="false" aria-label="Toggle navigation">
                         <div class="menuCategoryBtnContent">
-                            <div>오리지널 청년피자</div>
+                            <div th:text="${marketMenuResponse.getMenuCategoryResponse(menuCategoryId).menuCategoryName}">메뉴카테고리명</div>
                             <div><img src="/images/dropdown-icon.svg"/></div>
                         </div>
                     </button>
                 </div>
-                <div class="collapse navbar-collapse" id="dropdown01">
+                <div class="collapse navbar-collapse" th:id="'dropdown' + ${menuCategoryId}">
                     <ul class="navbar-nav">
-                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
+                        <li class="nav-item dropdown menuList" th:each="menu : ${marketMenuResponse.getMenuResponses(menuCategoryId)}" th:onclick="|showOptionModal(${menu.menuId})|">
                             <div class="menuListInfo">
                                 <div class="menuInfoContainer">
-                                    <div><strong>바삭한허니비</strong></div>
-                                    <div class="menuIntro">바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화</div>
-                                    <div>18,900원</div>
+                                    <div><strong>[[${menu.menuName}]]</strong></div>
+                                    <div class="menuIntro" th:text="${menu.menuIntroduction}">메뉴설명</div>
+                                    <div th:text="${#numbers.formatInteger(menu.menuPrice, 3, 'COMMA') + '원'}">메뉴가격</div>
                                 </div>
-                                <div class="menuImageContainer"><img class="menuImage" src="/images/pizza-sample.jpeg"/></div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
-                            <div class="menuListInfo">
-                                <div class="menuInfoContainer">
-                                    <div><strong>[인기]할라불고기</strong></div>
-                                    <div class="menuIntro">할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자</div>
-                                    <div>18,900원</div>
-                                </div>
-                                <div class="menuImageContainer"><img class="menuImage" src="/images/pizza-sample.jpeg"/></div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
-                            <div class="menuListInfo">
-                                <div class="menuInfoContainer">
-                                    <div><strong>[신메뉴]메가모짜 치즈디쉬</strong></div>
-                                    <div class="menuIntro">치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.</div>
-                                    <div>18,900원</div>
-                                </div>
-                                <div class="menuImageContainer"><img class="menuImage" src="/images/pizza-sample.jpeg"/></div>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div>
-                <div class="menuCategoryContainer">
-                    <button class="navbar-toggler menuCategoryBtn" type="button" data-bs-toggle="collapse" data-bs-target="#dropdown02" aria-controls="dropdown02" aria-expanded="false" aria-label="Toggle navigation">
-                        <div class="menuCategoryBtnContent">
-                            <div>프리미엄 청년피자</div>
-                            <div><img src="/images/dropdown-icon.svg"/></div>
-                        </div>
-                    </button>
-                </div>
-                <div class="collapse navbar-collapse" id="dropdown02">
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown menuList" onclick="showOptionModal()">
-                            <div class="menuListInfo">
-                                <div class="menuInfoContainer">
-                                    <div><strong>바삭한허니비</strong></div>
-                                    <div class="menuIntro">바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화</div>
-                                    <div>18,900원</div>
-                                </div>
-                                <div class="menuImageContainer"><img class="menuImage" src="/images/pizza-sample.jpeg"/></div>
+                                <div class="menuImageContainer"><img class="menuImage" th:src="${menu.menuImage}"/></div>
                             </div>
                         </li>
                     </ul>
@@ -143,10 +103,14 @@
         <div class="conbox con2">
             <div id="reviewRatingContainer">
                 <div id="reviewRatingAvg">
-                    <div id="reviewMarketRating">4.6</div>
+                    <div id="reviewMarketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
                     <div class="marketRatingContainer">
-                        <div class="yellowStar">★★★★</div>
-                        <div class="grayStar">★</div>
+                        <div class="yellowStar">
+                            <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
+                        </div>
+                        <div class="grayStar">
+                            <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
+                        </div>
                     </div>
                 </div>
                 <div id="ratingInfoContainer">
@@ -189,65 +153,56 @@
             </div>
             <hr/>
 
-            <div class="reviewContainer">
-                <div class="reviewInfoContainer">
-                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
-                    <div>
-                        <div class="reviewWriterContainer">
-                            <div><strong>우디누나 님</strong></div>
-                            <div class="writeTime">&nbsp;&nbsp;2024년 6월 24일</div>
-                        </div>
-                        <div class="oneReviewRatingContainer">
-                            <div class="yellowStar">★★★★</div>
-                            <div class="grayStar">★</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="reviewImageContainer">
-                    <img class="reviewImage" src="/images/review-sample.jpg"/>
-                </div>
-                <div class="reviewContent">
-                    도우도 쫄깃하고 너무 맛있습니다.
-                </div>
-                <div class="ownerReviewContainer">
-                    <div class="ownerWriterContainer">
-                        <div><strong>사장님</strong></div>
-                        <div class="writeTime">&nbsp;&nbsp;2024년 6월 24일</div>
-                    </div>
-                    <div class="reviewContent">
-                        우디누나님, 안녕하세요! 맛있게 드셔주시고 사진도 이쁘게 찍어주셔서 정말 감사합니다.
-                        앞으로도 청년피자 많이 사랑해주세요! 감사합니다!
-                    </div>
-                </div>
-            </div>
-            <hr/>
-            <div class="reviewContainer">
-                <div class="reviewInfoContainer">
-                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
-                    <div>
-                        <div class="reviewWriterContainer">
-                            <div><strong>다이어트는내일부터 님</strong></div>
-                            <div class="writeTime">&nbsp;&nbsp;2024년 6월 20일</div>
-                        </div>
-                        <div class="oneReviewRatingContainer">
-                            <div class="yellowStar">★★★★★</div>
+            <th:block th:each="review : ${marketMenuResponse.reviewResponses}">
+                <div class="reviewContainer">
+                    <div class="reviewInfoContainer">
+                        <div class="profileContainer"><img class="profile" th:src="${review.profile}"/></div>
+                        <div>
+                            <div class="reviewWriterContainer">
+                                <div><strong>[[${review.nickname}]] 님</strong></div>
+                                <div class="writeTime">&nbsp;&nbsp;[[${review.reviewWriteDate}]]</div>
+                            </div>
+                            <div class="oneReviewRatingContainer">
+                                <div class="yellowStar">
+                                    <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                                </div>
+                                <div class="grayStar" th:if="${review.reviewRating != 5}">
+                                    <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="reviewContent">
-                    맛있게 잘먹었습니다. 너무 맛있어요.
-                </div>
-                <div class="ownerReviewContainer">
-                    <div class="ownerWriterContainer">
-                        <div><strong>사장님</strong></div>
-                        <div class="writeTime">&nbsp;&nbsp;2024년 6월 21일</div>
+                    <div class="reviewImageContainer01" th:if="${review.reviewImages.size() == 1}">
+                        <img class="reviewImage01" th:src="${review.reviewImages.get(0)}"/>
                     </div>
-                    <div class="reviewContent">
-                        다이어트는내일부터님, 안녕하세요! 정말 감사합니다.
-                        앞으로도 청년피자 많이 사랑해주세요!
+                    <div class="reviewImageContainer02" th:if="${review.reviewImages.size() == 2}">
+                        <img th:each="reviewImage, iterStat : ${review.reviewImages}" th:class="'reviewImage02-' + ${iterStat.index}" th:src="${review.reviewImages.get(iterStat.index)}"/>
+                    </div>
+                    <th:block th:if="${review.reviewImages.size() == 3}">
+                        <div class="reviewImageContainer03-1" th:each="reviewImage, iterStat : ${review.reviewImages}">
+                            <img th:class="'reviewImage03-' + ${iterStat.index}" th:src="${reviewImage}"/>
+                        </div>
+                        <div class="reviewImageContainer03-2">
+                            <div class="reviewImageContainer03-3">
+                                <img class="reviewImage03-3" th:src="${review.reviewImages.get(0)}"/>
+                            </div>
+                            <div class="reviewImageContainer03-4">
+                                <img class="reviewImage03-4" th:src="${review.reviewImages.get(1)}"/>
+                                <img class="reviewImage03-5" th:src="${review.reviewImages.get(2)}"/>
+                            </div>
+                        </div>
+                    </th:block>
+                    <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
+                    <div class="ownerReviewContainer" th:if="${review.ownerReviewContent != null}">
+                        <div class="ownerWriterContainer">
+                            <div><strong>사장님</strong></div>
+                            <div class="writeTime">&nbsp;&nbsp;[[${review.ownerReviewWriteDate}]]</div>
+                        </div>
+                        <div class="reviewContent" th:text="${review.ownerReviewContent}">사장님리뷰내용</div>
                     </div>
                 </div>
-            </div>
+                <hr/>
+            </th:block>
         </div>
 
 
@@ -259,23 +214,18 @@
                 script.type = "text/javascript";
                 script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false";
                 document.head.appendChild(script);
+
+                var latitude = [[${marketMenuResponse.marketResponse.latitude}]];
+                var longitude = [[${marketMenuResponse.marketResponse.longitude}]];
             </script>
 
-            <div id="marketIntro">★세상에서 가장 맛있는 도우, ‘청년피자 고메밀크도우’ 출시!★
-도우가 아닌 피자 브랜드 역사상 가장 맛있는 빵을 만들기 위해
-빵의 본질 자체에 집중한, 청년피자의 고집과 집념이 담긴
-고메밀크도우 출시.
-
-우유를 넣어 부드럽고 촉촉한 도우에 버터를 발라 구워 진한 풍미와
-크리스피한 식감을 제공합니다.
-
-완전히 새롭게 달라진, 세상에서 가장 맛있는 도우를 경험해보세요.</div>
+            <div id="marketIntro" th:text="${marketMenuResponse.marketResponse.marketIntroduction}">가게소개글</div>
             <hr/>
             <div id="marketIntroContainer">
-                <strong>영업시간</strong>&nbsp;11:00 - 23:00<br/>
-                <strong>전화번호</strong>&nbsp;02-111-1111<br/>
-                <strong>주소</strong>&nbsp;서울특별시 서초구 서초동 1628-10 URBANTREE(어반트리) 지하1층 101호<br/>
-                <strong>사업자등록번호</strong>&nbsp;123-12-12345<br/>
+                <strong>영업시간</strong>&nbsp;[[${marketMenuResponse.marketResponse.operationTime}]]<br/>
+                <strong>전화번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.marketNumber}]]<br/>
+                <strong>주소</strong>&nbsp;[[${marketMenuResponse.marketResponse.query}]]&nbsp;[[${marketMenuResponse.marketResponse.addressDetail}]]<br/>
+                <strong>사업자등록번호</strong>&nbsp;[[${marketMenuResponse.marketResponse.businessNumber}]]<br/>
             </div>
         </div>
     </div>
@@ -285,107 +235,76 @@
         <div id="orderBtn"><strong>주문하기</strong></div>
     </div>
 
-    <div class="modal" id="optionChoiceModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-scrollable">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">메뉴상세</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="menuImageInModalContainer"><img src="/images/pizza-sample.jpeg" id="menuImageInModal"/></div>
-                    <div id="menuNameInModal"><strong>바삭한허니비</strong></div>
-                    <div id="menuInfoInModal">바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화</div>
-                    <hr/>
-                    <div id="menuPriceInModalContainer">
-                        <div id="menuPriceTitleInModal"><strong>가격</strong></div>
-                        <div id="menuPriceInModal"><strong>18,900원</strong></div>
+    <th:block th:each="menuId : ${marketMenuResponse.menuIds}">
+        <div class="modal" th:id="'optionChoiceModal' + ${menuId}" tabindex="-1">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">메뉴상세</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <hr/>
-                    <div>
-                        <div class="optionCategoryContainer">
-                            <div class="optionCategory"><strong>포테이토피자 사이즈 / 엣지선택</strong></div>
-                            <div class="optionMethod">&nbsp;(필수)</div>
+                    <div class="modal-body">
+                        <div id="menuImageInModalContainer"><img th:src="${marketMenuResponse.getMenuResponse(menuId).menuImage}" id="menuImageInModal"/></div>
+                        <div id="menuNameInModal"><strong>[[${marketMenuResponse.getMenuResponse(menuId).menuName}]]</strong></div>
+                        <div id="menuInfoInModal" th:text="${marketMenuResponse.getMenuResponse(menuId).menuIntroduction}">메뉴설명</div>
+                        <hr/>
+                        <div id="menuPriceInModalContainer">
+                            <div id="menuPriceTitleInModal"><strong>가격</strong></div>
+                            <div id="menuPriceInModal"><strong>[[${#numbers.formatInteger(marketMenuResponse.getMenuResponse(menuId).menuPrice, 3, 'COMMA') + '원'}]]</strong></div>
                         </div>
-                        <div class="checkContainer">
-                            <input type="radio" id="option01-01" name="option01" checked>
-                            <label for="option01-01" class="optionNameContainer">
-                                <div class="optionName">오리지널 R</div>
-                                <div class="optionPrice">추가비용없음</div>
-                            </label>
+                        <hr/>
+                        <th:block th:each="optionCategory : ${marketMenuResponse.getOptionCategoryResponses(menuId)}">
+                            <div class="optionCategoryContainer">
+                                <div class="optionCategory"><strong>[[${optionCategory.optionCategoryName}]]</strong></div>
+                                <div class="optionMethod" th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).SINGLE)}">&nbsp;(필수)</div>
+                                <div class="optionMethod" th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">&nbsp;(선택)</div>
+                            </div>
+                            <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).SINGLE)}">
+                                <div class="checkContainer" th:each="option, iterStat : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
+                                    <input type="radio" th:if="${iterStat.index == 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" checked>
+                                    <input type="radio" th:if="${iterStat.index != 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}">
+                                    <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
+                                        <div class="optionName" th:text="${option.optionName}">옵션이름</div>
+                                        <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
+                                        <div class="optionPrice" th:if="${option.optionPrice != 0}" th:text="'+' + ${#numbers.formatInteger(option.optionPrice, 3, 'COMMA') + '원'}">옵션가격</div>
+                                    </label>
+                                </div>
+                            </th:block>
+                            <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">
+                                <div class="checkContainer" th:each="option : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
+                                    <input type="checkbox" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}">
+                                    <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
+                                        <div class="optionName" th:text="${option.optionName}">옵션이름</div>
+                                        <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
+                                        <div class="optionPrice" th:if="${option.optionPrice != 0}" th:text="'+' + ${#numbers.formatInteger(option.optionPrice, 3, 'COMMA') + '원'}">옵션가격</div>
+                                    </label>
+                                </div>
+                            </th:block>
+                            <hr/>
+                        </th:block>
+
+                        <div class="quantityContainer">
+                            <div class="quantity"><strong>수량</strong></div>
+                            <div class="number-input">
+                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
+                                <input class="quantity" min="0" name="quantity" value="1" type="number">
+                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                            </div>
                         </div>
-                        <div class="checkContainer">
-                            <input type="radio" id="option01-02" name="option01">
-                            <label for="option01-02" class="optionNameContainer">
-                                <div class="optionName">고구마골드 R</div>
-                                <div class="optionPrice">+3,000원</div>
-                            </label>
-                        </div>
-                        <div class="checkContainer">
-                            <input type="radio" id="option01-03" name="option01">
-                            <label for="option01-03" class="optionNameContainer">
-                                <div class="optionName">오리지널 L</div>
-                                <div class="optionPrice">+5,000원</div>
-                            </label>
-                        </div>
-                        <div class="checkContainer">
-                            <input type="radio" id="option01-04" name="option01">
-                            <label for="option01-04" class="optionNameContainer">
-                                <div class="optionName">슈크림무스 L</div>
-                                <div class="optionPrice">+9,000원</div>
-                            </label>
-                        </div>
-                    </div>
-                    <hr/>
-                    <div>
-                        <div class="optionCategoryContainer">
-                            <div class="optionCategory"><strong>추가토핑</strong></div>
-                            <div class="optionMethod">&nbsp;(선택)</div>
-                        </div>
-                        <div class="checkContainer">
-                            <input type="checkbox" id="option02-01" name="option02">
-                            <label for="option02-01" class="optionNameContainer">
-                            <div class="optionName">치즈듬뿍모짜렐라치즈(100g)</div>
-                            <div class="optionPrice">+3,000원</div>
-                            </label>
-                        </div>
-                        <div class="checkContainer">
-                            <input type="checkbox" id="option02-02" name="option02">
-                            <label for="option02-02" class="optionNameContainer">
-                                <div class="optionName">칠리새우(8개)</div>
-                                <div class="optionPrice">+2,500원</div>
-                            </label>
-                        </div>
-                        <div class="checkContainer">
-                            <input type="checkbox" id="option02-03" name="option02">
-                            <label for="option02-03" class="optionNameContainer">
-                                <div class="optionName">버섯</div>
-                                <div class="optionPrice">+500원</div>
-                            </label>
+                        <hr/>
+                        <div class="totalPriceContainer">
+                            <div class="totalPriceTitle"><strong>총 주문금액</strong></div>
+                            <div class="totalPrice"><strong>18,900원</strong></div>
                         </div>
                     </div>
-                    <hr/>
-                    <div class="quantityContainer">
-                        <div class="quantity"><strong>수량</strong></div>
-                        <div class="number-input">
-                            <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                            <input class="quantity" min="0" name="quantity" value="1" type="number">
-                            <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-                        </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">장바구니에 추가</button>
+                        <button type="button" class="btn" style="background: #ffb36f;">주문하기</button>
                     </div>
-                    <hr/>
-                    <div class="totalPriceContainer">
-                        <div class="totalPriceTitle"><strong>총 주문금액</strong></div>
-                        <div class="totalPrice"><strong>18,900원</strong></div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">장바구니에 추가</button>
-                    <button type="button" class="btn" style="background: #ffb36f;">주문하기</button>
                 </div>
             </div>
         </div>
-    </div>
+    </th:block>
 </div>
 
 <script src="/js/order/orderMenuScript.js"></script>

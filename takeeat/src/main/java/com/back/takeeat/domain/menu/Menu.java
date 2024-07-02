@@ -1,7 +1,10 @@
 package com.back.takeeat.domain.menu;
 
+import com.back.takeeat.domain.option.OptionCategory;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -29,5 +32,8 @@ public class Menu {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_category_id")
     private MenuCategory menuCategory;
+
+    @OneToMany(mappedBy = "menu")
+    private List<OptionCategory> optionCategories;
 
 }

@@ -297,12 +297,12 @@ body {
     transition: background-color 0.3s;
 }
 
-#reject {
+#reject, #cancel {
     background-color: #f44336;
     color: white;
 }
 
-#accept {
+#accept, #complete {
     background-color: #4CAF50;
     color: white;
 }

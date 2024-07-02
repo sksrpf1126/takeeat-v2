@@ -1,10 +1,13 @@
 package com.back.takeeat.domain.menu;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
 @Entity
 @Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Menu {
 
     @Id

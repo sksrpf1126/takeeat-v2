@@ -1,11 +1,14 @@
 package com.back.takeeat.domain.option;
 
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
 @Entity
 @Table(name = "options")
 @Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Option {
 
     @Id

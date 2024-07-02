@@ -1,6 +1,8 @@
 package com.back.takeeat.controller;
 
+
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
+import com.back.takeeat.domain.market.MarketInfoForm;
 import com.back.takeeat.service.MarketInfoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class MarketController {
         marketInfoService.register(marketInfoRequest.marketInfoRequest());
         return "redirect:/market/menu";
     }
+
 
     // 가게 이름 중복검사
     @GetMapping("/marketName/check")

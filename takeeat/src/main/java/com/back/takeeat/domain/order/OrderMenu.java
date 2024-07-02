@@ -1,10 +1,14 @@
 package com.back.takeeat.domain.order;
 
 import com.back.takeeat.domain.menu.Menu;
-import com.back.takeeat.domain.option.Option;
 import jakarta.persistence.*;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Getter
 public class OrderMenu {
 
     @Id
@@ -22,8 +26,7 @@ public class OrderMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "option_id")
-    private Option option;
+    @OneToMany(mappedBy = "orderMenu")
+    private List<OrderOption> orderOptions = new ArrayList<>();
 
 }

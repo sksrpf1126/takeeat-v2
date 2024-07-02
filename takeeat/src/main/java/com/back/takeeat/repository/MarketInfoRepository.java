@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MarketInfoRepository extends JpaRepository<Market, Long> {
 
-
+    boolean existsByMarketName(String marketName);
 }

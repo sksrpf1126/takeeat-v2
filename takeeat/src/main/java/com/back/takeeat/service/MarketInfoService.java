@@ -14,8 +14,14 @@ public class MarketInfoService {
     private final MarketInfoRepository marketInfoRepository;
 
     @Transactional(readOnly = false)
-    public void register(MarketInfoRequest request) {
-        Market market = request.toMarket();
+    public void register(MarketInfoRequest marketInfoRequest) {
+
+        Market market = marketInfoRequest.toMarket();
         marketInfoRepository.save(market);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean checkMarketNameDuplicate(String marketName) {
+        return marketInfoRepository.existsByMarketName(marketName);
     }
 }

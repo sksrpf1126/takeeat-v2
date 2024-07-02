@@ -13,16 +13,14 @@ public class MarketOrderMenuResponse {
     private String menuName;
     private int menuPrice;
     private int orderQuantity;
-    private String optionName;
-    private int optionPrice;
+    List<MarketOrderOptionResponse> orderOptionResponses;
 
     public static MarketOrderMenuResponse of(OrderMenu orderMenu) {
         return MarketOrderMenuResponse.builder()
                 .menuName(orderMenu.getMenu().getMenuName())
                 .menuPrice(orderMenu.getMenu().getMenuPrice())
                 .orderQuantity(orderMenu.getOrderQuantity())
-                .optionName(orderMenu.getOption().getOptionName())
-                .optionPrice(orderMenu.getOption().getOptionPrice())
+                .orderOptionResponses(MarketOrderOptionResponse.listOf(orderMenu.getOrderOptions()))
                 .build();
     }
 

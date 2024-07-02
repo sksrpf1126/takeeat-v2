@@ -2,10 +2,10 @@ package com.back.takeeat.domain.user;
 
 import com.back.takeeat.common.domain.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Setter;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class Member extends BaseTimeEntity {
 
     @Id

@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
@@ -117,37 +119,37 @@
                     <div class="ratingInfo">
                         <div>5점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fiveStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.fiveStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>4점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fourStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.fourStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>3점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.threeStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.threeStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>2점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.twoStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.twoStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>1점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.oneStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.oneStar}]]</div>
                     </div>
                 </div>
             </div>
@@ -257,12 +259,12 @@
                             <div class="optionCategoryContainer">
                                 <div class="optionCategory"><strong>[[${optionCategory.optionCategoryName}]]</strong></div>
                                 <div class="optionMethod" th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).SINGLE)}">&nbsp;(필수)</div>
-                                <div class="optionMethod" th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">&nbsp;(선택)</div>
+                                <div class="optionMethod" th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">&nbsp;(최대 [[${optionCategory.optionMaxCount}]]개 선택)</div>
                             </div>
                             <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).SINGLE)}">
                                 <div class="checkContainer" th:each="option, iterStat : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
-                                    <input type="radio" th:if="${iterStat.index == 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" checked>
-                                    <input type="radio" th:if="${iterStat.index != 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}">
+                                    <input type="radio" th:if="${iterStat.index == 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}" checked>
+                                    <input type="radio" th:if="${iterStat.index != 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}">
                                     <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
                                         <div class="optionName" th:text="${option.optionName}">옵션이름</div>
                                         <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
@@ -272,7 +274,7 @@
                             </th:block>
                             <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">
                                 <div class="checkContainer" th:each="option : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
-                                    <input type="checkbox" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}">
+                                    <input type="checkbox" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}" th:data-max-count="${optionCategory.optionMaxCount}">
                                     <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
                                         <div class="optionName" th:text="${option.optionName}">옵션이름</div>
                                         <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
@@ -284,17 +286,17 @@
                         </th:block>
 
                         <div class="quantityContainer">
-                            <div class="quantity"><strong>수량</strong></div>
+                            <div class="quantity"><strong>수량</strong>&nbsp;(최대 주문 가능 수량: [[${marketMenuResponse.getMenuResponse(menuId).menuMaxCount}]])</div>
                             <div class="number-input">
-                                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                                <input class="quantity" min="0" name="quantity" value="1" type="number">
-                                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                                <button onclick="stepDownAndUpdate(this)" class="minus"></button>
+                                <input class="quantity" min="1" th:max="${marketMenuResponse.getMenuResponse(menuId).menuMaxCount}" name="quantity" value="1" type="number" readonly>
+                                <button onclick="stepUpAndUpdate(this)" class="plus"></button>
                             </div>
                         </div>
                         <hr/>
                         <div class="totalPriceContainer">
                             <div class="totalPriceTitle"><strong>총 주문금액</strong></div>
-                            <div class="totalPrice"><strong>18,900원</strong></div>
+                            <div class="totalPrice" th:data-base-price="${marketMenuResponse.getMenuResponse(menuId).menuPrice}"><strong>[[${#numbers.formatInteger(marketMenuResponse.getMenuResponse(menuId).menuPrice, 3, 'COMMA')}]]원</strong></div>
                         </div>
                     </div>
                     <div class="modal-footer">

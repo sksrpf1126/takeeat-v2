@@ -53,7 +53,7 @@ public class InitMarketDB {
                             "\n" +
                             "완전히 새롭게 달라진, 세상에서 가장 맛있는 도우를 경험해보세요.",
                     "02", "11:00 ~ 23:00", "177-85-02358",
-                    MarketStatus.OPEN, 4.9, 394, "연중무휴"
+                    MarketStatus.OPEN, 4.9, 3, "연중무휴"
                     );
             em.persist(market1);
 

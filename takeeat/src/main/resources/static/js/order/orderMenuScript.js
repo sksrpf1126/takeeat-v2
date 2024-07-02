@@ -58,8 +58,69 @@ function relayout() {
     map.setCenter(new kakao.maps.LatLng(latitude, longitude));
 }
 
-//==== 옵션 선택 모달 ====
+//==== 옵션 선택 모달 보여주기 ====
 function showOptionModal(menuId) {
     const modal = new bootstrap.Modal(document.getElementById('optionChoiceModal' + menuId));
     modal.show();
 }
+
+$(document).ready(function() {
+    //=== 옵션 선택 모달을 닫으면 모달 내의 데이터 초기화 ===
+    $('.modal').on('hide.bs.modal', function() {
+        $(this).find('input[type="checkbox"]').prop('checked', false);
+
+        $(this).find('input[type="radio"]').each(function() {
+            var groupName = $(this).attr('name');
+            $(this).closest('.modal').find('input[name="' + groupName + '"]').first().prop('checked', true);
+        });
+
+        $(this).find('input[name="quantity"]').val(1);
+
+        var basePrice = parseInt($(this).find('.totalPrice').data('base-price'));
+        $(this).find('.totalPrice strong').text(basePrice.toLocaleString() + '원');
+    });
+
+    //=== checkbox 최대 선택 개수 체크 ===
+    $(document).on('change', 'input[type="checkbox"]', function() {
+        var maxCount = $(this).data('max-count');
+        var groupName = $(this).attr('name');
+        var checkedCount = $('input[name="' + groupName + '"]:checked').length;
+
+        if (checkedCount > maxCount) {
+            $(this).prop('checked', false);
+            alert(maxCount + '개까지 선택 가능합니다.');
+        }
+    });
+
+    //=== totalPrice 계산 ===
+    $(document).on('change', 'input[type="radio"], input[type="checkbox"]', function() {
+        updateTotalPrice($(this).closest('.modal'));
+    });
+
+    window.stepUpAndUpdate = function(button) {
+        var input = button.parentNode.querySelector('input[type=number]');
+        input.stepUp();
+        updateTotalPrice($(button).closest('.modal'));
+    }
+
+    window.stepDownAndUpdate = function(button) {
+        var input = button.parentNode.querySelector('input[type=number]');
+        input.stepDown();
+        updateTotalPrice($(button).closest('.modal'));
+    }
+
+    function updateTotalPrice(modal) {
+        var basePrice = parseInt($(modal).find('.totalPrice').data('base-price'));
+        var totalPrice = basePrice;
+
+        $(modal).find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
+            var optionPrice = parseInt($(this).data('price'));
+            totalPrice += optionPrice;
+        });
+
+        var quantity = parseInt($(modal).find('input[name="quantity"]').val());
+        totalPrice *= quantity;
+
+        $(modal).find('.totalPrice strong').text(totalPrice.toLocaleString() + '원');
+    }
+});

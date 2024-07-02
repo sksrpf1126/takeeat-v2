@@ -25,7 +25,6 @@ public interface MarketOrderRepository extends JpaRepository<Order, Long>, Marke
             "FROM Order o INNER JOIN FETCH o.orderMenus om " +
             "INNER JOIN FETCH o.member m " +
             "INNER JOIN FETCH om.menu mu " +
-            "INNER JOIN FETCH om.option op  " +
             "WHERE o.id = :orderId "
     )
     Optional<Order> findWithOrderMenus(@Param("orderId") Long orderId);

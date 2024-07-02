@@ -221,6 +221,15 @@ body {
     overflow-y: auto;
 }
 
+#order-menu-list-div::-webkit-scrollbar {
+    width: 10px;
+}
+
+#order-menu-list-div::-webkit-scrollbar-thumb {
+    background-color: skyblue;
+    border-radius: 15px;
+}
+
 #order-menu-list-print {
     height: 10%;
     display: flex;
@@ -325,4 +334,12 @@ body {
     margin: 0 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
+}
+
+.order-not-data-string {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

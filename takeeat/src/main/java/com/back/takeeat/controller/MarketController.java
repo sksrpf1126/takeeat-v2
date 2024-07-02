@@ -2,8 +2,7 @@ package com.back.takeeat.controller;
 
 
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
-import com.back.takeeat.domain.market.MarketInfoForm;
-import com.back.takeeat.service.MarketInfoService;
+import com.back.takeeat.service.MarketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/market")
 public class MarketController {
 
-    private final MarketInfoService marketInfoService;
+    private final MarketService marketService;
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
@@ -33,7 +32,7 @@ public class MarketController {
         if (result.hasErrors()) {
             return "/market/marketInfo";
         }
-        marketInfoService.register(marketInfoRequest.marketInfoRequest());
+        marketService.register(marketInfoRequest.marketInfoRequest());
         return "redirect:/market/menu";
     }
 
@@ -41,7 +40,7 @@ public class MarketController {
     // 가게 이름 중복검사
     @GetMapping("/marketName/check")
     public ResponseEntity<Boolean> checkMarketNameDuplicate(@RequestParam(value="marketName") String marketName) {
-        boolean isAvailable = marketInfoService.checkMarketNameDuplicate(marketName);
+        boolean isAvailable = marketService.checkMarketNameDuplicate(marketName.trim());
         return ResponseEntity.ok(isAvailable);
     }
 

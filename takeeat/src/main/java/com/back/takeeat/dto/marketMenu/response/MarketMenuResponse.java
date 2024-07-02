@@ -1,5 +1,7 @@
 package com.back.takeeat.dto.marketMenu.response;
 
+import com.back.takeeat.dto.review.response.RatingCountResponse;
+import com.back.takeeat.dto.review.response.ReviewResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +27,13 @@ public class MarketMenuResponse {
     private Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId;
     private Map<Long, List<OptionResponse>> optionMapByOptionCategoryId;
 
+    private List<ReviewResponse> reviewResponses;
+    private RatingCountResponse ratingCountResponse;
+
     public static MarketMenuResponse create(MarketResponse marketResponse, List<Long> menuCategoryIds, Map<Long, MenuCategoryResponse> menuCategoryMapById,
                                             Map<Long, List<MenuResponse>> menuMapByMenuCategoryId, List<Long> menuIds, Map<Long, MenuResponse> menuMapById,
-                                            Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId, Map<Long, List<OptionResponse>> optionMapByOptionCategoryId) {
+                                            Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId, Map<Long, List<OptionResponse>> optionMapByOptionCategoryId,
+                                            List<ReviewResponse> reviewResponses, RatingCountResponse ratingCountResponse) {
         return MarketMenuResponse.builder()
                 .marketResponse(marketResponse)
                 .menuCategoryIds(menuCategoryIds)
@@ -37,6 +43,8 @@ public class MarketMenuResponse {
                 .menuMapById(menuMapById)
                 .optionCategoryMapByMenuId(optionCategoryMapByMenuId)
                 .optionMapByOptionCategoryId(optionMapByOptionCategoryId)
+                .reviewResponses(reviewResponses)
+                .ratingCountResponse(ratingCountResponse)
                 .build();
     }
 

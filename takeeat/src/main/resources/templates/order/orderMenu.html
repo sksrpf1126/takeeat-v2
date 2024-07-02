@@ -103,10 +103,14 @@
         <div class="conbox con2">
             <div id="reviewRatingContainer">
                 <div id="reviewRatingAvg">
-                    <div id="reviewMarketRating">4.6</div>
+                    <div id="reviewMarketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
                     <div class="marketRatingContainer">
-                        <div class="yellowStar">★★★★</div>
-                        <div class="grayStar">★</div>
+                        <div class="yellowStar">
+                            <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
+                        </div>
+                        <div class="grayStar">
+                            <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
+                        </div>
                     </div>
                 </div>
                 <div id="ratingInfoContainer">
@@ -149,65 +153,56 @@
             </div>
             <hr/>
 
-            <div class="reviewContainer">
-                <div class="reviewInfoContainer">
-                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
-                    <div>
-                        <div class="reviewWriterContainer">
-                            <div><strong>우디누나 님</strong></div>
-                            <div class="writeTime">&nbsp;&nbsp;2024년 6월 24일</div>
-                        </div>
-                        <div class="oneReviewRatingContainer">
-                            <div class="yellowStar">★★★★</div>
-                            <div class="grayStar">★</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="reviewImageContainer">
-                    <img class="reviewImage" src="/images/review-sample.jpg"/>
-                </div>
-                <div class="reviewContent">
-                    도우도 쫄깃하고 너무 맛있습니다.
-                </div>
-                <div class="ownerReviewContainer">
-                    <div class="ownerWriterContainer">
-                        <div><strong>사장님</strong></div>
-                        <div class="writeTime">&nbsp;&nbsp;2024년 6월 24일</div>
-                    </div>
-                    <div class="reviewContent">
-                        우디누나님, 안녕하세요! 맛있게 드셔주시고 사진도 이쁘게 찍어주셔서 정말 감사합니다.
-                        앞으로도 청년피자 많이 사랑해주세요! 감사합니다!
-                    </div>
-                </div>
-            </div>
-            <hr/>
-            <div class="reviewContainer">
-                <div class="reviewInfoContainer">
-                    <div class="profileContainer"><img class="profile" src="/images/profile.jpg"/></div>
-                    <div>
-                        <div class="reviewWriterContainer">
-                            <div><strong>다이어트는내일부터 님</strong></div>
-                            <div class="writeTime">&nbsp;&nbsp;2024년 6월 20일</div>
-                        </div>
-                        <div class="oneReviewRatingContainer">
-                            <div class="yellowStar">★★★★★</div>
+            <th:block th:each="review : ${marketMenuResponse.reviewResponses}">
+                <div class="reviewContainer">
+                    <div class="reviewInfoContainer">
+                        <div class="profileContainer"><img class="profile" th:src="${review.profile}"/></div>
+                        <div>
+                            <div class="reviewWriterContainer">
+                                <div><strong>[[${review.nickname}]] 님</strong></div>
+                                <div class="writeTime">&nbsp;&nbsp;[[${review.reviewWriteDate}]]</div>
+                            </div>
+                            <div class="oneReviewRatingContainer">
+                                <div class="yellowStar">
+                                    <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                                </div>
+                                <div class="grayStar" th:if="${review.reviewRating != 5}">
+                                    <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="reviewContent">
-                    맛있게 잘먹었습니다. 너무 맛있어요.
-                </div>
-                <div class="ownerReviewContainer">
-                    <div class="ownerWriterContainer">
-                        <div><strong>사장님</strong></div>
-                        <div class="writeTime">&nbsp;&nbsp;2024년 6월 21일</div>
+                    <div class="reviewImageContainer01" th:if="${review.reviewImages.size() == 1}">
+                        <img class="reviewImage01" th:src="${review.reviewImages.get(0)}"/>
                     </div>
-                    <div class="reviewContent">
-                        다이어트는내일부터님, 안녕하세요! 정말 감사합니다.
-                        앞으로도 청년피자 많이 사랑해주세요!
+                    <div class="reviewImageContainer02" th:if="${review.reviewImages.size() == 2}">
+                        <img th:each="reviewImage, iterStat : ${review.reviewImages}" th:class="'reviewImage02-' + ${iterStat.index}" th:src="${review.reviewImages.get(iterStat.index)}"/>
+                    </div>
+                    <th:block th:if="${review.reviewImages.size() == 3}">
+                        <div class="reviewImageContainer03-1" th:each="reviewImage, iterStat : ${review.reviewImages}">
+                            <img th:class="'reviewImage03-' + ${iterStat.index}" th:src="${reviewImage}"/>
+                        </div>
+                        <div class="reviewImageContainer03-2">
+                            <div class="reviewImageContainer03-3">
+                                <img class="reviewImage03-3" th:src="${review.reviewImages.get(0)}"/>
+                            </div>
+                            <div class="reviewImageContainer03-4">
+                                <img class="reviewImage03-4" th:src="${review.reviewImages.get(1)}"/>
+                                <img class="reviewImage03-5" th:src="${review.reviewImages.get(2)}"/>
+                            </div>
+                        </div>
+                    </th:block>
+                    <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
+                    <div class="ownerReviewContainer" th:if="${review.ownerReviewContent != null}">
+                        <div class="ownerWriterContainer">
+                            <div><strong>사장님</strong></div>
+                            <div class="writeTime">&nbsp;&nbsp;[[${review.ownerReviewWriteDate}]]</div>
+                        </div>
+                        <div class="reviewContent" th:text="${review.ownerReviewContent}">사장님리뷰내용</div>
                     </div>
                 </div>
-            </div>
+                <hr/>
+            </th:block>
         </div>
 
 

@@ -7,6 +7,11 @@ import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.option.OptionSelect;
+import com.back.takeeat.domain.review.OwnerReview;
+import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.domain.review.ReviewImage;
+import com.back.takeeat.domain.review.ReviewStatus;
+import com.back.takeeat.domain.user.Member;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +38,8 @@ public class InitMarketDB {
 
         public void dbInit() {
 
-            Market market = createMarket("청년피자 - 서초직영점",
-                    "/images/market-sample.png",
+            //가게 및 메뉴 정보
+            Market market1 = createMarket("청년피자 - 서초직영점",
                     "서울 서초구 사임당로 80 (URBANTREE(어반트리))",
                     "지하1층 101호", 37.4893803, 127.0185471,
                     "02-525-9109",
@@ -47,15 +52,15 @@ public class InitMarketDB {
                             "크리스피한 식감을 제공합니다.\n" +
                             "\n" +
                             "완전히 새롭게 달라진, 세상에서 가장 맛있는 도우를 경험해보세요.",
-                    "피자·양식", "11:00 ~ 23:00", "177-85-02358",
+                    "02", "11:00 ~ 23:00", "177-85-02358",
                     MarketStatus.OPEN, 4.9, 394, "연중무휴"
                     );
-            em.persist(market);
+            em.persist(market1);
 
-            MenuCategory menuCategory01 = createMenuCategory(market, "오리지널 청년피자");
+            MenuCategory menuCategory01 = createMenuCategory(market1, "오리지널 청년피자");
             em.persist(menuCategory01);
 
-            Menu menu01_01 = createMenu(menuCategory01, "바삭한허니비", "바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화", 100, "/images/pizza-sample.jpeg", 18900);
+            Menu menu01_01 = createMenu(menuCategory01, "바삭한허니비", "바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화", 100, 18900);
             em.persist(menu01_01);
 
             OptionCategory optionCategory01_01_01 = createOptionCategory(menu01_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
@@ -74,7 +79,7 @@ public class InitMarketDB {
             Option option01_01_02_03 = createOption(optionCategory01_01_02, "옥수수 추가", 1000);
             em.persist(option01_01_02_03);
 
-            Menu menu01_02 = createMenu(menuCategory01, "[인기]할라불고기", "할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자", 100, "/images/pizza-sample.jpeg", 19900);
+            Menu menu01_02 = createMenu(menuCategory01, "[인기]할라불고기", "할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자", 100, 19900);
             em.persist(menu01_02);
 
             OptionCategory optionCategory01_02_01 = createOptionCategory(menu01_02, "크러스트 추가", OptionSelect.SINGLE, 1);
@@ -95,10 +100,10 @@ public class InitMarketDB {
             Option option01_02_02_03 = createOption(optionCategory01_02_02, "알리오올리오파스타 추가", 5900);
             em.persist(option01_02_02_03);
 
-            MenuCategory menuCategory02 = createMenuCategory(market, "프리미엄 청년피자");
+            MenuCategory menuCategory02 = createMenuCategory(market1, "프리미엄 청년피자");
             em.persist(menuCategory02);
 
-            Menu menu02_01 = createMenu(menuCategory02, "[신메뉴]메가모짜 치즈디쉬", "치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.", 100, "/images/pizza-sample.jpeg", 23900);
+            Menu menu02_01 = createMenu(menuCategory02, "[신메뉴]메가모짜 치즈디쉬", "치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.", 100, 23900);
             em.persist(menu02_01);
 
             OptionCategory optionCategory02_01_01 = createOptionCategory(menu02_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
@@ -116,15 +121,63 @@ public class InitMarketDB {
             em.persist(option02_01_02_02);
             Option option02_01_02_03 = createOption(optionCategory02_01_02, "옥수수 추가", 1000);
             em.persist(option02_01_02_03);
+
+            Market market2 = createMarket("맥도날드 - 서초뱅뱅점",
+                    "서울 서초구 강남대로 305",
+                    "서초현대렉시온", 37.4901031, 127.0308569,
+                    "02-6227-4500",
+                    "일부 매장에서 원재료 수급 문제로 후렌치 후라이 제공이 원활하지 않습니다. 고객님들의 양해를 부탁드리며, 교환가능한 다른 메뉴들을 즐겨 보세요.\n" +
+                            "\n" +
+                            "매장 별 배달비는 다르게 운영될 수 있으며, 주문 시 결제 페이지에서 미리 확인하실 수 있습니다.\n" +
+                            "\n" +
+                            "배달 시 가격은 매장과 상이합니다.",
+                    "09", "08:00 ~ 00:00", "101-81-26409",
+                    MarketStatus.OPEN, 3.9, 4180, "연중무휴"
+            );
+            em.persist(market2);
+
+            //회원 및 리뷰
+            Member member1 = createMember("우디누나");
+            em.persist(member1);
+
+            Member member2 = createMember("다이어트는내일부터");
+            em.persist(member2);
+
+            Member member3 = createMember("콩나물");
+            em.persist(member3);
+
+            Review review1 = createReview(5, "도우도 쫄깃하고 너무 맛있습니다.", member1, market1);
+            em.persist(review1);
+
+            Review review2 = createReview(4, "맛있게 잘먹었습니다. 너무 맛있어요.", member2, market1);
+            em.persist(review2);
+
+            Review review3 = createReview(5, "굳굳", member1, market1);
+            em.persist(review3);
+
+            Review review4 = createReview(5, "역시 맥도날드", member3, market2);
+            em.persist(review4);
+
+            OwnerReview ownerReview1 = createOwnerReview("우디누나님, 안녕하세요! 맛있게 드셔주시고 사진도 이쁘게 찍어주셔서 정말 감사합니다. 앞으로도 청년피자 많이 사랑해주세요! 감사합니다!", review1);
+            em.persist(ownerReview1);
+
+            OwnerReview ownerReview2 = createOwnerReview("다이어트는내일부터님, 안녕하세요! 정말 감사합니다. 앞으로도 청년피자 많이 사랑해주세요!", review2);
+            em.persist(ownerReview2);
+
+            ReviewImage reviewImage1 = createReviewImage(review1);
+            em.persist(reviewImage1);
+
+            ReviewImage reviewImage2 = createReviewImage(review1);
+            em.persist(reviewImage2);
         }
 
-        private Market createMarket(String marketName, String marketImage, String query, String addressDetail,
+        private Market createMarket(String marketName, String query, String addressDetail,
                                     double latitude, double longitude, String marketNumber, String marketIntroduction, String marketCategory,
                                     String operationTime, String businessNumber, MarketStatus marketStatus, double marketRating,
                                     int reviewCount, String closedDays) {
             return Market.builder()
                     .marketName(marketName)
-                    .marketImage(marketImage)
+                    .marketImage("/images/market-sample.png")
                     .query(query)
                     .addressDetail(addressDetail)
                     .latitude(latitude)
@@ -148,13 +201,13 @@ public class InitMarketDB {
                     .build();
         }
 
-        private Menu createMenu(MenuCategory menuCategory, String menuName, String menuIntroduction, int menuMaxCount, String menuImage, int menuPrice) {
+        private Menu createMenu(MenuCategory menuCategory, String menuName, String menuIntroduction, int menuMaxCount, int menuPrice) {
             return Menu.builder()
                     .menuCategory(menuCategory)
                     .menuName(menuName)
                     .menuIntroduction(menuIntroduction)
                     .menuMaxCount(menuMaxCount)
-                    .menuImage(menuImage)
+                    .menuImage("/images/pizza-sample.jpeg")
                     .menuPrice(menuPrice)
                     .build();
         }
@@ -173,6 +226,38 @@ public class InitMarketDB {
                     .optionCategory(optionCategory)
                     .optionName(optionName)
                     .optionPrice(optionPrice)
+                    .build();
+        }
+
+        private Member createMember(String nickname) {
+            return Member.builder()
+                    .nickname(nickname)
+                    .profile("/images/profile.jpg")
+                    .build();
+        }
+
+        private Review createReview(int reviewRating, String content, Member member, Market market) {
+            return Review.builder()
+                    .reviewRating(reviewRating)
+                    .content(content)
+                    .reviewStatus(ReviewStatus.ACTIVE)
+                    .member(member)
+                    .market(market)
+                    .build();
+        }
+
+        private OwnerReview createOwnerReview(String content, Review review) {
+            return OwnerReview.builder()
+                    .content(content)
+                    .review(review)
+                    .build();
+
+        }
+
+        private ReviewImage createReviewImage(Review review) {
+            return ReviewImage.builder()
+                    .storeName("/images/review-sample.jpg")
+                    .review(review)
                     .build();
         }
     }

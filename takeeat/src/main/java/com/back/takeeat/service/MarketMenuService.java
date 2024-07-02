@@ -1,9 +1,14 @@
 package com.back.takeeat.service;
 
 import com.back.takeeat.domain.market.Market;
+import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.dto.marketMenu.response.*;
+import com.back.takeeat.dto.review.response.MarketRatingResponse;
+import com.back.takeeat.dto.review.response.RatingCountResponse;
+import com.back.takeeat.dto.review.response.ReviewResponse;
 import com.back.takeeat.repository.MarketRepository;
 import com.back.takeeat.repository.MenuRepository;
+import com.back.takeeat.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +21,7 @@ public class MarketMenuService {
 
     private final MarketRepository marketRepository;
     private final MenuRepository menuRepository;
+    private final ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)
     public MarketMenuResponse getMarketMenu(Long marketId) {
@@ -77,7 +83,19 @@ public class MarketMenuService {
             }
         }
 
+        //Review
+        List<Review> reviews = reviewRepository.findByMarketId(marketId);
+        //Review -> ReviewResponse
+        List<ReviewResponse> reviewResponses = new ArrayList<>();
+        for (Review review : reviews) {
+            reviewResponses.add(ReviewResponse.createByReview(review));
+        }
+
+        //Rating
+        List<MarketRatingResponse> marketRatingResponses = reviewRepository.findRatingCountByMarketId(marketId);
+        RatingCountResponse ratingCountResponse = RatingCountResponse.createByMarketRatingResponse(marketRatingResponses);
+
         return MarketMenuResponse.create(marketResponse, menuCategoryIds, menuCategoryMapById, menuMapByMenuCategoryId,
-                menuIds, menuMapById, optionCategoryMapByMenuId, optionMapByOptionCategoryId);
+                menuIds, menuMapById, optionCategoryMapByMenuId, optionMapByOptionCategoryId, reviewResponses, ratingCountResponse);
     }
 }

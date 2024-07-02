@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <th:block th:replace="/notification/notificationHeader :: headerLayout"></th:block>
 </head>
 <style>
     .bell-section {
@@ -71,6 +71,7 @@
     }
 </style>
 <body>
+<th:block th:replace="/notification/notificationHeader :: userdata"></th:block>
     <div class="bell-section">
         <div class="bell-icon" id="bell-icon">
             <i id="user-notification" class="fa-regular fa-bell"></i>
@@ -105,8 +106,24 @@
     </div>
     <button onclick="showNotification()">Show Notification</button>
     <button onclick="hideNotification()">Hide Notification</button>
+    <button id="payment-complete">payment ok!!</button>
 
     <script>
+        $('#payment-complete').on('click', function() {
+            console.log("user payment-ok click!!", stompClient);
+            paymentNotification();
+
+        });
+
+        function paymentNotification() {
+            const userId = $("#user-userId").val();
+            console.log("user-userId : ", userId);
+            if(!!stompClient) {
+                stompClient.send("/app/send-member/" + userId, {});
+            }
+
+        }
+
         function showNotification() {
             document.getElementById('bell-icon').classList.add('has-notification');
         }

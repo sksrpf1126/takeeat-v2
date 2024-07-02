@@ -78,7 +78,7 @@ function fetchOrderDetails(orderId) {
         url: '/market/order/' + orderId,
         type: 'GET',
         success: function (data) {
-            renderOrderDetails(data);
+            renderOrderDetails(data, orderId);
         },
         error: function (xhr, status, error) {
             alert(xhr.responseJSON.message);
@@ -87,7 +87,7 @@ function fetchOrderDetails(orderId) {
 }
 
 // 주문 상세 데이터를 화면에 렌더링하는 함수
-function renderOrderDetails(data) {
+function renderOrderDetails(data, orderId) {
     var orderDetailsHtml = `
         <div id="order-item-detail-header-div">
             <div id="order-item-title">포장 주문: ${new Date(data.orderCreateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</div>
@@ -172,6 +172,11 @@ function renderOrderDetails(data) {
         const decreaseButton = document.getElementById("decrease");
         const increaseButton = document.getElementById("increase");
         const timeInput = document.getElementById("timeInput");
+        const rejectButton = document.getElementById("reject");
+
+        if(rejectButton) rejectButton.addEventListener("click", function() {
+            handleRejectClick(orderId, data.memberId, data.orderStatus, );
+        });
 
         decreaseButton.addEventListener("click", function() {
             updateTime(-1);

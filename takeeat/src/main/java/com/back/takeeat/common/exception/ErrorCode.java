@@ -2,6 +2,10 @@ package com.back.takeeat.common.exception;
 
 public enum ErrorCode {
 
+    MEMBER_NOT_FOUND(400, "U_001", "회원을 찾을 수 없습니다."),
+
+    MARKET_NOT_FOUND(400, "M_001", "가게를 찾을 수 없습니다."),
+
     ORDER_NOT_FOUND(400, "O_001", "주문을 찾을 수 없습니다.");
 
     private final String code;

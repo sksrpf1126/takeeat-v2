@@ -7,7 +7,7 @@ import com.back.takeeat.dto.review.response.MarketRatingResponse;
 import com.back.takeeat.dto.review.response.RatingCountResponse;
 import com.back.takeeat.dto.review.response.ReviewResponse;
 import com.back.takeeat.repository.MarketRepository;
-import com.back.takeeat.repository.MenuRepository;
+import com.back.takeeat.repository.MenuCategoryRepository;
 import com.back.takeeat.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,24 +21,19 @@ import java.util.stream.Collectors;
 public class MarketMenuService {
 
     private final MarketRepository marketRepository;
-    private final MenuRepository menuRepository;
+    private final MenuCategoryRepository menuCategoryRepository;
     private final ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)
     public MarketMenuResponse getMarketMenu(Long marketId) {
 
-        MarketResponse marketResponse = null;
-        //Market
-        Optional<Market> market = marketRepository.findById(marketId);
-        if (market.isPresent()) {
-            //Market -> MarketResponse
-            marketResponse = MarketResponse.createByMarket(market.get());
-        } else {
-            throw new NoSuchElementException();
-        }
+        //Market -> MarketResponse
+        Market market = marketRepository.findById(marketId)
+                .orElseThrow(NoSuchElementException::new);
+        MarketResponse marketResponse = MarketResponse.createByMarket(market);
 
         //MenuResponse(MenuCategory, Menu)
-        List<MenuResponse> menuResponses = menuRepository.findMenuByMarketId(marketId);
+        List<MenuResponse> menuResponses = menuCategoryRepository.findMenuByMarketId(marketId);
 
         //MenuResponse(List -> Map)
         List<Long> menuCategoryIds = new ArrayList<>();
@@ -57,7 +52,7 @@ public class MarketMenuService {
         }
 
         //OptionCategoryResponse
-        List<OptionCategoryResponse> optionCategoryResponses = menuRepository.findOptionCategoryByMarketId(marketId);
+        List<OptionCategoryResponse> optionCategoryResponses = menuCategoryRepository.findOptionCategoryByMarketId(marketId);
 
         //OptionCategoryResponse(List -> Map)
         List<Long> menuIds = new ArrayList<>();
@@ -70,7 +65,7 @@ public class MarketMenuService {
                 .collect(Collectors.groupingBy(OptionCategoryResponse::getMenuId));
 
         //OptionResponse
-        List<OptionResponse> optionResponses = menuRepository.findOptionByMarketId(marketId);
+        List<OptionResponse> optionResponses = menuCategoryRepository.findOptionByMarketId(marketId);
 
         //OptionResponse(List -> Map)
         Map<Long, List<OptionResponse>> optionMapByOptionCategoryId = optionResponses.stream()

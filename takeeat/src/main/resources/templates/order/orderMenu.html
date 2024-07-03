@@ -233,12 +233,12 @@
     </div>
 
     <div id="bottomBtnContainer">
-        <div id="cartBtn" onclick="location.href='/order/cart'"><strong>장바구니</strong></div>
+        <div id="cartBtn" onclick="location.href='/cart'"><strong>장바구니</strong></div>
         <div id="orderBtn"><strong>주문하기</strong></div>
     </div>
 
     <th:block th:each="menuId : ${marketMenuResponse.menuIds}">
-        <div class="modal" th:id="'optionChoiceModal' + ${menuId}" tabindex="-1">
+        <div class="modal" th:id="'optionChoiceModal' + ${menuId}" tabindex="-1" th:data-market-id="${marketMenuResponse.marketResponse.marketId}" th:data-menu-id="${menuId}">
             <div class="modal-dialog modal-dialog-scrollable">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -263,8 +263,8 @@
                             </div>
                             <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).SINGLE)}">
                                 <div class="checkContainer" th:each="option, iterStat : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
-                                    <input type="radio" th:if="${iterStat.index == 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}" checked>
-                                    <input type="radio" th:if="${iterStat.index != 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}">
+                                    <input type="radio" th:if="${iterStat.index == 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-option-id="${option.optionId}" th:data-price="${option.optionPrice}" checked>
+                                    <input type="radio" th:if="${iterStat.index != 0}" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-option-id="${option.optionId}" th:data-price="${option.optionPrice}">
                                     <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
                                         <div class="optionName" th:text="${option.optionName}">옵션이름</div>
                                         <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
@@ -274,7 +274,7 @@
                             </th:block>
                             <th:block th:if="${optionCategory.optionSelect.equals(T(com.back.takeeat.domain.option.OptionSelect).MULTI)}">
                                 <div class="checkContainer" th:each="option : ${marketMenuResponse.getOptionResponses(optionCategory.optionCategoryId)}">
-                                    <input type="checkbox" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-price="${option.optionPrice}" th:data-max-count="${optionCategory.optionMaxCount}">
+                                    <input type="checkbox" th:id="'option' + ${option.optionId}" th:name="'option' + ${optionCategory.optionCategoryId}" th:data-option-id="${option.optionId}" th:data-price="${option.optionPrice}" th:data-max-count="${optionCategory.optionMaxCount}">
                                     <label th:for="'option' + ${option.optionId}" class="optionNameContainer">
                                         <div class="optionName" th:text="${option.optionName}">옵션이름</div>
                                         <div class="optionPrice" th:if="${option.optionPrice == 0}" th:text="추가비용없음">옵션가격</div>
@@ -300,7 +300,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">장바구니에 추가</button>
+                        <button type="button" class="btn" style="background: #eeeeee;" onclick="addToCart(this)">장바구니에 추가</button>
                         <button type="button" class="btn" style="background: #ffb36f;">주문하기</button>
                     </div>
                 </div>
@@ -309,6 +309,6 @@
     </th:block>
 </div>
 
-<script src="/js/order/orderMenuScript.js"></script>
+<script src="/js/order/orderMenu.js"></script>
 </body>
 </html>

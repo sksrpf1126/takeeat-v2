@@ -123,4 +123,40 @@ $(document).ready(function() {
 
         $(modal).find('.totalPrice strong').text(totalPrice.toLocaleString() + '원');
     }
+
+    //=== 장바구니 추가 ===
+    window.addToCart = function(button) {
+        var modal = $(button).closest('.modal');
+
+        var marketId = modal.data('market-id');
+        var menuId = modal.data('menu-id');
+        var optionIds = [];
+        modal.find('input[type="checkbox"]:checked, input[type="radio"]:checked').each(function() {
+            optionIds.push($(this).data('option-id'));
+        });
+        var quantity = parseInt(modal.find('input[name="quantity"]').val());
+        var totalPrice = parseInt(modal.find('.totalPrice strong').text().replace('원', '').replace(/,/g, ''));
+
+        var cartData = {
+            marketId: marketId,
+            menuId: menuId,
+            optionIds: optionIds,
+            quantity: quantity,
+            totalPrice: totalPrice
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/addToCart',
+            contentType: 'application/json',
+            data: JSON.stringify(cartData),
+            success: function(response) {
+                alert('장바구니에 메뉴를 추가했습니다.');
+                modal.modal('hide');
+            },
+            error: function(xhr, status, error) {
+                alert('장바구니에 추가하는 중 오류가 발생했습니다.');
+            }
+        });
+    };
 });

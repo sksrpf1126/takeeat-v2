@@ -22,16 +22,18 @@ public class NotificationService {
     private final MemberRepository memberRepository;
     private final MarketRepository marketRepository;
     private final NotificationRepository notificationRepository;
+    private final MarketOrderService marketOrderService;
 
     @Transactional
-    public ReceiveMessageResponse registerNotification(Long userId, MarketMessageRequest messageRequest) {
-        Member findMember = memberRepository.findById(userId)
+    public ReceiveMessageResponse registerNotification(Long memberId, MarketMessageRequest messageRequest) {
+        Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         Market findMarket = marketRepository.findById(messageRequest.getMarketId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
 
         Notification notification = makeNotificationWithOrder(findMember, findMarket, messageRequest.getSelectOrderStatus());
+        marketOrderService.updateOrderStatus(memberId, messageRequest.getOrderId(), messageRequest.getCurrentOrderStatus(), messageRequest.getSelectOrderStatus());
 
         return ReceiveMessageResponse.of(notificationRepository.save(notification));
     }
@@ -71,7 +73,7 @@ public class NotificationService {
                 break;
         }
 
-        return Notification.builder().title(title).contents(message).build();
+        return Notification.builder().member(receiverMember).title(title).contents(message).build();
     }
 
 }

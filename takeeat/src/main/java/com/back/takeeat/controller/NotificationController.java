@@ -24,12 +24,12 @@ public class NotificationController {
         return "notification/notificationMember";
     }
 
-    @MessageMapping("/send-member/{userId}")
-    @SendTo("/topic/notification-member/{userId}")
-    public ReceiveMessageResponse memberNotification(@DestinationVariable("userId") Long userId, @RequestBody MarketMessageRequest messageRequest) {
-        log.info("Market({marketId}) send a message to the member({userId})", messageRequest.getMarketId(), userId);
+    @MessageMapping("/send-member/{memberId}")
+    @SendTo("/topic/notification-member/{memberId}")
+    public ReceiveMessageResponse memberNotification(@DestinationVariable("memberId") Long memberId, @RequestBody MarketMessageRequest messageRequest) {
+        log.info("Market({marketId}) send a message to the member({memberId})", messageRequest.getMarketId(), memberId);
 
-        return notificationService.registerNotification(userId, messageRequest);
+        return notificationService.registerNotification(memberId, messageRequest);
     }
 
     @MessageMapping("/send-market/{marketId}")

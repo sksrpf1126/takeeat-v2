@@ -1,4 +1,4 @@
-package com.back.takeeat.dto.notification;
+package com.back.takeeat.dto.notification.request;
 
 import com.back.takeeat.domain.order.OrderStatus;
 import lombok.AccessLevel;

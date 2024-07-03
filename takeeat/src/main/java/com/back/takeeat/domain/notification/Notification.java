@@ -3,6 +3,7 @@ package com.back.takeeat.domain.notification;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -21,9 +22,11 @@ public class Notification {
     @Column(name = "notification_id")
     private Long id;
 
+    private String title;
+
     private String contents;
 
-    private String watched;
+    private Boolean watched;
 
     @CreatedDate
     private LocalDateTime createdTime;
@@ -31,5 +34,12 @@ public class Notification {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Notification(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
+        this.watched = false;
+    }
 
 }

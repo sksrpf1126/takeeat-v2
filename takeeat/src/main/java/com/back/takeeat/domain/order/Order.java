@@ -41,4 +41,8 @@ public class Order extends BaseTimeEntity {
     @OneToMany(mappedBy = "order")
     private List<OrderMenu> orderMenus;
 
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
 }

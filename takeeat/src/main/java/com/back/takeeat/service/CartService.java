@@ -3,18 +3,20 @@ package com.back.takeeat.service;
 import com.back.takeeat.common.exception.OtherMarketMenuException;
 import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.cart.CartMenu;
-import com.back.takeeat.domain.cart.CartOption;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.dto.cart.request.AddToCartRequest;
 import com.back.takeeat.dto.cart.response.CartListResponse;
+import com.back.takeeat.dto.cart.response.CartMenuResponse;
+import com.back.takeeat.dto.cart.response.CartOptionResponse;
 import com.back.takeeat.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,9 +32,23 @@ public class CartService {
     @Transactional(readOnly = true)
     public CartListResponse getList(Long memberId) {
 
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberIdWithMenu(memberId);
 
-        return null;
+        List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
+        for (CartMenu cartMenu : cart.getCartMenus()) {
+            cartMenuResponses.add(CartMenuResponse.create(cartMenu.getId(), cartMenu.getCartQuantity(),
+                    cartMenu.getCartPrice(), cartMenu.getMenu().getMenuName()));
+        }
+
+        List<CartOptionResponse> cartOptionResponses = cartMenuRepository.findByCartIdWithOption(cart.getId());
+
+        Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId = cartOptionResponses.stream()
+                .collect(Collectors.groupingBy(CartOptionResponse::getCartMenuId));
+        Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
+                .collect(Collectors.groupingBy(CartOptionResponse::getOptionCategoryId));;
+
+        return CartListResponse.create(cart.getMarket().getMarketName(), cartMenuResponses,
+                cartOptionMapByCartMenuId, cartOptionMapByOptionCategoryId);
     }
 
     @Transactional

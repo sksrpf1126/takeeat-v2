@@ -32,4 +32,7 @@ public class CartMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
+    @OneToMany(mappedBy = "cartMenu")
+    private List<CartOption> cartOptions;
+
 }

@@ -7,6 +7,7 @@ import com.back.takeeat.service.CartService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,11 +24,12 @@ public class CartController {
     private final CartService cartService;
 
     @GetMapping("/cart")
-    public String cart() {
+    public String cart(Model model) {
         Long memberId = 1L; //(임시)로그인 회원
 
         CartListResponse cartListResponse = cartService.getList(memberId);
 
+        model.addAttribute("cartListResponse", cartListResponse);
         return "order/cart";
     }
 

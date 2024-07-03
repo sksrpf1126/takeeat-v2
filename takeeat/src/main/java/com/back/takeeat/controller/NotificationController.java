@@ -1,6 +1,9 @@
 package com.back.takeeat.controller;
 
-import com.back.takeeat.dto.notification.MarketMessageRequest;
+import com.back.takeeat.dto.notification.request.MarketMessageRequest;
+import com.back.takeeat.dto.notification.response.ReceiveMessageResponse;
+import com.back.takeeat.service.NotificationService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -11,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class NotificationController {
+
+    private final NotificationService notificationService;
 
     @GetMapping("/notification/member")
     public String notificationMember() {
@@ -20,9 +26,10 @@ public class NotificationController {
 
     @MessageMapping("/send-member/{userId}")
     @SendTo("/topic/notification-member/{userId}")
-    public String memberNotification(@DestinationVariable("userId") Long userId, @RequestBody MarketMessageRequest messageRequest) {
+    public ReceiveMessageResponse memberNotification(@DestinationVariable("userId") Long userId, @RequestBody MarketMessageRequest messageRequest) {
         log.info("Market({marketId}) send a message to the member({userId})", messageRequest.getMarketId(), userId);
-        return "hello User!";
+
+        return notificationService.registerNotification(userId, messageRequest);
     }
 
     @MessageMapping("/send-market/{marketId}")

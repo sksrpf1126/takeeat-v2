@@ -147,3 +147,34 @@ $(document).ready(function() {
         });
     });
 });
+
+// 전화번호, 사업자번호 창 입력시 에러 해제
+document.addEventListener('DOMContentLoaded', function () {
+    var businessNumberInput = document.getElementById('businessNumber');
+    var businessNumberError = document.getElementById('businessNumberError');
+    var marketNumberInput = document.getElementById('marketNumber');
+    var marketNumberError = document.getElementById('marketNumberError');
+
+    function validateInput(input, errorElement) {
+        if (input.value.trim() === '') {
+            errorElement.style.display = 'block';
+        } else {
+            errorElement.style.display = 'none';
+        }
+    }
+
+    businessNumberInput.addEventListener('input', function () {
+        validateInput(businessNumberInput, businessNumberError);
+    });
+
+    marketNumberInput.addEventListener('input', function () {
+        validateInput(marketNumberInput, marketNumberError);
+    });
+
+});
+
+// 전화번호 입력시 숫자만 입력하도록 제한
+function validatePhoneNumber(event) {
+    const input = event.target;
+    input.value = input.value.replace(/[^0-9]/g, ''); // 숫자만 남기기
+}

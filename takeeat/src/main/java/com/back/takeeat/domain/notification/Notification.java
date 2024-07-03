@@ -36,7 +36,8 @@ public class Notification {
     private Member member;
 
     @Builder
-    public Notification(String title, String contents) {
+    public Notification(Member member, String title, String contents) {
+        this.member = member;
         this.title = title;
         this.contents = contents;
         this.watched = false;

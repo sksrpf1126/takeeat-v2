@@ -1,7 +1,10 @@
 package com.back.takeeat.controller;
 
 
+import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
+import com.back.takeeat.dto.market.request.MarketMenuCategoryRequest;
+import com.back.takeeat.dto.market.request.MarketMenuRequest;
 import com.back.takeeat.service.MarketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,12 +34,12 @@ public class MarketController {
     }
 
 
-    @PostMapping("/save")
-    public String registerMarket(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, BindingResult result) {
+    @PostMapping("/info/save")
+    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, BindingResult result) {
         if (result.hasErrors()) {
             return "/market/marketInfo";
         }
-        marketService.register(marketInfoRequest.marketInfoRequest());
+        marketService.marketInfoRegister(marketInfoRequest.marketInfoRequest());
         return "redirect:/market/menu";
     }
 
@@ -45,8 +52,19 @@ public class MarketController {
     }
 
     @GetMapping("/menu")
-    public String marketMenu() {
+    public String marketMenu(@ModelAttribute("menuCategory")MarketMenuCategoryRequest marketMenuCategoryRequest
+                            ,@ModelAttribute("menu")MarketMenuRequest marketMenuRequest
+                            ,Model model) {
+        model.addAttribute("menuCategory", marketMenuCategoryRequest);
+        model.addAttribute("menu", marketMenuRequest);
         return "/market/marketMenu";
+    }
+    @GetMapping("/menu/save")
+    public String saveMenu(@ModelAttribute("menuCategory")MarketMenuCategoryRequest marketMenuCategoryRequest
+            ,@ModelAttribute("menu")MarketMenuRequest marketMenuRequest) {
+        List<MarketMenuCategoryRequest> requests = Arrays.asList((MarketMenuCategoryRequest) marketMenuCategoryRequest.getMenuCategories());
+        System.out.println(requests);
+        return "redirect:/market/marketMenu";
     }
     @GetMapping("/option")
     public String marketOption() {

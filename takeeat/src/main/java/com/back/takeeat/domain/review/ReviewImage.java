@@ -1,8 +1,13 @@
 package com.back.takeeat.domain.review;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
+@Builder
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewImage {
 
     @Id

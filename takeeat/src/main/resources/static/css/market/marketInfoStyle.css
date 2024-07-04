@@ -230,6 +230,22 @@ input[id="menuicon"]:checked + label + div {
     border: solid 2px #A4A4A4;
     font-size: 14px;
 }
+.s-input-box {
+    width: 30%;
+    height: 30px;
+    border-radius: 2px;
+    border: solid 2px #D8D8D8;
+    font-size: 14px;
+    margin-right:5px;
+}
+.s-input-box:hover {
+    width: 30%;
+    height: 30px;
+    border-radius: 2px;
+    border: solid 2px #A4A4A4;
+    font-size: 14px;
+    margin-right:5px;
+}
 /*드롭다운*/
 .dropdown {
     position: relative;
@@ -314,6 +330,14 @@ input[id="menuicon"]:checked + label + div {
     padding-left: 15px;
     padding-right: 10px;
 }
+.time-box:hover {
+    width: 120px;
+    height: 30px;
+    border: solid 2px #A4A4A4;
+    border-radius: 2px;
+    padding-left: 15px;
+    padding-right: 10px;
+}
 /*제출, 취소 버튼*/
 .form-button-submit {
     margin-top: 30px;
@@ -343,3 +367,23 @@ input[id="menuicon"]:checked + label + div {
    margin-left: 15px;
    font-size: 13px;
  }
+.field-error {
+    color : #dc3545;
+    font-size: 14px;
+}
+.field-error-border {
+    border-color : #dc3545;
+}
+.valid-feedback {
+    font-size: 14px;
+    color : #0040FF;
+}
+.invalid-feedback {
+    font-size: 14px;
+    color : #dc3545;
+}
+div .essential:before {
+    color: red;
+    font-size: 20px;
+    content:"*";
+}

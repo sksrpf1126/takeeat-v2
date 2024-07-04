@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -24,4 +26,6 @@ public class MenuCategory {
     @JoinColumn(name = "market_id")
     private Market market;
 
+    @OneToMany(mappedBy = "menuCategory")
+    private List<Menu> menus;
 }

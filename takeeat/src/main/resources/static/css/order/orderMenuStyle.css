@@ -258,22 +258,59 @@ hr {
     margin-left: 10px;
 }
 
+.ownerWriterContainer {
+    margin-top: 10px;
+}
+
 .oneReviewRatingContainer {
     display: flex;
     align-items: end;
     margin-left: 10px;
 }
 
-.reviewImageContainer {
+.reviewImageContainer01 {
     width: 100%;
     height: 300px;
     overflow: hidden;
 }
 
-.reviewImage {
+.reviewImageContainer02 {
+    width: 100%;
+    height: 450px;
+    overflow: hidden;
+}
+
+.reviewImageContainer03-1 {
+    display: block;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.reviewImageContainer03-2 {
+    display: none;
+}
+
+.reviewImage01, .reviewImage03-0, .reviewImage03-1, .reviewImage03-2 {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+.reviewImage02-0, .reviewImage02-1 {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+}
+
+.reviewImage02-0 {
+    margin-bottom: 5px;
+}
+
+.reviewImage02-1 {
+    margin-top: 5px;
 }
 
 .reviewContent {
@@ -492,5 +529,66 @@ input[type=number]::-webkit-outer-spin-button {
 
     #marketNumberContainer {
         display: block;
+    }
+
+    .reviewImageContainer02 {
+        height: 300px;
+        display: flex;
+    }
+
+    .reviewImageContainer03-1 {
+        display: none;
+    }
+
+    .reviewImageContainer03-2 {
+        width: 100%;
+        height: 400px;
+        display: flex;
+    }
+
+    .reviewImageContainer03-3 {
+        width: 50%;
+        height: 100%;
+        margin-right: 5px;
+    }
+
+    .reviewImageContainer03-4 {
+        width: 50%;
+        height: 100%;
+        margin-left: 5px;
+    }
+
+    .reviewImage02-0 {
+        width: 50%;
+        height: 100%;
+        padding-right: 5px;
+        margin-bottom: 0px;
+    }
+
+    .reviewImage02-1 {
+        width: 50%;
+        height: 100%;
+        padding-left: 5px;
+        margin-top: 0px;
+    }
+
+    .reviewImage03-3 {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .reviewImage03-4, .reviewImage03-5 {
+        width: 100%;
+        height: 50%;
+        object-fit: cover;
+    }
+
+    .reviewImage03-4 {
+        padding-bottom: 5px;
+    }
+
+    .reviewImage03-5 {
+        padding-top: 5px;
     }
 }

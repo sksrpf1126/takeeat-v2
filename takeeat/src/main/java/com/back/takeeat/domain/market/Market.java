@@ -7,8 +7,8 @@ import lombok.*;
 @Entity
 @Builder
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Market {
 
     @Id
@@ -52,4 +52,5 @@ public class Market {
 
     private String closedDays;
 
+    
 }

@@ -33,4 +33,8 @@ public class Cart {
     @OneToMany(mappedBy = "cart")
     private List<CartMenu> cartMenus;
 
+    public void addFirstMenu(Market market) {
+        this.market = market;
+    }
+
 }

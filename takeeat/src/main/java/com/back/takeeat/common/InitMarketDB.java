@@ -60,7 +60,7 @@ public class InitMarketDB {
             MenuCategory menuCategory01 = createMenuCategory(market1, "오리지널 청년피자");
             em.persist(menuCategory01);
 
-            Menu menu01_01 = createMenu(menuCategory01, "바삭한허니비", "바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화", 100, 18900);
+            Menu menu01_01 = createMenu(menuCategory01, "바삭한허니비", "바삭한 벌집감자와 달콤한 꿀, 멜팅치즈소스가 만들어낸 단짠단짠 조화", 18900);
             em.persist(menu01_01);
 
             OptionCategory optionCategory01_01_01 = createOptionCategory(menu01_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
@@ -79,7 +79,7 @@ public class InitMarketDB {
             Option option01_01_02_03 = createOption(optionCategory01_01_02, "옥수수 추가", 1000);
             em.persist(option01_01_02_03);
 
-            Menu menu01_02 = createMenu(menuCategory01, "[인기]할라불고기", "할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자", 100, 19900);
+            Menu menu01_02 = createMenu(menuCategory01, "[인기]할라불고기", "할라피뇨 불고기피자의 원조, 매콤한 할라피뇨와 달짝지근 불고기 위에 뿌려진 매콤달콤한 소스가 일품인 피자", 19900);
             em.persist(menu01_02);
 
             OptionCategory optionCategory01_02_01 = createOptionCategory(menu01_02, "크러스트 추가", OptionSelect.SINGLE, 1);
@@ -103,7 +103,7 @@ public class InitMarketDB {
             MenuCategory menuCategory02 = createMenuCategory(market1, "프리미엄 청년피자");
             em.persist(menuCategory02);
 
-            Menu menu02_01 = createMenu(menuCategory02, "[신메뉴]메가모짜 치즈디쉬", "치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.", 100, 23900);
+            Menu menu02_01 = createMenu(menuCategory02, "[신메뉴]메가모짜 치즈디쉬", "치즈가 2배! 위아래 엣지까지 치즈로 덮힌 메가급 치즈디쉬 시리즈, 불향 가득한 필리스테이크의 풍미와 메가 치즈의 조합! 한 입에 느껴지는 풍부한 풍미를 느껴보세요.", 23900);
             em.persist(menu02_01);
 
             OptionCategory optionCategory02_01_01 = createOptionCategory(menu02_01, "피자 사이즈 선택", OptionSelect.SINGLE, 1);
@@ -201,12 +201,11 @@ public class InitMarketDB {
                     .build();
         }
 
-        private Menu createMenu(MenuCategory menuCategory, String menuName, String menuIntroduction, int menuMaxCount, int menuPrice) {
+        private Menu createMenu(MenuCategory menuCategory, String menuName, String menuIntroduction, int menuPrice) {
             return Menu.builder()
                     .menuCategory(menuCategory)
                     .menuName(menuName)
                     .menuIntroduction(menuIntroduction)
-                    .menuMaxCount(menuMaxCount)
                     .menuImage("/images/pizza-sample.jpeg")
                     .menuPrice(menuPrice)
                     .build();

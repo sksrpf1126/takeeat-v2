@@ -10,6 +10,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" integrity="sha512-HK5fgLBL+xu6dm/Ii3z4xhlSUyZgTT9tuc/hSrtw6uzJOvgRr2a9jyxxT1ely+B+xFAmJKVSTbpM/CuL7qxO8w==" crossorigin="anonymous" />
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
@@ -24,52 +26,39 @@
         <div id="trashIconContainer" onclick="showDeleteModal()"><img src="/images/trash-icon.svg" id="trashIcon"/></div>
     </div>
 
-    <div id="marketName">피자알볼로 - 역삼직영점</div>
+    <div id="emptyCart" th:if="${cartListResponse.marketName == null}">장바구니가 텅 비었어요</div>
+    <div id="marketName" th:if="${cartListResponse.marketName != null}" th:text="${cartListResponse.marketName}">가게이름</div>
 
-    <div class="menuContainer">
+    <div class="menuContainer" th:each="cartMenu : ${cartListResponse.cartMenuResponses}">
         <div class="menuNameContainer">
-            <div class="menuName"><strong>마르게리타</strong></div>
-            <div><img class="deleteIcon" src="/images/delete-icon.svg"/></div>
+            <div class="menuName"><strong>[[${cartMenu.menuName}]]</strong></div>
+            <div><img class="deleteIcon" src="/images/delete-icon.svg" th:data-cartMenu-id="${cartMenu.cartMenuId}"/></div>
         </div>
-        <div class="option">마르게리타 엣지선택 : 오리지널</div>
-        <div class="option">추가토핑 : 치즈듬뿍모짜렐라치즈(100g), 버섯</div>
-
+        <div class="option" th:each="cartOption : ${cartListResponse.cartOptionMapByCartMenuId.get(cartMenu.cartMenuId)}">
+            [[${cartOption.optionCategoryName}]] :
+            <th:block th:each="cartOptionInfo, iterStat : ${cartListResponse.cartOptionMapByOptionCategoryId.get(cartOption.optionCategoryId)}">
+                <th:block th:if="${iterStat.index == 0}">[[${cartOptionInfo.optionName}]]</th:block>
+                <th:block th:if="${iterStat.index != 0}">,&nbsp;[[${cartOptionInfo.optionName}]]</th:block>
+            </th:block>
+        </div>
         <div class="numberPriceContainer">
             <div class="number-input">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                <input class="quantity" min="0" name="quantity" value="1" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
+                <button onclick="stepDownAndUpdate(this)" class="minus"></button>
+                <input class="quantity" min="1" name="quantity" th:value="${cartMenu.cartQuantity}" type="number" th:data-menu-id="${cartMenu.cartMenuId}" readonly>
+                <button onclick="stepUpAndUpdate(this)" class="plus"></button>
             </div>
-            <div class="menuPrice"><strong>26,000원</strong></div>
-        </div>
-    </div>
-    <div class="menuContainer">
-        <div class="menuNameContainer">
-            <div class="menuName"><strong>코카콜라 스파게티 콤보</strong></div>
-            <div><img class="deleteIcon" src="/images/delete-icon.svg"/></div>
-        </div>
-        <div class="option">피자 선택 L : 불고기피자</div>
-        <div class="option">엣지 선택 L : 치즈크러스트(L)</div>
-        <div class="option">스파게티 선택 : 로제치즈오븐스파게티</div>
-        <div class="option">코카콜라 선택 : 코카-콜라 1.25L</div>
-
-        <div class="numberPriceContainer">
-            <div class="number-input">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepDown()" class="minus"></button>
-                <input class="quantity" min="0" name="quantity" value="1" type="number">
-                <button onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></button>
-            </div>
-            <div class="menuPrice"><strong>35,000원</strong></div>
+            <div class="menuPrice" th:data-menu-price="${cartMenu.cartPrice}" th:data-menu-total-price="${cartMenu.cartPrice * cartMenu.cartQuantity}"><strong>[[${#numbers.formatInteger(cartMenu.cartPrice * cartMenu.cartQuantity, 3, 'COMMA') + '원'}]]</strong></div>
         </div>
     </div>
 
-    <div id="totalPriceContainer">
+    <div id="totalPriceContainer" th:if="${cartListResponse.marketName != null}">
         <div id="totalPriceTitle"><strong>총 주문금액</strong></div>
-        <div id="totalPrice"><strong>61,000원</strong></div>
+        <div id="totalPrice"><strong></strong></div>
     </div>
 
     <div id="bottomBtnContainer">
-        <div id="addMenuBtn"><strong>메뉴추가</strong></div>
+        <div class="addMenuBtn" th:if="${cartListResponse.marketName == null}" th:onclick="#"><strong>메뉴추가</strong></div>
+        <div class="addMenuBtn" th:if="${cartListResponse.marketName != null}" th:onclick="|/${cartListResponse.marketId}/menu|"><strong>메뉴추가</strong></div>
         <div id="orderBtn"><strong>주문하기</strong></div>
     </div>
 

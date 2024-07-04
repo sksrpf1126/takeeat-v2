@@ -136,13 +136,14 @@ $(document).ready(function() {
         });
         var quantity = parseInt(modal.find('input[name="quantity"]').val());
         var totalPrice = parseInt(modal.find('.totalPrice strong').text().replace('원', '').replace(/,/g, ''));
+        var cartMenuPrice = totalPrice / quantity;
 
         var cartData = {
             marketId: marketId,
             menuId: menuId,
             optionIds: optionIds,
             quantity: quantity,
-            totalPrice: totalPrice
+            cartMenuPrice: cartMenuPrice
         };
 
         $.ajax({

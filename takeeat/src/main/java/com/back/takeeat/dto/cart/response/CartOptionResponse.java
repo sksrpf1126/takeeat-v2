@@ -13,6 +13,6 @@ public class CartOptionResponse {
     String optionCategoryName;
 
     Long optionId;
-    String optionNames;
+    String optionName;
 
 }

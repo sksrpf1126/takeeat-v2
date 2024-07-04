@@ -20,7 +20,7 @@ public class AddToCartRequest {
 
     Long menuId;
     int cartQuantity;
-    int cartPrice;
+    int cartMenuPrice;
 
     List<Long> optionIds;
 
@@ -35,7 +35,7 @@ public class AddToCartRequest {
     public CartMenu toCartMenu(Cart cart, Menu menu) {
         return CartMenu.builder()
                 .cartQuantity(cartQuantity)
-                .cartPrice(cartPrice)
+                .cartMenuPrice(cartMenuPrice)
                 .cart(cart)
                 .menu(menu)
                 .build();

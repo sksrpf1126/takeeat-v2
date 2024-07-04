@@ -37,18 +37,34 @@ public class CartService {
         List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
         for (CartMenu cartMenu : cart.getCartMenus()) {
             cartMenuResponses.add(CartMenuResponse.create(cartMenu.getId(), cartMenu.getCartQuantity(),
-                    cartMenu.getCartPrice(), cartMenu.getMenu().getMenuName()));
+                    cartMenu.getCartMenuPrice(), cartMenu.getMenu().getMenuName()));
         }
 
         List<CartOptionResponse> cartOptionResponses = cartMenuRepository.findByCartIdWithOption(cart.getId());
 
-        Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId = cartOptionResponses.stream()
-                .collect(Collectors.groupingBy(CartOptionResponse::getCartMenuId));
+        Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId = new HashMap<>();
+        for (CartOptionResponse cartOption : cartOptionResponses) {
+            if (!cartOptionMapByCartMenuId.containsKey(cartOption.getCartMenuId())) {
+                cartOptionMapByCartMenuId.put(cartOption.getCartMenuId(), new ArrayList<>(List.of(cartOption)));
+            } else {
+                int flag = 0;
+                for (CartOptionResponse cartOptionForIdCheck : cartOptionMapByCartMenuId.get(cartOption.getCartMenuId())) {
+                    if (cartOption.getOptionCategoryId().equals(cartOptionForIdCheck.getOptionCategoryId())) {
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag == 0) {
+                    cartOptionMapByCartMenuId.get(cartOption.getCartMenuId()).add(cartOption);
+                }
+            }
+        }
+
         Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
                 .collect(Collectors.groupingBy(CartOptionResponse::getOptionCategoryId));;
 
-        return CartListResponse.create(cart.getMarket().getMarketName(), cartMenuResponses,
-                cartOptionMapByCartMenuId, cartOptionMapByOptionCategoryId);
+        return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
+                cartMenuResponses, cartOptionMapByCartMenuId, cartOptionMapByOptionCategoryId);
     }
 
     @Transactional
@@ -65,8 +81,7 @@ public class CartService {
 
         //장바구니에 첫 번째 메뉴를 담았다면 가게 정보 저장
         if (cart.getMarket() == null) {
-            cart = addToCartRequest.toCart(cart, market);
-            cartRepository.save(cart);
+            cart.addFirstMenu(market);
         }
 
         //메뉴 저장
@@ -82,5 +97,14 @@ public class CartService {
             cartOptionRepository.save(addToCartRequest.toCartOption(cartMenu, option));
         }
 
+    }
+
+    @Transactional
+    public void updateQuantity(Long cartMenuId, int quantity) {
+
+        CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
+                .orElseThrow(NoSuchElementException::new);
+
+        cartMenu.updateQuantity(quantity);
     }
 }

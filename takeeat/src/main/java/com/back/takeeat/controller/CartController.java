@@ -46,16 +46,27 @@ public class CartController {
             }
         }
         int quantity = (int)cartData.get("quantity");
-        int totalPrice = (int)cartData.get("totalPrice");
+        int cartMenuPrice = (int)cartData.get("cartMenuPrice");
 
         Long memberId = 1L; //(임시)로그인 회원
 
         try {
-            cartService.add(new AddToCartRequest(memberId, marketId, menuId, quantity, totalPrice, optionIds));
+            cartService.add(new AddToCartRequest(memberId, marketId, menuId, quantity, cartMenuPrice, optionIds));
         } catch (OtherMarketMenuException e) {
             //다른 가게 메뉴가 장바구니에 이미 담겨있는 경우
         }
 
         return ResponseEntity.ok("장바구니 추가 성공");
+    }
+
+    @ResponseBody
+    @PostMapping("/updateQuantity")
+    public ResponseEntity<String> updateQuantity(@RequestBody Map<String, Object> cartData) {
+        Long cartMenuId = ((Integer)cartData.get("cartMenuId")).longValue();
+        int quantity = (int)cartData.get("quantity");
+
+        cartService.updateQuantity(cartMenuId, quantity);
+
+        return ResponseEntity.ok("수량 업데이트 성공");
     }
 }

@@ -22,7 +22,7 @@ public class CartMenu {
 
     private int cartQuantity;
 
-    private int cartPrice;
+    private int cartMenuPrice;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cart_id")
@@ -34,5 +34,9 @@ public class CartMenu {
 
     @OneToMany(mappedBy = "cartMenu")
     private List<CartOption> cartOptions;
+
+    public void updateQuantity(int newQuantity) {
+        this.cartQuantity = newQuantity;
+    }
 
 }

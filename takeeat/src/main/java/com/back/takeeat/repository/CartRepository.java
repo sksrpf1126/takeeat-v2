@@ -11,10 +11,10 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
 
     @Query(
             "SELECT c " +
-                    "FROM Cart c INNER JOIN FETCH c.market m " +
-                    "INNER JOIN FETCH c.cartMenus cm " +
-                    "INNER JOIN FETCH cm.menu mu " +
-                    "WHERE c.id = :memberId"
+            "FROM Cart c OUTER JOIN FETCH c.market m " +
+            "OUTER JOIN FETCH c.cartMenus cm " +
+            "OUTER JOIN FETCH cm.menu mu " +
+            "WHERE c.id = :memberId"
     )
     Cart findByMemberIdWithMenu(@Param("memberId") Long memberId);
 }

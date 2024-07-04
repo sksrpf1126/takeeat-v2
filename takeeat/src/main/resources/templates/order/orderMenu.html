@@ -286,10 +286,10 @@
                         </th:block>
 
                         <div class="quantityContainer">
-                            <div class="quantity"><strong>수량</strong>&nbsp;(최대 주문 가능 수량: [[${marketMenuResponse.getMenuResponse(menuId).menuMaxCount}]])</div>
+                            <div class="quantity"><strong>수량</strong></div>
                             <div class="number-input">
                                 <button onclick="stepDownAndUpdate(this)" class="minus"></button>
-                                <input class="quantity" min="1" th:max="${marketMenuResponse.getMenuResponse(menuId).menuMaxCount}" name="quantity" value="1" type="number" readonly>
+                                <input class="quantity" min="1" name="quantity" value="1" type="number" readonly>
                                 <button onclick="stepUpAndUpdate(this)" class="plus"></button>
                             </div>
                         </div>

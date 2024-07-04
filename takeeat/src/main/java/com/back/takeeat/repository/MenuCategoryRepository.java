@@ -14,7 +14,7 @@ public interface MenuCategoryRepository extends JpaRepository<MenuCategory, Long
 
     @Query(
             "SELECT new com.back.takeeat.dto.marketMenu.response.MenuResponse(mc.id, mc.menuCategoryName, " +
-                    "m.id, m.menuName, m.menuIntroduction, m.menuMaxCount, m.menuImage, m.menuPrice) " +
+                    "m.id, m.menuName, m.menuIntroduction, m.menuImage, m.menuPrice) " +
                     "FROM MenuCategory mc " +
                     "INNER JOIN mc.menus m " +
                     "WHERE mc.market.id = :marketId"

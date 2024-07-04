@@ -45,6 +45,14 @@
     border: 1px solid lightgray;
 }
 
+#emptyCart {
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px;
+    border: 1px solid lightgray;
+    text-align: center;
+}
+
 .menuContainer {
     margin-left: 10px;
     margin-right: 10px;
@@ -134,7 +142,7 @@ input[type=number]::-webkit-outer-spin-button {
     border-collapse: collapse;
 }
 
-#addMenuBtn {
+.addMenuBtn {
     background: white;
 }
 
@@ -142,7 +150,7 @@ input[type=number]::-webkit-outer-spin-button {
     background: #ffb36f;
 }
 
-#addMenuBtn, #orderBtn {
+.addMenuBtn, #orderBtn {
     border: 1px solid lightgray;
     height: 50px;
     width: 50%;
@@ -152,7 +160,7 @@ input[type=number]::-webkit-outer-spin-button {
     display: table-cell;
 }
 
-#addMenuBtn:hover, #orderBtn:hover {
+.addMenuBtn:hover, #orderBtn:hover {
     cursor: pointer;
 }
 

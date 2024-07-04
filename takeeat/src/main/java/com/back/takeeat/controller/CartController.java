@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -72,11 +73,24 @@ public class CartController {
 
     @ResponseBody
     @PostMapping("/deleteCartMenu")
-    public ResponseEntity<String> deleteCartMenu(@RequestBody Map<String, Object> cartData) {
+    public ResponseEntity<Map<String, Object>> deleteCartMenu(@RequestBody Map<String, Object> cartData) {
         Long cartMenuId = ((Integer)cartData.get("cartMenuId")).longValue();
 
-        cartService.deleteCartMenu(cartMenuId);
+        int cartSize = cartService.deleteCartMenu(cartMenuId);
 
-        return ResponseEntity.ok("장바구니 메뉴 삭제 성공");
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "장바구니 메뉴 삭제 성공");
+        response.put("cartSize", cartSize);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/deleteAllCartMenu")
+    public String deleteAllCartMenu() {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        cartService.deleteAllCartMenu(memberId);
+
+        return "redirect:/cart";
     }
 }

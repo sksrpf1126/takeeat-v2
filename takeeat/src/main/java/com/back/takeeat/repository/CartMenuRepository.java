@@ -18,4 +18,6 @@ public interface CartMenuRepository extends JpaRepository<CartMenu, Long> {
             "WHERE cm.cart.id = :cartId"
     )
     List<CartOptionResponse> findByCartIdWithOption(@Param("cartId") Long cartId);
+
+    void deleteByCartId(@Param("cartId") Long id);
 }

@@ -61,19 +61,21 @@ $(document).ready(function() {
 
     $('.deleteIcon').on('click', function() {
         var cartMenuId = $(this).data('menu-id');
-
-        $(this).closest('.menuContainer').remove();
+        var menuContainer = $(this).closest('.menuContainer');
 
         $.ajax({
             url: '/deleteCartMenu',
             type: 'POST',
             contentType: 'application/json',
-            data: JSON.stringify({ cartMenuId: cartMenuId }),
+            data: JSON.stringify({
+                cartMenuId: cartMenuId
+            }),
             success: function(response) {
-                updateTotalPrice();
-
-                if ($('.menuContainer').length === 0) {
+                if (response.cartSize == 0) {
                     location.reload();
+                } else {
+                    menuContainer.remove();
+                    updateTotalPrice();
                 }
             },
             error: function(xhr, status, error) {

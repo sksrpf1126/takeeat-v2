@@ -11,6 +11,7 @@ import com.back.takeeat.dto.cart.response.CartListResponse;
 import com.back.takeeat.dto.cart.response.CartMenuResponse;
 import com.back.takeeat.dto.cart.response.CartOptionResponse;
 import com.back.takeeat.repository.*;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,10 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class CartService {
+
+    private final EntityManager em;
 
     private final MarketRepository marketRepository;
     private final MenuRepository menuRepository;
@@ -33,6 +37,9 @@ public class CartService {
     public CartListResponse getList(Long memberId) {
 
         Cart cart = cartRepository.findByMemberIdWithMenu(memberId);
+        if (cart == null) {
+            throw new NoSuchElementException();
+        }
 
         List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
         for (CartMenu cartMenu : cart.getCartMenus()) {
@@ -67,7 +74,6 @@ public class CartService {
                 cartMenuResponses, cartOptionMapByCartMenuId, cartOptionMapByOptionCategoryId);
     }
 
-    @Transactional
     public void add(AddToCartRequest addToCartRequest) throws OtherMarketMenuException {
 
         Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId());
@@ -99,7 +105,6 @@ public class CartService {
 
     }
 
-    @Transactional
     public void updateQuantity(Long cartMenuId, int quantity) {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
@@ -108,21 +113,33 @@ public class CartService {
         cartMenu.updateQuantity(quantity);
     }
 
-    @Transactional
-    public void deleteCartMenu(Long cartMenuId) {
+    public int deleteCartMenu(Long cartMenuId) {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
                 .orElseThrow(NoSuchElementException::new);
 
         cartMenuRepository.delete(cartMenu);
 
+        em.flush();
+
         //더 이상 menu가 없다면 cart 초기화
         Cart cart = cartRepository.findById(cartMenu.getCart().getId())
                 .orElseThrow(NoSuchElementException::new);
 
         if (cart.getCartMenus().isEmpty()) {
-            System.out.println("호출");
             cart.deleteLastMenu();
+            return 0;
         }
+
+        return cart.getCartMenus().size();
+    }
+
+    public void deleteAllCartMenu(Long memberId) {
+
+        Cart cart = cartRepository.findByMemberId(memberId);
+
+        cartMenuRepository.deleteByCartId(cart.getId());
+
+        cart.deleteLastMenu();
     }
 }

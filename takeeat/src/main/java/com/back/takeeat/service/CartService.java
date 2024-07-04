@@ -107,4 +107,22 @@ public class CartService {
 
         cartMenu.updateQuantity(quantity);
     }
+
+    @Transactional
+    public void deleteCartMenu(Long cartMenuId) {
+
+        CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
+                .orElseThrow(NoSuchElementException::new);
+
+        cartMenuRepository.delete(cartMenu);
+
+        //더 이상 menu가 없다면 cart 초기화
+        Cart cart = cartRepository.findById(cartMenu.getCart().getId())
+                .orElseThrow(NoSuchElementException::new);
+
+        if (cart.getCartMenus().isEmpty()) {
+            System.out.println("호출");
+            cart.deleteLastMenu();
+        }
+    }
 }

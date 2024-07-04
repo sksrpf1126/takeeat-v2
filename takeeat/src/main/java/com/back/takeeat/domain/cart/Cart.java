@@ -37,4 +37,8 @@ public class Cart {
         this.market = market;
     }
 
+    public void deleteLastMenu() {
+        this.market = null;
+    }
+
 }

@@ -58,4 +58,27 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('.deleteIcon').on('click', function() {
+        var cartMenuId = $(this).data('menu-id');
+
+        $(this).closest('.menuContainer').remove();
+
+        $.ajax({
+            url: '/deleteCartMenu',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({ cartMenuId: cartMenuId }),
+            success: function(response) {
+                updateTotalPrice();
+
+                if ($('.menuContainer').length === 0) {
+                    location.reload();
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('장바구니 메뉴 삭제 중 오류가 발생했습니다.')
+            }
+        });
+    });
 });

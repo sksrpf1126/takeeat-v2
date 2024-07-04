@@ -69,4 +69,14 @@ public class CartController {
 
         return ResponseEntity.ok("수량 업데이트 성공");
     }
+
+    @ResponseBody
+    @PostMapping("/deleteCartMenu")
+    public ResponseEntity<String> deleteCartMenu(@RequestBody Map<String, Object> cartData) {
+        Long cartMenuId = ((Integer)cartData.get("cartMenuId")).longValue();
+
+        cartService.deleteCartMenu(cartMenuId);
+
+        return ResponseEntity.ok("장바구니 메뉴 삭제 성공");
+    }
 }

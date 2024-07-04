@@ -4,6 +4,7 @@ import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.dto.marketorder.request.MarketOrderSearchRequest;
 import com.back.takeeat.dto.marketorder.response.DetailMarketOrderResponse;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
+import com.back.takeeat.dto.marketorder.response.optioncategory.DetailMarketOrderResponseV2;
 import com.back.takeeat.service.MarketOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,15 @@ public class MarketOrderController {
         log.info("orderId : {}", orderId);
 
         return marketOrderService.findDetailMarketOrder(orderId);
+    }
+
+    @GetMapping("/order/option/{orderId}")
+    @ResponseBody
+    public DetailMarketOrderResponseV2 getOrderDetailWithOptionCategory(@PathVariable("orderId") Long orderId) {
+        // TODO : 가게 주문 처리 페이지에서 옵션 카테고리가 필요없을 경우 제거할 것
+        log.info("orderId : {}", orderId);
+
+        return marketOrderService.findDetailMarketOrderWithOption(orderId);
     }
 
 }

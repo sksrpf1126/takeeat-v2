@@ -23,8 +23,6 @@ public class Menu {
     @Column(length = 1000)
     private String menuIntroduction;
 
-    private int menuMaxCount;
-
     private String menuImage;
 
     private int menuPrice;

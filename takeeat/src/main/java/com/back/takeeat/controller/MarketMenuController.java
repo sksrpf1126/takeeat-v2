@@ -8,11 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-public class OrderController {
+public class MarketMenuController {
 
     private final MarketMenuService marketMenuService;
 
@@ -26,10 +25,5 @@ public class OrderController {
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         model.addAttribute("marketMenuResponse", marketMenuResponse);
         return "order/orderMenu";
-    }
-
-    @GetMapping("/cart")
-    public String cart() {
-        return "order/cart";
     }
 }

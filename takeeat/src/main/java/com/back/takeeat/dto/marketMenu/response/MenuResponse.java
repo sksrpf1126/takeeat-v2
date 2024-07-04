@@ -17,7 +17,6 @@ public class MenuResponse {
     Long menuId;
     String menuName;
     String menuIntroduction;
-    int menuMaxCount;
     String menuImage;
     int menuPrice;
 }

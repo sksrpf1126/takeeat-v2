@@ -17,17 +17,17 @@ document.addEventListener('click', function(e) {
                     <div class="line-container margin-top-20">
                         <div class="length-container">
                             <div class="s-info-text">메뉴를 입력하세요.</div>
-                            <input type="text" id="marketMenu-${menuCount}" name="marketMenu" class="m-input-box margin-top-10"/>
+                            <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="m-input-box margin-top-10"/>
                         </div>
                         <div class="length-container margin-left-10">
                             <div class="s-info-text">가격</div>
-                            <input type="number" id="menuPrice-${menuCount}" name="menuPrice" class="s-input-box margin-top-10"/>
+                            <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" class="s-input-box margin-top-10"/>
                         </div>
                     </div>
                     <div class="line-container margin-top-20">
                         <div class="length-container">
                             <div class="s-info-text">메뉴를 설명해주세요.</div>
-                            <input type="text" id="menuIntro-${menuCount}" name="menuIntro" class="m-input-box margin-top-10"/>
+                            <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="m-input-box margin-top-10"/>
                         </div>
                         <div class="length-container margin-left-10">
                             <div class="line-container">
@@ -38,7 +38,7 @@ document.addEventListener('click', function(e) {
                                     </div>
                                 </div>
                             </div>
-                            <input type="number" id="maxCount-${menuCount}" name="maxCount" class="s-input-box margin-top-10"/>
+                            <input type="number" id="maxCount-${menuCount}" th:field="*{maxCount}" name="maxCount" class="s-input-box margin-top-10"/>
                         </div>
                     </div>
                     <div class="s-info-text margin-top-10">메뉴 사진 등록</div>
@@ -46,7 +46,7 @@ document.addEventListener('click', function(e) {
                     <div class="line-container">
                         <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview-${menuCount}"/>
                         <label class="input-file-button" for="input-file-${menuCount}">이미지 업로드</label>
-                        <input type="file" id="input-file-${menuCount}" class="file-style" onchange="previewImage(event, ${menuCount})" style="display:none">
+                        <input type="file" id="input-file-${menuCount}" th:field="*{menuImage}" name="menuImage" class="file-style" onchange="previewImage(event, ${menuCount})" style="display:none">
                     </div>
                     <hr class="hr-margin"/>
 
@@ -69,7 +69,7 @@ document.addEventListener('click', function(e) {
                         <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
                         <div class="length-container margin-top-20">
                             <div class="info-text">메뉴 카테고리를 입력하세요.</div>
-                            <input type="text" id="menuCategory-${categoryCount}" name="menuCategory" class="l-input-box margin-top-10"/>
+                            <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" name="menuCategory" class="l-input-box margin-top-10"/>
                         </div>
                         <div class="menu-container">
 

@@ -1,0 +1,45 @@
+package com.back.takeeat.dto.market.request;
+
+import com.back.takeeat.domain.menu.Menu;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+
+@Getter
+@Builder
+@AllArgsConstructor
+public class MarketMenuRequest {
+
+    @NotBlank(message = "메뉴명은 필수입니다.")
+    private String menuName;
+
+    private String menuIntroduction;
+
+    @NotBlank(message = "최대 주문 가능 수량은 필수입니다.")
+    private int menuMaxCount;
+
+    private String menuImage;
+
+    @NotBlank(message = "가격은 필수입니다.")
+    private int menuPrice;
+
+    public MarketMenuRequest marketMenuRequest() {
+        return MarketMenuRequest.builder()
+                .menuName(menuName)
+                .menuIntroduction(menuIntroduction)
+                .menuMaxCount(menuMaxCount)
+                .menuImage(menuImage)
+                .menuPrice(menuPrice)
+                .build();
+    }
+
+    public Menu toMenu() {
+        return Menu.builder()
+                .menuName(menuName)
+                .menuIntroduction(menuIntroduction)
+                .menuImage(menuImage)
+                .menuPrice(menuPrice)
+                .build();
+    }
+}

@@ -52,14 +52,10 @@ public class MarketController {
     }
 
     @GetMapping("/menu")
-    public String marketMenu(@ModelAttribute("menuCategory")MarketMenuCategoryRequest marketMenuCategoryRequest
-                            ,@ModelAttribute("menu")MarketMenuRequest marketMenuRequest
-                            ,Model model) {
-        model.addAttribute("menuCategory", marketMenuCategoryRequest);
-        model.addAttribute("menu", marketMenuRequest);
+    public String marketMenu() {
         return "/market/marketMenu";
     }
-    @GetMapping("/menu/save")
+    @PostMapping("/menu/save")
     public String saveMenu(@ModelAttribute("menuCategory")MarketMenuCategoryRequest marketMenuCategoryRequest
             ,@ModelAttribute("menu")MarketMenuRequest marketMenuRequest) {
         List<MarketMenuCategoryRequest> requests = Arrays.asList((MarketMenuCategoryRequest) marketMenuCategoryRequest.getMenuCategories());

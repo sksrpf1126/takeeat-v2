@@ -15,9 +15,6 @@ public class MarketMenuResponse {
 
     private String menuIntroduction;
 
-    @NotBlank(message = "최대 주문 가능 수량은 필수입니다.")
-    private int menuMaxCount;
-
     private String menuImage;
 
     @NotBlank(message = "가격은 필수입니다.")
@@ -27,7 +24,6 @@ public class MarketMenuResponse {
         return MarketMenuRequest.builder()
                 .menuName(menuName)
                 .menuIntroduction(menuIntroduction)
-                .menuMaxCount(menuMaxCount)
                 .menuImage(menuImage)
                 .menuPrice(menuPrice)
                 .build();

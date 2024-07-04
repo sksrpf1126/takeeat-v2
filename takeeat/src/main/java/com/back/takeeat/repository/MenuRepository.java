@@ -41,4 +41,5 @@ public interface MenuRepository extends JpaRepository<MenuCategory, Long> {
                     "WHERE mc.market.id = :marketId"
     )
     List<OptionResponse> findOptionByMarketId(@Param("marketId") Long marketId);
+
 }

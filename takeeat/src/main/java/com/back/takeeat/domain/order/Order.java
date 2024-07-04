@@ -5,13 +5,18 @@ import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.payment.Payment;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "orders")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends BaseTimeEntity {
 
     @Id
@@ -38,7 +43,28 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
-    @OneToMany(mappedBy = "order")
-    private List<OrderMenu> orderMenus;
+    @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST})
+    private List<OrderMenu> orderMenus = new ArrayList<>();
+
+    @Builder
+    public Order(Member member, Market market, String requirement, int totalPrice) {
+        this.member = member;
+        this.market = market;
+        this.requirement = requirement;
+        this.totalPrice = totalPrice;
+        this.orderStatus = OrderStatus.WAIT;
+    }
+
+    public void updateOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public void deleteOrderMenu(OrderMenu orderMenu) {
+        this.orderMenus.remove(orderMenu);
+    }
+
+    public void addOrderMenu(OrderMenu orderMenu) {
+        this.orderMenus.add(orderMenu);
+    }
 
 }

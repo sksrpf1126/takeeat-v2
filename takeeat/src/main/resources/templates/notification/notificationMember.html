@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+    <th:block th:replace="/notification/notificationHeader :: headerLayout"></th:block>
 </head>
 <style>
     .bell-section {
@@ -71,6 +71,7 @@
     }
 </style>
 <body>
+<th:block th:replace="/notification/notificationHeader :: userdata"></th:block>
     <div class="bell-section">
         <div class="bell-icon" id="bell-icon">
             <i id="user-notification" class="fa-regular fa-bell"></i>
@@ -105,8 +106,44 @@
     </div>
     <button onclick="showNotification()">Show Notification</button>
     <button onclick="hideNotification()">Hide Notification</button>
+    <button id="payment-complete">payment ok!!</button>
 
     <script>
+        $('#payment-complete').on('click', function() {
+            console.log("user payment-ok click!!", stompClient);
+            paymentNotification();
+
+        });
+
+        function paymentNotification() {
+            const marketId = $("#market-marketId").val();
+            console.log("user-userId : ", marketId);
+
+
+            if(!!stompClient) {
+                const testOrderRequest = {
+                    memberId: 1,
+                    requirement: "특별 요청사항을 여기에 입력하세요",
+                    totalPrice: 10000,  // 총 가격을 적절히 설정
+                    orderMenuRequests: [
+                        {
+                            menuId: 1,
+                            orderQuantity: 2,
+                            optionIds: [1, 4, 5]  // 옵션 ID를 적절히 설정
+                        },
+                        {
+                            menuId: 2,
+                            orderQuantity: 1,
+                            optionIds: [2, 5]  // 옵션 ID를 적절히 설정
+                        }
+                    ]
+                };
+
+                stompClient.send("/app/send-market/" + marketId, {}, JSON.stringify(testOrderRequest));
+            }
+
+        }
+
         function showNotification() {
             document.getElementById('bell-icon').classList.add('has-notification');
         }

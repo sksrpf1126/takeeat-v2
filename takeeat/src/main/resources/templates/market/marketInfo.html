@@ -96,12 +96,12 @@
 
                     <div class="info-text essential">사업자번호</div>
                     <input type="text" id="businessNumber" th:field="*{businessNumber}" th:errorclass="field-error-border" name="businessNumber" class="l-input-box margin-top-10" value="123-456-789" />
-                    <div class="field-error" th:errors="*{marketNumber}"></div>
+                    <div class="field-error" id="businessNumberError" th:errors="*{marketNumber}"></div>
                     <hr class="hr-margin"/>
 
                     <div class="info-text essential">전화번호</div>
                     <input type="text" id="marketNumber" th:field="*{marketNumber}" th:errorclass="field-error-border" name="marketNumber" class="l-input-box margin-top-10" placeholder="  '-' 없이 입력하세요."/>
-                    <div class="field-error" th:errors="*{marketNumber}"></div>
+                    <div class="field-error" id="marketNumberError" th:errors="*{marketNumber}" maxlength="11"></div>
                     <hr class="hr-margin"/>
 
                     <div class="info-text essential">가게 카테고리</div>

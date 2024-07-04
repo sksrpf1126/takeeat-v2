@@ -14,8 +14,10 @@ $(document).ready(function() {
 
     window.stepDownAndUpdate = function(button) {
         var input = button.parentNode.querySelector('input[type=number]');
-        input.stepDown();
-        $(input).trigger('change');
+        if (parseInt(input.value) > parseInt(input.min)) {
+            input.stepDown();
+            $(input).trigger('change');
+        }
     }
 
     //=== totalPrice 계산 ===
@@ -32,6 +34,7 @@ $(document).ready(function() {
 
     updateTotalPrice();
 
+    //=== 메뉴 수량 변경 ===
     $('.quantity').on('change', function() {
         const cartMenuId = $(this).data('menu-id');
         const quantity = parseInt($(this).val());
@@ -59,6 +62,7 @@ $(document).ready(function() {
         });
     });
 
+    //=== 메뉴 삭제 ===
     $('.deleteIcon').on('click', function() {
         var cartMenuId = $(this).data('menu-id');
         var menuContainer = $(this).closest('.menuContainer');

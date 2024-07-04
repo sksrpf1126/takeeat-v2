@@ -3,13 +3,18 @@ package com.back.takeeat.service;
 import com.back.takeeat.common.exception.AuthException;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
+import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.order.Order;
+import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.dto.marketorder.request.MarketOrderSearchRequest;
 import com.back.takeeat.dto.marketorder.response.DetailMarketOrderResponse;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.marketorder.response.OrdersCountResponse;
+import com.back.takeeat.dto.marketorder.response.optioncategory.DetailMarketOrderResponseV2;
+import com.back.takeeat.dto.marketorder.response.optioncategory.MarketOrderMenuResponseV2;
 import com.back.takeeat.repository.MarketOrderRepository;
+import com.back.takeeat.repository.OrderOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +28,7 @@ import java.util.stream.Collectors;
 public class MarketOrderService {
 
     private final MarketOrderRepository marketOrderRepository;
+    private final OrderOptionRepository orderOptionRepository;
 
     @Transactional(readOnly = true)
     public Map<OrderStatus, Long> findMarketOrderStatus(Long marketId) {
@@ -50,6 +56,24 @@ public class MarketOrderService {
                                         .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
 
         return DetailMarketOrderResponse.of(findOrderWithMenus);
+    }
+
+    @Transactional(readOnly = true)
+    public DetailMarketOrderResponseV2 findDetailMarketOrderWithOption(Long orderId) {
+        Order findOrderWithMenus = marketOrderRepository.findWithOrderMenus(orderId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
+
+        List<MarketOrderMenuResponseV2> marketOrderMenuResponseTwos = findOrderWithMenus.getOrderMenus().stream()
+                .map(this::makeMarketOrderMenuWithCategory)
+                .collect(Collectors.toList());
+
+        return DetailMarketOrderResponseV2.of(findOrderWithMenus, marketOrderMenuResponseTwos);
+    }
+
+    private MarketOrderMenuResponseV2 makeMarketOrderMenuWithCategory(OrderMenu orderMenu) {
+        List<OptionCategory> optionCategories = orderOptionRepository.findOrderOptionTest(orderMenu.getId());
+
+        return MarketOrderMenuResponseV2.of(orderMenu, optionCategories);
     }
 
     @Transactional

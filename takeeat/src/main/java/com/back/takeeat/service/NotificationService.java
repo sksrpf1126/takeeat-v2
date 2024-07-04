@@ -32,7 +32,7 @@ public class NotificationService {
     private final MarketRepository marketRepository;
     private final NotificationRepository notificationRepository;
     private final OptionRepository optionRepository;
-    private final MenuRepository menuRepository;
+    private final MenuRealRepository menuRepository;
     private final MarketOrderService marketOrderService;
 
     @Transactional

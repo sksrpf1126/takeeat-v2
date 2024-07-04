@@ -36,7 +36,7 @@
             <div class="menuName"><strong>[[${cartMenu.menuName}]]</strong></div>
             <div><img class="deleteIcon" src="/images/delete-icon.svg" th:data-menu-id="${cartMenu.cartMenuId}"/></div>
         </div>
-        <div class="option" th:each="cartOption : ${cartListResponse.cartOptionMapByCartMenuId.get(cartMenu.cartMenuId)}">
+        <div class="option" th:each="cartOption : ${cartListResponse.optionCategoryByCartMenu.get(cartMenu.cartMenuId)}">
             [[${cartOption.optionCategoryName}]] :
             <th:block th:each="cartOptionInfo, iterStat : ${cartListResponse.cartOptionMapByOptionCategoryId.get(cartOption.optionCategoryId)}">
                 <th:block th:if="${iterStat.index == 0}">[[${cartOptionInfo.optionName}]]</th:block>

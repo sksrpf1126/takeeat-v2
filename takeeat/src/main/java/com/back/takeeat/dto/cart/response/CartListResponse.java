@@ -15,17 +15,17 @@ public class CartListResponse {
 
     List<CartMenuResponse> cartMenuResponses;
 
-    Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId;
+    Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu;
     Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId;
 
     public static CartListResponse create(Long marketId, String marketName, List<CartMenuResponse> cartMenuResponses,
-                                          Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId,
+                                          Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu,
                                           Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId) {
         return CartListResponse.builder()
                 .marketId(marketId)
                 .marketName(marketName)
                 .cartMenuResponses(cartMenuResponses)
-                .cartOptionMapByCartMenuId(cartOptionMapByCartMenuId)
+                .optionCategoryByCartMenu(optionCategoryByCartMenu)
                 .cartOptionMapByOptionCategoryId(cartOptionMapByOptionCategoryId)
                 .build();
     }

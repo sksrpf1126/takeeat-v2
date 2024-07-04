@@ -9,6 +9,7 @@ import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.dto.cart.request.AddToCartRequest;
 import com.back.takeeat.dto.cart.response.CartListResponse;
 import com.back.takeeat.dto.cart.response.CartMenuResponse;
+import com.back.takeeat.dto.cart.response.CartOptionCategoryResponse;
 import com.back.takeeat.dto.cart.response.CartOptionResponse;
 import com.back.takeeat.repository.*;
 import jakarta.persistence.EntityManager;
@@ -41,37 +42,25 @@ public class CartService {
             throw new NoSuchElementException();
         }
 
+        //장바구니에 담긴 메뉴 관련 정보
         List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
         for (CartMenu cartMenu : cart.getCartMenus()) {
             cartMenuResponses.add(CartMenuResponse.create(cartMenu.getId(), cartMenu.getCartQuantity(),
                     cartMenu.getCartMenuPrice(), cartMenu.getMenu().getMenuName()));
         }
 
+        //장바구니에 담긴 메뉴별 OptionCategory
+        List<CartOptionCategoryResponse> cartOptionCategoryResponses = cartMenuRepository.findByCartIdWithOptionCategory(cart.getId());
+        Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu = cartOptionCategoryResponses.stream()
+                .collect(Collectors.groupingBy(CartOptionCategoryResponse::getCartMenuId));
+
+        //OptionCategory별 선택된 Option 이름
         List<CartOptionResponse> cartOptionResponses = cartMenuRepository.findByCartIdWithOption(cart.getId());
-
-        Map<Long, List<CartOptionResponse>> cartOptionMapByCartMenuId = new HashMap<>();
-        for (CartOptionResponse cartOption : cartOptionResponses) {
-            if (!cartOptionMapByCartMenuId.containsKey(cartOption.getCartMenuId())) {
-                cartOptionMapByCartMenuId.put(cartOption.getCartMenuId(), new ArrayList<>(List.of(cartOption)));
-            } else {
-                int flag = 0;
-                for (CartOptionResponse cartOptionForIdCheck : cartOptionMapByCartMenuId.get(cartOption.getCartMenuId())) {
-                    if (cartOption.getOptionCategoryId().equals(cartOptionForIdCheck.getOptionCategoryId())) {
-                        flag = 1;
-                        break;
-                    }
-                }
-                if (flag == 0) {
-                    cartOptionMapByCartMenuId.get(cartOption.getCartMenuId()).add(cartOption);
-                }
-            }
-        }
-
         Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
-                .collect(Collectors.groupingBy(CartOptionResponse::getOptionCategoryId));;
+                .collect(Collectors.groupingBy(CartOptionResponse::getOptionCategoryId));
 
         return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
-                cartMenuResponses, cartOptionMapByCartMenuId, cartOptionMapByOptionCategoryId);
+                cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);
     }
 
     public void add(AddToCartRequest addToCartRequest) throws OtherMarketMenuException {

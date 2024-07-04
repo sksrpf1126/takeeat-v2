@@ -7,12 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class CartOptionResponse {
 
-    Long cartMenuId;
-
     Long optionCategoryId;
-    String optionCategoryName;
 
-    Long optionId;
     String optionName;
-
 }

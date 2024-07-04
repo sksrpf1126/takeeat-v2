@@ -116,10 +116,30 @@
         });
 
         function paymentNotification() {
-            const userId = $("#user-userId").val();
-            console.log("user-userId : ", userId);
+            const marketId = $("#market-marketId").val();
+            console.log("user-userId : ", marketId);
+
+
             if(!!stompClient) {
-                stompClient.send("/app/send-member/" + userId, {});
+                const testOrderRequest = {
+                    memberId: 1,
+                    requirement: "특별 요청사항을 여기에 입력하세요",
+                    totalPrice: 10000,  // 총 가격을 적절히 설정
+                    orderMenuRequests: [
+                        {
+                            menuId: 1,
+                            orderQuantity: 2,
+                            optionIds: [1, 4, 5]  // 옵션 ID를 적절히 설정
+                        },
+                        {
+                            menuId: 2,
+                            orderQuantity: 1,
+                            optionIds: [2, 5]  // 옵션 ID를 적절히 설정
+                        }
+                    ]
+                };
+
+                stompClient.send("/app/send-market/" + marketId, {}, JSON.stringify(testOrderRequest));
             }
 
         }

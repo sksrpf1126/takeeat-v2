@@ -15,7 +15,7 @@ function connect() {
 }
 
 function handleRejectClick(orderId, memberId, orderStatus) {
-    alert("거부 버튼 클릭");
+    alert("해당 주문을 거절하였습니다.");
     console.log("orderId : ", orderId, "   orderStatus : ", orderStatus);
 
     if(!!stompClient) {

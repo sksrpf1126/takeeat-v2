@@ -3,25 +3,36 @@ package com.back.takeeat.service;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
+import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.notification.Notification;
+import com.back.takeeat.domain.option.Option;
+import com.back.takeeat.domain.order.Order;
+import com.back.takeeat.domain.order.OrderMenu;
+import com.back.takeeat.domain.order.OrderOption;
 import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.notification.request.MarketMessageRequest;
+import com.back.takeeat.dto.notification.request.TestOrderMenuRequest;
+import com.back.takeeat.dto.notification.request.TestOrderRequest;
 import com.back.takeeat.dto.notification.response.ReceiveMessageResponse;
-import com.back.takeeat.repository.MarketRepository;
-import com.back.takeeat.repository.MemberRepository;
-import com.back.takeeat.repository.NotificationRepository;
+import com.back.takeeat.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class NotificationService {
 
     private final MemberRepository memberRepository;
+    private final MarketOrderRepository marketOrderRepository;
     private final MarketRepository marketRepository;
     private final NotificationRepository notificationRepository;
+    private final OptionRepository optionRepository;
+    private final MenuRepository menuRepository;
     private final MarketOrderService marketOrderService;
 
     @Transactional
@@ -36,6 +47,64 @@ public class NotificationService {
         marketOrderService.updateOrderStatus(memberId, messageRequest.getOrderId(), messageRequest.getCurrentOrderStatus(), messageRequest.getSelectOrderStatus());
 
         return ReceiveMessageResponse.of(notificationRepository.save(notification));
+    }
+
+    @Transactional
+    public void registerMarketOrder(Long marketId, TestOrderRequest orderRequest) {
+        Member findMember = memberRepository.findById(orderRequest.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        Market findMarket = marketRepository.findById(marketId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        List<OrderMenu> orderMenus = createOrderMenus(orderRequest.getOrderMenuRequests());
+
+        Order order = Order.builder()
+                        .member(findMember)
+                        .market(findMarket)
+                        .requirement(orderRequest.getRequirement())
+                        .totalPrice(orderRequest.getTotalPrice())
+                        .build();
+
+        orderMenus.forEach((orderMenu -> orderMenu.associateOrder(order)));
+        marketOrderRepository.save(order);
+    }
+
+    private List<OrderMenu> createOrderMenus(List<TestOrderMenuRequest> orderMenuRequests) {
+        return orderMenuRequests.stream()
+                .map(this::createOrderMenuWithOptions)
+                .collect(Collectors.toList());
+    }
+
+    private OrderMenu createOrderMenuWithOptions(TestOrderMenuRequest orderMenuRequest) {
+        Menu findMenu = menuRepository.findById(orderMenuRequest.getMenuId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
+
+        List<OrderOption> orderOptions = getOrderOptions(orderMenuRequest.getOptionIds());
+
+        OrderMenu orderMenu = OrderMenu.builder()
+                .menu(findMenu)
+                .orderQuantity(orderMenuRequest.getOrderQuantity())
+                .build();
+
+        orderOptions.forEach((orderOption -> orderOption.associateOrderMenu(orderMenu)));
+
+        return orderMenu;
+    }
+
+    /**
+     * @TODO OptionService가 만들어지면 optionRepository.findByIdIn을 통해 List<Option>을 반환하는 public 메서드 만들기
+     */
+    private List<OrderOption> getOrderOptions(List<Long> optionIds) {
+
+        List<Option> options = optionRepository.findByIdIn(optionIds);
+
+        return options.stream()
+                        .map((option) -> OrderOption.builder()
+                                            .option(option)
+                                            .build()
+                        )
+                        .collect(Collectors.toList());
     }
 
     private Notification makeNotificationWithOrder(Member receiverMember, Market senderMarket, OrderStatus requestStatus) {

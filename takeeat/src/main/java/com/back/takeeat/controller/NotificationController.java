@@ -1,6 +1,7 @@
 package com.back.takeeat.controller;
 
 import com.back.takeeat.dto.notification.request.MarketMessageRequest;
+import com.back.takeeat.dto.notification.request.TestOrderRequest;
 import com.back.takeeat.dto.notification.response.ReceiveMessageResponse;
 import com.back.takeeat.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,10 @@ public class NotificationController {
 
     @MessageMapping("/send-market/{marketId}")
     @SendTo("/topic/notification-market/{marketId}")
-    public String marketNotification() {
+    public String marketNotification(@DestinationVariable("marketId") Long marketId, @RequestBody TestOrderRequest orderRequest) {
+
+        notificationService.registerMarketOrder(marketId, orderRequest);
+
         return "hello market!";
     }
 

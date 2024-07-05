@@ -66,6 +66,7 @@ input[type="number"] {
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
+    border-radius: 0px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -126,8 +127,9 @@ input[type=number]::-webkit-outer-spin-button {
 
 .numberPriceContainer {
     display: flex;
-    align-items: end;
+    align-items: center;
     justify-content: space-between;
+    margin-top: 10px;
     margin-bottom: 5px;
 }
 

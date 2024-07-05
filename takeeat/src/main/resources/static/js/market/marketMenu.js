@@ -1,6 +1,70 @@
 let menuCount = 0; // 초기 메뉴 카운트
 let categoryCount = 0; // 초기 카테고리 카운트
 
+window.saveMenu = function() {
+    let categories = [];
+
+    // 모든 카테고리와 메뉴 정보 수집
+    document.querySelectorAll('.category-container').forEach(categoryContainer => {
+        let menus = [];
+        const menuCategoryName = categoryContainer.querySelector('.menu-category').value;
+
+        // 현재 카테고리의 메뉴들 수집
+        categoryContainer.querySelectorAll('.menu-item').forEach(menuItem => {
+            const menuName = menuItem.querySelector('.m-input-box').value;
+            const menuPrice = menuItem.querySelector('.s-input-box').value;
+            const menuIntroduction = menuItem.querySelector('.menu-introduction').value;
+            const menuImage = menuItem.querySelector('.file-style').files[0] ? menuItem.querySelector('.file-style').files[0].name : ""; // 이미지 파일 처리는 별도로 구현해야 함
+
+            let menuObject = {
+                menuName: menuName,
+                menuIntroduction: menuIntroduction,
+                menuImage: menuImage,
+                menuPrice: parseInt(menuPrice)
+            };
+
+            menus.push(menuObject);
+        });
+
+        // 현재 카테고리 정보를 categoryArray 에 추가
+        categories.push({
+            menuCategoryName: menuCategoryName,
+            menus: menus
+        });
+    });
+
+    // 전체 데이터를 하나의 객체로 준비
+    const data = {
+        categories: categories
+    };
+    // AJAX 요청
+        fetch('/market/menu/save', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            alert('메뉴 저장 완료');
+            console.log('Response data:', data);
+        })
+        .catch(error => {
+            alert('저장 실패');
+            console.error('Error:', error);
+        });
+    };
+
+
+
+
+
 document.addEventListener('click', function(e) {
     const target = e.target;
 
@@ -17,7 +81,7 @@ document.addEventListener('click', function(e) {
                     <div class="line-container margin-top-20">
                         <div class="length-container">
                             <div class="s-info-text">메뉴를 입력하세요.</div>
-                            <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="m-input-box margin-top-10"/>
+                            <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
                         </div>
                         <div class="length-container margin-left-10">
                             <div class="s-info-text">가격</div>
@@ -27,18 +91,7 @@ document.addEventListener('click', function(e) {
                     <div class="line-container margin-top-20">
                         <div class="length-container">
                             <div class="s-info-text">메뉴를 설명해주세요.</div>
-                            <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="m-input-box margin-top-10"/>
-                        </div>
-                        <div class="length-container margin-left-10">
-                            <div class="line-container">
-                                <div class="s-info-text">최대주문수</div>
-                                <div class="tip-container-center">
-                                    <div class="tip">
-                                        <p>주문 가능한 최대 수량을 제시해주세요.</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <input type="number" id="maxCount-${menuCount}" th:field="*{maxCount}" name="maxCount" class="s-input-box margin-top-10"/>
+                            <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction l-input-box margin-top-10"/>
                         </div>
                     </div>
                     <div class="s-info-text margin-top-10">메뉴 사진 등록</div>
@@ -69,7 +122,7 @@ document.addEventListener('click', function(e) {
                         <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
                         <div class="length-container margin-top-20">
                             <div class="info-text">메뉴 카테고리를 입력하세요.</div>
-                            <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" name="menuCategory" class="l-input-box margin-top-10"/>
+                            <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" name="menuCategory" class="menu-category l-input-box margin-top-10"/>
                         </div>
                         <div class="menu-container">
 

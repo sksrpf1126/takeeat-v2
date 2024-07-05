@@ -1,10 +1,8 @@
 package com.back.takeeat.controller;
 
 
-import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
-import com.back.takeeat.dto.market.request.MarketMenuCategoryRequest;
-import com.back.takeeat.dto.market.request.MarketMenuRequest;
+import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.service.MarketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -55,13 +49,22 @@ public class MarketController {
     public String marketMenu() {
         return "/market/marketMenu";
     }
+
     @PostMapping("/menu/save")
-    public String saveMenu(@ModelAttribute("menuCategory")MarketMenuCategoryRequest marketMenuCategoryRequest
-            ,@ModelAttribute("menu")MarketMenuRequest marketMenuRequest) {
-        List<MarketMenuCategoryRequest> requests = Arrays.asList((MarketMenuCategoryRequest) marketMenuCategoryRequest.getMenuCategories());
-        System.out.println(requests);
-        return "redirect:/market/marketMenu";
+    @ResponseBody
+    public ResponseEntity<String> saveMenuCategory(@RequestBody MenuRequest menuRequest) {
+        if (menuRequest == null || menuRequest.getCategories() == null) {
+            return ResponseEntity.badRequest().body("{\"message\": \"카테고리 또는 메뉴를 작성해주세요\"}");
+        }
+        try {
+            marketService.MenuCategoriesRegister(menuRequest);
+            return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패\"}");
+        }
     }
+
     @GetMapping("/option")
     public String marketOption() {
         return "/market/marketOption";

@@ -21,15 +21,6 @@ public class MarketMenuRequest {
     @NotBlank(message = "가격은 필수입니다.")
     private int menuPrice;
 
-    public MarketMenuRequest marketMenuRequest() {
-        return MarketMenuRequest.builder()
-                .menuName(menuName)
-                .menuIntroduction(menuIntroduction)
-                .menuImage(menuImage)
-                .menuPrice(menuPrice)
-                .build();
-    }
-
     public Menu toMenu() {
         return Menu.builder()
                 .menuName(menuName)

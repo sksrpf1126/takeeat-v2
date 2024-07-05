@@ -135,12 +135,10 @@ $(document).ready(function() {
     }
 
     var globalCartData = {}; //다른 가게 메뉴 담기 모달을 보여준 뒤 다시 장바구니 데이터를 저장하기 위한 전역 변수
-    var globalModal = null; //이후 modal을 hide하기 위한 전역 변수
 
     //=== 장바구니 추가 ===
     window.addToCart = function(button) {
         var modal = $(button).closest('.modal');
-        globalModal = modal;
 
         var marketId = modal.data('market-id');
         var menuId = modal.data('menu-id');
@@ -172,8 +170,9 @@ $(document).ready(function() {
             error: function(xhr, status, error) {
                 if (xhr.status == 409) {
                     globalCartData = cartData;
-                    const modal = new bootstrap.Modal(document.getElementById('confirmAddOtherMarketMenuModal'));
-                    modal.show();
+                    modal.modal('hide');
+                    const confirmModal = new bootstrap.Modal(document.getElementById('confirmAddOtherMarketMenuModal'));
+                    confirmModal.show();
                 } else {
                     alert('장바구니에 추가하는 중 오류가 발생했습니다.');
                 }
@@ -192,7 +191,6 @@ $(document).ready(function() {
                 const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmAddOtherMarketMenuModal'));
                 confirmModal.hide();
                 showNotification();
-                globalModal.modal('hide');
             },
             error: function(xhr, status, error) {
                 alert('장바구니에 추가하는 중 오류가 발생했습니다.');

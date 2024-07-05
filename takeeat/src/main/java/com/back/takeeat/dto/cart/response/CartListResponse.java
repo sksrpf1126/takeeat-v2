@@ -1,5 +1,6 @@
 package com.back.takeeat.dto.cart.response;
 
+import com.back.takeeat.dto.cart.CartMenuIdAndOptionCategoryId;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,11 +17,11 @@ public class CartListResponse {
     List<CartMenuResponse> cartMenuResponses;
 
     Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu;
-    Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId;
+    Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId;
 
     public static CartListResponse create(Long marketId, String marketName, List<CartMenuResponse> cartMenuResponses,
                                           Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu,
-                                          Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId) {
+                                          Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId) {
         return CartListResponse.builder()
                 .marketId(marketId)
                 .marketName(marketName)
@@ -28,5 +29,10 @@ public class CartListResponse {
                 .optionCategoryByCartMenu(optionCategoryByCartMenu)
                 .cartOptionMapByOptionCategoryId(cartOptionMapByOptionCategoryId)
                 .build();
+    }
+
+    public List<CartOptionResponse> getCartOptionInfo(Long cartMenuId, Long optionCategoryId) {
+        CartMenuIdAndOptionCategoryId cao = new CartMenuIdAndOptionCategoryId(cartMenuId, optionCategoryId);
+        return cartOptionMapByOptionCategoryId.get(cao);
     }
 }

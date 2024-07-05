@@ -7,6 +7,7 @@ import com.back.takeeat.domain.cart.CartOption;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.option.Option;
+import com.back.takeeat.dto.cart.CartMenuIdAndOptionCategoryId;
 import com.back.takeeat.dto.cart.request.AddToCartRequest;
 import com.back.takeeat.dto.cart.response.CartListResponse;
 import com.back.takeeat.dto.cart.response.CartMenuResponse;
@@ -55,10 +56,15 @@ public class CartService {
         Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu = cartOptionCategoryResponses.stream()
                 .collect(Collectors.groupingBy(CartOptionCategoryResponse::getCartMenuId));
 
-        //OptionCategory별 선택된 Option 이름
+        //(CartMenuId, OptionCategory)별 선택된 Option 이름
         List<CartOptionResponse> cartOptionResponses = cartMenuRepository.findByCartIdWithOption(cart.getId());
-        Map<Long, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
-                .collect(Collectors.groupingBy(CartOptionResponse::getOptionCategoryId));
+        Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
+                .collect(Collectors.groupingBy(cartOptionResponse ->
+                        new CartMenuIdAndOptionCategoryId(
+                                cartOptionResponse.getCartMenuId(),
+                                cartOptionResponse.getOptionCategoryId()
+                        )
+                ));
 
         return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
                 cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);

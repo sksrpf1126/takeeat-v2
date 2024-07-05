@@ -22,7 +22,7 @@ public interface CartMenuRepository extends JpaRepository<CartMenu, Long> {
     List<CartOptionCategoryResponse> findByCartIdWithOptionCategory(@Param("cartId") Long cartId);
 
     @Query(
-            "SELECT new com.back.takeeat.dto.cart.response.CartOptionResponse(oc.id, o.optionName) " +
+            "SELECT new com.back.takeeat.dto.cart.response.CartOptionResponse(cm.id, oc.id, o.optionName) " +
             "FROM CartMenu cm INNER JOIN cm.cartOptions co " +
             "INNER JOIN co.option o " +
             "INNER JOIN o.optionCategory oc " +

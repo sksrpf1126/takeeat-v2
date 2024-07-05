@@ -1,0 +1,106 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#titleContainer {
+    display: flex;
+    align-items : center;
+    margin: 10px;
+}
+
+#backIcon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#orderTitle {
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+hr {
+    margin: 0px;
+}
+
+#marketAddressContainer, #phoneNumberContainer, #toOwnerContainer {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+}
+
+#menuListContainer {
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 10px;
+}
+
+input[type="text"] {
+    width: 100%;
+    border-color: gray;
+    margin-top: 5px;
+    padding: 5px;
+}
+
+.mapBtn {
+    border: none;
+    border-radius: 15px;
+    padding: 1px 10px;
+    color: black;
+    font-size: 15px;
+}
+
+#orderMenuTitle {
+    margin-bottom: 5px;
+}
+
+.totalMenuPrice {
+    font-size: 20px;
+    text-align: end;
+}
+
+.nameAndPrice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.menuHr {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+#totalPriceContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+}
+
+#orderBtn {
+    border: 1px solid lightgray;
+    height: 50px;
+    display : flex;
+    justify-content : center;
+    align-items : center;
+    font-size: 20px;
+    background: #ffb36f;
+}
+
+#orderBtn:hover {
+    cursor: pointer;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+}

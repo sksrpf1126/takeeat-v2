@@ -3,6 +3,7 @@ package com.back.takeeat.service;
 import com.back.takeeat.common.exception.OtherMarketMenuException;
 import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.cart.CartMenu;
+import com.back.takeeat.domain.cart.CartOption;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.option.Option;
@@ -85,13 +86,36 @@ public class CartService {
         CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
 
         //옵션 저장
-        for (Long optionId : addToCartRequest.getOptionIds()) {
-            Option option = optionRepository.findById(optionId)
-                    .orElseThrow(NoSuchElementException::new);
+        List<Option> options = optionRepository.findAllById(addToCartRequest.getOptionIds());
+        List<CartOption> cartOptions = options.stream()
+                .map(option -> addToCartRequest.toCartOption(cartMenu, option))
+                .collect(Collectors.toList());
+        cartOptionRepository.saveAll(cartOptions);
 
-            cartOptionRepository.save(addToCartRequest.toCartOption(cartMenu, option));
-        }
+    }
 
+    public void deleteAndAdd(AddToCartRequest addToCartRequest) {
+
+        //기존 장바구니 삭제
+        Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId());
+        cartMenuRepository.deleteByCartId(cart.getId());
+
+        //가게 저장
+        Market market = marketRepository.findById(addToCartRequest.getMarketId())
+                .orElseThrow(NoSuchElementException::new);
+        cart.addFirstMenu(market);
+
+        //메뉴 저장
+        Menu menu = menuRepository.findById(addToCartRequest.getMenuId())
+                .orElseThrow(NoSuchElementException::new);
+        CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
+
+        //옵션 저장
+        List<Option> options = optionRepository.findAllById(addToCartRequest.getOptionIds());
+        List<CartOption> cartOptions = options.stream()
+                .map(option -> addToCartRequest.toCartOption(cartMenu, option))
+                .collect(Collectors.toList());
+        cartOptionRepository.saveAll(cartOptions);
     }
 
     public void updateQuantity(Long cartMenuId, int quantity) {

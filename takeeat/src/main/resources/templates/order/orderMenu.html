@@ -307,6 +307,29 @@
             </div>
         </div>
     </th:block>
+
+    <div class="modal" id="confirmAddOtherMarketMenuModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    장바구니에는 같은 가게의 메뉴만 담을 수 있습니다.<br/>
+                    선택하신 메뉴를 장바구니에 담을 경우 이전에 담은 메뉴가 삭제됩니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
+                    <button type="button" class="btn" style="background: #ffb36f;" onclick="deleteAndAddToCart()">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-container" id="notification-container">
+        <p id="notification-content">장바구니에 메뉴를 추가했습니다.</p>
+    </div>
 </div>
 
 <script src="/js/order/orderMenu.js"></script>

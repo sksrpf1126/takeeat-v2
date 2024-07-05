@@ -37,6 +37,7 @@ public class MarketMenuService {
 
         //MenuResponse(List -> Map)
         List<Long> menuCategoryIds = new ArrayList<>();
+        List<Long> menuIds = new ArrayList<>();
         Map<Long, MenuCategoryResponse> menuCategoryMapById = new HashMap<>();
         Map<Long, List<MenuResponse>> menuMapByMenuCategoryId = new HashMap<>();
         Map<Long, MenuResponse> menuMapById = new HashMap<>();
@@ -48,6 +49,7 @@ public class MarketMenuService {
             } else {
                 menuMapByMenuCategoryId.get(menu.getMenuCategoryId()).add(menu);
             }
+            menuIds.add(menu.getMenuId());
             menuMapById.put(menu.getMenuId(), menu);
         }
 
@@ -55,13 +57,7 @@ public class MarketMenuService {
         List<OptionCategoryResponse> optionCategoryResponses = menuCategoryRepository.findOptionCategoryByMarketId(marketId);
 
         //OptionCategoryResponse(List -> Map)
-        List<Long> menuIds = new ArrayList<>();
         Map<Long, List<OptionCategoryResponse>> optionCategoryMapByMenuId = optionCategoryResponses.stream()
-                .peek(optionCategory -> {
-                    if (!menuIds.contains(optionCategory.getMenuId())) {
-                        menuIds.add(optionCategory.getMenuId());
-                    }
-                })
                 .collect(Collectors.groupingBy(OptionCategoryResponse::getMenuId));
 
         //OptionResponse

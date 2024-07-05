@@ -5,11 +5,10 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class CartOptionResponse {
+public class CartOptionCategoryResponse {
 
     private Long cartMenuId;
 
     private Long optionCategoryId;
-
-    private String optionName;
+    private String optionCategoryName;
 }

@@ -64,6 +64,16 @@ function showOptionModal(menuId) {
     modal.show();
 }
 
+const notification = document.getElementById('notification-container')
+
+// Show notification
+const showNotification = () => {
+  notification.classList.add('show')
+  setTimeout(() => {
+    notification.classList.remove('show')
+  }, 2000)
+}
+
 $(document).ready(function() {
     //=== 옵션 선택 모달을 닫으면 모달 내의 데이터 초기화 ===
     $('.modal').on('hide.bs.modal', function() {
@@ -124,6 +134,8 @@ $(document).ready(function() {
         $(modal).find('.totalPrice strong').text(totalPrice.toLocaleString() + '원');
     }
 
+    var globalCartData = {}; //다른 가게 메뉴 담기 모달을 보여준 뒤 다시 장바구니 데이터를 저장하기 위한 전역 변수
+
     //=== 장바구니 추가 ===
     window.addToCart = function(button) {
         var modal = $(button).closest('.modal');
@@ -152,12 +164,37 @@ $(document).ready(function() {
             contentType: 'application/json',
             data: JSON.stringify(cartData),
             success: function(response) {
-                alert('장바구니에 메뉴를 추가했습니다.');
+                showNotification();
                 modal.modal('hide');
+            },
+            error: function(xhr, status, error) {
+                if (xhr.status == 409) {
+                    globalCartData = cartData;
+                    modal.modal('hide');
+                    const confirmModal = new bootstrap.Modal(document.getElementById('confirmAddOtherMarketMenuModal'));
+                    confirmModal.show();
+                } else {
+                    alert('장바구니에 추가하는 중 오류가 발생했습니다.');
+                }
+            }
+        });
+    };
+
+    //=== 장바구니에 다른 가게의 메뉴를 새로 담기 ===
+    window.deleteAndAddToCart = function() {
+        $.ajax({
+            type: 'POST',
+            url: '/deleteAndAddToCart',
+            contentType: 'application/json',
+            data: JSON.stringify(globalCartData),
+            success: function(response) {
+                const confirmModal = bootstrap.Modal.getInstance(document.getElementById('confirmAddOtherMarketMenuModal'));
+                confirmModal.hide();
+                showNotification();
             },
             error: function(xhr, status, error) {
                 alert('장바구니에 추가하는 중 오류가 발생했습니다.');
             }
         });
-    };
+    }
 });

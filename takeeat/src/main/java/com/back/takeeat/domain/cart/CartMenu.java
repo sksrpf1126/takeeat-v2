@@ -32,7 +32,7 @@ public class CartMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @OneToMany(mappedBy = "cartMenu")
+    @OneToMany(mappedBy = "cartMenu", cascade = CascadeType.REMOVE)
     private List<CartOption> cartOptions;
 
     public void updateQuantity(int newQuantity) {

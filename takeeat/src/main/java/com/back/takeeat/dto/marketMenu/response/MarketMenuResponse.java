@@ -47,24 +47,4 @@ public class MarketMenuResponse {
                 .ratingCountResponse(ratingCountResponse)
                 .build();
     }
-
-    public MenuCategoryResponse getMenuCategoryResponse(Long menuCategoryId) {
-        return menuCategoryMapById.get(menuCategoryId);
-    }
-
-    public List<MenuResponse> getMenuResponses(Long menuCategoryId) {
-        return menuMapByMenuCategoryId.get(menuCategoryId);
-    }
-
-    public MenuResponse getMenuResponse(Long menuId) {
-        return menuMapById.get(menuId);
-    }
-
-    public List<OptionCategoryResponse> getOptionCategoryResponses(Long menuId) {
-        return optionCategoryMapByMenuId.get(menuId);
-    }
-
-    public List<OptionResponse> getOptionResponses(Long optionCategoryId) {
-        return optionMapByOptionCategoryId.get(optionCategoryId);
-    }
 }

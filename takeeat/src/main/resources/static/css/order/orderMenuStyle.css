@@ -442,6 +442,7 @@ input[type="number"] {
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
     appearance: textfield;
+    border-radius: 0px;
 }
 
 input[type=number]::-webkit-inner-spin-button,
@@ -518,6 +519,28 @@ input[type=number]::-webkit-outer-spin-button {
 
 .optionMethod {
     font-size: 14px;
+}
+
+.notification-container {
+    background: black;
+    border-radius: 10px;
+    padding: 15px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    z-index: 2;
+}
+
+.notification-container.show {
+    display: block;
+}
+
+#notification-content {
+    margin: 0px;
+    color: white;
+    white-space: nowrap;
 }
 
 @media (min-width: 601px) {

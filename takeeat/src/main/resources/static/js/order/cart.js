@@ -14,8 +14,10 @@ $(document).ready(function() {
 
     window.stepDownAndUpdate = function(button) {
         var input = button.parentNode.querySelector('input[type=number]');
-        input.stepDown();
-        $(input).trigger('change');
+        if (parseInt(input.value) > parseInt(input.min)) {
+            input.stepDown();
+            $(input).trigger('change');
+        }
     }
 
     //=== totalPrice 계산 ===
@@ -32,6 +34,7 @@ $(document).ready(function() {
 
     updateTotalPrice();
 
+    //=== 메뉴 수량 변경 ===
     $('.quantity').on('change', function() {
         const cartMenuId = $(this).data('menu-id');
         const quantity = parseInt($(this).val());
@@ -55,6 +58,32 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 alert('메뉴 수량 변경 중 오류가 발생했습니다.')
+            }
+        });
+    });
+
+    //=== 메뉴 삭제 ===
+    $('.deleteIcon').on('click', function() {
+        var cartMenuId = $(this).data('menu-id');
+        var menuContainer = $(this).closest('.menuContainer');
+
+        $.ajax({
+            url: '/deleteCartMenu',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                cartMenuId: cartMenuId
+            }),
+            success: function(response) {
+                if (response.cartSize == 0) {
+                    location.reload();
+                } else {
+                    menuContainer.remove();
+                    updateTotalPrice();
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('장바구니 메뉴 삭제 중 오류가 발생했습니다.')
             }
         });
     });

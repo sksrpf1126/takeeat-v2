@@ -23,7 +23,9 @@
 <div id="contents">
     <div id="cartTitleContainer">
         <div id="cartTitle"><strong>장바구니</strong></div>
-        <div id="trashIconContainer" onclick="showDeleteModal()"><img src="/images/trash-icon.svg" id="trashIcon"/></div>
+        <div id="trashIconContainer" onclick="showDeleteModal()" th:if="${cartListResponse.marketName != null}">
+            <img src="/images/trash-icon.svg" id="trashIcon"/>
+        </div>
     </div>
 
     <div id="emptyCart" th:if="${cartListResponse.marketName == null}">장바구니가 텅 비었어요</div>
@@ -32,11 +34,11 @@
     <div class="menuContainer" th:each="cartMenu : ${cartListResponse.cartMenuResponses}">
         <div class="menuNameContainer">
             <div class="menuName"><strong>[[${cartMenu.menuName}]]</strong></div>
-            <div><img class="deleteIcon" src="/images/delete-icon.svg" th:data-cartMenu-id="${cartMenu.cartMenuId}"/></div>
+            <div><img class="deleteIcon" src="/images/delete-icon.svg" th:data-menu-id="${cartMenu.cartMenuId}"/></div>
         </div>
-        <div class="option" th:each="cartOption : ${cartListResponse.cartOptionMapByCartMenuId.get(cartMenu.cartMenuId)}">
+        <div class="option" th:each="cartOption : ${cartListResponse.optionCategoryByCartMenu.get(cartMenu.cartMenuId)}">
             [[${cartOption.optionCategoryName}]] :
-            <th:block th:each="cartOptionInfo, iterStat : ${cartListResponse.cartOptionMapByOptionCategoryId.get(cartOption.optionCategoryId)}">
+            <th:block th:each="cartOptionInfo, iterStat : ${cartListResponse.getCartOptionInfo(cartMenu.cartMenuId, cartOption.optionCategoryId)}">
                 <th:block th:if="${iterStat.index == 0}">[[${cartOptionInfo.optionName}]]</th:block>
                 <th:block th:if="${iterStat.index != 0}">,&nbsp;[[${cartOptionInfo.optionName}]]</th:block>
             </th:block>
@@ -74,7 +76,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
-                    <button type="button" class="btn" style="background: #ffb36f;">확인</button>
+                    <button type="button" class="btn" onclick="location.href='/deleteAllCartMenu'" style="background: #ffb36f;">확인</button>
                 </div>
             </div>
         </div>

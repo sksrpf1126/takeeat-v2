@@ -2,6 +2,7 @@ package com.back.takeeat.dto.marketorder.response;
 
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderMenu;
+import com.back.takeeat.domain.order.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -16,6 +17,8 @@ public class MarketOrdersResponse {
     private Long orderId;
     private int menuCount;
     private int totalPrice;
+    private OrderStatus orderStatus;
+    private boolean orderCheck;
     private LocalDateTime orderCreateTime;
 
     public static MarketOrdersResponse of(Order order) {
@@ -28,6 +31,8 @@ public class MarketOrdersResponse {
                 .orderId(order.getId())
                 .menuCount(menuCount)
                 .totalPrice(order.getTotalPrice())
+                .orderStatus(order.getOrderStatus())
+                .orderCheck(order.isChecking())
                 .orderCreateTime(order.getCreatedTime())
                 .build();
     }

@@ -343,3 +343,140 @@ body {
     justify-content: center;
     align-items: center;
 }
+
+.order-new {
+    background-color: red;
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.form-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.form-group input[type="date"] {
+    padding: 5px;
+    font-size: 14px;
+}
+
+#order-list-search-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 15px;
+    float: right;
+}
+
+#order-list-search-div {
+    width: 100%;
+}
+
+#order-list-checkbox-div {
+    display: flex;
+}
+
+input[type='date'] {
+    border: none;
+    position: relative;
+    width: 50%;
+    padding: 10px;
+    box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    text-align: center;
+    font-size: 100%;
+    margin-bottom: 20px;
+}
+
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+}
+
+
+input[type='date']::before {
+    content: attr(placeholder);
+    width: 100%;
+    height: 100%;
+}
+
+.color-white {
+    color: white;
+}
+
+.form-group input[type="checkbox"]:checked + label {
+    color: white; /* 체크됐을 때 색상 */
+}
+
+.search-order-status-div {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.badge-wait {
+    background-color: #f39c12; /* 대기중 - 주황색 */
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+.badge-reject {
+    background-color: #e74c3c; /* 거절됨 - 빨간색 */
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+.badge-cancel {
+    background-color: #95a5a6; /* 취소됨 - 회색 */
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+.badge-accept {
+    background-color: #3498db; /* 접수됨 - 파란색 */
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}
+
+.badge-complete {
+    background-color: #2ecc71; /* 완료됨 - 녹색 */
+    color: white;
+    border-radius: 10%;
+    padding: 2px 6px;
+    margin-left: 10px;
+    font-size: 11px;
+}

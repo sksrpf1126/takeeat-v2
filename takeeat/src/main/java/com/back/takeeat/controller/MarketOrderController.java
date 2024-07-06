@@ -33,11 +33,24 @@ public class MarketOrderController {
         return "market/marketOrder";
     }
 
+    @GetMapping("/{marketId}/order-status/count")
+    @ResponseBody
+    public Map<OrderStatus, Long> getOrderStatusCount(@PathVariable("marketId") Long marketId) {
+        // TODO : 해당 경로로 접근하는 member가 해당 market의 주인인지 판별할 것(예외처리)
+        return marketOrderService.findMarketOrderStatus(marketId);
+    }
+
     @GetMapping("/{marketId}/orders")
     @ResponseBody
     public List<MarketOrdersResponse> marketOrders(@PathVariable("marketId") Long marketId, @ModelAttribute MarketOrderSearchRequest searchRequest) {
         // TODO : 해당 경로로 접근하는 member가 해당 market의 주인인지 판별할 것(예외처리)
         return marketOrderService.getOrdersByStatusCondition(marketId, searchRequest);
+    }
+
+    @GetMapping("/{marketId}/search-orders")
+    @ResponseBody
+    public List<MarketOrdersResponse> marketSearchOrders(@PathVariable("marketId") Long marketId, @ModelAttribute MarketOrderSearchRequest searchRequest) {
+        return marketOrderService.findAllOrdersWithSearch(marketId, searchRequest);
     }
 
     @GetMapping("/order/{orderId}")

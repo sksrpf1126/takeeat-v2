@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface MarketOrderRepositoryCustom {
     List<Order> findAllWithSortOrder(Long marketId, MarketOrderSearchRequest searchRequest);
+    List<Order> findAllWithSearch(Long marketId, MarketOrderSearchRequest searchRequest);
 }

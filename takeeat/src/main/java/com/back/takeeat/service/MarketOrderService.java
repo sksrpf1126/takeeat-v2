@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,8 +36,18 @@ public class MarketOrderService {
 
         List<OrdersCountResponse> ordersCountResponses =  marketOrderRepository.findOrdersCounting(marketId);
 
-        Map<OrderStatus, Long> orderStatusLongMap = ordersCountResponses.stream()
-                .collect(Collectors.toMap((OrdersCountResponse::getOrderStatus), (OrdersCountResponse::getOrderCount)));
+        Map<OrderStatus, Long> orderStatusLongMap = new EnumMap<>(OrderStatus.class);
+        for (OrderStatus status : OrderStatus.values()) {
+            orderStatusLongMap.put(status, 0L);
+        }
+
+        orderStatusLongMap.putAll(
+                ordersCountResponses.stream()
+                        .collect(Collectors.toMap(
+                                OrdersCountResponse::getOrderStatus,
+                                OrdersCountResponse::getOrderCount
+                        ))
+        );
 
         return orderStatusLongMap;
     }
@@ -51,9 +62,19 @@ public class MarketOrderService {
     }
 
     @Transactional(readOnly = true)
+    public List<MarketOrdersResponse> findAllOrdersWithSearch(Long marketId, MarketOrderSearchRequest searchRequest) {
+
+        List<Order> findOrders = marketOrderRepository.findAllWithSearch(marketId, searchRequest);
+
+        return MarketOrdersResponse.listOf(findOrders);
+    }
+
+    @Transactional
     public DetailMarketOrderResponse findDetailMarketOrder(Long orderId) {
         Order findOrderWithMenus = marketOrderRepository.findWithOrderMenus(orderId)
                                         .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
+
+        findOrderWithMenus.orderCheck();
 
         return DetailMarketOrderResponse.of(findOrderWithMenus);
     }
@@ -77,7 +98,7 @@ public class MarketOrderService {
     }
 
     @Transactional
-    public void updateOrderStatus(Long memberId, Long orderId, OrderStatus currentOrderStatus, OrderStatus targetOrderStatus) {
+    public void updateOrderStatusWithTime(Long memberId, Long orderId, OrderStatus currentOrderStatus, OrderStatus targetOrderStatus) {
         Order findOrder = marketOrderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
 
@@ -85,6 +106,7 @@ public class MarketOrderService {
         validateOrderStatus(findOrder, currentOrderStatus);
 
         findOrder.updateOrderStatus(targetOrderStatus);
+        findOrder.updateAcceptOrCompleteTime(targetOrderStatus);
     }
 
     /**

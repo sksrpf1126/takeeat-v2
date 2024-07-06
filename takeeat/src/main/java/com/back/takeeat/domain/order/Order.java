@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +28,12 @@ public class Order extends BaseTimeEntity {
     private String requirement;
 
     private int totalPrice;
+
+    private boolean checking;
+
+    private LocalDateTime acceptedTime;
+
+    private LocalDateTime completedTime;
 
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
@@ -53,10 +60,19 @@ public class Order extends BaseTimeEntity {
         this.requirement = requirement;
         this.totalPrice = totalPrice;
         this.orderStatus = OrderStatus.WAIT;
+        this.checking = false;
     }
 
     public void updateOrderStatus(OrderStatus orderStatus) {
         this.orderStatus = orderStatus;
+    }
+
+    public void updateAcceptOrCompleteTime(OrderStatus orderStatus) {
+        if(orderStatus.equals(OrderStatus.ACCEPT)) {
+            this.acceptedTime = LocalDateTime.now();
+        }else if(orderStatus.equals(OrderStatus.COMPLETE)) {
+            this.completedTime = LocalDateTime.now();
+        }
     }
 
     public void deleteOrderMenu(OrderMenu orderMenu) {
@@ -65,6 +81,10 @@ public class Order extends BaseTimeEntity {
 
     public void addOrderMenu(OrderMenu orderMenu) {
         this.orderMenus.add(orderMenu);
+    }
+
+    public void orderCheck() {
+        this.checking = true;
     }
 
 }

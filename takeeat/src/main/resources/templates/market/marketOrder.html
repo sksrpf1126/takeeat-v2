@@ -20,21 +20,21 @@
                         <div class="order-status-div">
                             <i class="fa-solid fa-hourglass-start"></i>
                             <p>접수대기</p>
-                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).WAIT]}건|">notData</p>
+                            <p id="order-status-wait" th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).WAIT]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('processing')">
                         <div class="order-status-div">
                             <i class="fa-solid fa-clock-rotate-left"></i>
                             <p>처리중</p>
-                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).ACCEPT]}건|">notData</p>
+                            <p id="order-status-accept" th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).ACCEPT]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('completed')">
                         <div class="order-status-div">
                             <i class="fa-solid fa-user-check"></i>
                             <p>완료</p>
-                            <p th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).COMPLETE]}건|">notData</p>
+                            <p id="order-status-complete" th:text="|${marketOrderStatus[T(com.back.takeeat.domain.order.OrderStatus).COMPLETE]}건|">notData</p>
                         </div>
                     </li>
                     <li onclick="showTab('list-select')">
@@ -52,10 +52,10 @@
                 </div>
                 <div class="order-list">
                     <div th:each="order : ${marketOrdersResponses}" class="order-item">
-                        <div class="order-item-top-div" th:text="${#temporals.format(order.orderCreateTime, 'HH:mm')}"></div>
+                        <div class="order-item-top-div" th:text="${#temporals.format(order.orderCreateTime, 'yyyy-MM-dd HH:mm')}"></div>
                         <div class="order-item-bottom-div">
                             <div th:text="'[메뉴 ' + ${order.menuCount} + '개]'"></div>
-                            <div th:text="${order.totalPrice} + '원'"></div>
+                            <span data-th-text="${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}"></span>
                         </div>
                     </div>
                 </div>

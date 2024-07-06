@@ -3,103 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="/css/notification/notificationMember.css" />
     <th:block th:replace="/notification/notificationHeader :: headerLayout"></th:block>
 </head>
-<style>
-    .bell-section {
-        width: 300px;
-        padding: 100px 0px 0px 300px;
-    }
-
-    .bell-icon {
-        position: relative;
-        display: inline-block;
-        font-size: 24px;
-        margin: 20px;
-    }
-    .notification-dot {
-        position: absolute;
-        top: 0;
-        right: -4px;
-        width: 7px;
-        height: 7px;
-        background-color: red;
-        border-radius: 50%;
-        display: none; /* 기본적으로 숨김 */
-    }
-    .bell-icon.has-notification .notification-dot {
-        display: block; /* 알림이 있을 때 표시 */
-    }
-
-    .notification-panel {
-        display: none;
-        position: absolute;
-        width: 300px;
-        height: 300px;
-        overflow-y: auto;
-        background-color: white;
-        border: 1px solid #ccc;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        border-radius: 5px;
-        z-index: 1000;
-    }
-    .notification-panel .notification {
-        padding: 10px;
-        border-bottom: 1px solid #eee;
-    }
-    .notification-panel .notification:last-child {
-        border-bottom: none;
-    }
-    .notification-panel .notification-time {
-        font-size: 12px;
-        color: #888;
-    }
-    .notification-panel .notification-title {
-        font-size: 14px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .notification-body {
-        margin-bottom: 12px !important;
-        font-size: 13px;
-    }
-
-    .notification-time-delete-wrapper {
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
 <body>
 <th:block th:replace="/notification/notificationHeader :: userdata"></th:block>
     <div class="bell-section">
-        <div class="bell-icon" id="bell-icon">
+        <div class="bell-icon" id="bell-icon" th:classappend="${notifiactionsReadYn} ? 'has-notification' : ''">
             <i id="user-notification" class="fa-regular fa-bell"></i>
             <div class="notification-dot" id="notification-dot"></div>
             <div class="notification-panel" id="notification-panel">
-                <div class="notification">
-                    <div class="notification-title">범표맥주 사장님의 외식업트렌드 실천법을 공개합니다.</div>
-                    <div class="notification-body">올해 트렌드리포트를 실천한 사장님의 지금 이야기를 확인하세요</div>
-                    <div class="notification-time-delete-wrapper">
-                        <div class="notification-time">1일 전</div>
-                        <button class="delete-btn" onclick="deleteNotification(this)">삭제</button>
-                    </div>
+                <div class="notification-header">
+                    <span>알림</span>
                 </div>
-                <div class="notification">
-                    <div class="notification-title">고객과 꾸준히 소통해 3시간만에 재료 소진되었어요!</div>
-                    <div class="notification-body">올해 트렌드리포트를 실천한 사장님의 지금 이야기를 확인하세요</div>
-                    <div class="notification-time-delete-wrapper">
-                        <div class="notification-time">1일 전</div>
-                        <button class="delete-btn" onclick="deleteNotification(this)">삭제</button>
-                    </div>
-                </div>
-                <div class="notification">
-                    <div class="notification-title">이번 주 꼭 확인해야 하는 주요 지원 정책 꼭 확인하세요!</div>
-                    <div class="notification-body">놓치지 말아야 하는 장사 일정, 지금 확인 👉</div>
-                    <div class="notification-time-delete-wrapper">
-                        <div class="notification-time">1일 전</div>
-                        <button class="delete-btn" onclick="deleteNotification(this)">삭제</button>
-                    </div>
+                <div class="notification-list">
+                    <!-- 알림 아이템들이 여기에 추가됩니다 -->
                 </div>
             </div>
         </div>
@@ -108,63 +26,6 @@
     <button onclick="hideNotification()">Hide Notification</button>
     <button id="payment-complete">payment ok!!</button>
 
-    <script>
-        $('#payment-complete').on('click', function() {
-            console.log("user payment-ok click!!", stompClient);
-            paymentNotification();
-
-        });
-
-        function paymentNotification() {
-            const marketId = $("#market-marketId").val();
-            console.log("user-userId : ", marketId);
-
-
-            if(!!stompClient) {
-                const testOrderRequest = {
-                    memberId: 1,
-                    requirement: "특별 요청사항을 여기에 입력하세요",
-                    totalPrice: 10000,  // 총 가격을 적절히 설정
-                    orderMenuRequests: [
-                        {
-                            menuId: 1,
-                            orderQuantity: 2,
-                            optionIds: [1, 4, 5]  // 옵션 ID를 적절히 설정
-                        },
-                        {
-                            menuId: 2,
-                            orderQuantity: 1,
-                            optionIds: [2, 5]  // 옵션 ID를 적절히 설정
-                        }
-                    ]
-                };
-
-                stompClient.send("/app/send-market/" + marketId, {}, JSON.stringify(testOrderRequest));
-            }
-
-        }
-
-        function showNotification() {
-            document.getElementById('bell-icon').classList.add('has-notification');
-        }
-
-        function hideNotification() {
-            document.getElementById('bell-icon').classList.remove('has-notification');
-        }
-
-        document.getElementById('user-notification').addEventListener('click', function() {
-            var panel = document.getElementById('notification-panel');
-            if (panel.style.display === 'none' || panel.style.display === '') {
-                panel.style.display = 'block';
-            } else {
-                panel.style.display = 'none';
-            }
-        });
-
-        function deleteNotification(button) {
-            var notification = button.closest('.notification');
-            notification.remove();
-        }
-    </script>
+    <script src="/js/notification/notificationMember.js"></script>
 </body>
 </html>

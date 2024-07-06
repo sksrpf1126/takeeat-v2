@@ -43,4 +43,8 @@ public class Notification {
         this.watched = false;
     }
 
+    public void notificationCheck() {
+        this.watched = true;
+    }
+
 }

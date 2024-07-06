@@ -17,6 +17,8 @@ public class DetailMarketOrderResponse {
     private String phone;
     private LocalDateTime orderCreateTime;
     private OrderStatus orderStatus;
+    private LocalDateTime acceptedTime;
+    private LocalDateTime completedTime;
     private int menuCount;
     private int totalPrice;
     private String requirement;
@@ -33,6 +35,8 @@ public class DetailMarketOrderResponse {
                 .orderCreateTime(order.getCreatedTime())
                 .orderStatus(order.getOrderStatus())
                 .menuCount(menuCount)
+                .acceptedTime(order.getAcceptedTime())
+                .completedTime(order.getCompletedTime())
                 .totalPrice(order.getTotalPrice())
                 .requirement(order.getRequirement())
                 .orderMenuResponses(MarketOrderMenuResponse.listOf(order.getOrderMenus()))

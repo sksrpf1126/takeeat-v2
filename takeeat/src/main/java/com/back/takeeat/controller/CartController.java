@@ -5,6 +5,7 @@ import com.back.takeeat.dto.cart.request.AddToCartRequest;
 import com.back.takeeat.dto.cart.response.CartListResponse;
 import com.back.takeeat.service.CartService;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.parser.BooleanNode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -116,5 +117,21 @@ public class CartController {
         cartService.deleteAllCartMenu(memberId);
 
         return "redirect:/cart";
+    }
+
+    @ResponseBody
+    @PostMapping("/checkCart")
+    public ResponseEntity<Map<String, Boolean>> checkCart() {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        Map<String, Boolean> response = new HashMap<>();
+
+        if (!cartService.checkCart(memberId)) {
+            response.put("isEmpty", true);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("isEmpty", false);
+            return ResponseEntity.ok(response);
+        }
     }
 }

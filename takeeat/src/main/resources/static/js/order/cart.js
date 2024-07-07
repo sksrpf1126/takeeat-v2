@@ -87,4 +87,24 @@ $(document).ready(function() {
             }
         });
     });
+
+    //=== 주문하기 버튼 클릭 시 장바구니에 메뉴가 있는지 확인 ===
+    window.checkCart = function() {
+        $.ajax({
+            type: 'POST',
+            url: '/checkCart',
+            success: function(response) {
+                if (response.isEmpty) {
+                    console.log("호출");
+                    const modal = new bootstrap.Modal(document.getElementById('cantOrderModal'));
+                    modal.show();
+                } else {
+                    window.location.href = '/order';
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('에러가 발생했습니다.');
+            }
+        });
+    }
 });

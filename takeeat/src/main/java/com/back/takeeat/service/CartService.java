@@ -176,4 +176,15 @@ public class CartService {
 
         cart.deleteLastMenu();
     }
+
+    public boolean checkCart(Long memberId) {
+
+        Cart cart = cartRepository.findByMemberId(memberId);
+
+        if (cart.getCartMenus() == null || cart.getCartMenus().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.back.takeeat.domain.option.OptionCategory;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,4 +35,13 @@ public class Menu {
     @OneToMany(mappedBy = "menu")
     private List<OptionCategory> optionCategories;
 
+    public void addMenuCategory(MenuCategory menuCategory) {
+        this.menuCategory = menuCategory;
+        if (menuCategory.getMenus() == null) {
+            menuCategory.addMenus(new ArrayList<>()); // 리스트가 null인 경우 초기화
+        }
+        if (!menuCategory.getMenus().contains(this)) {
+            menuCategory.getMenus().add(this);
+        }
+    }
 }

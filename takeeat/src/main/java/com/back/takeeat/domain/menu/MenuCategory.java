@@ -26,4 +26,8 @@ public class MenuCategory {
 
     @OneToMany(mappedBy = "menuCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
+
+    public void addMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
 }

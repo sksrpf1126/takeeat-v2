@@ -24,9 +24,12 @@ public class MarketMenuCategoryRequest {
         List<Menu> menuList = menus.stream()
                 .map(MarketMenuRequest::toMenu) // MarketMenuRequest 를 Menu 로 변환
                 .collect(Collectors.toList());
+
+        // 디버깅 포인트: 변환된 메뉴 리스트 출력
+        System.out.println("변환된 메뉴 리스트: " + menuList);
+
         return MenuCategory.builder()
                 .menuCategoryName(menuCategoryName)
-                .menus(menuList) // Menu 객체 리스트로 설정
                 .build();
     }
 

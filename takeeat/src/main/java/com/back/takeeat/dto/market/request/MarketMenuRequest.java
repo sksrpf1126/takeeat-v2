@@ -29,4 +29,13 @@ public class MarketMenuRequest {
                 .menuPrice(menuPrice)
                 .build();
     }
+
+    /*public void addMenuCategory() {
+        //기존 메뉴와 관계를 제거
+        if (this.menuCategory !=null) {
+            this.menuCategory.getMenus();
+        }
+        this.menuCategory = menuCategory;
+        menuCategory.getMenus().add(this);
+    }*/
 }

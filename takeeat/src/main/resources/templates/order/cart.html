@@ -61,7 +61,7 @@
     <div id="bottomBtnContainer">
         <div class="addMenuBtn" th:if="${cartListResponse.marketName == null}" th:onclick="#"><strong>메뉴추가</strong></div>
         <div class="addMenuBtn" th:if="${cartListResponse.marketName != null}" th:onclick="|location.href='@{|/${cartListResponse.marketId}/menu|}'|"><strong>메뉴추가</strong></div>
-        <div id="orderBtn"><strong>주문하기</strong></div>
+        <div id="orderBtn" onclick="location.href='/order'"><strong>주문하기</strong></div>
     </div>
 
     <div class="modal" id="confirmDeleteModal" tabindex="-1">

@@ -11,13 +11,13 @@ import java.util.Map;
 @Getter
 public class CartListResponse {
 
-    Long marketId;
-    String marketName;
+    private Long marketId;
+    private String marketName;
 
-    List<CartMenuResponse> cartMenuResponses;
+    private List<CartMenuResponse> cartMenuResponses;
 
-    Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu;
-    Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId;
+    private Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu;
+    private Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId;
 
     public static CartListResponse create(Long marketId, String marketName, List<CartMenuResponse> cartMenuResponses,
                                           Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu,

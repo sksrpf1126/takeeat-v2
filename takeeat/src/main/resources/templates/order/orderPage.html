@@ -19,19 +19,35 @@
 <div id="contents">
 
     <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png"/></div>
+        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
         <div id="orderTitle"><strong>주문하기</strong></div>
     </div>
     <hr/>
 
+    <div id="marketNameContainer">
+        <div><strong>가게이름</strong></div>
+        <div th:text="${orderResponse.marketName}">가게이름</div>
+    </div>
+
     <div id="marketAddressContainer">
         <div><strong>가게주소</strong></div>
-        <div>서울 서초구 사임당로 80 (URBANTREE(어반트리)) 지하1층 101호&nbsp;<button class="mapBtn" type="button">지도</button></div>
+        <div>[[${orderResponse.query}]]&nbsp;[[${orderResponse.addressDetail}]]&nbsp;<button class="mapBtn" type="button">지도</button></div>
+        <div id="map" style="display: none;"></div>
+        <script th:inline="javascript">
+            var appkey = [[${KAKAO_API_KEY}]];
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false";
+            document.head.appendChild(script);
+
+            var latitude = [[${orderResponse.latitude}]];
+            var longitude = [[${orderResponse.longitude}]];
+        </script>
     </div>
 
     <div id="phoneNumberContainer">
         <div><strong>내 연락처</strong></div>
-        <div>010-1234-1234</div>
+        <div th:text="${orderResponse.phone}">전화번호</div>
     </div>
 
     <div id="toOwnerContainer">
@@ -40,51 +56,40 @@
     </div>
 
     <div id="menuListContainer">
-        <div class="menuContainer">
-            <div class="nameAndPrice">
-                <div class="menuName"><strong>마르게리타</strong></div>
-                <div class="menuPrice">22,500원</div>
+        <th:block th:each="orderMenu : ${orderResponse.cartMenuResponses}">
+            <div class="menuContainer">
+                <div class="nameAndPrice">
+                    <div class="menuName"><strong>[[${orderMenu.menuName}]]</strong></div>
+                    <div class="menuPrice">[[${#numbers.formatInteger(orderMenu.menuPrice, 3, 'COMMA') + '원'}]]</div>
+                </div>
+                <div class="optionAndPrice" th:each="orderOption : ${orderResponse.optionCategoryByCartMenu.get(orderMenu.cartMenuId)}">
+                    <div class="optionName">
+                        [[${orderOption.optionCategoryName}]] :
+                        <th:block th:each="orderOptionInfo, iterStat : ${orderResponse.getCartOptionInfo(orderMenu.cartMenuId, orderOption.optionCategoryId)}">
+                            <th:block th:if="${iterStat.index == 0}">[[${orderOptionInfo.optionName}]]</th:block>
+                            <th:block th:if="${iterStat.index != 0}">,&nbsp;[[${orderOptionInfo.optionName}]]</th:block>
+                            <div class="optionPrice" th:data-option-price="${orderOptionInfo.optionPrice}" style="display: none;"></div>
+                        </th:block>
+                    </div>
+                    <div class="totalOptionPrice"></div>
+                </div>
+                <div class="totalMenuPrice" th:data-menu-price="${orderMenu.cartPrice}" th:data-menu-quantity="${orderMenu.cartQuantity}">
+                    <strong>[[${#numbers.formatInteger(orderMenu.cartPrice, 3, 'COMMA') + '원'}]]&nbsp;X&nbsp;[[${orderMenu.cartQuantity}]]</strong>
+                </div>
             </div>
-            <div class="nameAndPrice">
-                <div class="option">마르게리타 엣지선택 : 오리지널</div>
-            </div>
-            <div class="nameAndPrice">
-                <div class="option">추가토핑 : 치즈듬뿍모짜렐라치즈(100g), 버섯</div>
-                <div class="menuPrice">+3,500원</div>
-            </div>
-            <div class="totalMenuPrice"><strong>26,000원</strong></div>
-        </div>
-        <hr class="menuHr"/>
-        <div class="menuContainer">
-            <div class="nameAndPrice">
-                <div class="menuName"><strong>코카콜라 스파게티 콤보</strong></div>
-                <div class="menuPrice">32,000원</div>
-            </div>
-            <div class="nameAndPrice">
-                <div class="option">피자 선택 L : 불고기피자</div>
-            </div>
-            <div class="nameAndPrice">
-                <div class="option">엣지 선택 L : 치즈크러스트(L)</div>
-                <div class="menuPrice">+3,000원</div>
-            </div>
-            <div class="nameAndPrice">
-                <div class="option">스파게티 선택 : 로제치즈오븐스파게티</div>
-            </div>
-            <div class="nameAndPrice">
-                <div class="option">코카콜라 선택 : 코카-콜라 1.25L</div>
-            </div>
-            <div class="totalMenuPrice"><strong>35,000원</strong></div>
-        </div>
-        <hr class="menuHr"/>
+            <hr class="menuHr"/>
+        </th:block>
+
         <div id="totalPriceContainer">
             <div id="totalPriceTitle"><strong>총 주문금액</strong></div>
-            <div id="totalPrice"><strong>61,000원</strong></div>
+            <div><strong id="totalPrice"></strong></div>
         </div>
     </div>
 
-    <div id="orderBtn"><strong>61,000원 결제하기</strong></div>
+    <div id="orderBtn"><strong id="orderBtnContent">61,000원 결제하기</strong></div>
 
 </div>
 
+<script src="/js/order/orderPage.js"></script>
 </body>
 </html>

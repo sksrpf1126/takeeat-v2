@@ -24,6 +24,10 @@ public class MenuCategory {
     @JoinColumn(name = "market_id")
     private Market market;
 
-    @OneToMany(mappedBy = "menuCategory")
+    @OneToMany(mappedBy = "menuCategory", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Menu> menus;
+
+    public void addMenus(List<Menu> menus) {
+        this.menus = menus;
+    }
 }

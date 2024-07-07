@@ -54,7 +54,7 @@
                 </div>
             </div>
             <br/>
-            <form th:action="@{/market/menu/save}" th:object="${marketMenu}" method="post">
+            <form method="post">
                 <div class="info-box">
                     <div class="line-container margin-top-40">
                         <div class="l-info-text">메뉴 등록</div>
@@ -72,7 +72,7 @@
                     <div class="line-text" id="add-category-button">메뉴 카테고리 추가하기 +</div>
 
                     <div class="line-container-center">
-                        <button type="submit" class="form-button-submit margin-right-10">저장</button>
+                        <button type="button" class="form-button-submit margin-right-10" onclick="saveMenu()">저장</button>
                         <button type="reset" class="form-button-reset">취소</button>
                     </div>
                 </div>

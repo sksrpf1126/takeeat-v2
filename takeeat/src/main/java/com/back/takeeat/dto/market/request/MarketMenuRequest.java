@@ -21,15 +21,6 @@ public class MarketMenuRequest {
     @NotBlank(message = "가격은 필수입니다.")
     private int menuPrice;
 
-    public MarketMenuRequest marketMenuRequest() {
-        return MarketMenuRequest.builder()
-                .menuName(menuName)
-                .menuIntroduction(menuIntroduction)
-                .menuImage(menuImage)
-                .menuPrice(menuPrice)
-                .build();
-    }
-
     public Menu toMenu() {
         return Menu.builder()
                 .menuName(menuName)
@@ -38,4 +29,13 @@ public class MarketMenuRequest {
                 .menuPrice(menuPrice)
                 .build();
     }
+
+    /*public void addMenuCategory() {
+        //기존 메뉴와 관계를 제거
+        if (this.menuCategory !=null) {
+            this.menuCategory.getMenus();
+        }
+        this.menuCategory = menuCategory;
+        menuCategory.getMenus().add(this);
+    }*/
 }

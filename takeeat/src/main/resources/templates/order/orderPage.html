@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="/css/order/orderPageStyle.css">
+</head>
+<body>
+
+<div id="contents">
+
+    <div id="titleContainer">
+        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+        <div id="orderTitle"><strong>주문하기</strong></div>
+    </div>
+    <hr/>
+
+    <div id="marketNameContainer">
+        <div><strong>가게이름</strong></div>
+        <div th:text="${orderResponse.marketName}">가게이름</div>
+    </div>
+
+    <div id="marketAddressContainer">
+        <div><strong>가게주소</strong></div>
+        <div>[[${orderResponse.query}]]&nbsp;[[${orderResponse.addressDetail}]]&nbsp;<button class="mapBtn" type="button">지도</button></div>
+        <div id="map" style="display: none;"></div>
+        <script th:inline="javascript">
+            var appkey = [[${KAKAO_API_KEY}]];
+            var script = document.createElement('script');
+            script.type = "text/javascript";
+            script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false";
+            document.head.appendChild(script);
+
+            var latitude = [[${orderResponse.latitude}]];
+            var longitude = [[${orderResponse.longitude}]];
+        </script>
+    </div>
+
+    <div id="phoneNumberContainer">
+        <div><strong>내 연락처</strong></div>
+        <div th:text="${orderResponse.phone}">전화번호</div>
+    </div>
+
+    <div id="toOwnerContainer">
+        <div><strong>가게 사장님께</strong></div>
+        <input class="border" type="text" placeholder="예) 견과류 빼주세요, 덜 맵게 해주세요"/>
+    </div>
+
+    <div id="menuListContainer">
+        <th:block th:each="orderMenu : ${orderResponse.cartMenuResponses}">
+            <div class="menuContainer">
+                <div class="nameAndPrice">
+                    <div class="menuName"><strong>[[${orderMenu.menuName}]]</strong></div>
+                    <div class="menuPrice">[[${#numbers.formatInteger(orderMenu.menuPrice, 3, 'COMMA') + '원'}]]</div>
+                </div>
+                <div class="optionAndPrice" th:each="orderOption : ${orderResponse.optionCategoryByCartMenu.get(orderMenu.cartMenuId)}">
+                    <div class="optionName">
+                        [[${orderOption.optionCategoryName}]] :
+                        <th:block th:each="orderOptionInfo, iterStat : ${orderResponse.getCartOptionInfo(orderMenu.cartMenuId, orderOption.optionCategoryId)}">
+                            <th:block th:if="${iterStat.index == 0}">[[${orderOptionInfo.optionName}]]</th:block>
+                            <th:block th:if="${iterStat.index != 0}">,&nbsp;[[${orderOptionInfo.optionName}]]</th:block>
+                            <div class="optionPrice" th:data-option-price="${orderOptionInfo.optionPrice}" style="display: none;"></div>
+                        </th:block>
+                    </div>
+                    <div class="totalOptionPrice"></div>
+                </div>
+                <div class="totalMenuPrice" th:data-menu-price="${orderMenu.cartPrice}" th:data-menu-quantity="${orderMenu.cartQuantity}">
+                    <strong>[[${#numbers.formatInteger(orderMenu.cartPrice, 3, 'COMMA') + '원'}]]&nbsp;X&nbsp;[[${orderMenu.cartQuantity}]]</strong>
+                </div>
+            </div>
+            <hr class="menuHr"/>
+        </th:block>
+
+        <div id="totalPriceContainer">
+            <div id="totalPriceTitle"><strong>총 주문금액</strong></div>
+            <div><strong id="totalPrice"></strong></div>
+        </div>
+    </div>
+
+    <div id="orderBtn"><strong id="orderBtnContent"></strong></div>
+
+</div>
+
+<script src="/js/order/orderPage.js"></script>
+</body>
+</html>

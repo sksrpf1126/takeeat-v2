@@ -12,4 +12,5 @@ public class CartOptionResponse {
     private Long optionCategoryId;
 
     private String optionName;
+    private int optionPrice;
 }

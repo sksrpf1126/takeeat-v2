@@ -45,18 +45,35 @@ public class CartService {
         }
 
         //장바구니에 담긴 메뉴 관련 정보
+        List<CartMenuResponse> cartMenuResponses = getCartMenuResponses(cart);
+
+        //장바구니에 담긴 메뉴별 OptionCategory
+        Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu = getOptionCategoryByCartMenu(cart);
+
+        //(CartMenuId, OptionCategory)별 선택된 Option 이름
+        Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = getCartOptionMapByOptionCategoryId(cart);
+
+        return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
+                cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);
+    }
+
+    public List<CartMenuResponse> getCartMenuResponses(Cart cart) {
         List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
         for (CartMenu cartMenu : cart.getCartMenus()) {
             cartMenuResponses.add(CartMenuResponse.create(cartMenu.getId(), cartMenu.getCartQuantity(),
-                    cartMenu.getCartMenuPrice(), cartMenu.getMenu().getMenuName()));
+                    cartMenu.getCartMenuPrice(), cartMenu.getMenu().getMenuName(), cartMenu.getMenu().getMenuPrice()));
         }
+        return cartMenuResponses;
+    }
 
-        //장바구니에 담긴 메뉴별 OptionCategory
+    public Map<Long, List<CartOptionCategoryResponse>> getOptionCategoryByCartMenu(Cart cart) {
         List<CartOptionCategoryResponse> cartOptionCategoryResponses = cartMenuRepository.findByCartIdWithOptionCategory(cart.getId());
         Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu = cartOptionCategoryResponses.stream()
                 .collect(Collectors.groupingBy(CartOptionCategoryResponse::getCartMenuId));
+        return optionCategoryByCartMenu;
+    }
 
-        //(CartMenuId, OptionCategory)별 선택된 Option 이름
+    public Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> getCartOptionMapByOptionCategoryId(Cart cart) {
         List<CartOptionResponse> cartOptionResponses = cartMenuRepository.findByCartIdWithOption(cart.getId());
         Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = cartOptionResponses.stream()
                 .collect(Collectors.groupingBy(cartOptionResponse ->
@@ -65,9 +82,7 @@ public class CartService {
                                 cartOptionResponse.getOptionCategoryId()
                         )
                 ));
-
-        return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
-                cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);
+        return cartOptionMapByOptionCategoryId;
     }
 
     public void add(AddToCartRequest addToCartRequest) throws OtherMarketMenuException {
@@ -160,5 +175,16 @@ public class CartService {
         cartMenuRepository.deleteByCartId(cart.getId());
 
         cart.deleteLastMenu();
+    }
+
+    public boolean checkCart(Long memberId) {
+
+        Cart cart = cartRepository.findByMemberId(memberId);
+
+        if (cart.getCartMenus() == null || cart.getCartMenus().isEmpty()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

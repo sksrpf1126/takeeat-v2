@@ -7,18 +7,20 @@ import lombok.Getter;
 @Getter
 public class CartMenuResponse {
 
-    Long cartMenuId;
-    int cartQuantity;
-    int cartPrice;
+    private Long cartMenuId;
+    private int cartQuantity;
+    private int cartPrice;
 
-    String menuName;
+    private String menuName;
+    private int menuPrice;
 
-    public static CartMenuResponse create(Long cartMenuId, int cartQuantity, int cartPrice, String menuName) {
+    public static CartMenuResponse create(Long cartMenuId, int cartQuantity, int cartPrice, String menuName, int menuPrice) {
         return CartMenuResponse.builder()
                 .cartMenuId(cartMenuId)
                 .cartQuantity(cartQuantity)
                 .cartPrice(cartPrice)
                 .menuName(menuName)
+                .menuPrice(menuPrice)
                 .build();
     }
 }

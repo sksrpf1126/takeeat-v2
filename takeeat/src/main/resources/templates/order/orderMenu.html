@@ -234,7 +234,7 @@
 
     <div id="bottomBtnContainer">
         <div id="cartBtn" onclick="location.href='/cart'"><strong>장바구니</strong></div>
-        <div id="orderBtn"><strong>주문하기</strong></div>
+        <div id="orderBtn" onclick="checkCart()"><strong>주문하기</strong></div>
     </div>
 
     <th:block th:each="menuId : ${marketMenuResponse.menuIds}">
@@ -300,8 +300,8 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn" style="background: #eeeeee;" onclick="addToCart(this)">장바구니에 추가</button>
-                        <button type="button" class="btn" style="background: #ffb36f;">주문하기</button>
+                        <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
+                        <button type="button" class="btn" style="background: #ffb36f;" onclick="addToCart(this)">장바구니에 추가</button>
                     </div>
                 </div>
             </div>
@@ -322,6 +322,23 @@
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
                     <button type="button" class="btn" style="background: #ffb36f;" onclick="deleteAndAddToCart()">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="cantOrderModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    장바구니에 담긴 메뉴가 없습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #ffb36f;">확인</button>
                 </div>
             </div>
         </div>

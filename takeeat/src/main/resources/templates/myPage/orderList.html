@@ -28,13 +28,9 @@
         <div class="orderStatusContainer">
             <div>
                 [[${orderInfo.getOrderDate()}]] ·
-                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).WAIT)}">주문 확인중</th:block>
-                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).REJECT)}">주문 취소</th:block>
-                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).CANCEL)}">주문 취소</th:block>
-                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).ACCEPT)}">메뉴 준비중</th:block>
-                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).COMPLETE)}">픽업 완료</th:block>
+                <th:block th:text="${orderInfo.getOrderStatusKR()}">주문상태</th:block>
             </div>
-            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
+            <div><button class="orderDetail" type="button" th:onclick="|location.href='@{|/my/${orderInfo.orderId}/order|}'|">주문상세</button></div>
         </div>
         <div class="orderInfoContainer">
             <div class="marketImageContainer"><img class="marketImage" th:src="${orderInfo.marketImage}"/></div>

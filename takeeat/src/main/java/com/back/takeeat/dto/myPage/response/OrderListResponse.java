@@ -56,4 +56,15 @@ public class OrderListResponse {
         return dateTimeFormatter.format(createdTime);
     }
 
+    public String getOrderStatusKR() {
+        if (this.orderStatus == OrderStatus.WAIT)
+            return "주문 확인중";
+        else if (this.orderStatus == OrderStatus.ACCEPT)
+            return "메뉴 준비중";
+        else if (this.orderStatus == OrderStatus.COMPLETE)
+            return "픽업 완료";
+        else
+            return "주문 취소";
+    }
+
 }

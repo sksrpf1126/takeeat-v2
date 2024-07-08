@@ -137,13 +137,13 @@ public class InitMarketDB {
             em.persist(market2);
 
             //회원 및 리뷰
-            Member member1 = createMember("우디누나");
+            Member member1 = createMember("우디누나", "010-1111-1111");
             em.persist(member1);
 
-            Member member2 = createMember("다이어트는내일부터");
+            Member member2 = createMember("다이어트는내일부터", "010-2222-2222");
             em.persist(member2);
 
-            Member member3 = createMember("콩나물");
+            Member member3 = createMember("콩나물", "010-3333-3333");
             em.persist(member3);
 
             Review review1 = createReview(5, "도우도 쫄깃하고 너무 맛있습니다.", member1, market1);
@@ -228,10 +228,11 @@ public class InitMarketDB {
                     .build();
         }
 
-        private Member createMember(String nickname) {
+        private Member createMember(String nickname, String phone) {
             return Member.builder()
                     .nickname(nickname)
                     .profile("/images/profile.jpg")
+                    .phone(phone)
                     .build();
         }
 

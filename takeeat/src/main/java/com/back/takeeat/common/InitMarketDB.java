@@ -10,7 +10,6 @@ import com.back.takeeat.domain.option.OptionSelect;
 import com.back.takeeat.domain.review.OwnerReview;
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
-import com.back.takeeat.domain.review.ReviewStatus;
 import com.back.takeeat.domain.user.Member;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
@@ -240,7 +239,6 @@ public class InitMarketDB {
             return Review.builder()
                     .reviewRating(reviewRating)
                     .content(content)
-                    .reviewStatus(ReviewStatus.ACTIVE)
                     .member(member)
                     .market(market)
                     .build();

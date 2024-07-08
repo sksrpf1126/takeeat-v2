@@ -1,17 +1,22 @@
 package com.back.takeeat.controller;
 
 import com.back.takeeat.common.exception.AccessDeniedException;
+import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
 import com.back.takeeat.dto.myPage.response.OrderListResponse;
 import com.back.takeeat.service.MyPageService;
+import com.back.takeeat.service.ReviewService;
 import com.back.takeeat.service.S3Service;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,6 +24,7 @@ import java.util.List;
 public class MyPageController {
 
     private final MyPageService myPageService;
+    private final ReviewService reviewService;
     private final S3Service s3Service;
 
     @GetMapping("/order/list")
@@ -55,11 +61,27 @@ public class MyPageController {
         return "myPage/reviewForm";
     }
 
+    @ResponseBody
     @PostMapping("/review/write")
-    public String write(@RequestParam("file") List<MultipartFile> file) {
-        List<String> imgUrls = s3Service.uploadFile(file);
-        System.out.println(imgUrls);
-        return "redirect:/my/order/list";
+    public ResponseEntity<String> write(@ModelAttribute ReviewFormRequest reviewFormRequest) {
+
+        System.out.println(reviewFormRequest.getOrderId());
+        //빈 파일이 폼 데이터에 포함되어 실제 파일이 업로드되었는지 확인
+        List<String> imgUrls = new ArrayList<>();
+        if (reviewFormRequest.getFile() != null) {
+            List<MultipartFile> validFiles = reviewFormRequest.getFile().stream()
+                    .filter(file -> file != null && !file.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!validFiles.isEmpty()) {
+                imgUrls = s3Service.uploadFile(reviewFormRequest.getFile());
+            }
+        }
+
+        reviewService.write(reviewFormRequest.getOrderId(), reviewFormRequest.getRating(),
+                reviewFormRequest.getContent(), imgUrls);
+
+        return ResponseEntity.ok("리뷰 작성 성공");
     }
 
     @GetMapping("/review/list")

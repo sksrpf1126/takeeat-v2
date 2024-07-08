@@ -25,31 +25,32 @@
     </div>
     <hr/>
 
-    <div id="formContainer">
-        <div id="marketName"><strong>[[${marketName}]]</strong></div>
-        <div class="star_rating">
-            <span class="star on" value="1"></span>
-            <span class="star on" value="2"></span>
-            <span class="star on" value="3"></span>
-            <span class="star on" value="4"></span>
-            <span class="star on" value="5"></span>
+    <form id="reviewForm" action="/my/review/write" method="post" enctype="multipart/form-data">
+        <div id="formContainer">
+            <div id="marketName"><strong>[[${marketName}]]</strong></div>
+            <div class="star_rating">
+                <span class="star on" value="1"></span>
+                <span class="star on" value="2"></span>
+                <span class="star on" value="3"></span>
+                <span class="star on" value="4"></span>
+                <span class="star on" value="5"></span>
+            </div>
+            <input type="hidden" name="rating" value="5"/>
+            <textarea name="content" id="content" rows="5" placeholder="음식의 맛, 포장 상태 등 음식에 대한 솔직한 리뷰를 남겨주세요. (필수)"></textarea>
         </div>
-        <textarea rows="5" placeholder="음식의 맛, 포장 상태 등 음식에 대한 솔직한 리뷰를 남겨주세요. (필수)"></textarea>
-    </div>
-    <div id="imageUploadTitle"><strong>사진 추가하기 (선택)</strong></div>
-    <div id="imageUploadContainer">
-        <label for="fileInput">
-            <div class="btn-upload">사진 첨부</div>
-        </label>
-        <!-- 사진 업로드 테스트(나중에 수정하시오) -->
-        <form id="reviewForm" action="/my/review/write" method="post" enctype="multipart/form-data">
-            <input type="file" name="file" id="fileInput" accept="image/*" multiple>
-        </form>
-        <img src="/images/delete-button.png" id="deleteImageBtn"/>
-        <br/>
-        <div id="imageUploadAlert">* 사진은 최대 3장까지 첨부할 수 있습니다.</div>
-        <div id="imagePreviewContainer" style="height: 150px;"></div>
-    </div>
+        <div id="imageUploadTitle"><strong>사진 추가하기 (선택)</strong></div>
+        <div id="imageUploadContainer">
+            <label for="fileInput">
+                <div class="btn-upload">사진 첨부</div>
+            </label>
+                <input type="file" name="file" id="fileInput" accept="image/*" multiple>
+            <img src="/images/delete-button.png" id="deleteImageBtn"/>
+            <br/>
+            <div id="imageUploadAlert">* 사진은 최대 3장까지 첨부할 수 있습니다.</div>
+            <div id="imagePreviewContainer" style="height: 150px;"></div>
+        </div>
+        <input type="hidden" name="orderId" th:value="${param.orderId}"/>
+    </form>
 
     <div id="bottomBtnContainer">
         <div id="writeReviewAlert">
@@ -58,6 +59,23 @@
             • TAKE EAT은 위와 같은 게시물 작성자에게 경고, 주의 등의 조치를 취할 수 있고, 해당 게시물을 삭제하거나 보이지 않게 할 수 있습니다. 게시에 따른 책임은 작성자에게 있으며, TAKE EAT은 이에 대한 법적 책임을 지지 않습니다.
         </div>
         <div id="writeReviewBtn"><strong>완료</strong></div>
+    </div>
+
+    <div class="modal" id="writeCompleteModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                </div>
+                <div class="modal-body">
+                    리뷰 등록이 완료되었습니다.<br/>
+                    소중한 리뷰를 남겨주셔서 감사합니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="location.href='/my/order/list'" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>

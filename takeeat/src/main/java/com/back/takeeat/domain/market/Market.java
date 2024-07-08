@@ -1,5 +1,6 @@
 package com.back.takeeat.domain.market;
 
+import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
@@ -52,5 +53,12 @@ public class Market {
 
     private String closedDays;
 
-    
+    public void writeReview(int reviewRating) {
+        //평점 계산
+        double newRating = ((this.marketRating * this.reviewCount) + reviewRating) / (this.reviewCount + 1);
+        this.marketRating = Math.round(newRating * 10) / 10.0;
+
+        //리뷰 수 증가
+        this.reviewCount++;
+    }
 }

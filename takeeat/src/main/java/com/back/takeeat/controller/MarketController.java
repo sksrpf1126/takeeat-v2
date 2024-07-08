@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.stream.Collectors;
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/market")
@@ -52,7 +54,13 @@ public class MarketController {
 
     @PostMapping("/menu/save")
     @ResponseBody
-    public ResponseEntity<String> saveMenuCategory(@RequestBody @Valid MenuRequest menuRequest) {
+    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMessages = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
+        }
         try {
             marketService.MenuCategoriesRegister(menuRequest);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
@@ -66,6 +74,16 @@ public class MarketController {
     public String marketOption() {
         return "/market/marketOption";
     }
+
+    /*@PostMapping("/option/save")
+    @ResponseBody
+    public ResponseEntity<String> saveOption(@RequestBody OptionRequest optionRequest) {
+        try {
+
+        } catch () {
+
+        }
+    }*/
 
     @GetMapping("/review")
     public String marketReview() {

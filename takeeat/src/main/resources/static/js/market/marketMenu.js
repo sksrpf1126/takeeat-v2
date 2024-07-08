@@ -129,12 +129,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="delete-menu-button del-button" data-menu-id="${menuCount}">메뉴 삭제</button>
                         <div class="line-container margin-top-20">
                             <div class="length-container">
-                                <div class="s-info-text">메뉴를 입력하세요.</div>
-                                <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
+                                <div class="s-info-text essential">메뉴를 입력하세요.</div>
+                                <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" th:errorclass="field-error-border" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
+                                <div class="field-error" id="marketMenu-error" th:errors="*{marketMenu}"></div>
                             </div>
                             <div class="length-container margin-left-10">
-                                <div class="s-info-text">가격</div>
-                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" class="s-input-box margin-top-10"/>
+                                <div class="s-info-text essential">가격</div>
+                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" th:errorclass="field-error-border" name="menuPrice" class="s-input-box margin-top-10"/>
+                                <div class="field-error" id="menuPrice-error" th:errors="*{menuPrice}"></div>
                             </div>
                         </div>
                         <div class="line-container margin-top-20">
@@ -169,8 +171,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li>
                             <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
                             <div class="length-container margin-top-20">
-                                <div class="info-text">메뉴 카테고리를 입력하세요.</div>
-                                <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" name="menuCategory" class="menu-category l-input-box margin-top-10"/>
+                                <div class="info-text essential">메뉴 카테고리를 입력하세요.</div>
+                                <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" th:errorclass="field-error-border" name="menuCategory" class="menu-category l-input-box margin-top-10"/>
+                                <div class="field-error" id="menuCategory-error" th:errors="*{menuCategory}"></div>
                             </div>
                             <div class="menu-container">
                                 <!-- 여기에 해당 카테고리의 메뉴들이 추가될 부분 -->

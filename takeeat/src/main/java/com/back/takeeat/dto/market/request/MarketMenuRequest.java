@@ -2,6 +2,7 @@ package com.back.takeeat.dto.market.request;
 
 import com.back.takeeat.domain.menu.Menu;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public class MarketMenuRequest {
     private String menuImage;
 
     @NotBlank(message = "가격은 필수입니다.")
+    @Positive(message = "메뉴 가격은 양수여야 합니다.")
     private int menuPrice;
 
     public Menu toMenu() {
@@ -29,4 +31,13 @@ public class MarketMenuRequest {
                 .menuPrice(menuPrice)
                 .build();
     }
+
+    /*public void addMenuCategory() {
+        //기존 메뉴와 관계를 제거
+        if (this.menuCategory !=null) {
+            this.menuCategory.getMenus();
+        }
+        this.menuCategory = menuCategory;
+        menuCategory.getMenus().add(this);
+    }*/
 }

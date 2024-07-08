@@ -447,3 +447,15 @@
     background-color: #D8D8D8;
     border: solid 2px #D8D8D8;
  }
+ .field-error {
+     color : #dc3545;
+     font-size: 14px;
+ }
+ .field-error-border {
+     border-color : #dc3545;
+ }
+ div .essential:before {
+     color: red;
+     font-size: 20px;
+     content:"*";
+ }

@@ -52,10 +52,7 @@ public class MarketController {
 
     @PostMapping("/menu/save")
     @ResponseBody
-    public ResponseEntity<String> saveMenuCategory(@RequestBody MenuRequest menuRequest) {
-        if (menuRequest == null || menuRequest.getCategories() == null) {
-            return ResponseEntity.badRequest().body("{\"message\": \"카테고리 또는 메뉴를 작성해주세요\"}");
-        }
+    public ResponseEntity<String> saveMenuCategory(@RequestBody @Valid MenuRequest menuRequest) {
         try {
             marketService.MenuCategoriesRegister(menuRequest);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");

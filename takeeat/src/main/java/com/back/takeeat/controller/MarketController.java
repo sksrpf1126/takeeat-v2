@@ -3,6 +3,7 @@ package com.back.takeeat.controller;
 
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
+import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.service.MarketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,11 +32,13 @@ public class MarketController {
 
 
     @PostMapping("/info/save")
-    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, BindingResult result) {
+    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
+                                ,BindingResult result) {
         if (result.hasErrors()) {
             return "/market/marketInfo";
         }
-        marketService.marketInfoRegister(marketInfoRequest.marketInfoRequest());
+        Long memberId = 1L;
+        marketService.marketInfoRegister(marketInfoRequest.marketInfoRequest(), memberId);
         return "redirect:/market/menu";
     }
 
@@ -61,8 +64,9 @@ public class MarketController {
                     .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
+        Long memberId = 1L;
         try {
-            marketService.MenuCategoriesRegister(menuRequest);
+            marketService.menuCategoriesRegister(menuRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,15 +79,23 @@ public class MarketController {
         return "/market/marketOption";
     }
 
-    /*@PostMapping("/option/save")
+    @GetMapping
+    public String marketMenuName(@RequestParam String menuName) {
+
+        return "/market/marketOption";
+    }
+
+    @PostMapping("/option/save")
     @ResponseBody
     public ResponseEntity<String> saveOption(@RequestBody OptionRequest optionRequest) {
         try {
-
-        } catch () {
-
+            marketService.optionCategoriesRegister(optionRequest);
+            return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("{\"message\": \"옵션 저장 실패\"}");
         }
-    }*/
+    }
 
     @GetMapping("/review")
     public String marketReview() {

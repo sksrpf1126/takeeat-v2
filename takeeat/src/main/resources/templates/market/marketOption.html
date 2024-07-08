@@ -54,7 +54,7 @@
                 </div>
             </div>
             <br/>
-            <form>
+            <form id="optionForm" th:action="@{/market/option/save}" th:object="${optionRequest}" method="post">
                 <div class="info-box">
                     <div class="line-container margin-top-40">
                         <div class="l-info-text">옵션 등록</div>

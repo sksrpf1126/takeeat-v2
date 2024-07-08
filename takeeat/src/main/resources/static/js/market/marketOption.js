@@ -1,5 +1,7 @@
-let optionCount = 0; // 초기 메뉴 카운트
+let optionCount = 0; // 초기 옵션 카운트
 let categoryCount = 0; // 초기 카테고리 카운트
+
+
 
 document.addEventListener('click', function(e) {
     const target = e.target;
@@ -45,6 +47,16 @@ document.addEventListener('click', function(e) {
                     <li>
                         <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
                         <div class="length-container margin-top-20">
+                            <div class="dropdown">
+                                <div class="dropdown-button margin-bottom-15" id="dropdownButton">
+                                    <p class="dropdown-text">메뉴를 선택하세요.</p>
+                                    <div class="dropdown-triangle"></div>
+                                </div>
+                                <input type="hidden" id="marketCategory" th:field="*{marketCategory}" th:errorclass="field-error-border" name="marketCategory">
+                                <div class="dropdown-content" id="dropdownContent">
+                                    <p onclick="selectCategory('치킨')">치킨</p>
+                                </div>
+                            </div>
                             <div class="line-container">
                                 <div class="length-container">
                                     <div class="info-text">옵션 카테고리를 입력하세요.</div>

@@ -3,12 +3,10 @@ package com.back.takeeat.domain.order;
 import com.back.takeeat.common.domain.BaseTimeEntity;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.payment.Payment;
+import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -52,6 +50,9 @@ public class Order extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST})
     private List<OrderMenu> orderMenus = new ArrayList<>();
+
+    @OneToOne(mappedBy = "order", fetch = FetchType.LAZY)
+    private Review review;
 
     @Builder
     public Order(Member member, Market market, String requirement, int totalPrice) {

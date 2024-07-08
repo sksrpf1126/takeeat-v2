@@ -68,7 +68,7 @@ public class MarketMenuService {
                 .collect(Collectors.groupingBy(OptionResponse::getOptionCategoryId));
 
         //Review
-        List<Review> reviews = reviewRepository.findByMarketId(marketId);
+        List<Review> reviews = reviewRepository.findByMarketIdForReviewList(marketId);
         //Review -> ReviewResponse
         List<ReviewResponse> reviewResponses = reviews.stream()
                 .map(ReviewResponse::createByReview)

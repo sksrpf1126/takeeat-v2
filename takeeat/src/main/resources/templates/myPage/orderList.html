@@ -24,44 +24,35 @@
     </div>
     <hr/>
 
-    <div class="orderContainer">
+    <div class="orderContainer" th:each="orderInfo : ${orderListResponse}">
         <div class="orderStatusContainer">
-            <div>2024-06-26 · 준비중</div>
-            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
-        </div>
-        <div class="orderInfoContainer">
-            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
-            <div class="orderInfo">
-                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
-                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
+            <div>
+                [[${orderInfo.getOrderDate()}]] ·
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).WAIT)}">주문 확인중</th:block>
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).REJECT)}">주문 취소</th:block>
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).CANCEL)}">주문 취소</th:block>
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).ACCEPT)}">메뉴 준비중</th:block>
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).COMPLETE)}">픽업 완료</th:block>
             </div>
-        </div>
-    </div>
-    <div class="orderContainer">
-        <div class="orderStatusContainer">
-            <div>2024-06-20 · 픽업완료</div>
             <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
         </div>
         <div class="orderInfoContainer">
-            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
+            <div class="marketImageContainer"><img class="marketImage" th:src="${orderInfo.marketImage}"/></div>
             <div class="orderInfo">
-                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
-                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
-                <a href="/myPage/writeReview"><div class="reviewWriteBtn">리뷰 쓰기</div></a>
-            </div>
-        </div>
-    </div>
-    <div class="orderContainer">
-        <div class="orderStatusContainer">
-            <div>2024-05-05 · 픽업완료</div>
-            <div><button class="orderDetail" type="button" onclick="location.href='/myPage/orderDetail'">주문상세</button></div>
-        </div>
-        <div class="orderInfoContainer">
-            <div class="marketImageContainer"><img class="marketImage" src="/images/market-sample.png"/></div>
-            <div class="orderInfo">
-                <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
-                <div class="orderMenu">고구마피자 외 2개 46,000원</div>
-                <div class="reviewCompleteBtn">리뷰 작성 완료</div>
+                <div class="marketName"><a th:href="|/${orderInfo.marketId}/menu|">[[${orderInfo.marketName}]] <strong>&gt;</strong></a></div>
+                <div class="orderMenu">
+                    [[${orderInfo.menuName}]]
+                    <th:block th:if="${orderInfo.menuNumber > 0}">외 [[${orderInfo.menuNumber}]]개</th:block>
+                    [[${#numbers.formatInteger(orderInfo.totalPrice, 3, 'COMMA') + '원'}]]
+                </div>
+                <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).COMPLETE)}">
+                    <th:block th:if="${orderInfo.reviewId == null}">
+                        <a href="/myPage/writeReview"><div class="reviewWriteBtn">리뷰 쓰기</div></a>
+                    </th:block>
+                    <th:block th:if="${orderInfo.reviewId != null}">
+                        <div class="reviewCompleteBtn">리뷰 작성 완료</div>
+                    </th:block>
+                </th:block>
             </div>
         </div>
     </div>

@@ -40,7 +40,7 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne(mappedBy = "review")
+    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private OwnerReview ownerReview;
 
     @OneToMany(mappedBy = "review")

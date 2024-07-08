@@ -1,5 +1,6 @@
 package com.back.takeeat.controller;
 
+import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
 import com.back.takeeat.dto.myPage.response.OrderListResponse;
 import com.back.takeeat.service.MyPageService;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,7 +21,7 @@ public class MyPageController {
 
     private final MyPageService myPageService;
 
-    @GetMapping("/orderList")
+    @GetMapping("/order/list")
     public String orderList(Model model) {
         Long memberId = 1L; //(임시)로그인 회원
 
@@ -38,12 +40,22 @@ public class MyPageController {
         return "myPage/orderDetail";
     }
 
-    @GetMapping("/writeReview")
-    public String write() {
+    @GetMapping("/review/new")
+    public String write(@RequestParam("orderId") Long orderId, Model model) {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        String marketName = null;
+        try {
+            marketName = myPageService.getOrderMarketName(memberId, orderId);
+        } catch (AccessDeniedException e) {
+            return "errorPage/noAuthorityPage";
+        }
+
+        model.addAttribute("marketName", marketName);
         return "myPage/reviewForm";
     }
 
-    @GetMapping("/reviewList")
+    @GetMapping("/review/list")
     public String reviewList() {
         return "myPage/reviewList";
     }

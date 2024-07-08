@@ -9,17 +9,20 @@ import com.back.takeeat.dto.order.response.OrderResponse;
 import com.back.takeeat.repository.CartRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class OrderService {
 
     private final CartService cartService;
     private final CartRepository cartRepository;
 
+    @Transactional(readOnly = true)
     public OrderResponse getOrderInfo(Long memberId) {
 
         Cart cart = cartRepository.findByMemberId(memberId);

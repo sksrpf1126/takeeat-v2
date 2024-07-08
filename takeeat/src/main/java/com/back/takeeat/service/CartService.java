@@ -177,6 +177,7 @@ public class CartService {
         cart.deleteLastMenu();
     }
 
+    @Transactional(readOnly = true)
     public boolean checkCart(Long memberId) {
 
         Cart cart = cartRepository.findByMemberId(memberId);

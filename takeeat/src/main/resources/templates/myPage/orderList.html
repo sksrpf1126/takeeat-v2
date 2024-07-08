@@ -43,7 +43,7 @@
                 </div>
                 <th:block th:if="${orderInfo.orderStatus.equals(T(com.back.takeeat.domain.order.OrderStatus).COMPLETE)}">
                     <th:block th:if="${orderInfo.reviewId == null}">
-                        <a href="/myPage/writeReview"><div class="reviewWriteBtn">리뷰 쓰기</div></a>
+                        <a th:href="@{/my/review/new(orderId=${orderInfo.orderId})}"><div class="reviewWriteBtn">리뷰 쓰기</div></a>
                     </th:block>
                     <th:block th:if="${orderInfo.reviewId != null}">
                         <div class="reviewCompleteBtn">리뷰 작성 완료</div>

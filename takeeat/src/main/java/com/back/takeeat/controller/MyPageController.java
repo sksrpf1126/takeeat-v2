@@ -4,13 +4,12 @@ import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
 import com.back.takeeat.dto.myPage.response.OrderListResponse;
 import com.back.takeeat.service.MyPageService;
+import com.back.takeeat.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,6 +19,7 @@ import java.util.List;
 public class MyPageController {
 
     private final MyPageService myPageService;
+    private final S3Service s3Service;
 
     @GetMapping("/order/list")
     public String orderList(Model model) {
@@ -53,6 +53,13 @@ public class MyPageController {
 
         model.addAttribute("marketName", marketName);
         return "myPage/reviewForm";
+    }
+
+    @PostMapping("/review/write")
+    public String write(@RequestParam("file") List<MultipartFile> file) {
+        List<String> imgUrls = s3Service.uploadFile(file);
+        System.out.println(imgUrls);
+        return "redirect:/my/order/list";
     }
 
     @GetMapping("/review/list")

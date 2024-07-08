@@ -59,3 +59,8 @@ document.getElementById('deleteImageBtn').addEventListener('click', function () 
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
     imagePreviewContainer.innerHTML = ''; // 미리보기 초기화
 });
+
+//=== 폼 제출 ===
+document.getElementById('writeReviewBtn').addEventListener('click', function() {
+    document.getElementById('reviewForm').submit();
+});

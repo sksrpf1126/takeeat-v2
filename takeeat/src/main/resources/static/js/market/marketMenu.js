@@ -3,11 +3,18 @@ let categoryCount = 0; // 초기 카테고리 카운트
 
 window.saveMenu = function() {
     let categories = [];
+    let hasIncompleteMenuData = false; // 필수 항목 누락 여부 확인 변수
+    let hasEmptyMenu = false; // 빈 메뉴 여부 확인 변수
+    let hasNoCategories = true; // 카테고리 입력 여부 확인 변수
 
     // 모든 카테고리와 메뉴 정보 수집
     document.querySelectorAll('.category-container').forEach(categoryContainer => {
         let menus = [];
         const menuCategoryName = categoryContainer.querySelector('.menu-category').value;
+
+        if (menuCategoryName) {
+            hasNoCategories = false; // 카테고리가 입력되었음을 표시
+        }
 
         // 현재 카테고리의 메뉴들 수집
         categoryContainer.querySelectorAll('.menu-item').forEach(menuItem => {
@@ -17,7 +24,7 @@ window.saveMenu = function() {
             const menuImage = menuItem.querySelector('.file-style').files[0] ? menuItem.querySelector('.file-style').files[0].name : ""; // 이미지 파일 처리는 별도로 구현해야 함
 
             // 메뉴 데이터가 모두 올바르게 수집되었는지 확인
-            if (menuName && menuPrice && menuIntroduction) {
+            if (menuName && menuPrice) {
                 let menuObject = {
                     menuName: menuName,
                     menuIntroduction: menuIntroduction,
@@ -27,6 +34,7 @@ window.saveMenu = function() {
                 menus.push(menuObject);
             } else {
                 console.warn("메뉴 데이터가 완전하지 않습니다:", menuItem);
+                hasIncompleteMenuData = true;
             }
         });
 
@@ -36,10 +44,35 @@ window.saveMenu = function() {
                 menuCategoryName: menuCategoryName,
                 menus: menus
             });
+        } else if ((menuCategoryName && menus.length === 0) || menuCategoryName === null) {
+            console.warn("메뉴가 없습니다:", categoryContainer);
+            hasEmptyMenu = true;
         } else {
-            console.warn("카테고리 데이터가 완전하지 않습니다 또는 메뉴가 없습니다:", categoryContainer);
+            console.warn("카테고리가 없습니다:", categoryContainer);
+            hasNoCategories = true;
         }
     });
+
+    if (hasIncompleteMenuData) {
+        alert("필수항목을 입력하세요.");
+        return;
+    }
+
+    // 경고 메시지 표시
+    if (hasEmptyMenu) {
+        alert("메뉴를 입력하세요.");
+        return;
+    }
+
+    if (categories.length === 0) {
+        alert("하나 이상의 카테고리 또는 메뉴를 입력하세요.");
+        return;
+    }
+
+    if (hasNoCategories) {
+        alert("카테고리를 입력하세요.")
+        return;
+    }
 
     // 전체 데이터를 하나의 객체로 준비
     const data = {
@@ -72,7 +105,6 @@ window.saveMenu = function() {
         console.error('Error:', error);
     });
 };
-
 document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('save-menu-button');
     if (saveButton) {

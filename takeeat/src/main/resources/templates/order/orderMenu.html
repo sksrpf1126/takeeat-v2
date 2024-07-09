@@ -50,7 +50,7 @@
                     <div class="yellowStar">
                         <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
                     </div>
-                    <div class="grayStar">
+                    <div class="grayStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 5}">
                         <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
                     </div>
                     <div id="marketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
@@ -110,7 +110,7 @@
                         <div class="yellowStar">
                             <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
                         </div>
-                        <div class="grayStar">
+                        <div class="grayStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 5}">
                             <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getGrayStarNumber())}">★</block>
                         </div>
                     </div>

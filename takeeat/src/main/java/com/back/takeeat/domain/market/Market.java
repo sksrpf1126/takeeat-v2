@@ -52,5 +52,18 @@ public class Market {
 
     private String closedDays;
 
-    
+    public void writeReview(int totalReviewRating) {
+        //리뷰 수 증가
+        this.reviewCount++;
+
+        //평점 계산
+        double newRating = (double) totalReviewRating / this.reviewCount;
+        this.marketRating = Math.round(newRating * 10) / 10.0;
+    }
+
+    public void modifyReview(int totalReviewRating) {
+        //평점 계산
+        double newRating = (double) totalReviewRating / this.reviewCount;
+        this.marketRating = Math.round(newRating * 10) / 10.0;
+    }
 }

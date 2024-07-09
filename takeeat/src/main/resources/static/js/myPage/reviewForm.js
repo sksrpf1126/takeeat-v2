@@ -1,10 +1,43 @@
-//==== 리뷰 별점 ====
-$('.star_rating > .star').click(function() {
-    $(this).parent().children('span').removeClass('on');
-    $(this).addClass('on').prevAll('span').addClass('on');
-})
+$(document).ready(function() {
+    //=== 리뷰 별점 ===
+    $('.star_rating > .star').click(function() {
+        var ratingValue = $(this).attr('value');
 
-//==== 이미지 업로드====
+        $(this).parent().children('span').removeClass('on'); //모두 on 클래스 제거
+        $(this).addClass('on').prevAll('span').addClass('on'); //클릭한 별과 이전 별들 on 클래스 추가
+
+        $('input[name="rating"]').val(ratingValue);
+    });
+
+    //=== 폼 제출 ===
+    $('#writeReviewBtn').click(function() {
+        var content = $('textarea[name="content"]').val().trim();
+
+        if (content == "") {
+            alert('리뷰 내용을 입력해 주세요.');
+            return false;
+        }
+
+        var formData = new FormData($('#reviewForm')[0]);
+
+        $.ajax({
+            url: '/my/review/write',
+            type: 'POST',
+            data: formData,
+            processData: false, //데이터를 문자열로 처리하지 않음
+            contentType: false, //기본적으로 설정되는 contentType을 사용하지 않음
+            success: function(response) {
+                const modal = new bootstrap.Modal(document.getElementById('writeCompleteModal'));
+                modal.show();
+            },
+            error: function(xhr, status, error) {
+                alert('리뷰 작성 실패');
+            }
+        });
+    });
+});
+
+//=== 이미지 업로드 ===
 document.getElementById('fileInput').addEventListener('change', function(event) {
     const files = event.target.files;
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
@@ -20,7 +53,7 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
 
     //확장자 제한
     var validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    var maxSize = 5 * 1024 * 1024; //10MB 사이즈 제한(개당)
+    var maxSize = 10 * 1024 * 1024; //10MB 사이즈 제한(개당)
     for(var i = 0; i < fileInput.files.length; i++) {
         var fileName = fileInput.files[i].name;
         var fileSize = fileInput.files[i].size;

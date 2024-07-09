@@ -205,7 +205,6 @@ $(document).ready(function() {
             url: '/checkCart',
             success: function(response) {
                 if (response.isEmpty) {
-                    console.log("호출");
                     const modal = new bootstrap.Modal(document.getElementById('cantOrderModal'));
                     modal.show();
                 } else {

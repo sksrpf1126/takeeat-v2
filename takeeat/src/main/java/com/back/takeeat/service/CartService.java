@@ -1,5 +1,7 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.common.exception.OtherMarketMenuException;
 import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.cart.CartMenu;
@@ -41,7 +43,7 @@ public class CartService {
 
         Cart cart = cartRepository.findByMemberIdWithMenu(memberId);
         if (cart == null) {
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException(ErrorCode.CART_NOT_FOUND);
         }
 
         //장바구니에 담긴 메뉴 관련 정보
@@ -94,7 +96,7 @@ public class CartService {
         }
 
         Market market = marketRepository.findById(addToCartRequest.getMarketId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
 
         //장바구니에 첫 번째 메뉴를 담았다면 가게 정보 저장
         if (cart.getMarket() == null) {
@@ -103,7 +105,7 @@ public class CartService {
 
         //메뉴 저장
         Menu menu = menuRepository.findById(addToCartRequest.getMenuId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MENU_NOT_FOUND));
         CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
 
         //옵션 저장
@@ -123,12 +125,12 @@ public class CartService {
 
         //가게 저장
         Market market = marketRepository.findById(addToCartRequest.getMarketId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
         cart.addFirstMenu(market);
 
         //메뉴 저장
         Menu menu = menuRepository.findById(addToCartRequest.getMenuId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MENU_NOT_FOUND));
         CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
 
         //옵션 저장
@@ -142,7 +144,7 @@ public class CartService {
     public void updateQuantity(Long cartMenuId, int quantity) {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CARTMENU_NOT_FOUND));
 
         cartMenu.updateQuantity(quantity);
     }
@@ -150,7 +152,7 @@ public class CartService {
     public int deleteCartMenu(Long cartMenuId) {
 
         CartMenu cartMenu = cartMenuRepository.findById(cartMenuId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CARTMENU_NOT_FOUND));
 
         cartMenuRepository.delete(cartMenu);
 
@@ -158,7 +160,7 @@ public class CartService {
 
         //더 이상 menu가 없다면 cart 초기화
         Cart cart = cartRepository.findById(cartMenu.getCart().getId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
 
         if (cart.getCartMenus().isEmpty()) {
             cart.deleteLastMenu();
@@ -177,6 +179,7 @@ public class CartService {
         cart.deleteLastMenu();
     }
 
+    @Transactional(readOnly = true)
     public boolean checkCart(Long memberId) {
 
         Cart cart = cartRepository.findByMemberId(memberId);

@@ -3,16 +3,17 @@ package com.back.takeeat.domain.review;
 import com.back.takeeat.common.domain.BaseTimeEntity;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.order.Order;
+import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Builder
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Review extends BaseTimeEntity {
 
@@ -40,9 +41,32 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    @OneToOne(mappedBy = "review")
+    @OneToOne(mappedBy = "review", fetch = FetchType.LAZY)
     private OwnerReview ownerReview;
 
-    @OneToMany(mappedBy = "review")
-    private List<ReviewImage> reviewImages;
+    @OneToMany(mappedBy = "review", cascade = CascadeType.PERSIST)
+    private List<ReviewImage> reviewImages = new ArrayList<>();
+
+    @Builder
+    public Review(int reviewRating, String content, Member member, Market market, Order order) {
+        this.reviewRating = reviewRating;
+        this.content = content;
+        this.member = member;
+        this.market = market;
+        this.order = order;
+        this.reviewStatus = ReviewStatus.ACTIVE;
+    }
+
+    public void deleteReviewImage(ReviewImage reviewImage) {
+        this.reviewImages.remove(reviewImage);
+    }
+
+    public void addReviewImage(ReviewImage reviewImage) {
+        this.reviewImages.add(reviewImage);
+    }
+
+    public void modify(ReviewModifyFormRequest modifyForm) {
+        this.reviewRating = modifyForm.getRating();
+        this.content = modifyForm.getContent();
+    }
 }

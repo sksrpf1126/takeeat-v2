@@ -19,6 +19,10 @@
     margin-left: 10px;
 }
 
+#backIcon:hover {
+    cursor: pointer;
+}
+
 #orderDetailTitle {
     font-size: 25px;
     margin-left: 20px;
@@ -53,7 +57,7 @@ hr {
     font-size: 20px;
 }
 
-.nameAndPrice {
+.nameAndPrice, .optionAndPrice {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -62,6 +66,10 @@ hr {
 .totalMenuPrice {
     font-size: 20px;
     text-align: end;
+}
+
+.optionPrice, .totalOptionPrice {
+    white-space: nowrap;
 }
 
 #totalPriceContainer {

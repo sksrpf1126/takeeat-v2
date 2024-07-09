@@ -1,5 +1,7 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.dto.marketMenu.response.*;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MarketMenuService {
 
     private final MarketRepository marketRepository;
@@ -29,7 +32,7 @@ public class MarketMenuService {
 
         //Market -> MarketResponse
         Market market = marketRepository.findById(marketId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
         MarketResponse marketResponse = MarketResponse.createByMarket(market);
 
         //MenuResponse(MenuCategory, Menu)
@@ -68,7 +71,7 @@ public class MarketMenuService {
                 .collect(Collectors.groupingBy(OptionResponse::getOptionCategoryId));
 
         //Review
-        List<Review> reviews = reviewRepository.findByMarketId(marketId);
+        List<Review> reviews = reviewRepository.findByMarketIdForReviewList(marketId);
         //Review -> ReviewResponse
         List<ReviewResponse> reviewResponses = reviews.stream()
                 .map(ReviewResponse::createByReview)

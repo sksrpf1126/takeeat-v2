@@ -19,65 +19,48 @@
 <div id="contents">
 
     <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png"/></div>
+        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
         <div id="orderDetailTitle"><strong>주문상세</strong></div>
     </div>
     <hr/>
 
     <div class="orderInfo">
-        <div id="orderStatus"><strong>준비중</strong></div>
-        <div id="marketName"><strong>피자알볼로 - 역삼직영점</strong></div>
-        <div id="orderTime">주문일시 : 2024년 06월 26일 오후 05:15</div>
+        <div id="orderStatus"><strong>[[${orderDetailResponse.getOrderStatusKR()}]]</strong></div>
+        <div id="marketName"><strong>[[${orderDetailResponse.marketName}]]</strong></div>
+        <div id="orderTime">주문일시 : [[${orderDetailResponse.getOrderDate()}]]</div>
     </div>
 
     <hr class="hrDotted"/>
 
     <div id="orderMenuTitle"><strong>주문 메뉴</strong></div>
     <hr/>
-    <div class="menuContainer">
-        <div class="nameAndPrice">
-            <div class="menuName"><strong>마르게리타</strong></div>
-            <div class="menuPrice">22,500원</div>
+    <th:block th:each="orderMenu : ${orderDetailResponse.orderMenuResponses}">
+        <div class="menuContainer">
+            <div class="nameAndPrice">
+                <div class="menuName"><strong>[[${orderMenu.menuName}]]</strong></div>
+                <div class="menuPrice">[[${#numbers.formatInteger(orderMenu.menuPrice, 3, 'COMMA') + '원'}]]</div>
+            </div>
+            <div class="optionAndPrice" th:each="orderOption : ${orderDetailResponse.optionCategoryByOrderMenu.get(orderMenu.orderMenuId)}">
+                <div class="optionName">
+                    [[${orderOption.optionCategoryName}]] :
+                    <th:block th:each="orderOptionInfo, iterStat : ${orderDetailResponse.getOrderOptionInfo(orderMenu.orderMenuId, orderOption.optionCategoryId)}">
+                        <th:block th:if="${iterStat.index == 0}">[[${orderOptionInfo.optionName}]]</th:block>
+                        <th:block th:if="${iterStat.index != 0}">,&nbsp;[[${orderOptionInfo.optionName}]]</th:block>
+                        <div class="optionPrice" th:data-option-price="${orderOptionInfo.optionPrice}" style="display: none;"></div>
+                    </th:block>
+                </div>
+                <div class="totalOptionPrice"></div>
+            </div>
+            <div class="totalMenuPrice" th:data-menu-price="${orderMenu.orderPrice}" th:data-menu-quantity="${orderMenu.orderQuantity}">
+                <strong>[[${#numbers.formatInteger(orderMenu.orderPrice, 3, 'COMMA') + '원'}]]&nbsp;X&nbsp;[[${orderMenu.orderQuantity}]]</strong>
+            </div>
         </div>
-        <div class="nameAndPrice">
-            <div class="option">마르게리타 엣지선택 : 오리지널</div>
-            <div class="menuPrice">추가비용없음</div>
-        </div>
-        <div class="nameAndPrice">
-            <div class="option">추가토핑 : 치즈듬뿍모짜렐라치즈(100g), 버섯</div>
-            <div class="menuPrice">3,500원</div>
-        </div>
-        <div class="totalMenuPrice"><strong>26,000원</strong></div>
-    </div>
-    <hr/>
-    <div class="menuContainer">
-        <div class="nameAndPrice">
-            <div class="menuName"><strong>코카콜라 스파게티 콤보</strong></div>
-            <div class="menuPrice">32,000원</div>
-        </div>
-        <div class="nameAndPrice">
-            <div class="option">피자 선택 L : 불고기피자</div>
-            <div class="menuPrice">추가비용없음</div>
-        </div>
-        <div class="nameAndPrice">
-            <div class="option">엣지 선택 L : 치즈크러스트(L)</div>
-            <div class="menuPrice">3,000원</div>
-        </div>
-        <div class="nameAndPrice">
-            <div class="option">스파게티 선택 : 로제치즈오븐스파게티</div>
-            <div class="menuPrice">추가비용없음</div>
-        </div>
-        <div class="nameAndPrice">
-            <div class="option">코카콜라 선택 : 코카-콜라 1.25L</div>
-            <div class="menuPrice">추가비용없음</div>
-        </div>
-        <div class="totalMenuPrice"><strong>35,000원</strong></div>
-    </div>
-    <hr/>
+        <hr/>
+    </th:block>
 
     <div id="totalPriceContainer">
         <div id="totalPriceTitle"><strong>총 주문금액</strong></div>
-        <div id="totalPrice"><strong>61,000원</strong></div>
+        <div><strong id="totalPrice"></strong></div>
     </div>
 
     <hr class="hrDotted"/>
@@ -87,5 +70,6 @@
     </div>
 </div>
 
+<script src="/js/myPage/orderDetail.js"></script>
 </body>
 </html>

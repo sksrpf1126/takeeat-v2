@@ -1,11 +1,9 @@
-package com.back.takeeat.dto.review.response;
+package com.back.takeeat.dto.myPage.response;
 
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,34 +13,34 @@ import java.util.List;
 
 @Getter
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
-public class ReviewResponse {
+public class ReviewListResponse {
 
-    private String nickname;
-    private String profile;
-
+    private Long reviewId;
     private int reviewRating;
     private String reviewContent;
     private String reviewWriteDate;
 
-    private String ownerReviewContent;
-    private String ownerReviewWriteDate;
+    private Long marketId;
+    private String marketName;
 
     private List<String> reviewImages;
 
-    public static ReviewResponse createByReview(Review review) {
-        ReviewResponseBuilder builder = ReviewResponse.builder()
-                .nickname(review.getMember().getNickname())
-                .profile(review.getMember().getProfile())
+    private String ownerReviewContent;
+    private String ownerReviewWriteDate;
+
+    public static ReviewListResponse createByReview(Review review) {
+        ReviewListResponseBuilder builder = ReviewListResponse.builder()
+                .reviewId(review.getId())
                 .reviewRating(review.getReviewRating())
                 .reviewContent(review.getContent())
                 .reviewWriteDate(localDateTimeFormat(review.getCreatedTime()))
+                .marketId(review.getMarket().getId())
+                .marketName(review.getMarket().getMarketName())
                 .reviewImages(createReviewImages(review.getReviewImages()));
 
         if (review.getOwnerReview() != null && review.getOwnerReview().getContent() != null) {
-           builder.ownerReviewContent(review.getOwnerReview().getContent())
-                   .ownerReviewWriteDate(localDateTimeFormat(review.getOwnerReview().getCreatedTime()));
+            builder.ownerReviewContent(review.getOwnerReview().getContent())
+                    .ownerReviewWriteDate(localDateTimeFormat(review.getOwnerReview().getCreatedTime()));
         }
 
         return builder.build();
@@ -70,5 +68,7 @@ public class ReviewResponse {
             DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
             return dateTimeFormatter.format(writeDate);
         }
+
     }
+
 }

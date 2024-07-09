@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/member/socialSignup.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>Title</title>
+</head>
+<body>
+    <div id="contents">
+        <form action="/member/signup" method="post">
+            <input type="hidden" id="email" name="email" th:value="${session.email}" />
+            <input type="hidden" id="providerType" name="providerType" th:value="${session.providerType}" />
+            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요"/>
+            <input type="text" id="nickname" name="nickname" placeholder="2~8글자 이내로 입력해주세요."/>
+            <input type="password" id="password" name="password" placeholder=""/>
+            <input type="password" id="passwordCheck" name="passwordCheck" placeholder=""/>
+            <input type="text" id="phone" name="phone" placeholder="-를 빼고 입력해주세요." />
+            <div id="profile-user-image-div">
+                <img id="profile-user-image" src="/images/user-default-profile.png" alt="Default Profile Image">
+            </div>
+            <input type="file" name="file" id="profile-user-img-save-btn" accept="image/*" style="display:none"/>
+            <input type="button" value="변경" id="profile-update-btn"/>
+            <button>회원가입</button>
+        </form>
+    </div>
+    <script src="/js/member/socialSignup.js"></script>
+</body>
+</html>

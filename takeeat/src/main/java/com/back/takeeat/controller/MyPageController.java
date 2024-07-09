@@ -4,6 +4,7 @@ import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
 import com.back.takeeat.dto.myPage.response.OrderListResponse;
+import com.back.takeeat.dto.myPage.response.ReviewListResponse;
 import com.back.takeeat.service.MyPageService;
 import com.back.takeeat.service.ReviewService;
 import com.back.takeeat.service.S3Service;
@@ -85,7 +86,12 @@ public class MyPageController {
     }
 
     @GetMapping("/review/list")
-    public String reviewList() {
+    public String reviewList(Model model) {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        List<ReviewListResponse> reviewListResponses = reviewService.getReviewList(memberId);
+
+        model.addAttribute("reviewListResponses", reviewListResponses);
         return "myPage/reviewList";
     }
 }

@@ -5,6 +5,8 @@ import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
+import com.back.takeeat.dto.myPage.response.ReviewListResponse;
+import com.back.takeeat.dto.review.response.ReviewResponse;
 import com.back.takeeat.repository.OrderRepository;
 import com.back.takeeat.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +46,17 @@ public class ReviewService {
 
         //Market의 평점 계산과 리뷰 수 증가
         order.getMarket().writeReview(reviewRating);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewListResponse> getReviewList(Long memberId) {
+
+        List<Review> reviews = reviewRepository.findByMemberIdForReviewList(memberId);
+
+        List<ReviewListResponse> reviewListResponses = reviews.stream()
+                .map(ReviewListResponse::createByReview)
+                .collect(Collectors.toList());
+
+        return reviewListResponses;
     }
 }

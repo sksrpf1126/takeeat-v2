@@ -28,4 +28,14 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     )
     List<MarketRatingResponse> findRatingCountByMarketId(@Param("marketId") Long marketId);
 
+    @Query(
+            "SELECT r " +
+            "FROM Review r INNER JOIN FETCH r.market " +
+            "OUTER JOIN FETCH r.ownerReview " +
+            "OUTER JOIN FETCH r.reviewImages " +
+            "WHERE r.member.id = :memberId " +
+            "ORDER BY r.id DESC"
+    )
+    List<Review> findByMemberIdForReviewList(@Param("memberId") Long memberId);
+
 }

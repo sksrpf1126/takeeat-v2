@@ -25,48 +25,43 @@
     </div>
     <hr/>
 
-    <div id="reviewCount"><strong>내가 쓴 총 리뷰 37개</strong></div>
+    <div id="reviewCount"><strong>내가 쓴 총 리뷰 [[${reviewListResponses.size()}]]개</strong></div>
     <hr/>
 
-    <div class="reviewContainer">
-        <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
-        <div class="reviewInfoContainer">
-            <div class="reviewRating">
-                <div class="yellowStar">★★★★</div>
-                <div class="grayStar">★</div>
-                <div class="writeTime">이번 주</div>
+    <th:block th:each="review : ${reviewListResponses}">
+        <div class="reviewContainer">
+            <div class="marketName"><a th:href="|/${review.marketId}/menu|">[[${review.marketName}]] <strong>&gt;</strong></a></div>
+            <div class="reviewInfoContainer">
+                <div class="reviewRating">
+                    <div class="yellowStar">
+                        <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                    </div>
+                    <div class="grayStar" th:if="${review.reviewRating != 5}">
+                        <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                    </div>
+                    <div class="writeTime" th:text="${review.reviewWriteDate}">작성일</div>
+                </div>
+                <div class="reviewControlBtnContainer">
+                    <div><button class="modifyReviewBtn" type="button">수정</button></div>
+                    <div><button class="deleteReviewBtn" type="button">삭제</button></div>
+                </div>
             </div>
-            <div class="reviewControlBtnContainer">
-                <div><button class="modifyReviewBtn" type="button">수정</button></div>
-                <div><button class="deleteReviewBtn" type="button">삭제</button></div>
+            <div class="reviewImageContainer" th:if="${review.reviewImages != null}" >
+                <th:block th:each="reviewImage : ${review.reviewImages}">
+                    <img class="reviewImage" th:src="${reviewImage}"/>
+                </th:block>
+            </div>
+            <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
+            <div class="ownerReviewContainer" th:if="${review.ownerReviewContent != null}">
+                <div class="ownerWriterContainer">
+                    <div><strong>사장님</strong></div>
+                    <div class="writeTime">&nbsp;&nbsp;[[${review.ownerReviewWriteDate}]]</div>
+                </div>
+                <div class="reviewContent" th:text="${review.ownerReviewContent}">사장님리뷰내용</div>
             </div>
         </div>
-        <div class="reviewImageContainer">
-            <img class="reviewImage" src="/images/review-sample.jpg"/>
-            <img class="reviewImage" src="/images/review-sample.jpg"/>
-            <img class="reviewImage" src="/images/review-sample.jpg"/>
-        </div>
-        <div class="reviewContent">도우도 쫄깃하고 너무 맛있습니다.</div>
-    </div>
-    <hr/>
-    <div class="reviewContainer">
-        <div class="marketName"><a href="#">청년피자 - 강남역점 <strong>&gt;</strong></a></div>
-        <div class="reviewInfoContainer">
-            <div class="reviewRating">
-                <div class="yellowStar">★★★★★</div>
-                <div class="writeTime">지난 달</div>
-            </div>
-            <div class="reviewControlBtnContainer">
-                <div><button class="modifyReviewBtn" type="button">수정</button></div>
-                <div><button class="deleteReviewBtn" type="button">삭제</button></div>
-            </div>
-        </div>
-        <div class="reviewImageContainer">
-        </div>
-        <div class="reviewContent">맛있게 잘먹었습니다. 너무 맛있어요.</div>
-    </div>
-    <hr/>
-
+        <hr/>
+    </th:block>
 
 </div>
 

@@ -314,6 +314,7 @@ hr {
 
 .reviewContent {
     margin: 10px;
+    white-space: pre-wrap;
 }
 
 .ownerReviewContainer {

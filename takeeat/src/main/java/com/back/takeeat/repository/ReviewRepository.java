@@ -38,4 +38,10 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     )
     List<Review> findByMemberIdForReviewList(@Param("memberId") Long memberId);
 
+    @Query(
+            "SELECT SUM(r.reviewRating) " +
+            "FROM Review r " +
+            "WHERE r.market.id = :marketId"
+    )
+    int getTotalReviewRating(@Param("marketId") Long marketId);
 }

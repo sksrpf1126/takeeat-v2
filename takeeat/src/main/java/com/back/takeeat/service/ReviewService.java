@@ -48,8 +48,10 @@ public class ReviewService {
 
         reviewRepository.save(review);
 
+        int totalReviewRating = reviewRepository.getTotalReviewRating(order.getMarket().getId());
+
         //Market의 평점 계산과 리뷰 수 증가
-        order.getMarket().writeReview(reviewRating);
+        order.getMarket().writeReview(totalReviewRating);
     }
 
     @Transactional(readOnly = true)
@@ -96,11 +98,19 @@ public class ReviewService {
         Review review = reviewRepository.findById(reviewModifyFormRequest.getReviewId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
 
+        int beforeReviewRating = review.getReviewRating();
+
         review.modify(reviewModifyFormRequest);
 
         for (String imgUrl : imgUrls) {
             ReviewImage reviewImage = new ReviewImage(imgUrl, review);
             reviewImage.associateReview(review);
+        }
+
+        //리뷰 평점이 변경되었다면 Market의 평점 update
+        if (beforeReviewRating != reviewModifyFormRequest.getRating()) {
+            int totalReviewRating = reviewRepository.getTotalReviewRating(review.getMarket().getId());
+            review.getMarket().modifyReview(totalReviewRating);
         }
     }
 }

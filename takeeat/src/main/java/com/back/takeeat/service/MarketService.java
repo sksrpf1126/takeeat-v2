@@ -7,7 +7,7 @@ import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.*;
-import com.back.takeeat.dto.market.response.MarketMenuResponse;
+import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.repository.MarketRepository;
 import com.back.takeeat.repository.MemberRepository;
 import com.back.takeeat.repository.MenuCategoryRepository;
@@ -71,7 +71,7 @@ public class MarketService {
     }
 
     @Transactional
-    public List<MarketMenuResponse> getMarketMenuName(Long memberId){
+    public List<MenuCategoryNameResponse> getMarketMenuName(Long memberId){
         // 회원 정보를 조회
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
@@ -83,22 +83,22 @@ public class MarketService {
         }
 
         // 메뉴 카테고리 정보를 조회
-        List<MarketMenuResponse> menuCategoryList = menuCategoryRepository.findByMarketId(market.getId());
+        List<MenuCategoryNameResponse> menuCategoryList = menuCategoryRepository.findMenuCategoriesByMarketId(market.getId());
 
         // 결과 리스트를 저장할 리스트 초기화
-        List<MarketMenuResponse> marketMenuResponses = new ArrayList<>();
+        List<MenuCategoryNameResponse> menuCategoryNameResponses = new ArrayList<>();
 
         // 각 메뉴 카테고리에 대해 메뉴 정보를 조회하고 결과 리스트에 추가
-        for(MarketMenuResponse marketMenuResponse : menuCategoryList) {
-            if (!menuCategoryList.contains(marketMenuResponse.getMenuCategoryId())) {
-                marketMenuResponses.add(marketMenuResponse.create());
+        for(MenuCategoryNameResponse menuCategoryNameResponse : menuCategoryList) {
+            if (!menuCategoryList.contains(menuCategoryNameResponse.getMenuCategoryId())) {
+                menuCategoryNameResponses.add(menuCategoryNameResponse.create());
             } else {
-                marketMenuResponses.add(menuCategoryList.get(marketMenuResponse.getMenuCategoryId().intValue()));
+                menuCategoryNameResponses.add(menuCategoryList.get(menuCategoryNameResponse.getMenuCategoryId().intValue()));
             }
 
         }
 
-        return marketMenuResponses;
+        return menuCategoryNameResponses;
     }
 
     @Transactional

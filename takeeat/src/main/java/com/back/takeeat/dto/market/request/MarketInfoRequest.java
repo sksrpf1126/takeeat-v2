@@ -62,7 +62,7 @@ public class MarketInfoRequest {
 
     // 빌드
 
-    public MarketInfoRequest marketInfoRequest() {
+    public MarketInfoRequest create() {
         return MarketInfoRequest.builder()
                 .marketName(marketName)
                 .marketImage(marketImage)
@@ -88,7 +88,7 @@ public class MarketInfoRequest {
                 .marketNumber(hyphenNumber())
                 .marketCategory(marketCategory)
                 .marketIntroduction(marketIntroduction)
-                .operationTime(operationTime)
+                .operationTime(openTime + " ~ " + closeTime)
                 .closedDays(closedDays)
                 .build();
     }

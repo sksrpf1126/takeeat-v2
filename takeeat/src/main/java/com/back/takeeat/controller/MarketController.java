@@ -4,11 +4,10 @@ package com.back.takeeat.controller;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.request.OptionRequest;
-import com.back.takeeat.dto.market.response.MarketMenuResponse;
+import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.service.MarketService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +29,7 @@ public class MarketController {
 
         model.addAttribute("marketInfoRequest", marketInfoRequest);
 
-        return "/market/marketInfo";
+        return "market/marketInfo";
     }
 
 
@@ -38,10 +37,10 @@ public class MarketController {
     public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
                                 ,BindingResult result) {
         if (result.hasErrors()) {
-            return "/market/marketInfo";
+            return "market/marketInfo";
         }
         Long memberId = 1L;
-        marketService.marketInfoRegister(marketInfoRequest.marketInfoRequest(), memberId);
+        marketService.marketInfoRegister(marketInfoRequest.create(), memberId);
         return "redirect:/market/menu";
     }
 
@@ -78,21 +77,16 @@ public class MarketController {
     }
 
     @GetMapping("/option")
-    public String marketOption() {
-        return "/market/marketOption";
-    }
-
-    @GetMapping
-    public ResponseEntity<List<MarketMenuResponse>> marketMenuName(Model model /*@RequestParam Long memberId*/) {
+    public List<MenuCategoryNameResponse> marketMenuName(Model model) {
         Long memberId = 1L;
-        try {
-            List<MarketMenuResponse> menuResponses = marketService.getMarketMenuName(memberId);
-            model.addAttribute("menuResponses", menuResponses);
-            return ResponseEntity.ok(menuResponses);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+
+        List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
+        model.addAttribute("menuResponses", menuResponses);
+        for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
+            System.out.println(menuCategoryNameResponse.getMenuName());
         }
+
+        return menuResponses;
     }
 
     @PostMapping("/option/save")

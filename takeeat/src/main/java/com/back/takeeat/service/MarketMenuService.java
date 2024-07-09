@@ -1,5 +1,7 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.dto.marketMenu.response.*;
@@ -30,7 +32,7 @@ public class MarketMenuService {
 
         //Market -> MarketResponse
         Market market = marketRepository.findById(marketId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
         MarketResponse marketResponse = MarketResponse.createByMarket(market);
 
         //MenuResponse(MenuCategory, Menu)

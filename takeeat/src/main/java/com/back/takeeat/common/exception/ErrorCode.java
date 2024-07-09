@@ -13,7 +13,11 @@ public enum ErrorCode {
     MENU_NOT_FOUND(400, "MN_001", "메뉴를 찾을 수 없습니다."),
 
     NOTIFICATION_NOT_FOUND(400, "NO_001", "해당 알림을 찾을 수 없습니다"),
-    NOTIFICATION_UNAUTHORIZED(403, "NO_002", "해당 알림에 대한 권한이 없습니다");
+    NOTIFICATION_UNAUTHORIZED(403, "NO_002", "해당 알림에 대한 권한이 없습니다"),
+
+    CART_NOT_FOUND(400, "C_001", "장바구니를 찾을 수 없습니다"),
+
+    CARTMENU_NOT_FOUND(400, "CM_001", "장바구니 메뉴를 찾을 수 없습니다");
 
     private final String code;
     private final String message;

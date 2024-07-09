@@ -1,6 +1,8 @@
 package com.back.takeeat.service;
 
 import com.back.takeeat.common.exception.AccessDeniedException;
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.order.OrderStatus;
@@ -15,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -43,7 +44,7 @@ public class MyPageService {
 
         //주문 정보
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
 
         //주문에 담긴 메뉴 관련 정보
         List<OrderMenuResponse> cartMenuResponses = getOrderMenuResponses(order);
@@ -89,7 +90,7 @@ public class MyPageService {
     public String getOrderMarketName(Long memberId, Long orderId) throws AccessDeniedException {
 
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
 
         //주문자가 아니라면, 또는 주문이 완료된 주문건이 아니라면, 또는 이미 리뷰가 존재한다면
         if (!order.getMember().getId().equals(memberId) || order.getOrderStatus() != OrderStatus.COMPLETE || order.getReview() != null) {

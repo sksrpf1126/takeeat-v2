@@ -3,6 +3,9 @@ package com.back.takeeat.common.exception;
 public enum ErrorCode {
 
     MEMBER_NOT_FOUND(400, "U_001", "회원을 찾을 수 없습니다."),
+    MEMBER_PASSWORD_MISMATCH(400, "U_002", "비밀번호가 일치하지 않습니다."),
+    MEMBER_EXISTS(400, "U_003", "해당 아이디는 사용할 수 없습니다"),
+    EMAIL_PROVIDER_MISMATCH_ERROR(400, "U_004", "이메일 또는 제공자가 일치하지 않습니다."),
 
     MARKET_NOT_FOUND(400, "M_001", "가게를 찾을 수 없습니다."),
 

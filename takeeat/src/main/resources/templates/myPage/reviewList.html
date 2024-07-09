@@ -42,7 +42,7 @@
                     <div class="writeTime" th:text="${review.reviewWriteDate}">작성일</div>
                 </div>
                 <div class="reviewControlBtnContainer">
-                    <div><button class="modifyReviewBtn" type="button">수정</button></div>
+                    <div><button class="modifyReviewBtn" type="button" th:onclick="|location.href='@{/my/review/modify(reviewId=${review.reviewId})}'|">수정</button></div>
                     <div><button class="deleteReviewBtn" type="button">삭제</button></div>
                 </div>
             </div>

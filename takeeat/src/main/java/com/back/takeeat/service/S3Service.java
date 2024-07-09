@@ -71,7 +71,7 @@ public class S3Service {
     public void deleteFiles(List<String> fileNames) {
         fileNames.forEach(fileName -> {
             try {
-                s3Client.deleteObject(bucket, fileName);
+                s3Client.deleteObject(bucket, fileName.split("/")[3]);
             }catch (SdkClientException e) {
                 throw new RuntimeException();
             }

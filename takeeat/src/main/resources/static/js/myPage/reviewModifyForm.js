@@ -1,4 +1,18 @@
 $(document).ready(function() {
+    //페이지 로딩 시 별점 값 세팅
+    var initialRating = $('input[name="rating"]').val();
+
+    if (initialRating) {
+        $('.star_rating > .star').each(function() {
+            var starValue = $(this).attr('value');
+            if (starValue <= initialRating) {
+                $(this).addClass('on');
+            } else {
+                $(this).removeClass('on');
+            }
+        });
+    }
+
     //=== 리뷰 별점 ===
     $('.star_rating > .star').click(function() {
         var ratingValue = $(this).attr('value');
@@ -10,7 +24,7 @@ $(document).ready(function() {
     });
 
     //=== 폼 제출 ===
-    $('#writeReviewBtn').click(function() {
+    $('#modifyReviewBtn').click(function() {
         var content = $('textarea[name="content"]').val().trim();
 
         if (content == "") {
@@ -21,17 +35,17 @@ $(document).ready(function() {
         var formData = new FormData($('#reviewForm')[0]);
 
         $.ajax({
-            url: '/my/review/write',
+            url: '/my/review/modify',
             type: 'POST',
             data: formData,
             processData: false, //데이터를 문자열로 처리하지 않음
             contentType: false, //기본적으로 설정되는 contentType을 사용하지 않음
             success: function(response) {
-                const modal = new bootstrap.Modal(document.getElementById('writeCompleteModal'));
+                const modal = new bootstrap.Modal(document.getElementById('modifyCompleteModal'));
                 modal.show();
             },
             error: function(xhr, status, error) {
-                alert('리뷰 작성 실패');
+                alert('리뷰 수정 실패');
             }
         });
     });
@@ -41,8 +55,6 @@ $(document).ready(function() {
 document.getElementById('fileInput').addEventListener('change', function(event) {
     const files = event.target.files;
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-
-    imagePreviewContainer.innerHTML = '';
 
     //개수 제한
     if (files.length > 3) {
@@ -70,6 +82,8 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
         }
     }
 
+    imagePreviewContainer.innerHTML = '';
+
     //업로드 이미지 미리보기
     Array.from(files).forEach(file => {
         if (file && file.type.startsWith('image/')) {
@@ -83,12 +97,18 @@ document.getElementById('fileInput').addEventListener('change', function(event) 
             reader.readAsDataURL(file);
         }
     });
+
+    const imageModifyFlag = document.getElementById('imageModifyFlag');
+    imageModifyFlag.value = '1'; //이미지 변경 flag
 });
 
 document.getElementById('deleteImageBtn').addEventListener('click', function () {
     const fileInput = document.getElementById('fileInput');
-    fileInput.value = ''; // 파일 입력 필드 초기화
+    fileInput.value = ''; //파일 입력 필드 초기화
 
     const imagePreviewContainer = document.getElementById('imagePreviewContainer');
-    imagePreviewContainer.innerHTML = ''; // 미리보기 초기화
+    imagePreviewContainer.innerHTML = ''; //미리보기 초기화
+
+    const imageModifyFlag = document.getElementById('imageModifyFlag');
+    imageModifyFlag.value = '1'; //이미지 변경 flag
 });

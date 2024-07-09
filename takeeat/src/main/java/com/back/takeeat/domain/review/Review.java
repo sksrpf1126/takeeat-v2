@@ -5,6 +5,7 @@ import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -62,5 +63,10 @@ public class Review extends BaseTimeEntity {
 
     public void addReviewImage(ReviewImage reviewImage) {
         this.reviewImages.add(reviewImage);
+    }
+
+    public void modify(ReviewModifyFormRequest modifyForm) {
+        this.reviewRating = modifyForm.getRating();
+        this.content = modifyForm.getContent();
     }
 }

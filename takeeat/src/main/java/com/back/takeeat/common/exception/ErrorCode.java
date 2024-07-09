@@ -17,7 +17,9 @@ public enum ErrorCode {
 
     CART_NOT_FOUND(400, "C_001", "장바구니를 찾을 수 없습니다"),
 
-    CARTMENU_NOT_FOUND(400, "CM_001", "장바구니 메뉴를 찾을 수 없습니다");
+    CARTMENU_NOT_FOUND(400, "CM_001", "장바구니 메뉴를 찾을 수 없습니다"),
+
+    REVIEW_NOT_FOUND(400, "R_001", "리뷰를 찾을 수 없습니다");
 
     private final String code;
     private final String message;

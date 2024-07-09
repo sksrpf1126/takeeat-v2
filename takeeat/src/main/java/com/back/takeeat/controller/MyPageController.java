@@ -2,9 +2,11 @@ package com.back.takeeat.controller;
 
 import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
+import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
 import com.back.takeeat.dto.myPage.response.OrderListResponse;
 import com.back.takeeat.dto.myPage.response.ReviewListResponse;
+import com.back.takeeat.dto.myPage.response.ReviewModifyFormResponse;
 import com.back.takeeat.service.MyPageService;
 import com.back.takeeat.service.ReviewService;
 import com.back.takeeat.service.S3Service;
@@ -66,8 +68,7 @@ public class MyPageController {
     @PostMapping("/review/write")
     public ResponseEntity<String> write(@ModelAttribute ReviewFormRequest reviewFormRequest) {
 
-        System.out.println(reviewFormRequest.getOrderId());
-        //빈 파일이 폼 데이터에 포함되어 실제 파일이 업로드되었는지 확인
+        //파일을 업로드 하지 않았을 때([[]]) -> 실제 파일이 업로드되었는지 확인하는 로직
         List<String> imgUrls = new ArrayList<>();
         if (reviewFormRequest.getFile() != null) {
             List<MultipartFile> validFiles = reviewFormRequest.getFile().stream()
@@ -93,5 +94,49 @@ public class MyPageController {
 
         model.addAttribute("reviewListResponses", reviewListResponses);
         return "myPage/reviewList";
+    }
+
+    @GetMapping("/review/modify")
+    public String modify(@RequestParam("reviewId") Long reviewId, Model model) {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        ReviewModifyFormResponse reviewModifyFormResponse = null;
+        try {
+            reviewModifyFormResponse = reviewService.getModifyForm(memberId, reviewId);
+        } catch (AccessDeniedException e) {
+            return "errorPage/noAuthorityPage";
+        }
+
+        model.addAttribute("reviewModifyFormResponse", reviewModifyFormResponse);
+        return "myPage/reviewModifyForm";
+    }
+
+    @PostMapping("/review/modify")
+    public ResponseEntity<String> modify(@ModelAttribute ReviewModifyFormRequest reviewModifyFormRequest) {
+
+        //업로드 사진 변경 시: 기존 데이터 삭제 -> 새로운 데이터 저장
+        if (reviewModifyFormRequest.getImageModifyFlag() == 1) {
+            List<String> prevReviewImages = reviewService.getReviewImages(reviewModifyFormRequest.getReviewId());
+            if (!prevReviewImages.isEmpty()) {
+                s3Service.deleteFiles(prevReviewImages);
+                reviewService.deleteReviewImages(reviewModifyFormRequest.getReviewId());
+            }
+        }
+
+        //파일을 업로드 하지 않았을 때([[]]) -> 실제 파일이 업로드되었는지 확인하는 로직
+        List<String> imgUrls = new ArrayList<>();
+        if (reviewModifyFormRequest.getFile() != null) {
+            List<MultipartFile> validFiles = reviewModifyFormRequest.getFile().stream()
+                    .filter(file -> file != null && !file.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!validFiles.isEmpty()) {
+                imgUrls = s3Service.uploadFile(reviewModifyFormRequest.getFile());
+            }
+        }
+
+        reviewService.modify(reviewModifyFormRequest, imgUrls);
+
+        return ResponseEntity.ok("리뷰 수정 성공");
     }
 }

@@ -1,13 +1,16 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
+import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
 import com.back.takeeat.dto.myPage.response.ReviewListResponse;
-import com.back.takeeat.dto.review.response.ReviewResponse;
+import com.back.takeeat.dto.myPage.response.ReviewModifyFormResponse;
 import com.back.takeeat.repository.OrderRepository;
+import com.back.takeeat.repository.ReviewImageRepository;
 import com.back.takeeat.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +26,7 @@ public class ReviewService {
 
     private final OrderRepository orderRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
 
     public void write(Long orderId, int reviewRating, String content, List<String> imgUrls) {
 
@@ -58,5 +62,45 @@ public class ReviewService {
                 .collect(Collectors.toList());
 
         return reviewListResponses;
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewModifyFormResponse getModifyForm(Long memberId, Long reviewId) throws AccessDeniedException {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
+
+        //리뷰의 작성자가 아니라면
+        if (!review.getMember().getId().equals(memberId)) {
+            throw new AccessDeniedException();
+        }
+
+        return ReviewModifyFormResponse.createByReview(review);
+    }
+
+    @Transactional(readOnly = true)
+    public List<String> getReviewImages(Long reviewId) {
+        List<ReviewImage> reviewImages = reviewImageRepository.findByReviewId(reviewId);
+
+        return reviewImages.stream()
+                .map(ReviewImage::getStoreName)
+                .collect(Collectors.toList());
+    }
+
+    public void deleteReviewImages(Long reviewId) {
+        reviewImageRepository.deleteByReviewId(reviewId);
+    }
+
+    public void modify(ReviewModifyFormRequest reviewModifyFormRequest, List<String> imgUrls) {
+
+        Review review = reviewRepository.findById(reviewModifyFormRequest.getReviewId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
+
+        review.modify(reviewModifyFormRequest);
+
+        for (String imgUrl : imgUrls) {
+            ReviewImage reviewImage = new ReviewImage(imgUrl, review);
+            reviewImage.associateReview(review);
+        }
     }
 }

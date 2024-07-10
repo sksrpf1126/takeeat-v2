@@ -107,13 +107,13 @@ public class MarketService {
             OptionCategory optionCategory = marketOptionCategoryRequest.toOptionCategory();
 
             // 디버깅 포인트: 메뉴 카테고리 정보 출력
-            System.out.println("메뉴 카테고리 저장: " + optionCategory.getOptionCategoryName());
+            System.out.println("옵션 카테고리 저장: " + optionCategory.getOptionCategoryName());
 
             for (MarketOptionRequest marketOptionRequest : marketOptionCategoryRequest.getOptions()) {
                 Option option = marketOptionRequest.toOption();
 
                 // 디버깅 포인트: 메뉴 정보 출력
-                System.out.println("메뉴 추가: " + option.getOptionName());
+                System.out.println("옵션 추가: " + option.getOptionName());
 
                 option.addOptionCategory(optionCategory);
                 optionCategory.getOptions().add(option);

@@ -76,17 +76,20 @@ public class MarketController {
         }
     }
 
-    @GetMapping("/option")
-    public List<MenuCategoryNameResponse> marketMenuName(Model model) {
+    @GetMapping("/menus")
+    @ResponseBody
+    public List<MenuCategoryNameResponse> getMenus() {
         Long memberId = 1L;
-
         List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
-        model.addAttribute("menuResponses", menuResponses);
         for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
             System.out.println(menuCategoryNameResponse.getMenuName());
         }
-
         return menuResponses;
+    }
+
+    @GetMapping("/option")
+    public String marketOption() {
+        return "market/marketOption";
     }
 
     @PostMapping("/option/save")

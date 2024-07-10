@@ -1,7 +1,111 @@
 let menuCount = 0; // 초기 메뉴 카운트
 let categoryCount = 0; // 초기 카테고리 카운트
 
+window.saveMenu = function() {
+    let categories = [];
+    let hasIncompleteMenuData = false; // 필수 항목 누락 여부 확인 변수
+    let hasEmptyMenu = false; // 빈 메뉴 여부 확인 변수
+    let hasNoCategories = true; // 카테고리 입력 여부 확인 변수
 
+    // 모든 카테고리와 메뉴 정보 수집
+    document.querySelectorAll('.category-container').forEach(categoryContainer => {
+        let menus = [];
+        const menuCategoryName = categoryContainer.querySelector('.menu-category').value;
+
+        if (menuCategoryName) {
+            hasNoCategories = false; // 카테고리가 입력되었음을 표시
+        }
+
+        // 현재 카테고리의 메뉴들 수집
+        categoryContainer.querySelectorAll('.menu-item').forEach(menuItem => {
+            const menuName = menuItem.querySelector('.m-input-box').value;
+            const menuPrice = menuItem.querySelector('.s-input-box').value;
+            const menuIntroduction = menuItem.querySelector('.menu-introduction').value;
+            const menuImage = menuItem.querySelector('.file-style').files[0] ? menuItem.querySelector('.file-style').files[0].name : ""; // 이미지 파일 처리는 별도로 구현해야 함
+
+            // 메뉴 데이터가 모두 올바르게 수집되었는지 확인
+            if (menuName && menuPrice) {
+                let menuObject = {
+                    menuName: menuName,
+                    menuIntroduction: menuIntroduction,
+                    menuImage: menuImage,
+                    menuPrice: parseInt(menuPrice)
+                };
+                menus.push(menuObject);
+            } else {
+                console.warn("메뉴 데이터가 완전하지 않습니다:", menuItem);
+                hasIncompleteMenuData = true;
+            }
+        });
+
+        // 현재 카테고리 정보를 categories 배열에 추가
+        if (menuCategoryName && menus.length > 0) {
+            categories.push({
+                menuCategoryName: menuCategoryName,
+                menus: menus
+            });
+        } else if ((menuCategoryName && menus.length === 0) || menuCategoryName === null) {
+            console.warn("메뉴가 없습니다:", categoryContainer);
+            hasEmptyMenu = true;
+        } else {
+            console.warn("카테고리가 없습니다:", categoryContainer);
+            hasNoCategories = true;
+        }
+    });
+
+    if (hasIncompleteMenuData) {
+        alert("필수항목을 입력하세요.");
+        return;
+    }
+
+    // 경고 메시지 표시
+    if (hasEmptyMenu) {
+        alert("메뉴를 입력하세요.");
+        return;
+    }
+
+    if (categories.length === 0) {
+        alert("하나 이상의 카테고리 또는 메뉴를 입력하세요.");
+        return;
+    }
+
+    if (hasNoCategories) {
+        alert("카테고리를 입력하세요.")
+        return;
+    }
+
+    // 전체 데이터를 하나의 객체로 준비
+    const data = {
+        categories: categories
+    };
+
+    // 데이터 구조와 JSON 문자열 확인 (디버깅용)
+    console.log("전송할 데이터:", JSON.stringify(data, null, 2));
+
+    // AJAX 요청
+    fetch('/market/menu/save', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Network response was not ok.');
+    })
+    .then(data => {
+        alert('메뉴 저장 완료');
+        console.log('Response data:', data);
+        window.location.href = 'market/marketOption';
+    })
+    .catch(error => {
+        alert('저장 실패');
+        console.error('Error:', error);
+    });
+};
 document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('save-menu-button');
     if (saveButton) {
@@ -26,14 +130,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     <button class="delete-menu-button del-button" data-menu-id="${menuCount}">메뉴 삭제</button>
                         <div class="line-container margin-top-20">
                             <div class="length-container">
-                                <div class="s-info-text essential">메뉴를 입력하세요.</div>
-                                <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" th:errorclass="field-error-border" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
-                                <div class="field-error" id="marketMenu-error" th:errors="*{marketMenu}"></div>
+                                <div class="s-info-text">메뉴를 입력하세요.</div>
+                                <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
                             </div>
                             <div class="length-container margin-left-10">
-                                <div class="s-info-text essential">가격</div>
-                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" th:errorclass="field-error-border" name="menuPrice" class="s-input-box margin-top-10"/>
-                                <div class="field-error" id="menuPrice-error" th:errors="*{menuPrice}"></div>
+                                <div class="s-info-text">가격</div>
+                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" class="s-input-box margin-top-10"/>
                             </div>
                         </div>
                         <div class="line-container margin-top-20">
@@ -68,9 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <li>
                             <button class="delete-category-button del-button" data-category-id="${categoryCount}">카테고리 삭제</button>
                             <div class="length-container margin-top-20">
-                                <div class="info-text essential">메뉴 카테고리를 입력하세요.</div>
-                                <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" th:errorclass="field-error-border" name="menuCategory" class="menu-category l-input-box margin-top-10"/>
-                                <div class="field-error" id="menuCategory-error" th:errors="*{menuCategory}"></div>
+                                <div class="info-text">메뉴 카테고리를 입력하세요.</div>
+                                <input type="text" id="menuCategory-${categoryCount}" th:field="*{menuCategory}" name="menuCategory" class="menu-category l-input-box margin-top-10"/>
                             </div>
                             <div class="menu-container">
                                 <!-- 여기에 해당 카테고리의 메뉴들이 추가될 부분 -->

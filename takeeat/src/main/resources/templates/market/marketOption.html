@@ -65,8 +65,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="option-container">
-                        <!-- 카테고리와 옵션들이 추가될 부분 -->
+                    <!-- 자바스크립트에서 th:block 사용할 수 없어 숨겨놓고 id값으로 사용() -->
+                    <div id="hiddenMenuOptions" style="display:block;">
+
                     </div>
                     <hr class="hr-margin"/>
                     <div id="category-container"></div>
@@ -79,6 +80,11 @@
             </form>
         </div>
     </div>
+    <script id="optionTemplate" type="text/x-handlebars-template">
+        {{#each options}}
+        <option value="{{menuResponses.menuName}}">{{menuResponses.menuName}}</option>
+        {{/each}}
+    </script>
     <script src="/js/market/marketOption.js"></script>
 </body>
 </html>

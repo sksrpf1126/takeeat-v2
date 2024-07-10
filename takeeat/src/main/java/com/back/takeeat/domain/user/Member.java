@@ -5,9 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Builder
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseTimeEntity {
 
@@ -27,10 +25,36 @@ public class Member extends BaseTimeEntity {
     private String phone;
 
     @Enumerated(EnumType.STRING)
+    private ProviderType providerType;
+
+    @Enumerated(EnumType.STRING)
     private MemberRoleType role;
 
     private String profile;
 
-    private String deleteYn;
+    private Boolean deleteYn;
 
+    @Builder
+    public Member(String nickname, String name, String email, String phone, ProviderType providerType, MemberRoleType role, String profile) {
+        this.nickname = nickname;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.providerType = providerType;
+        this.role = role;
+        this.profile = profile;
+        this.deleteYn = false;
+    }
+
+    public void socialMemberSignup(String name, String nickname, String phone) {
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.role = MemberRoleType.ROLE_MEMBER;
+        this.deleteYn = false;
+    }
+
+    public void setEncryptPassword(String encryptPassword) {
+        this.pwd = encryptPassword;
+    }
 }

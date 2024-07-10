@@ -1,13 +1,16 @@
 package com.back.takeeat.controller;
 
 import com.back.takeeat.domain.order.OrderStatus;
+import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.marketorder.request.MarketOrderSearchRequest;
 import com.back.takeeat.dto.marketorder.response.DetailMarketOrderResponse;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.marketorder.response.optioncategory.DetailMarketOrderResponseV2;
+import com.back.takeeat.security.LoginMember;
 import com.back.takeeat.service.MarketOrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +27,7 @@ public class MarketOrderController {
     private final MarketOrderService marketOrderService;
 
     @GetMapping("/{marketId}/order")
-    public String marketOrder(@PathVariable("marketId") Long marketId, Model model) {
+    public String marketOrder(@PathVariable("marketId") Long marketId, @LoginMember Member member, Model model) {
         // TODO : 해당 경로로 접근하는 member가 해당 market의 주인인지 판별할 것(예외처리)
         Map<OrderStatus, Long> marketOrderStatusResponses = marketOrderService.findMarketOrderStatus(marketId);
 
@@ -33,6 +36,7 @@ public class MarketOrderController {
         return "market/marketOrder";
     }
 
+    @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN') ")
     @GetMapping("/{marketId}/order-status/count")
     @ResponseBody
     public Map<OrderStatus, Long> getOrderStatusCount(@PathVariable("marketId") Long marketId) {

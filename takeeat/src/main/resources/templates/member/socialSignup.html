@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/css/member/member-common.css" />
+    <link rel="stylesheet" href="/css/member/socialSignup.css" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>TakeEat</title>
+</head>
+<body>
+<div id="contents">
+    <div class="header">
+        <img src="/images/member/left-arrow.png" />
+        <div>회원가입</div>
+        <img src="/images/member/cancel.png" />
+    </div>
+    <div class="middle">
+        <form action="/member/signup" method="post">
+            <input
+                    type="hidden"
+                    id="email"
+                    name="email"
+                    th:value="${session.email}"
+            />
+            <input
+                    type="hidden"
+                    id="providerType"
+                    name="providerType"
+                    th:value="${session.providerType}"
+            />
+            <div class="profile-user-frame">
+                <img
+                        id="profile-user-image"
+                        src="/images/profile.jpg"
+                        alt="Default Profile Image"
+                /><br />
+                <input
+                        type="file"
+                        name="file"
+                        id="profile-user-img-save-btn"
+                        accept="image/*"
+                        style="display: none"
+                />
+                <input type="button" id="profile-update-btn" />
+            </div>
+            <div class="name-frame">
+                <div class="input-title">이름</div>
+                <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="이름을 입력해주세요"
+                />
+            </div>
+            <div class="nickname-frame">
+                <div class="input-title">닉네임</div>
+                <input
+                        type="text"
+                        id="nickname"
+                        name="nickname"
+                        placeholder="2~8글자 이내로 입력해주세요."
+                />
+            </div>
+            <div class="phone-frame">
+                <div class="input-title">전화번호</div>
+                <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="-를 빼고 입력해주세요."
+                />
+            </div>
+            <div class="regist-frame">
+                <input type="submit" value="회원가입" class="regist-btn" />
+            </div>
+        </form>
+    </div>
+    <div class="footer">Copyright TAKE EAT. All Rights Reserved.</div>
+</div>
+<script src="/js/member/socialSignup.js"></script>
+</body>
+</html>

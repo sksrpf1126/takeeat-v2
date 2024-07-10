@@ -120,7 +120,7 @@
                                 <div class="reviewTime">&nbsp;[[${review.reviewWriteDate}]]</div>
                             </div>
                             <div class="reportBtnContainer">
-                                <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
+                                <button class="reportBtn" type="button" onclick="showReportModal(this)" th:data-review-id="${review.reviewId}">신고</button>
                             </div>
                         </div>
                         <div class="reviewRatingContainer">
@@ -156,7 +156,7 @@
                                 <div class="reviewTime">&nbsp;[[${review.reviewWriteDate}]]</div>
                             </div>
                             <div class="reportBtnContainer">
-                                <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
+                                <button class="reportBtn" type="button" onclick="showReportModal(this)" th:data-review-id="${review.reviewId}">신고</button>
                             </div>
                         </div>
                         <div class="reviewRatingContainer">
@@ -217,16 +217,33 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id="reportReviewInfo">*나쁜사람 님이 작성한 리뷰</div>
-                    해당 리뷰를 신고하시겠습니까?
+                    해당 리뷰를 신고하시겠습니까?<br/>
+                    관리자 검토 후 블라인드 처리됩니다.
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
-                    <button type="button" class="btn" style="background: #ffb36f;">확인</button>
+                    <button type="button" class="btn" id="reportReviewBtn" style="background: #ffb36f;">확인</button>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal" id="reportCompleteModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                </div>
+                <div class="modal-body">
+                    신고가 접수되었습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="/js/market/marketReview.js"></script>

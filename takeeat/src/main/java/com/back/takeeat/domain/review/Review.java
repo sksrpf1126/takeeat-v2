@@ -75,7 +75,12 @@ public class Review extends BaseTimeEntity {
         this.reviewStatus = ReviewStatus.DELETE;
     }
 
+    public void report() {
+        this.reviewStatus = ReviewStatus.REPORT;
+    }
+
     public void updateOwnerReview(OwnerReview ownerReview) {
         this.ownerReview = ownerReview;
     }
+
 }

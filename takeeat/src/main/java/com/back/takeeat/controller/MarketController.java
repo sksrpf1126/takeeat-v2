@@ -4,8 +4,8 @@ package com.back.takeeat.controller;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
-import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
 import com.back.takeeat.service.MarketService;
+import com.back.takeeat.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +22,7 @@ import java.util.Map;
 public class MarketController {
 
     private final MarketService marketService;
+    private final ReviewService reviewService;
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
@@ -87,7 +88,7 @@ public class MarketController {
         Long reviewId = ((Integer)reviewData.get("reviewId")).longValue();
         String ownerReviewContent = (String) reviewData.get("ownerReviewContent");
 
-        String task = marketService.saveOwnerReview(reviewId, ownerReviewContent);
+        String task = reviewService.writeOwnerReview(reviewId, ownerReviewContent);
 
         switch (task) {
             case "modify":
@@ -101,6 +102,16 @@ public class MarketController {
         }
 
         return ResponseEntity.ok("none");
+    }
+
+    @ResponseBody
+    @PostMapping("/review/report")
+    public ResponseEntity<String> reportReview(@RequestBody Map<String, Object> reviewData) {
+        Long reviewId = ((Integer)reviewData.get("reviewId")).longValue();
+
+        reviewService.reportReview(reviewId);
+
+        return ResponseEntity.ok("리뷰 신고 완료");
     }
 
 }

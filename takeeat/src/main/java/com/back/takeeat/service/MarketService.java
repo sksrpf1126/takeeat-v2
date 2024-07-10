@@ -106,39 +106,4 @@ public class MarketService {
 
         return MarketReviewResponse.create(market.getMarketRating(), ratingCountResponse, reviewResponses, noAnswerOptionReviews, blindOptionReviews);
     }
-
-    @Transactional
-    public String saveOwnerReview(Long reviewId, String ownerReviewContent) {
-
-        Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
-
-        OwnerReview findOwnerReview = review.getOwnerReview();
-
-        /*
-        1. 기존에 작성된 답글이 있다
-            1-1. 내용이 있다면 수정
-            1-2. 내용이 없다면 삭제
-        2. 기존에 작성된 답글이 없다
-            2-1. 내용이 있다면 작성
-            2-2. 내용이 없다면 아무 작업도 하지 않는다
-        */
-        if (findOwnerReview != null) {
-            if (ownerReviewContent != null && !ownerReviewContent.isBlank()) {
-                findOwnerReview.modify(ownerReviewContent, review);
-                return "modify";
-            } else {
-                ownerReviewRepository.deleteById(findOwnerReview.getId());
-                return "delete";
-            }
-        } else {
-            if (ownerReviewContent != null && !ownerReviewContent.isBlank()) {
-                OwnerReview ownerReview = new OwnerReview(ownerReviewContent, review);
-                ownerReviewRepository.save(ownerReview);
-                return "write";
-            } else {
-                return "none";
-            }
-        }
-    }
 }

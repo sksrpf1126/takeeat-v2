@@ -21,14 +21,17 @@ document.addEventListener('DOMContentLoaded', function () {
     showContent();
 });
 
+var reportReviewId;
+
 //=== 신고 confirm 모달 ===
-function showReportModal() {
+function showReportModal(button) {
+    reportReviewId = parseInt(button.getAttribute('data-review-id'));
     const modal = new bootstrap.Modal(document.getElementById('confirmReportModal'));
     modal.show();
 }
 
-//=== 사장님 리뷰 작성 ===
 $(document).ready(function() {
+    //=== 사장님 답글 작성/수정/삭제 ===
     $('.ownerReviewWriteBtn').on('click', function() {
         var button = $(this);
         var reviewId = parseInt(button.data('review-id'));
@@ -49,6 +52,28 @@ $(document).ready(function() {
             },
             error: function(xhr, status, error) {
                 alert('작업 수행을 실패했습니다');
+            }
+        });
+    });
+
+    //=== 리뷰 신고 ===
+    $('#reportReviewBtn').click(function() {
+        $.ajax({
+            url: '/market/review/report',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                reviewId: reportReviewId
+            }),
+            success: function(response) {
+                const confirmReportModal = bootstrap.Modal.getInstance(document.getElementById('confirmReportModal'));
+                confirmReportModal.hide();
+
+                const reportCompleteModal = new bootstrap.Modal(document.getElementById('reportCompleteModal'));
+                reportCompleteModal.show();
+            },
+            error: function(xhr, status, error) {
+                alert('리뷰 신고 중 오류가 발생했습니다.')
             }
         });
     });

@@ -34,7 +34,4 @@ public class OwnerReview extends BaseTimeEntity {
         review.updateOwnerReview(this);
     }
 
-    public void associateReview(Review review) {
-        review.updateOwnerReview(this);
-    }
 }

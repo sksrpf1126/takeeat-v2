@@ -23,6 +23,7 @@ public class ReviewResponse {
     private String nickname;
     private String profile;
 
+    private Long reviewId;
     private int reviewRating;
     private String reviewContent;
     private String reviewWriteDate;
@@ -37,6 +38,7 @@ public class ReviewResponse {
         ReviewResponseBuilder builder = ReviewResponse.builder()
                 .nickname(review.getMember().getNickname())
                 .profile(review.getMember().getProfile())
+                .reviewId(review.getId())
                 .reviewRating(review.getReviewRating())
                 .reviewContent(review.getContent())
                 .reviewWriteDate(localDateTimeFormat(review.getCreatedTime()))

@@ -1,4 +1,4 @@
-//==== 탭 메뉴 ====
+//=== 탭 메뉴 ===
 document.addEventListener('DOMContentLoaded', function () {
     const tabs = document.querySelectorAll('.tabs input');
     const contents = document.querySelectorAll('.conbox');
@@ -21,8 +21,35 @@ document.addEventListener('DOMContentLoaded', function () {
     showContent();
 });
 
-//==== 신고 confirm 모달 ====
+//=== 신고 confirm 모달 ===
 function showReportModal() {
     const modal = new bootstrap.Modal(document.getElementById('confirmReportModal'));
     modal.show();
 }
+
+//=== 사장님 리뷰 작성 ===
+$(document).ready(function() {
+    $('.ownerReviewWriteBtn').on('click', function() {
+        var button = $(this);
+        var reviewId = parseInt(button.data('review-id'));
+        var textarea = button.closest('.ownerReviewContainer').find('textarea');
+        var ownerReviewContent = textarea.val();
+
+        $.ajax({
+            url: '/market/review/write',
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                reviewId: reviewId,
+                ownerReviewContent: ownerReviewContent
+            }),
+            success: function(response) {
+                if (response != 'none')
+                    alert(response);
+            },
+            error: function(xhr, status, error) {
+                alert('작업 수행을 실패했습니다');
+            }
+        });
+    });
+});

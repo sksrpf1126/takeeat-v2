@@ -8,6 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
@@ -55,45 +57,45 @@
         <div id="reviewSummaryContainer">
             <div id="reviewSummary">
                 <div id="reviewAvgContainer">
-                    <div id="reviewCount">리뷰 수: <strong>123</strong>개</div>
+                    <div id="reviewCount">리뷰 수: <strong>[[${marketReviewResponse.allOptionReviews.size()}]]</strong>개</div>
                     <div id="reviewAvgTitle">평균별점</div>
-                    <div id="reviewAvg"><strong>4.5</strong></div>
+                    <div id="reviewAvg"><strong>[[${marketReviewResponse.marketRating}]]</strong></div>
                 </div>
                 <div id="ratingInfoContainer">
                     <div class="ratingInfo">
                         <div>5점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fiveStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.fiveStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>4점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fourStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.fourStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>3점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.threeStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.threeStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>2점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.twoStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.twoStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>1점</div>
                         <div class="graph">
-                            <span> </span>
+                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.oneStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
-                        <div>&nbsp;25</div>
+                        <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.oneStar}]]</div>
                     </div>
                 </div>
             </div>
@@ -102,167 +104,104 @@
         <div class="tab_content">
             <div class="tabs">
                 <input type="radio" class="tabmenu" name="tabmenu" id="tab01" checked>
-                <label for="tab01">전체(123)</label>
+                <label for="tab01">전체([[${marketReviewResponse.allOptionReviews.size()}]])</label>
                 <input type="radio" class="tabmenu" name="tabmenu" id="tab02">
-                <label for="tab02">미답변(33)</label>
+                <label for="tab02">미답변([[${marketReviewResponse.noAnswerOptionReviews.size()}]])</label>
                 <input type="radio" class="tabmenu" name="tabmenu" id="tab03">
-                <label for="tab03">차단(3)</label>
+                <label for="tab03">차단([[${marketReviewResponse.blindOptionReviews.size()}]])</label>
             </div>
 
             <div class="conbox con1">
-                <div class="reviewAndForm">
+                <div class="reviewAndForm" th:each="review : ${marketReviewResponse.allOptionReviews}">
                     <div class="reviewContainer">
                         <div class="writeInfoAndReport">
                             <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>우디누나 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 6월 24일</div>
+                                <div class="reviewWriter"><strong>[[${review.nickname}]] 님</strong></div>
+                                <div class="reviewTime">&nbsp;[[${review.reviewWriteDate}]]</div>
                             </div>
                             <div class="reportBtnContainer">
                                 <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
                             </div>
                         </div>
                         <div class="reviewRatingContainer">
-                            <div class="yellowStar">★★★★</div>
-                            <div class="grayStar">★</div>
+                            <div class="yellowStar">
+                                <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                            </div>
+                            <div class="grayStar" th:if="${review.reviewRating != 5}">
+                                <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                            </div>
                         </div>
                         <div class="reviewContentContainer">
-                            <div class="reviewContent">도우도 쫄깃하고 너무 맛있습니다.</div>
+                            <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
                             <div class="reviewImageContainer">
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
+                                <th:block th:each="reviewImage : ${review.reviewImages}">
+                                    <img class="reviewImage" th:src="${reviewImage}"/>
+                                </th:block>
                             </div>
                         </div>
                     </div>
                     <div class="ownerReviewContainer">
-                        <textarea rows="2" placeholder="답글을 등록해주세요."></textarea>
-                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;">등록</button>
-                    </div>
-                </div>
-                <div class="reviewAndForm">
-                    <div class="reviewContainer">
-                        <div class="writeInfoAndReport">
-                            <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>다이어트는내일부터 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 6월 20일</div>
-                            </div>
-                            <div class="reportBtnContainer">
-                                <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
-                            </div>
-                        </div>
-                        <div class="reviewRatingContainer">
-                            <div class="yellowStar">★★★★★</div>
-                        </div>
-                        <div class="reviewContentContainer">
-                            <div class="reviewContent">맛있게 잘먹었습니다. 너무 맛있어요.</div>
-                        </div>
-                    </div>
-                    <div class="ownerReviewContainer">
-                        <textarea rows="2" placeholder="답글을 등록해주세요.">다이어트는내일부터님, 안녕하세요! 정말 감사합니다. 앞으로도 청년피자 많이 사랑해주세요!</textarea>
-                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;">등록</button>
-                    </div>
-                </div>
-                <div class="reviewAndForm">
-                    <div class="reviewContainer">
-                        <div class="writeInfoAndReport">
-                            <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>젤리피쉬 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 6월 19일</div>
-                            </div>
-                            <div class="reportBtnContainer">
-                                <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
-                            </div>
-                        </div>
-                        <div class="reviewRatingContainer">
-                            <div class="yellowStar">★★★★★</div>
-                        </div>
-                        <div class="reviewContentContainer">
-                            <div class="reviewContent">처음 주문해서 먹었는데 너무 맛있습니다! 사람들이 후라이드는 이 집이 맛있다고 했는데 제 입맛에도 딱이네요~</div>
-                            <div class="reviewImageContainer">
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ownerReviewContainer">
-                        <textarea rows="2" placeholder="답글을 등록해주세요."></textarea>
-                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;">등록</button>
+                        <textarea rows="2" placeholder="답글을 등록해주세요.">[[${review.ownerReviewContent}]]</textarea>
+                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;" th:data-review-id="${review.reviewId}">등록</button>
                     </div>
                 </div>
             </div>
 
             <div class="conbox con2">
-                <div class="reviewAndForm">
+                <div class="reviewAndForm" th:each="review : ${marketReviewResponse.noAnswerOptionReviews}">
                     <div class="reviewContainer">
                         <div class="writeInfoAndReport">
                             <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>우디누나 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 6월 24일</div>
+                                <div class="reviewWriter"><strong>[[${review.nickname}]] 님</strong></div>
+                                <div class="reviewTime">&nbsp;[[${review.reviewWriteDate}]]</div>
                             </div>
                             <div class="reportBtnContainer">
                                 <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
                             </div>
                         </div>
                         <div class="reviewRatingContainer">
-                            <div class="yellowStar">★★★★</div>
-                            <div class="grayStar">★</div>
+                            <div class="yellowStar">
+                                <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                            </div>
+                            <div class="grayStar" th:if="${review.reviewRating != 5}">
+                                <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                            </div>
                         </div>
                         <div class="reviewContentContainer">
-                            <div class="reviewContent">도우도 쫄깃하고 너무 맛있습니다.</div>
+                            <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
                             <div class="reviewImageContainer">
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
+                                <th:block th:each="reviewImage : ${review.reviewImages}">
+                                    <img class="reviewImage" th:src="${reviewImage}"/>
+                                </th:block>
                             </div>
                         </div>
                     </div>
                     <div class="ownerReviewContainer">
-                        <textarea rows="2" placeholder="답글을 등록해주세요."></textarea>
-                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;">등록</button>
-                    </div>
-                </div>
-                <div class="reviewAndForm">
-                    <div class="reviewContainer">
-                        <div class="writeInfoAndReport">
-                            <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>젤리피쉬 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 6월 19일</div>
-                            </div>
-                            <div class="reportBtnContainer">
-                                <button class="reportBtn" type="button" onclick="showReportModal()">신고</button>
-                            </div>
-                        </div>
-                        <div class="reviewRatingContainer">
-                            <div class="yellowStar">★★★★★</div>
-                        </div>
-                        <div class="reviewContentContainer">
-                            <div class="reviewContent">처음 주문해서 먹었는데 너무 맛있습니다! 사람들이 후라이드는 이 집이 맛있다고 했는데 제 입맛에도 딱이네요~</div>
-                            <div class="reviewImageContainer">
-                                <img class="reviewImage" src="/images/review-sample.jpg"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="ownerReviewContainer">
-                        <textarea rows="2" placeholder="답글을 등록해주세요."></textarea>
-                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;">등록</button>
+                        <textarea rows="2" placeholder="답글을 등록해주세요.">[[${review.ownerReviewContent}]]</textarea>
+                        <button type="button" class="ownerReviewWriteBtn btn" style="background: #ffb36f;" th:data-review-id="${review.reviewId}">등록</button>
                     </div>
                 </div>
             </div>
 
             <div class="conbox con3">
-                <div class="reviewAndForm">
+                <div class="reviewAndForm" th:each="review : ${marketReviewResponse.blindOptionReviews}">
                     <div class="reviewContainer">
                         <div class="writeInfoAndReport">
                             <div class="writerAndTime">
-                                <div class="reviewWriter"><strong>나쁜사람 님</strong></div>
-                                <div class="reviewTime">&nbsp;2024년 5월 1일</div>
+                                <div class="reviewWriter"><strong>[[${review.nickname}]] 님</strong></div>
+                                <div class="reviewTime">&nbsp;[[${review.reviewWriteDate}]]</div>
                             </div>
                         </div>
                         <div class="reviewRatingContainer">
-                            <div class="yellowStar">★</div>
-                            <div class="grayStar">★★★★</div>
+                            <div class="yellowStar">
+                                <block th:each="num:${#numbers.sequence(1, review.reviewRating)}">★</block>
+                            </div>
+                            <div class="grayStar" th:if="${review.reviewRating != 5}">
+                                <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
+                            </div>
                         </div>
                         <div class="reviewContentContainer">
-                            <div class="reviewContent">사장님 바보</div>
+                            <div class="reviewContent" th:text="${review.reviewContent}">리뷰내용</div>
                         </div>
                     </div>
                 </div>
@@ -290,6 +229,6 @@
     </div>
 </div>
 
-<script src="/js/market/marketReviewScript.js"></script>
+<script src="/js/market/marketReview.js"></script>
 </body>
 </html>

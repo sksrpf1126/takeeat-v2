@@ -74,4 +74,8 @@ public class Review extends BaseTimeEntity {
     public void delete() {
         this.reviewStatus = ReviewStatus.DELETE;
     }
+
+    public void updateOwnerReview(OwnerReview ownerReview) {
+        this.ownerReview = ownerReview;
+    }
 }

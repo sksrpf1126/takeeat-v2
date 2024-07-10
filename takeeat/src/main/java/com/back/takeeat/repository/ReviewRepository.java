@@ -48,4 +48,15 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "AND (r.reviewStatus = ReviewStatus.ACTIVE OR r.reviewStatus = ReviewStatus.MODIFY OR r.reviewStatus = ReviewStatus.REPORT) "
     )
     int getTotalReviewRating(@Param("marketId") Long marketId);
+
+    @Query(
+            "SELECT r " +
+                    "FROM Review r INNER JOIN FETCH r.member " +
+                    "OUTER JOIN FETCH r.ownerReview " +
+                    "OUTER JOIN FETCH r.reviewImages " +
+                    "WHERE r.market.id = :marketId " +
+                    "AND r.reviewStatus = ReviewStatus.BLIND " +
+                    "ORDER BY r.id DESC"
+    )
+    List<Review> findByMarketIdWithBlindStatus(@Param("marketId") Long marketId);
 }

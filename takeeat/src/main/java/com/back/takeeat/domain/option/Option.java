@@ -3,6 +3,8 @@ package com.back.takeeat.domain.option;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+
 @Entity
 @Table(name = "options")
 @Builder
@@ -23,5 +25,15 @@ public class Option {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "option_category_id")
     private OptionCategory optionCategory;
+
+    public void addOptionCategory(OptionCategory optionCategory) {
+        this.optionCategory = optionCategory;
+        if (optionCategory.getOptions() == null) {
+            optionCategory.addOptions(new ArrayList<>()); // 리스트가 null인 경우 초기화
+        }
+        if (!optionCategory.getOptions().contains(this)) {
+            optionCategory.getOptions().add(this);
+        }
+    }
 
 }

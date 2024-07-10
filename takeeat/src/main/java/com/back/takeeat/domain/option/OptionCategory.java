@@ -32,4 +32,8 @@ public class OptionCategory {
     @OneToMany(mappedBy = "optionCategory")
     private List<Option> options;
 
+    public void addOptions(List<Option> options) {
+        this.options = options;
+    }
+
 }

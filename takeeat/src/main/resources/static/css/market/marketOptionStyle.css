@@ -458,3 +458,13 @@
  .select-option {
     margin-left: auto;
  }
+
+ /*드롭다운*/
+.dropdown {
+    height: 35px;
+    border: solid 2px #D8D8D8;
+}
+.dropdown:hover {
+    border: solid 2px #A4A4A4;
+    height: 35px;
+}

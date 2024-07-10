@@ -1,5 +1,6 @@
 package com.back.takeeat.repository;
 
+import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.dto.marketMenu.response.OptionCategoryResponse;
@@ -49,4 +50,6 @@ public interface MenuCategoryRepository extends JpaRepository<MenuCategory, Long
                     "INNER JOIN mc.menus m " +
                     "WHERE mc.market.id = :marketId")
     List<MenuCategoryNameResponse> findMenuCategoriesByMarketId(@Param("marketId") Long marketId);
+
+
 }

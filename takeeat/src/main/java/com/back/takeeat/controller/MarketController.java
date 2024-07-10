@@ -94,9 +94,16 @@ public class MarketController {
 
     @PostMapping("/option/save")
     @ResponseBody
-    public ResponseEntity<String> saveOption(@RequestBody OptionRequest optionRequest) {
+    public ResponseEntity<String> saveOption(@RequestBody @Valid OptionRequest optionRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMessages = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
+        }
+        Long memberId = 1L;
         try {
-            marketService.optionCategoriesRegister(optionRequest);
+            marketService.optionCategoriesRegister(optionRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();

@@ -8,10 +8,7 @@ import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.*;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
-import com.back.takeeat.repository.MarketRepository;
-import com.back.takeeat.repository.MemberRepository;
-import com.back.takeeat.repository.MenuCategoryRepository;
-import com.back.takeeat.repository.OptionCategoryRepository;
+import com.back.takeeat.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -102,7 +99,19 @@ public class MarketService {
     }
 
     @Transactional
-    public void optionCategoriesRegister(OptionRequest optionRequest) {
+    public void optionCategoriesRegister(OptionRequest optionRequest, Long memberId) {
+        // 회원 정보를 조회
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
+
+        // 마켓 정보를 조회
+        Market market = marketRepository.findByMemberId(member.getId());
+        if (market == null) {
+            throw new NoSuchElementException("마켓 정보를 찾을 수 없습니다.");
+        }
+
+        List<MenuCategoryNameResponse> menuCategory = menuCategoryRepository.findMenuCategoriesByMarketId(market.getId());
+
         for (MarketOptionCategoryRequest marketOptionCategoryRequest : optionRequest.getCategories()) {
             OptionCategory optionCategory = marketOptionCategoryRequest.toOptionCategory();
 

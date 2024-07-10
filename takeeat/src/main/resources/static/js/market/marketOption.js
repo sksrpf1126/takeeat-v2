@@ -14,7 +14,7 @@ function handleOptionSelect(categoryCount, optionType) {
 document.addEventListener('DOMContentLoaded', function() {
     let optionCount = 0;
     let categoryCount = 0;
-    let selectedMenuValues = []; // 선택된 메뉴를 추적하는 전역 배열
+    let selectedMenuValues = []; // 선택된 옵션을 추적하는 전역 배열
 
     document.addEventListener('click', function(event) {
         const target = event.target;
@@ -199,7 +199,7 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         } else {
             optionElement.remove();
-            updateSelectedMenuValues(); // 선택된 메뉴 값을 업데이트
+            updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트
         }
     }
 
@@ -221,7 +221,105 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         } else {
             categoryElement.remove();
-            updateSelectedMenuValues(); // 선택된 메뉴 값을 업데이트
+            updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트
         }
     }
 });
+
+window.saveOption = function() {
+    let categories = [];
+    let hasIncompleteOptionData = false; // 필수 항목 누락 여부 확인 변수
+    let hasEmptyOption = false; // 빈 옵션 여부 확인 변수
+    let hasNoCategories = true; // 카테고리 입력 여부 확인 변수
+
+    // 모든 카테고리와 옵션 정보 수집
+    document.querySelectorAll('.category-container').forEach(categoryContainer => {
+        let options = [];
+        const optionCategoryName = categoryContainer.querySelector('.option-category').value;
+        const optionMaxCount = categoryContainer.querySelector('.option-max-count').value;
+        const optionSelect = categoryContainer.querySelector('.option-select').value;
+
+        if (optionCategoryName) {
+            hasNoCategories = false; // 카테고리가 입력되었음을 표시
+        }
+
+        // 현재 카테고리의 옵션 수집
+        categoryContainer.querySelectorAll('.option-item').forEach(optionItem => {
+            const optionName = optionItem.querySelector('.m-input-box').value;
+            const optionPrice = optionItem.querySelector('.s-input-box').value;
+
+            // 옵션 데이터가 모두 올바르게 수집되었는지 확인
+            if (optionName && optionPrice) {
+                let optionObject = {
+                    optionName: optionName,
+                    optionPrice: parseInt(optionPrice)
+                };
+                options.push(optionObject);
+            } else {
+                console.warn("옵션 데이터가 완전하지 않습니다:", optionItem);
+                hasIncompleteOptionData = true;
+            }
+        });
+
+        // 현재 카테고리 정보를 categories 배열에 추가
+        if (optionCategoryName && options.length > 0) {
+            categories.push({
+                optionCategoryName: optionCategoryName,
+                optionMaxCount: optionMaxCount,
+                optionSelect: optionSelect,
+                options: options
+            });
+        } else if ((optionCategoryName && options.length === 0) || optionCategoryName === null) {
+            console.warn("옵션이 없습니다:", categoryContainer);
+            hasEmptyOption = true;
+        } else {
+            console.warn("카테고리가 없습니다:", categoryContainer);
+            hasNoCategories = true;
+        }
+    });
+
+    if (hasIncompleteOptionData) {
+        alert("필수항목을 입력하세요.");
+        return;
+    }
+
+    // 경고 메시지 표시
+    if (hasEmptyOption) {
+        alert("옵션을 입력하세요.");
+        return;
+    }
+
+    if (categories.length === 0) {
+        alert("하나 이상의 카테고리 또는 옵션을 입력하세요.");
+        return;
+    }
+
+    if (hasNoCategories) {
+        alert("카테고리를 입력하세요.")
+        return;
+    }
+
+    // 전체 데이터를 하나의 객체로 준비
+    const data = {
+        categories: categories
+    };
+
+    // 데이터 구조와 JSON 문자열 확인 (디버깅용)
+    console.log("전송할 데이터:", JSON.stringify(data, null, 2));
+
+    // AJAX 요청
+   $.ajax({
+       url: '/market/option/save',
+       method: 'POST',
+       contentType: 'application/json',
+       data: JSON.stringify(data),
+       success: function(data) {
+           alert('옵션 저장 완료');
+           console.log('Response data:', data);
+       },
+       error: function(xhr, status, error) {
+           alert('저장 실패');
+           console.error('Error:', error);
+       }
+   });
+};

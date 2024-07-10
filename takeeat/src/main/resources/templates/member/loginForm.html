@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TakeEat</title>
     <link rel="stylesheet" href="/css/member/loginForm.css" />
-    <title>Title</title>
 </head>
 <body>
-    <div id="contents">
-        <form action="/login" method="post" >
-            <input type="text" name="username" />
-            <input type="password" name="password" />
-            <button>로그인</button>
+<div id="contents">
+    <div class="login-container">
+        <img src="/images/login/logo.png" class="logo" />
+        <form action="/login" method="post" class="login-form">
+            <input type="email" name="email" class="email" placeholder="E-mail" />
+            <div th:if="${error}">
+                <p class="login-error-font" th:text="${exception}"></p>
+            </div>
+            <input type="password" name="password" class="password" placeholder="Password" />
+
+            <input type="submit" class="login-btn" value="Login" />
         </form>
-        <div>
-            <a href="">아이디 찾기</a>
-            <a href="">비밀번호 찾기</a>
+        <div class="social-login-frame">
+            <a href="/oauth2/authorization/kakao" class="kakao-btn">
+                <div class="kakao-img-frame">
+                    <img src="/images/login/kakao.png" />
+                </div>
+                <div class="kakao-text">Kakao</div>
+            </a>
+            <a href="/oauth2/authorization/google" class="google-btn">
+                <div class="google-img-frame">
+                    <img src="/images/login/google.png" />
+                </div>
+                <div class="google-text">Google</div>
+            </a>
         </div>
-        <button><a href="/member/policy-agreement">회원가입</a></button>
-        <button><a href="/oauth2/authorization/kakao">카카오로 로그인</a></button>
+        <div class="findUser-frame">
+            <a href="#" class="findId">아이디 찾기</a> |
+            <a href="#" class="findPassword">비밀번호 찾기</a> |
+            <a href="/member/policy-agreement" class="regist">회원가입</a>
+        </div>
     </div>
+</div>
 </body>
 </html>

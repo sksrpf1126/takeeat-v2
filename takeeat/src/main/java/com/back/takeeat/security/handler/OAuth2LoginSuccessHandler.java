@@ -1,7 +1,8 @@
-package com.back.takeeat.security.oauth;
+package com.back.takeeat.security.handler;
 
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.domain.user.MemberRoleType;
+import com.back.takeeat.security.oauth.PrincipalDetails;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

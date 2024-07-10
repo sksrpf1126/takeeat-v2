@@ -4,6 +4,7 @@ import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.domain.user.MemberRoleType;
 import com.back.takeeat.domain.user.ProviderType;
 import com.back.takeeat.repository.MemberRepository;
+import com.back.takeeat.security.oauth.GoogleResponse;
 import com.back.takeeat.security.oauth.KakaoResponse;
 import com.back.takeeat.security.oauth.OAuth2Response;
 import com.back.takeeat.security.oauth.PrincipalDetails;
@@ -37,6 +38,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
         if(providerType.equals(ProviderType.KAKAO)) {
             oAuth2Response = new KakaoResponse(oAuth2User.getAttributes());
+        }else if(providerType.equals(ProviderType.GOOGLE)){
+            oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
         }else {
             return null;
         }

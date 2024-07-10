@@ -113,4 +113,15 @@ public class ReviewService {
             review.getMarket().modifyReview(totalReviewRating);
         }
     }
+
+    public void delete(Long reviewId) {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
+
+        review.delete();
+
+        int totalReviewRating = reviewRepository.getTotalReviewRating(review.getMarket().getId());
+        review.getMarket().deleteReview(totalReviewRating);
+    }
 }

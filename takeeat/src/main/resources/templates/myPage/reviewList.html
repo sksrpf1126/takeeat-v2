@@ -43,7 +43,7 @@
                 </div>
                 <div class="reviewControlBtnContainer">
                     <div><button class="modifyReviewBtn" type="button" th:onclick="|location.href='@{/my/review/modify(reviewId=${review.reviewId})}'|">수정</button></div>
-                    <div><button class="deleteReviewBtn" type="button">삭제</button></div>
+                    <div><button class="deleteReviewBtn" type="button" onclick="showDeleteModal(this)" th:data-review-id="${review.reviewId}">삭제</button></div>
                 </div>
             </div>
             <div class="reviewImageContainer" th:if="${review.reviewImages != null}" >
@@ -63,7 +63,43 @@
         <hr/>
     </th:block>
 
+    <div class="modal" id="deleteConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    리뷰를 삭제하시겠습니까?<br/>
+                    삭제 후 해당 주문 건에 대한 리뷰는 다시 작성할 수 없습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
+                    <button type="button" class="btn" id="deleteReviewBtn" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deleteCompleteModal" tabindex="-1" data-bs-backdrop="static">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                </div>
+                <div class="modal-body">
+                    리뷰 삭제가 완료되었습니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="location.href='/my/review/list'" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
+<script src="/js/myPage/reviewList.js"></script>
 </body>
 </html>

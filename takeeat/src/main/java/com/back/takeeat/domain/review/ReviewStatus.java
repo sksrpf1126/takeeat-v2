@@ -1,5 +1,5 @@
 package com.back.takeeat.domain.review;
 
 public enum ReviewStatus {
-    ACTIVE, REPORT, BLIND
+    ACTIVE, MODIFY, DELETE, REPORT, BLIND
 }

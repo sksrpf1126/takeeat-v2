@@ -68,5 +68,10 @@ public class Review extends BaseTimeEntity {
     public void modify(ReviewModifyFormRequest modifyForm) {
         this.reviewRating = modifyForm.getRating();
         this.content = modifyForm.getContent();
+        this.reviewStatus = ReviewStatus.MODIFY;
+    }
+
+    public void delete() {
+        this.reviewStatus = ReviewStatus.DELETE;
     }
 }

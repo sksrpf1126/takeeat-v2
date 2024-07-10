@@ -41,7 +41,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query(
             "SELECT SUM(r.reviewRating) " +
             "FROM Review r " +
-            "WHERE r.market.id = :marketId"
+            "WHERE r.market.id = :marketId AND r.reviewStatus = ReviewStatus.ACTIVE"
     )
     int getTotalReviewRating(@Param("marketId") Long marketId);
 }

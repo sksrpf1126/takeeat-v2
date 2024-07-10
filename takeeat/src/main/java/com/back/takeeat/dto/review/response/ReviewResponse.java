@@ -2,6 +2,7 @@ package com.back.takeeat.dto.review.response;
 
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
+import com.back.takeeat.domain.review.ReviewStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,6 +26,7 @@ public class ReviewResponse {
     private int reviewRating;
     private String reviewContent;
     private String reviewWriteDate;
+    private ReviewStatus reviewStatus;
 
     private String ownerReviewContent;
     private String ownerReviewWriteDate;
@@ -38,6 +40,7 @@ public class ReviewResponse {
                 .reviewRating(review.getReviewRating())
                 .reviewContent(review.getContent())
                 .reviewWriteDate(localDateTimeFormat(review.getCreatedTime()))
+                .reviewStatus(review.getReviewStatus())
                 .reviewImages(createReviewImages(review.getReviewImages()));
 
         if (review.getOwnerReview() != null && review.getOwnerReview().getContent() != null) {

@@ -39,7 +39,10 @@
                     <div class="grayStar" th:if="${review.reviewRating != 5}">
                         <block th:each="num:${#numbers.sequence(1, 5 - review.reviewRating)}">★</block>
                     </div>
-                    <div class="writeTime" th:text="${review.reviewWriteDate}">작성일</div>
+                    <div class="writeTime">
+                        [[${review.reviewWriteDate}]]
+                        <th:block th:if="${review.reviewStatus.equals(T(com.back.takeeat.domain.review.ReviewStatus).MODIFY)}">(수정됨)</th:block>
+                    </div>
                 </div>
                 <div class="reviewControlBtnContainer">
                     <div><button class="modifyReviewBtn" type="button" th:onclick="|location.href='@{/my/review/modify(reviewId=${review.reviewId})}'|">수정</button></div>
@@ -55,7 +58,7 @@
             <div class="ownerReviewContainer" th:if="${review.ownerReviewContent != null}">
                 <div class="ownerWriterContainer">
                     <div><strong>사장님</strong></div>
-                    <div class="writeTime">&nbsp;&nbsp;[[${review.ownerReviewWriteDate}]]</div>
+                    <div class="writeTime">&nbsp;[[${review.ownerReviewWriteDate}]]</div>
                 </div>
                 <div class="reviewContent" th:text="${review.ownerReviewContent}">사장님리뷰내용</div>
             </div>
@@ -71,8 +74,8 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    리뷰를 삭제하시겠습니까?<br/>
-                    삭제 후 해당 주문 건에 대한 리뷰는 다시 작성할 수 없습니다.
+                    리뷰를 삭제하시면 재작성이 불가합니다.<br/>
+                    삭제하시겠습니까?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>

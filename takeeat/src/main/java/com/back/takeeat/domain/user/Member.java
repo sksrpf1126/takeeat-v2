@@ -46,6 +46,14 @@ public class Member extends BaseTimeEntity {
         this.deleteYn = false;
     }
 
+    public void socialMemberSignup(String name, String nickname, String phone) {
+        this.name = name;
+        this.nickname = nickname;
+        this.phone = phone;
+        this.role = MemberRoleType.ROLE_MEMBER;
+        this.deleteYn = false;
+    }
+
     public void setEncryptPassword(String encryptPassword) {
         this.pwd = encryptPassword;
     }

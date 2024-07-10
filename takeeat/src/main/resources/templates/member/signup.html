@@ -1,26 +1,94 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>TakeEat</title>
+    <link rel="stylesheet" href="/css/member/member-common.css" />
     <link rel="stylesheet" href="/css/member/signup.css" />
-    <title>Title</title>
 </head>
 <body>
-    <div id="contents">
+<div id="contents">
+    <div class="header">
+        <img src="/images/member/left-arrow.png" />
+        <div>회원가입</div>
+        <img src="/images/member/cancel.png" />
+    </div>
+    <div class="middle">
         <form action="/member/signup" method="post">
-            <input type="text" id="name" name="name" placeholder="이름을 입력해주세요"/>
-            <input type="text" id="nickname" name="nickname" placeholder="2~8글자 이내로 입력해주세요."/>
-            <input type="text" id="email" name="email" placeholder="이메일을 입력해주세요"/>
-            <input type="password" id="password" name="password" placeholder="비밀번호 입력"/>
-            <input type="password" id="passwordCheck" name="passwordCheck" placeholder="비밀번호 확인 입력"/>
-            <input type="text" id="phone" name="phone" placeholder="-를 빼고 입력해주세요." />
-            <div id="profile-user-image-div">
-                <img id="profile-user-image" src="/images/user-default-profile.png" alt="Default Profile Image">
+            <div class="profile-user-frame">
+                <img
+                        id="profile-user-image"
+                        src="/images/profile.jpg"
+                        alt="Default Profile Image"
+                /><br />
+                <input
+                        type="file"
+                        name="file"
+                        id="profile-user-img-save-btn"
+                        accept="image/*"
+                        style="display: none"
+                />
+                <input type="button" id="profile-update-btn" />
             </div>
-            <input type="file" name="file" id="profile-user-img-save-btn" accept="image/*" style="display:none"/>
-            <input type="button" value="변경" id="profile-update-btn"/>
-            <button>회원가입</button>
+            <div class="name-frame">
+                <div class="input-title">이름</div>
+                <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="이름을 입력해주세요"
+                />
+            </div>
+            <div class="nickname-frame">
+                <div class="input-title">닉네임</div>
+                <input
+                        type="text"
+                        id="nickname"
+                        name="nickname"
+                        placeholder="2~8글자 이내로 입력해주세요."
+                />
+            </div>
+            <div class="email-frame">
+                <div class="input-title">이메일</div>
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="이메일을 입력해주세요"
+                />
+                <div class="caption">계정 분실 시 본인인증 정보로 활용됩니다.</div>
+            </div>
+            <div class="password-frame">
+                <div class="input-title">비밀번호</div>
+                <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="숫자, 영문, 특수문자 조합 최소 8자"
+                /><br />
+                <input
+                        type="password"
+                        id="passwordCheck"
+                        name="passwordCheck"
+                        placeholder="비밀번호 재입력"
+                />
+            </div>
+            <div class="phone-frame">
+                <div class="input-title">전화번호</div>
+                <input
+                        type="text"
+                        id="phone"
+                        name="phone"
+                        placeholder="-를 빼고 입력해주세요."
+                />
+            </div>
+            <div class="regist-frame">
+                <input type="submit" value="회원가입" class="regist-btn" />
+            </div>
         </form>
     </div>
+    <div class="footer">Copyright TAKE EAT. All Rights Reserved.</div>
+</div>
 </body>
 </html>

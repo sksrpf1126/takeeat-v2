@@ -42,7 +42,7 @@ public class MemberController {
             @RequestParam(value = "exception", required = false) String exception,
             Model model
     ) {
-        if(member != null) {
+        if(member != null &&  member.getId() != null) {
             //@TODO 메인페이지 경로로 변경할 것
             return "redirect:/market/info";
         }
@@ -54,7 +54,7 @@ public class MemberController {
 
     @GetMapping("/policy-agreement")
     public String memberPolicyAgreement(@LoginMember Member member, @RequestParam(value = "loginType", required = false) String loginType, HttpServletRequest request) {
-        if(member != null) {
+        if(member != null &&  member.getId() != null) {
             //@TODO 메인페이지 경로로 변경할 것
             return "redirect:/market/info";
         }
@@ -68,7 +68,7 @@ public class MemberController {
 
     @GetMapping("/social-signup")
     public String socialSignupForm(@LoginMember Member member) {
-        if(member != null) {
+        if(member != null &&  member.getId() != null) {
             //@TODO 메인페이지 경로로 변경할 것
             return "redirect:/market/info";
         }
@@ -78,7 +78,7 @@ public class MemberController {
 
     @GetMapping("/default-signup")
     public String signupForm(@LoginMember Member member) {
-        if(member != null) {
+        if(member != null &&  member.getId() != null) {
             //@TODO 메인페이지 경로로 변경할 것
             return "redirect:/market/info";
         }
@@ -87,15 +87,15 @@ public class MemberController {
     }
 
     @PostMapping("/signup")
-    public String signup(@ModelAttribute SignupRequest signupRequest, HttpServletRequest request) {
+    public String signup(@LoginMember Member member, @ModelAttribute SignupRequest signupRequest, HttpServletRequest request) {
         if((signupRequest.getProviderType() != null) && (signupRequest.getProviderType() != ProviderType.DEFAULT)) {
             validateEmailAndProviderMatch(request, signupRequest.getEmail(), signupRequest.getProviderType());
-            memberService.socialSignup(signupRequest);
+            memberService.socialSignup(signupRequest, member);
         }else {
             memberService.signup(signupRequest);
         }
         //@TODO 메인페이지로 리다이렉트 할 것
-        return "/";
+        return "redirect:/member/login";
     }
 
     private void validateEmailAndProviderMatch(HttpServletRequest request, String inputEmail, ProviderType inputProvider) {

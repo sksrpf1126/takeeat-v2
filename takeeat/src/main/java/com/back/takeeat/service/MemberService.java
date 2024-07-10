@@ -30,9 +30,9 @@ public class MemberService {
     }
 
     @Transactional
-    public void socialSignup(SignupRequest signupRequest) {
-        validateDuplicateMember(signupRequest.getEmail());
-        Member member = signupRequest.toMemberFromSocial();
+    public void socialSignup(SignupRequest signupRequest, Member member) {
+        validateDuplicateMember(member.getEmail());
+        member.socialMemberSignup(signupRequest.getName(), signupRequest.getNickname(), signupRequest.getPhone());
         memberRepository.save(member);
     }
 

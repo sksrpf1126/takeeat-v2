@@ -1,15 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>TakeEat</title>
+    <link rel="stylesheet" href="/css/member/member-common.css" />
     <link rel="stylesheet" href="/css/member/loginForm.css" />
 </head>
 <body>
 <div id="contents">
-    <div class="login-container">
-        <img src="/images/login/logo.png" class="logo" />
+    <div class="header">
+        <img src="/images/member/left-arrow.png" />
+        <div>로그인</div>
+        <img src="/images/member/cancel.png" />
+    </div>
+    <div class="middle">
+        <div class="logo-frame">
+            <img src="/images/logo.png" class="logo" />
+        </div>
         <form action="/login" method="post" class="login-form">
             <input type="email" name="email" class="email" placeholder="E-mail" />
             <div th:if="${error}">
@@ -22,13 +30,13 @@
         <div class="social-login-frame">
             <a href="/oauth2/authorization/kakao" class="kakao-btn">
                 <div class="kakao-img-frame">
-                    <img src="/images/login/kakao.png" />
+                    <img src="/images/member/kakao.png" />
                 </div>
                 <div class="kakao-text">Kakao</div>
             </a>
             <a href="/oauth2/authorization/google" class="google-btn">
                 <div class="google-img-frame">
-                    <img src="/images/login/google.png" />
+                    <img src="/images/member/google.png" />
                 </div>
                 <div class="google-text">Google</div>
             </a>
@@ -39,6 +47,8 @@
             <a href="/member/policy-agreement" class="regist">회원가입</a>
         </div>
     </div>
+    <!-- 임시용 풋터 -->
+    <div class="footer">Copyright TAKE EAT. All Rights Reserved.</div>
 </div>
 </body>
 </html>

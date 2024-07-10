@@ -1,0 +1,66 @@
+* {
+  font-family: "Noto Sans KR", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+#contents {
+  width: 100vw;
+  max-width: 600px;
+}
+
+@media (min-width: 601px) {
+  body {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+#contents {
+  display: grid;
+  grid-template-rows: 50px max-content 50px;
+  grid-template-columns: 50px auto 50px;
+  border: 1px solid #e5e5e5; /* 중심부 위치 임시 표시용*/
+}
+
+.header {
+  text-align: center;
+  align-content: center;
+  height: 50px;
+  width: 100%;
+  max-width: 598px;
+  position: fixed;
+  top: 0;
+  z-index: 1;
+  background-color: white;
+  display: grid;
+  grid-template-columns: 50px auto 50px;
+  justify-items: center;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #e5e5e5; /* 헤더 위치 임시 표시용*/
+}
+
+.header > img {
+  width: 20px;
+  object-fit: scale-down;
+}
+
+.footer {
+  grid-row: 3/4;
+  grid-column: 1/4;
+  font-size: 12px;
+  text-align: center;
+  align-content: center;
+  margin-top: 10px;
+  border-top: 1px solid #e5e5e5; /* 풋터 위치 임시 표시용*/
+}
+
+.middle {
+  grid-row: 2/3;
+  grid-column: 2/3;
+}

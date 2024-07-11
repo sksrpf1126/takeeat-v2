@@ -1,0 +1,120 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#gpsContainer {
+    display : flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items : center;
+    height: auto;
+    width: 100%;
+    padding: 40px 10px;
+    position: relative;
+    background: #f1f3f5;
+}
+
+#gpsIconContainer {
+    padding: 5px;
+    text-align: center;
+    background: #ffb36f;
+    margin-right: 10px;
+    border-radius: 5px;
+}
+
+#gpsIcon:hover {
+    cursor: pointer;
+}
+
+#gpsIcon {
+    width: 30px;
+}
+
+#address {
+    border: 1px solid lightgray;
+    margin-right: 10px;
+    width: 70%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#addressContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#wrap {
+    display: none;
+    border: 1px solid;
+    width: 100%;
+    height: 400px;
+    margin: 5px 0;
+    position: absolute;
+    top: 170px; /* 위치 조정 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+#btnFoldWrap {
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: -1px;
+    z-index: 2;
+}
+
+#marketCategoryContainer {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1%; /* Optional: space between grid items */
+    width: 90%; /* Optional: set the container width */
+    margin: 30px auto; /* Optional: center the container */
+}
+
+.marketCategory {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.marketCategory:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}
+
+.categoryImageContainer {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border: 1px solid lightgray;
+    overflow: hidden;
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.categoryImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    #wrap {
+        width: 500px;
+    }
+}

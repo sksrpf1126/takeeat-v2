@@ -1,5 +1,5 @@
 //=== 저장할 주소, 위도, 경도값 ===
-var addr;
+var addr = null;
 var latitude;
 var longitude;
 
@@ -55,7 +55,11 @@ function sample3_execDaumPostcode() {
 
 //=== Geolocation API ===
 function askForLocation () {
-    navigator.geolocation.getCurrentPosition(accessToGeo)
+    if (!navigator.geolocation) {
+        alert('위치 제공 서비스를 지원하지 않습니다');
+    } else {
+        navigator.geolocation.getCurrentPosition(accessToGeo, handleError);
+    }
 }
 
 function accessToGeo (position) {
@@ -64,6 +68,23 @@ function accessToGeo (position) {
 
     var coord = new kakao.maps.LatLng(latitude, longitude);
     geocoder.coord2Address(coord.getLng(), coord.getLat(), getAddr);
+}
+
+function handleError(error) {
+    switch (error.code) {
+        case error.PERMISSION_DENIED:
+            alert("User denied the request for Geolocation.");
+            break;
+        case error.POSITION_UNAVAILABLE:
+            alert("Location information is unavailable.");
+            break;
+        case error.TIMEOUT:
+            alert("The request to get user location timed out.");
+            break;
+        case error.UNKNOWN_ERROR:
+            alert("An unknown error occurred.");
+            break;
+    }
 }
 
 //=== 카카오 맵 API Geocoder ===
@@ -100,22 +121,26 @@ $(document).ready(function() {
         var category = $(this).attr('data-category');
         var url = '/' + category + '/list';
 
-        $.ajax({
-            type: 'POST',
-            url: "/saveGPSInfo",
-            contentType: 'application/json',
-            data: JSON.stringify({
-                addr: addr,
-                latitude: latitude,
-                longitude: longitude
-            }),
-            success: function(response) {
-                window.location.href = url;
-            },
-            error: function(error) {
-                alert('주소를 입력해주세요.');
-            }
-        });
+        if ((sessionAddr != null && addr == null) || (sessionAddr != null && addr != null && addr == sessionAddr)) {
+            window.location.href = url;
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: "/saveGPSInfo",
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    addr: addr,
+                    latitude: latitude,
+                    longitude: longitude
+                }),
+                success: function(response) {
+                    window.location.href = url;
+                },
+                error: function(error) {
+                    alert('주소를 입력해주세요.');
+                }
+            });
+        }
     });
 });
 

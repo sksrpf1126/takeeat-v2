@@ -72,11 +72,13 @@
 }
 
 #marketCategoryContainer {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1%; /* Optional: space between grid items */
-    width: 90%; /* Optional: set the container width */
-    margin: 30px auto; /* Optional: center the container */
+    margin: 30px 10px;
+}
+
+.threeCategory {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .marketCategory {
@@ -90,6 +92,7 @@
 .marketCategory:hover {
     cursor: pointer;
     transform: scale(1.05);
+    font-weight: bold;
 }
 
 .categoryImageContainer {
@@ -116,5 +119,9 @@
 
     #wrap {
         width: 500px;
+    }
+
+    #marketCategoryContainer {
+        margin: 30px 50px;
     }
 }

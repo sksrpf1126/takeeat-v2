@@ -5,10 +5,11 @@ import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
-import com.back.takeeat.domain.review.OwnerReview;
 import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.dto.review.response.MarketRatingResponse;
+import com.back.takeeat.dto.review.response.RatingCountResponse;
+import com.back.takeeat.dto.review.response.ReviewResponse;
 import com.back.takeeat.repository.*;
-import jakarta.persistence.LockModeType;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.user.Member;
@@ -32,7 +33,6 @@ public class MarketService {
     private final OptionCategoryRepository optionCategoryRepository;
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
-    private final OwnerReviewRepository ownerReviewRepository;
 
     @Transactional(readOnly = false)
     public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId) {
@@ -51,7 +51,8 @@ public class MarketService {
     public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoSuchElementException::new);
-        Market market = marketRepository.findByMemberId(member.getId());
+        Market market = marketRepository.findByMemberId(member.getId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
         for (MarketMenuCategoryRequest marketMenuCategoryRequest : menuRequest.getCategories()) {
             MenuCategory menuCategory = marketMenuCategoryRequest.toMenuCategory(market);
 
@@ -82,7 +83,9 @@ public class MarketService {
                 .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
 
         // 마켓 정보를 조회
-        Market market = marketRepository.findByMemberId(member.getId());
+        Market market = marketRepository.findByMemberId(member.getId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
         if (market == null) {
             throw new NoSuchElementException("마켓 정보를 찾을 수 없습니다.");
         }
@@ -113,7 +116,9 @@ public class MarketService {
                 .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
 
         // 마켓 정보를 조회
-        Market market = marketRepository.findByMemberId(member.getId());
+        Market market = marketRepository.findByMemberId(member.getId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
         if (market == null) {
             throw new NoSuchElementException("마켓 정보를 찾을 수 없습니다.");
         }

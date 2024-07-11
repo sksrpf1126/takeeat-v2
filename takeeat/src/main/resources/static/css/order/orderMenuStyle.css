@@ -433,7 +433,6 @@ input[type="checkbox"], input[type="radio"] {
 .profile {
     width: 40px;
     height: 40px;
-    height: 40px;
     border-radius: 50%;
     object-fit: cover;
     text-align: center;

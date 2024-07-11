@@ -162,7 +162,10 @@
                         <div>
                             <div class="reviewWriterContainer">
                                 <div><strong>[[${review.nickname}]] 님</strong></div>
-                                <div class="writeTime">&nbsp;&nbsp;[[${review.reviewWriteDate}]]</div>
+                                <div class="writeTime">
+                                    &nbsp;&nbsp;[[${review.reviewWriteDate}]]
+                                    <th:block th:if="${review.reviewStatus.equals(T(com.back.takeeat.domain.review.ReviewStatus).MODIFY)}">(수정됨)</th:block>
+                                </div>
                             </div>
                             <div class="oneReviewRatingContainer">
                                 <div class="yellowStar">

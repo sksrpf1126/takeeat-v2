@@ -3,9 +3,11 @@ package com.back.takeeat.controller;
 
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
+import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.service.MarketService;
+import com.back.takeeat.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,7 @@ import java.util.stream.Collectors;
 public class MarketController {
 
     private final MarketService marketService;
+    private final ReviewService reviewService;
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
@@ -112,8 +116,45 @@ public class MarketController {
     }
 
     @GetMapping("/review")
-    public String marketReview() {
+    public String marketReview(Model model) {
+        Long memberId = 1L; //(임시)로그인 회원
+
+        MarketReviewResponse marketReviewResponse = marketService.getReviewInfo(memberId);
+
+        model.addAttribute("marketReviewResponse", marketReviewResponse);
         return "market/marketReview";
+    }
+
+    @ResponseBody
+    @PostMapping("/review/write")
+    public ResponseEntity<String> saveOwnerReview(@RequestBody Map<String, Object> reviewData) {
+        Long reviewId = ((Integer)reviewData.get("reviewId")).longValue();
+        String ownerReviewContent = (String) reviewData.get("ownerReviewContent");
+
+        String task = reviewService.writeOwnerReview(reviewId, ownerReviewContent);
+
+        switch (task) {
+            case "modify":
+                return ResponseEntity.ok("답글이 수정되었습니다");
+            case "delete":
+                return ResponseEntity.ok("답글이 삭제되었습니다");
+            case "write":
+                return ResponseEntity.ok("답글이 작성되었습니다");
+            case "none":
+                return ResponseEntity.ok("none");
+        }
+
+        return ResponseEntity.ok("none");
+    }
+
+    @ResponseBody
+    @PostMapping("/review/report")
+    public ResponseEntity<String> reportReview(@RequestBody Map<String, Object> reviewData) {
+        Long reviewId = ((Integer)reviewData.get("reviewId")).longValue();
+
+        reviewService.reportReview(reviewId);
+
+        return ResponseEntity.ok("리뷰 신고 완료");
     }
 
 }

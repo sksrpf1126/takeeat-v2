@@ -66,4 +66,13 @@ public class Market {
         double newRating = (double) totalReviewRating / this.reviewCount;
         this.marketRating = Math.round(newRating * 10) / 10.0;
     }
+
+    public void deleteReview(int totalReviewRating) {
+        //리뷰 수 감소
+        this.reviewCount--;
+
+        //평점 계산
+        double newRating = (double) totalReviewRating / this.reviewCount;
+        this.marketRating = Math.round(newRating * 10) / 10.0;
+    }
 }

@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -139,4 +140,14 @@ public class MyPageController {
 
         return ResponseEntity.ok("리뷰 수정 성공");
     }
+
+    @PostMapping("/review/delete")
+    public ResponseEntity<String> delete(@RequestBody Map<String, Object> reviewData) {
+        Long reviewId = ((Integer)reviewData.get("reviewId")).longValue();
+
+        reviewService.delete(reviewId);
+
+        return ResponseEntity.ok("리뷰 삭제 성공");
+    }
+
 }

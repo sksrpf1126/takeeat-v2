@@ -1,20 +1,26 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
+import com.back.takeeat.domain.review.OwnerReview;
+import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.repository.*;
+import jakarta.persistence.LockModeType;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.*;
-import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
-import com.back.takeeat.repository.*;
+import com.back.takeeat.dto.market.response.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
 @Service
@@ -25,6 +31,8 @@ public class MarketService {
     private final MenuCategoryRepository menuCategoryRepository;
     private final OptionCategoryRepository optionCategoryRepository;
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
+    private final OwnerReviewRepository ownerReviewRepository;
 
     @Transactional(readOnly = false)
     public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId) {
@@ -133,5 +141,40 @@ public class MarketService {
             // 디버깅 포인트: 저장된 메뉴 카테고리 확인
             System.out.println("메뉴 카테고리 저장 완료: " + optionCategory.getId());
         }
+    }
+    
+    @Transactional(readOnly = true)
+    public MarketReviewResponse getReviewInfo(Long memberId) {
+
+        Market market = marketRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        //Review
+        List<Review> reviews = reviewRepository.findByMarketIdForReviewList(market.getId());
+
+        //Review -> ReviewResponse(allOptionReviews)
+        List<ReviewResponse> reviewResponses = reviews.stream()
+                .map(ReviewResponse::createByReview)
+                .collect(Collectors.toList());
+
+        //reviewResponses -> noAnswerOptionReviews
+        List<ReviewResponse> noAnswerOptionReviews = new ArrayList<>();
+        for (ReviewResponse reviewResponse : reviewResponses) {
+            if (reviewResponse.getOwnerReviewContent() == null) {
+                noAnswerOptionReviews.add(reviewResponse);
+            }
+        }
+
+        //blindOptionReviews
+        List<Review> blindReviews = reviewRepository.findByMarketIdWithBlindStatus(market.getId());
+        List<ReviewResponse> blindOptionReviews = blindReviews.stream()
+                .map(ReviewResponse::createByReview)
+                .collect(Collectors.toList());
+
+        //Rating
+        List<MarketRatingResponse> marketRatingResponses = reviewRepository.findRatingCountByMarketId(market.getId());
+        RatingCountResponse ratingCountResponse = RatingCountResponse.createByMarketRatingResponse(marketRatingResponses);
+
+        return MarketReviewResponse.create(market.getMarketRating(), ratingCountResponse, reviewResponses, noAnswerOptionReviews, blindOptionReviews);
     }
 }

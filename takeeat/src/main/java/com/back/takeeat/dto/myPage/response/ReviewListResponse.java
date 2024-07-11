@@ -2,6 +2,7 @@ package com.back.takeeat.dto.myPage.response;
 
 import com.back.takeeat.domain.review.Review;
 import com.back.takeeat.domain.review.ReviewImage;
+import com.back.takeeat.domain.review.ReviewStatus;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -19,6 +20,7 @@ public class ReviewListResponse {
     private int reviewRating;
     private String reviewContent;
     private String reviewWriteDate;
+    private ReviewStatus reviewStatus;
 
     private Long marketId;
     private String marketName;
@@ -34,6 +36,7 @@ public class ReviewListResponse {
                 .reviewRating(review.getReviewRating())
                 .reviewContent(review.getContent())
                 .reviewWriteDate(localDateTimeFormat(review.getCreatedTime()))
+                .reviewStatus(review.getReviewStatus())
                 .marketId(review.getMarket().getId())
                 .marketName(review.getMarket().getMarketName())
                 .reviewImages(createReviewImages(review.getReviewImages()));

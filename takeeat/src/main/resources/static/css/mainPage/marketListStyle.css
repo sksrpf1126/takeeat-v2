@@ -115,6 +115,7 @@ a {
     border: 1px solid lightgray;
     height: 120px;
     cursor: pointer;
+    padding-right: 10px;
 }
 
 /* 화면 너비가 800px 이하일 때 적용되는 스타일 */
@@ -182,5 +183,3 @@ a {
     height: 100%;
     object-fit: cover;
 }
-
-

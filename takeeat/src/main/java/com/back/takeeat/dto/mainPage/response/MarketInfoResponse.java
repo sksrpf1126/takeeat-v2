@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MarketInfoResponse {
+    private Long marketId;
+
     private String marketName;
 
     private String marketImage;
@@ -24,7 +26,15 @@ public class MarketInfoResponse {
 
     private Double latitude;
 
+    private Double minLatitude;
+
+    private Double maxLatitude;
+
     private Double longitude;
+
+    private Double minLongitude;
+
+    private Double maxLongitude;
 
     private Double marketRating;
 
@@ -32,19 +42,27 @@ public class MarketInfoResponse {
 
     public static MarketInfoResponse of(Market market) {
         return MarketInfoResponse.builder()
+                .marketId(market.getId())
                 .marketName(market.getMarketName())
                 .marketImage(market.getMarketImage())
                 .query(market.getQuery())
                 .addressDetail(market.getAddressDetail())
                 .latitude(market.getLatitude())
+                .minLatitude(builder().minLatitude)
+                .maxLatitude(builder().maxLatitude)
+                .minLongitude(builder().minLongitude)
+                .maxLongitude(builder().maxLongitude)
                 .longitude(market.getLongitude())
                 .marketRating(market.getMarketRating())
                 .reviewCount(market.getReviewCount())
                 .build();
     }
 
-    public static List<MarketInfoResponse> listOf(List<Market> markets) {
+    // markets 리스트에서 특정 범위의 위치 정보를 가진 Market 객체들을 선택
+    public static List<MarketInfoResponse> listOf(List<Market> markets, Double minLat, Double maxLat, Double minLon, Double maxLon) {
         return markets.stream()
+                .filter(market -> market.getLatitude() >= minLat && market.getLatitude() <= maxLat &&
+                        market.getLongitude() >= minLon && market.getLongitude() <= maxLon)
                 .map(MarketInfoResponse::of)
                 .collect(Collectors.toList());
     }

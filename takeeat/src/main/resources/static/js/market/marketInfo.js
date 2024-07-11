@@ -47,6 +47,8 @@ document.getElementById('input-file').addEventListener('change', function(event)
         element_wrap.style.display = 'none';
     }
 
+
+var geocoder;
 // 주소 검색
 function sample3_execDaumPostcode() {
     // 현재 scroll 위치를 저장해놓는다.
@@ -66,6 +68,9 @@ function sample3_execDaumPostcode() {
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
                 addr = data.jibunAddress;
             }
+
+            // 주소 정보를 좌표로 변환한다.
+            geocoder.addressSearch(addr, getCoord);
 
             // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
             if(data.userSelectedType === 'R'){
@@ -113,6 +118,23 @@ function sample3_execDaumPostcode() {
 
     // iframe을 넣은 element를 보이게 한다.
     element_wrap.style.display = 'block';
+}
+
+//=== 카카오 맵 API Geocoder ===
+window.onload = function() {
+    kakao.maps.load(function() {
+        geocoder = new kakao.maps.services.Geocoder();
+    });
+}
+
+//=== 주소 -> 좌표 ===
+function getCoord(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+        console.log('lat' + result[0].road_address.y);
+        console.log('long' + result[0].road_address.x);
+    } else {
+        alert('좌표를 읽어올 수 없습니다');
+    }
 }
 
 // 중복검사 ajax

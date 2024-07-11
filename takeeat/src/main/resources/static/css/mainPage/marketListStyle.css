@@ -1,0 +1,186 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+
+/*상단 슬라이드*/
+#marketCategory ul {
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    text-align: center;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#marketCategory ul li {
+    display: inline-block;
+    padding: 10px 20px;
+}
+
+.activeCategory {
+    font-weight: bold;
+}
+
+.list::-webkit-scrollbar-track {
+    border-radius: 0.125rem;
+    background-color: lightgray;
+}
+
+.list::-webkit-scrollbar {
+    height: 0.3rem;
+    width: 0.25rem;
+    border-radius: 0.125rem;
+}
+
+.list::-webkit-scrollbar-thumb {
+    border-radius: 0.125rem;
+    background-color: gray;
+}
+
+/*정렬*/
+.line-container{
+    display: flex;
+    align-items: flex-start;
+}
+
+.line-container-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.length-container {
+    display: flex;
+    flex-direction: column;
+}
+.margin-5{
+    margin:5px;
+}
+.search-box{
+    width: 77%;
+    height: 35px;
+    border: 1px solid lightgray;
+    cursor: pointer;
+}
+.search-button{
+    width: 45px;
+    height: 35px;
+    background-color: #FFB36F;
+    border: 1px solid #FFB36F;
+    color: #fff;
+    font-size: 14px;
+}
+.dropdown{
+    width: 30%;
+    height: 35px;
+    border-color: lightgray;
+    margin-right: auto !important;
+    font-size: 14px;
+    margin:5px;
+    color: black;
+    border-radius: 0;
+    background-color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+}
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* 박스 간의 간격 */
+}
+/* 기본 .list-box 스타일 */
+.list-box {
+    flex: 1 1 calc(50% - 10px); /* 50% 너비에서 간격을 빼기 */
+    box-sizing: border-box;
+    margin-bottom: 10px; /* 아래쪽 여백 추가 */
+    border: 1px solid lightgray;
+    height: 120px;
+    cursor: pointer;
+}
+
+/* 화면 너비가 800px 이하일 때 적용되는 스타일 */
+@media screen and (max-width: 800px) {
+    .container {
+        gap: 0; /* gap을 0으로 설정 */
+    }
+    .list-box {
+        flex: 1 1 100%; /* 전체 너비 차지 */
+    }
+    .search-box {
+        margin-left: 5px;
+        width: 73%;
+    }
+    .dropdown {
+        width: 40%;
+    }
+    .search-button{
+        width: 53px;
+        font-size: 13px;
+        border-radius: 0px;
+
+    }
+}
+
+.place-name{
+    font-size: 18px;
+    font-weight: bold;
+}
+.star{
+    color: #fddb41;
+}
+.s-font-size{
+    font-size: 13px;
+}
+.address-font{
+    font-size: 13px;
+}
+.content-padding{
+    padding-top:25px;
+    padding-bottom:25px;
+    justify-content: center;
+}
+.text-flow{
+    overflow: hidden; /* 내용이 넘칠 때 숨김 */
+    text-overflow: ellipsis; /* 넘치는 텍스트를 ...으로 표시 */
+    white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+}
+#map {
+    width:94%;
+    height:250px;
+    margin: 10px auto;
+    z-index: 1;
+}
+.marketImageContainer {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border: 1px solid lightgray;
+    overflow: hidden;
+}
+
+.marketImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+

@@ -54,9 +54,9 @@ public class MarketService {
                 .orElseThrow(NoSuchElementException::new);
         Market market = marketRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
         for (MarketMenuCategoryRequest marketMenuCategoryRequest : menuRequest.getCategories()) {
             MenuCategory menuCategory = marketMenuCategoryRequest.toMenuCategory(market);
-
             // 디버깅 포인트: 메뉴 카테고리 정보 출력
             System.out.println("메뉴 카테고리 저장: " + menuCategory.getMenuCategoryName());
 

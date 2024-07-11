@@ -111,18 +111,19 @@
                             <div class="dropdown-triangle"></div>
                         </div>
                         <input type="hidden" id="marketCategory" th:field="*{marketCategory}" th:errorclass="field-error-border" name="marketCategory">
+                        <!-- select option으로 추후 변경예정 -->
                         <div class="dropdown-content" id="dropdownContent">
-                            <p onclick="selectCategory('치킨')">치킨</p>
-                            <p onclick="selectCategory('피자·양식')">피자·양식</p>
-                            <p onclick="selectCategory('돈까스·일식')">돈까스·일식</p>
-                            <p onclick="selectCategory('족발·보쌈')">족발·보쌈</p>
-                            <p onclick="selectCategory('분식')">분식</p>
-                            <p onclick="selectCategory('중식')">중식</p>
-                            <p onclick="selectCategory('한식')">한식</p>
-                            <p onclick="selectCategory('아시안')">아시안</p>
-                            <p onclick="selectCategory('버거')">버거</p>
-                            <p onclick="selectCategory('카페')">카페</p>
-                            <p onclick="selectCategory('찜·탕')">찜·탕</p>
+                            <p onclick="selectCategory('01')">치킨</p>
+                            <p onclick="selectCategory('02')">피자·양식</p>
+                            <p onclick="selectCategory('03')">돈까스·일식</p>
+                            <p onclick="selectCategory('04')">족발·보쌈</p>
+                            <p onclick="selectCategory('05')">분식</p>
+                            <p onclick="selectCategory('06')">중식</p>
+                            <p onclick="selectCategory('07')">한식</p>
+                            <p onclick="selectCategory('08')">아시안</p>
+                            <p onclick="selectCategory('09')">버거</p>
+                            <p onclick="selectCategory('10')">카페</p>
+                            <p onclick="selectCategory('11')">찜·탕</p>
                         </div>
                     </div>
                     <div class="field-error" id="category-error" th:errors="*{marketCategory}"></div>
@@ -148,7 +149,13 @@
         </div>
     </div>
 
-
+    <script th:inline="javascript">
+        var appkey = [[${KAKAO_API_KEY}]];
+        var script = document.createElement('script');
+        script.type = "text/javascript";
+        script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false&libraries=services";
+        document.head.appendChild(script);
+    </script>
     <script src="/js/market/marketInfo.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </body>

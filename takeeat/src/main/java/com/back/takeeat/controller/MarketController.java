@@ -10,6 +10,7 @@ import com.back.takeeat.service.MarketService;
 import com.back.takeeat.service.ReviewService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,9 @@ public class MarketController {
     private final MarketService marketService;
     private final ReviewService reviewService;
 
+    @Value("${KAKAO_API_KEY}")
+    String KAKAO_API_KEY;
+
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
 
@@ -39,11 +43,13 @@ public class MarketController {
 
     @PostMapping("/info/save")
     public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
-                                ,BindingResult result) {
+                                ,BindingResult result
+                                ,Model model) {
         if (result.hasErrors()) {
             return "market/marketInfo";
         }
         Long memberId = 1L;
+        model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         marketService.marketInfoRegister(marketInfoRequest.create(), memberId);
         return "redirect:/market/menu";
     }

@@ -1,6 +1,7 @@
 package com.back.takeeat.dto.market.request;
 
 import com.back.takeeat.domain.market.Market;
+import com.back.takeeat.domain.user.Member;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -61,7 +62,7 @@ public class MarketInfoRequest {
 
     // 빌드
 
-    public MarketInfoRequest marketInfoRequest() {
+    public MarketInfoRequest create() {
         return MarketInfoRequest.builder()
                 .marketName(marketName)
                 .marketImage(marketImage)
@@ -76,8 +77,9 @@ public class MarketInfoRequest {
                 .build();
     }
 
-    public Market toMarket() {
+    public Market toMarket(Member member) {
         return Market.builder()
+                .member(member)
                 .marketName(marketName)
                 .marketImage(marketImage)
                 .query(query)
@@ -86,7 +88,7 @@ public class MarketInfoRequest {
                 .marketNumber(hyphenNumber())
                 .marketCategory(marketCategory)
                 .marketIntroduction(marketIntroduction)
-                .operationTime(operationTime)
+                .operationTime(openTime + " ~ " + closeTime)
                 .closedDays(closedDays)
                 .build();
     }

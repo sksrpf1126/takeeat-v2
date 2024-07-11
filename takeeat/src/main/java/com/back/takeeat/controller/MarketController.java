@@ -4,6 +4,8 @@ package com.back.takeeat.controller;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
+import com.back.takeeat.dto.market.request.OptionRequest;
+import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.service.MarketService;
 import com.back.takeeat.service.ReviewService;
 import jakarta.validation.Valid;
@@ -15,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -29,16 +33,18 @@ public class MarketController {
 
         model.addAttribute("marketInfoRequest", marketInfoRequest);
 
-        return "/market/marketInfo";
+        return "market/marketInfo";
     }
 
 
     @PostMapping("/info/save")
-    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, BindingResult result) {
+    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
+                                ,BindingResult result) {
         if (result.hasErrors()) {
-            return "/market/marketInfo";
+            return "market/marketInfo";
         }
-        marketService.marketInfoRegister(marketInfoRequest.marketInfoRequest());
+        Long memberId = 1L;
+        marketService.marketInfoRegister(marketInfoRequest.create(), memberId);
         return "redirect:/market/menu";
     }
 
@@ -57,9 +63,16 @@ public class MarketController {
 
     @PostMapping("/menu/save")
     @ResponseBody
-    public ResponseEntity<String> saveMenuCategory(@RequestBody @Valid MenuRequest menuRequest) {
+    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMessages = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
+        }
+        Long memberId = 1L;
         try {
-            marketService.MenuCategoriesRegister(menuRequest);
+            marketService.menuCategoriesRegister(menuRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,9 +80,39 @@ public class MarketController {
         }
     }
 
+    @GetMapping("/menus")
+    @ResponseBody
+    public List<MenuCategoryNameResponse> getMenus() {
+        Long memberId = 1L;
+        List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
+        for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
+            System.out.println(menuCategoryNameResponse.getMenuName());
+        }
+        return menuResponses;
+    }
+
     @GetMapping("/option")
     public String marketOption() {
-        return "/market/marketOption";
+        return "market/marketOption";
+    }
+
+    @PostMapping("/option/save")
+    @ResponseBody
+    public ResponseEntity<String> saveOption(@RequestBody @Valid OptionRequest optionRequest, BindingResult result) {
+        if (result.hasErrors()) {
+            String errorMessages = result.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(", "));
+            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
+        }
+        Long memberId = 1L;
+        try {
+            marketService.optionCategoriesRegister(optionRequest, memberId);
+            return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().body("{\"message\": \"옵션 저장 실패\"}");
+        }
     }
 
     @GetMapping("/review")

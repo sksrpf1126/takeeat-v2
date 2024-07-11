@@ -1,5 +1,6 @@
 package com.back.takeeat.dto.market.request;
 
+import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import jakarta.validation.constraints.NotBlank;
@@ -20,7 +21,9 @@ public class MarketMenuCategoryRequest {
 
     private List<MarketMenuRequest> menus;
 
-    public MenuCategory toMenuCategory() {
+    private Market market;
+
+    public MenuCategory toMenuCategory(Market market) {
         List<Menu> menuList = menus.stream()
                 .map(MarketMenuRequest::toMenu) // MarketMenuRequest 를 Menu 로 변환
                 .collect(Collectors.toList());
@@ -29,6 +32,7 @@ public class MarketMenuCategoryRequest {
         System.out.println("변환된 메뉴 리스트: " + menuList);
 
         return MenuCategory.builder()
+                .market(market)
                 .menuCategoryName(menuCategoryName)
                 .build();
     }

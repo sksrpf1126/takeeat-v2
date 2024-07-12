@@ -31,6 +31,11 @@ public class MyPageController {
     private final ReviewService reviewService;
     private final S3Service s3Service;
 
+    @GetMapping("/home")
+    public String myPage() {
+        return "myPage/myPage";
+    }
+
     @GetMapping("/order/list")
     public String orderList(Model model) {
         Long memberId = 1L; //(임시)로그인 회원

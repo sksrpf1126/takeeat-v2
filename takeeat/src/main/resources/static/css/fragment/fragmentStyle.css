@@ -20,6 +20,12 @@ header, #H-navbarTop {
     justify-content: space-between;
 }
 
+header {
+    position: fixed;
+    top: 0;
+    z-index: 1;
+}
+
 #H-navbarTop {
     display: flex;
 }

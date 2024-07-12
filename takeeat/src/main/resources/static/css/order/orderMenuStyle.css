@@ -6,6 +6,7 @@
     width: 100%;
     max-width: 600px;
     padding-bottom: 10px;
+    padding-top: 60px;
 }
 
 a {
@@ -551,6 +552,10 @@ footer {
     body {
         display: flex;
         justify-content: center;
+    }
+
+    #contents {
+        padding-top: 75px;
     }
 
     #marketNumberContainer {

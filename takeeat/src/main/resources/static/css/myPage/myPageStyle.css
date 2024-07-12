@@ -1,0 +1,77 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+#contents {
+    width: 100%;
+    max-width: 600px;
+}
+
+#titleContainer {
+    display: flex;
+    align-items : center;
+    margin: 10px;
+}
+
+#backIcon {
+    width: 30px;
+    height: 30px;
+    margin-left: 10px;
+}
+
+#backIcon:hover {
+    cursor: pointer;
+}
+
+#myPageTitle {
+    font-size: 25px;
+    margin-left: 20px;
+}
+
+hr {
+    margin: 0px;
+}
+
+#profileContainer {
+    margin-top: 40px;
+    text-align:center;
+    align-items: center;
+}
+
+#profileImg {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    text-align: center;
+    border: 1px solid lightgray;
+}
+
+#nickname {
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.menuContainer {
+    padding: 20px;
+    margin: 10px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+}
+
+.menuContainer:hover {
+    background: #f8f9fa;
+    cursor: pointer;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        justify-content: center;
+    }
+
+    .menuContainer {
+        font-size: 18px;
+    }
+}

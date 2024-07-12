@@ -16,9 +16,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="/css/mainPage/homeStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/mainPage/indexStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
+
+<div th:replace="~{fragment/header :: navbar}"></div>
 
 <div id="contents">
     <div id="gpsContainer">
@@ -94,6 +97,8 @@
 
 </div>
 
+<div th:replace="~{fragment/footer :: copyright}"></div>
+
 <script th:inline="javascript">
     var appkey = [[${KAKAO_API_KEY}]];
     var script = document.createElement('script');
@@ -104,6 +109,6 @@
     var sessionAddr = [[${session.addr}]];
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<script src="/js/mainPage/home.js"></script>
+<script src="/js/mainPage/index.js"></script>
 </body>
 </html>

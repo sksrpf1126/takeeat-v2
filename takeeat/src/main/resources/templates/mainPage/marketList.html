@@ -44,7 +44,7 @@
             <option>별점 높은순</option>
         </select>
         <form class="margin-5">
-            <input type="text" class="search-box"/>
+            <input type="text" class="search-box" id="search" name="search"/>
             <button type="submit" class="search-button">검색</button>
         </form>
     </div>
@@ -73,7 +73,7 @@
                         <div class="place-name">[[${market.marketName}]]</div>
                         <div class="line-container">
                             <div class="star">★</div>
-                            <div class="s-font-size" >&nbsp;&nbsp;[[${market.marketRating}]]&nbsp;|</div>
+                            <div class="s-font-size" >&nbsp;[[${market.marketRating}]]&nbsp;|</div>
                             <div class="s-font-size">&nbsp;리뷰&nbsp;:&nbsp;[[${market.reviewCount}]]</div>
                         </div>
                         <div class="address-font">[[${market.query}]]</div>

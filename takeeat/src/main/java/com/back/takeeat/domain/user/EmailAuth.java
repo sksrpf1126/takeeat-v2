@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @EntityListeners(value = AuditingEntityListener.class)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailAuth {
-    private static final Long EXPIRE_TIME = 1L;
+    private static final Long EXPIRE_TIME = 10L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

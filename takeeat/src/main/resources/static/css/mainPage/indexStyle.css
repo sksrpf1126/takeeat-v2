@@ -5,6 +5,7 @@
 #contents {
     width: 100%;
     max-width: 600px;
+    padding-top: 60px;
 }
 
 #gpsContainer {
@@ -115,6 +116,10 @@
     body {
         display: flex;
         justify-content: center;
+    }
+
+    #contents {
+        padding-top: 75px;
     }
 
     #wrap {

@@ -24,6 +24,7 @@ public class MarketMenuController {
 
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         model.addAttribute("marketMenuResponse", marketMenuResponse);
+        model.addAttribute("gpsService", true);
         return "order/orderMenu";
     }
 }

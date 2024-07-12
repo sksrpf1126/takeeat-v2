@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header th:fragment="navbar">
+    <div id="H-navbarTop">
+        <div id="H-logoContainer">
+            <div><img id="H-logoImg" src="/images/logo.png" onclick="location.href='/'"/></div>
+            <div th:if="${gpsService != null && gpsService}"><img id="H-markerIcon" src="/images/header/marker.svg"/></div>
+        </div>
+
+        <th:block sec:authorize="isAnonymous()">
+            <div id="H-loginBtn" onclick="location.href='/member/login'"><strong>로그인</strong></div>
+        </th:block>
+
+        <th:block sec:authorize="isAuthenticated()">
+            <div id="H-afterLogin">
+                <div id="H-nickNameBtn" onclick="location.href='#'"><strong>홍길동 님</strong></div>
+                <div id="H-myPageBtn" onclick="location.href='#'"><img id="H-myPageIcon" src="/images/header/myPage.svg"/></div>
+                <div id="H-notificationBtn" onclick="location.href='#'"><img id="H-notificationIcon" src="/images/header/bell.svg"/></div>
+                <div id="H-cartBtn" onclick="location.href='/cart'"><img id="H-cartIcon" src="/images/header/cart.svg"/></div>
+            </div>
+        </th:block>
+    </div>
+
+    <div id="H-navbarBottom">
+        <div id="H-addressContainer">
+            <div id="H-gpsIconContainer" onclick="askForLocation()"><img src="/images/gps-icon.svg" id="H-gpsIcon"/></div>
+            <input type="text" id="H-address" onclick="sample3_execDaumPostcode()" th:value="${session.addr}" readonly/>
+            <div id="H-searchMarketBtn">검색</div>
+        </div>
+        <div id="H-wrap">
+            <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="H-btnFoldWrap" onclick="foldDaumPostcode()" alt="접기 버튼">
+        </div>
+    </div>
+
+</header>
+
+</body>
+</html>

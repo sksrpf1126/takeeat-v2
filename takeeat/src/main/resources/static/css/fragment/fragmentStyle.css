@@ -1,0 +1,167 @@
+* {
+    font-family: "Noto Sans KR", sans-serif;
+}
+
+footer {
+    text-align: center;
+    background: #f8f9fa;
+    padding: 20px;
+    display: block;
+    width: 100%;
+    max-width: 600px;
+}
+
+header, #H-navbarTop {
+    align-items: center;
+    background: #ffb36f;
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 600px;
+    justify-content: space-between;
+}
+
+#H-navbarTop {
+    display: flex;
+}
+
+#H-logoImg {
+    width: 100px;
+}
+
+#H-logoImg:hover, #H-loginBtn:hover, #nickNameBtn:hover, #H-myPageBtn:hover,
+#H-nocationBtn:hover, #H-cartBtn:hover, #H-markerIcon:hover, #H-searchMarketBtn:hover {
+    cursor: pointer;
+}
+
+#H-loginBtn {
+    font-size: 18px;
+    margin-right: 20px;
+}
+
+#H-afterLogin, #H-logoContainer {
+    display: flex;
+    align-items: center;
+}
+
+#H-nickNameBtn {
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+#H-notificationIcon, #H-cartIcon, #H-myPageIcon {
+    width: 30px;
+    margin-right: 10px;
+}
+
+#H-markerIcon {
+    width: 30px;
+}
+
+#H-myPageBtn {
+    display: block;
+}
+
+#H-nickNameBtn {
+    display: none;
+}
+
+#H-addressContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#H-gpsIconContainer {
+    padding: 5px;
+    text-align: center;
+    background: white;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+}
+
+#H-gpsIcon:hover {
+    cursor: pointer;
+}
+
+#H-gpsIcon {
+    width: 30px;
+}
+
+#H-address {
+    border: 1px solid lightgray;
+    margin-right: 10px;
+    width: 70%;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+#H-wrap {
+    display: none;
+    border: 1px solid;
+    width: 100%;
+    height: 400px;
+    margin: 5px 0;
+    position: absolute;
+    top: 120px; /* 위치 조정 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+#H-btnFoldWrap {
+    cursor: pointer;
+    position: absolute;
+    right: 0px;
+    top: -1px;
+    z-index: 2;
+}
+
+#H-navbarBottom {
+    display: none;
+    margin-bottom: 10px;
+}
+
+#H-searchMarketBtn {
+    background: white;
+    border: 1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px;
+    align-items: center;
+    text-align: center;
+    width: 50px;
+}
+
+@media (min-width: 601px) {
+    body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #H-notificationIcon, #H-cartIcon {
+        width: 35px;
+    }
+
+    #H-myPageBtn {
+        display: none;
+    }
+
+    #H-nickNameBtn {
+        display: block;
+    }
+
+    #H-logoImg {
+        width: 130px;
+    }
+
+    #H-markerIcon {
+        width: 40px;
+    }
+
+    #H-wrap {
+        width: 500px;
+    }
+}

@@ -17,8 +17,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/css/order/orderMenuStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
+
+<div th:replace="~{fragment/header :: navbar}"></div>
 
 <div id="contents">
 
@@ -217,7 +220,7 @@
                 var appkey = [[${KAKAO_API_KEY}]];
                 var script = document.createElement('script');
                 script.type = "text/javascript";
-                script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false";
+                script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false&libraries=services";
                 document.head.appendChild(script);
 
                 var latitude = [[${marketMenuResponse.marketResponse.latitude}]];
@@ -352,6 +355,13 @@
     </div>
 </div>
 
+<div th:replace="~{fragment/footer :: copyright}"></div>
+
+<script th:inline="javascript">
+    var sessionAddr = [[${session.addr}]];
+</script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/order/orderMenu.js"></script>
+<script src="/js/fragment/fragment.js"></script>
 </body>
 </html>

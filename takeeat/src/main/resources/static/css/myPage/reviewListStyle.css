@@ -19,6 +19,10 @@
     margin-left: 10px;
 }
 
+#backIcon:hover {
+    cursor: pointer;
+}
+
 #reviewListTitle {
     font-size: 25px;
     margin-left: 20px;

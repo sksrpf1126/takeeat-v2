@@ -101,7 +101,7 @@ window.addEventListener('load', function() {
     kakao.maps.load(function() {
         geocoder = new kakao.maps.services.Geocoder();
     });
-}
+});
 
 //=== 좌표 -> 주소 ===
 function getAddr(result, status) {

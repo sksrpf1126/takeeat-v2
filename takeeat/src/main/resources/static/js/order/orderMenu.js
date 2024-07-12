@@ -54,8 +54,10 @@ function showInfoTab() {
 }
 
 function relayout() {
-    map.relayout();
-    map.setCenter(new kakao.maps.LatLng(latitude, longitude));
+    if (map !== null) {
+        map.relayout();
+        map.setCenter(new kakao.maps.LatLng(latitude, longitude));
+    }
 }
 
 //==== 옵션 선택 모달 보여주기 ====

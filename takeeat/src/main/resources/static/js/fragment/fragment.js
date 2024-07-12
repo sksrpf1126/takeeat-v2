@@ -97,7 +97,7 @@ function handleError(error) {
 }
 
 //=== 카카오 맵 API Geocoder ===
-window.onload = function() {
+window.addEventListener('load', function() {
     kakao.maps.load(function() {
         geocoder = new kakao.maps.services.Geocoder();
     });

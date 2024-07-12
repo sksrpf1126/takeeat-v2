@@ -1,8 +1,11 @@
 package com.back.takeeat.domain.market;
 
+import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.user.Member;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Builder
@@ -52,6 +55,9 @@ public class Market {
 
     private String closedDays;
 
+    @OneToMany(mappedBy = "market")
+    private List<MenuCategory> menuCategories;
+
     public void writeReview(int totalReviewRating) {
         //리뷰 수 증가
         this.reviewCount++;
@@ -74,10 +80,5 @@ public class Market {
         //평점 계산
         double newRating = (double) totalReviewRating / this.reviewCount;
         this.marketRating = Math.round(newRating * 10) / 10.0;
-    }
-
-    public void calculateLatLon(double latitude, double longitude) {
-
-
     }
 }

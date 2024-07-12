@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -23,11 +24,13 @@ public class MarketListController {
 
     @GetMapping("{marketCategory}/list")
     public String marketList(@PathVariable("marketCategory") String marketCategory
+                            , @RequestParam(name = "search", required = false, defaultValue = "") String search
                             , Model model
                             , HttpSession session) {
         Double latitude = (Double) session.getAttribute("latitude");
         Double longitude = (Double) session.getAttribute("longitude");
-        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(marketCategory, latitude, longitude);
+        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(marketCategory, latitude, longitude, search);
+
         model.addAttribute("listCount", marketInfoResponse.size());
         model.addAttribute("latitude", latitude);
         model.addAttribute("longitude", longitude);

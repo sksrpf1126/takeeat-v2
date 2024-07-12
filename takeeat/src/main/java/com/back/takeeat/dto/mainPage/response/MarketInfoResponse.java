@@ -34,6 +34,4 @@ public class MarketInfoResponse {
                 .reviewCount(market.getReviewCount())
                 .build();
     }
-
-
 }

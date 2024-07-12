@@ -4,6 +4,7 @@ import com.back.takeeat.common.exception.AuthException;
 import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.member.SignupRequest;
+import com.back.takeeat.dto.member.SocialSignupRequest;
 import com.back.takeeat.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,8 @@ public class MemberService {
     private final BCryptPasswordEncoder encoder;
 
     @Transactional
-    public void signup(SignupRequest signupRequest) {
+    public void registerMember(SignupRequest signupRequest) {
+
         validatePassword(signupRequest.getPassword(), signupRequest.getPasswordCheck());
         validateDuplicateMember(signupRequest.getEmail());
 
@@ -30,10 +32,26 @@ public class MemberService {
     }
 
     @Transactional
-    public void socialSignup(SignupRequest signupRequest, Member member) {
+    public void registerSocialMember(SocialSignupRequest signupRequest, Member member) {
         validateDuplicateMember(member.getEmail());
         member.socialMemberSignup(signupRequest.getName(), signupRequest.getNickname(), signupRequest.getPhone());
         memberRepository.save(member);
+    }
+
+    /**
+     * @return 중복되는 로그인 아이디가 있다면 false, 없다면 true
+     */
+    @Transactional(readOnly = true)
+    public Boolean duplicateMemberLoginId(String memberLoginId) {
+        return !memberRepository.existsByMemberLoginId(memberLoginId);
+    }
+
+    /**
+     * @return 중복되는 이메일이 있다면 false, 없다면 true
+     */
+    @Transactional(readOnly = true)
+    public Boolean duplicateEmail(String email) {
+        return !memberRepository.existsByEmail(email);
     }
 
     private void validatePassword(String password, String passwordCheck) {

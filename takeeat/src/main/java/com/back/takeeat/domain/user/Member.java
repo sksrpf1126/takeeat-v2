@@ -18,6 +18,8 @@ public class Member extends BaseTimeEntity {
 
     private String name;
 
+    private String memberLoginId;
+
     private String email;
 
     private String pwd;
@@ -35,7 +37,8 @@ public class Member extends BaseTimeEntity {
     private Boolean deleteYn;
 
     @Builder
-    public Member(String nickname, String name, String email, String phone, ProviderType providerType, MemberRoleType role, String profile) {
+    public Member(String memberLoginId, String nickname, String name, String email, String phone, ProviderType providerType, MemberRoleType role, String profile) {
+        this.memberLoginId = memberLoginId;
         this.nickname = nickname;
         this.name = name;
         this.email = email;

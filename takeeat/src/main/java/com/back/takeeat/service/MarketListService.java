@@ -17,7 +17,7 @@ public class MarketListService {
     @Transactional(readOnly = true)
     public List<MarketInfoResponse> getMarketInfo(String marketCategory
                                                 , double latitude, double longitude
-                                                , String search) {
+                                                , String search, String sort) {
         // 반경 4.0km
         double distance = 4.0;
 

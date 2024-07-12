@@ -25,12 +25,14 @@ public class MarketListController {
     @GetMapping("{marketCategory}/list")
     public String marketList(@PathVariable("marketCategory") String marketCategory
                             , @RequestParam(name = "search", required = false, defaultValue = "") String search
+                            , @RequestParam(name = "sort", required = false, defaultValue = "distance") String sort
                             , Model model
                             , HttpSession session) {
         Double latitude = (Double) session.getAttribute("latitude");
         Double longitude = (Double) session.getAttribute("longitude");
-        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(marketCategory, latitude, longitude, search);
+        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(marketCategory, latitude, longitude, search, sort);
 
+        model.addAttribute("marketCategory", marketCategory);
         model.addAttribute("listCount", marketInfoResponse.size());
         model.addAttribute("latitude", latitude);
         model.addAttribute("longitude", longitude);

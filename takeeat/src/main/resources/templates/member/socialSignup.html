@@ -15,7 +15,7 @@
         <img src="/images/member/cancel.png" />
     </div>
     <div class="middle">
-        <form action="/member/signup" method="post">
+        <form th:action="@{/member/social-signup}" th:object="${socialSignupRequest}" method="post">
             <input
                     type="hidden"
                     id="email"
@@ -49,8 +49,11 @@
                         type="text"
                         id="name"
                         name="name"
+                        th:field="*{name}"
+                        th:errorclass="field-error"
                         placeholder="이름을 입력해주세요"
                 />
+                <div class="field-error" th:errors="*{name}">오류</div>
             </div>
             <div class="nickname-frame">
                 <div class="input-title">닉네임</div>
@@ -58,8 +61,11 @@
                         type="text"
                         id="nickname"
                         name="nickname"
+                        th:field="*{nickname}"
+                        th:errorclass="field-error"
                         placeholder="2~8글자 이내로 입력해주세요."
                 />
+                <div class="field-error" th:errors="*{nickname}">오류</div>
             </div>
             <div class="phone-frame">
                 <div class="input-title">전화번호</div>
@@ -67,8 +73,11 @@
                         type="text"
                         id="phone"
                         name="phone"
+                        th:field="*{phone}"
+                        th:errorclass="field-error"
                         placeholder="-를 빼고 입력해주세요."
                 />
+                <div class="field-error" th:errors="*{phone}">오류</div>
             </div>
             <div class="regist-frame">
                 <input type="submit" value="회원가입" class="regist-btn" />

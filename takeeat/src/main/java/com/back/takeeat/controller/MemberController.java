@@ -72,11 +72,13 @@ public class MemberController {
     }
 
     @GetMapping("/social-signup")
-    public String socialSignupForm(@LoginMember Member member) {
+    public String socialSignupForm(@LoginMember Member member, Model model) {
         if(member != null &&  member.getId() != null) {
             //@TODO 메인페이지 경로로 변경할 것
             return "redirect:/market/info";
         }
+
+        model.addAttribute("socialSignupRequest", SocialSignupRequest.builder().build());
 
         return "member/socialSignup";
     }
@@ -128,7 +130,16 @@ public class MemberController {
     }
 
     @PostMapping("/social-signup")
-    public String socialSignup(@LoginMember Member member, @ModelAttribute SocialSignupRequest signupRequest, HttpServletRequest request) {
+    public String socialSignup(@LoginMember Member member,
+                               @Valid @ModelAttribute SocialSignupRequest signupRequest,
+                               BindingResult bindingResult,
+                               HttpServletRequest request) {
+
+        //데이터 유효성 검증
+        if(bindingResult.hasErrors()) {
+            return "member/socialSignup";
+        }
+
         validateEmailAndProviderMatch(request, member.getEmail(), signupRequest.getProviderType());
         memberService.registerSocialMember(signupRequest, member);
 

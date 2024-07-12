@@ -75,4 +75,9 @@ public class Market {
         double newRating = (double) totalReviewRating / this.reviewCount;
         this.marketRating = Math.round(newRating * 10) / 10.0;
     }
+
+    public void calculateLatLon(double latitude, double longitude) {
+
+
+    }
 }

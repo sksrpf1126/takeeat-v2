@@ -1,10 +1,12 @@
 package com.back.takeeat.repository;
 
 import com.back.takeeat.domain.market.Market;
-import com.back.takeeat.domain.menu.Menu;
+import com.back.takeeat.dto.mainPage.response.MarketInfoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MarketRepository extends JpaRepository<Market, Long> {
@@ -12,5 +14,23 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     boolean existsByMarketName(String marketName);
 
     Optional<Market> findByMemberId(@Param("memberId") Long memberId);
+
+    @Query(
+            "SELECT new com.back.takeeat.dto.mainPage.response.MarketInfoResponse(m.id, m.marketName, m.marketImage, m.query " +
+                                                                               ", m.addressDetail, m.latitude, m.longitude " +
+                                                                               ", m.marketRating, m.reviewCount) " +
+            "FROM Market m " +
+            "WHERE m.marketCategory = :marketCategory " +
+                  "AND m.latitude BETWEEN :minLat AND :maxLat " +
+                  "AND m.longitude BETWEEN :minLon AND :maxLon " +
+            "ORDER BY ABS(m.latitude - :latitude), ABS(m.longitude - :longitude) "
+    )
+    List<MarketInfoResponse> findMarketByLatLon(@Param("marketCategory") String marketCategory,
+                                                @Param("minLat") double minLat,
+                                                @Param("maxLat") double maxLat,
+                                                @Param("minLon") double minLon,
+                                                @Param("maxLon") double maxLon,
+                                                @Param("latitude") double latitude,
+                                                @Param("longitude") double longitude);
 
 }

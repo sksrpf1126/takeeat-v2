@@ -1,5 +1,6 @@
 package com.back.takeeat.controller;
 
+import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.dto.mainPage.response.MarketInfoResponse;
 import com.back.takeeat.service.MarketListService;
 import jakarta.servlet.http.HttpSession;
@@ -24,10 +25,12 @@ public class MarketListController {
     @GetMapping("{marketCategory}/list")
     public String marketList(@PathVariable("marketCategory") String marketCategory
                             , Model model
-                            , HttpSession session) {
-        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo();
+                            , HttpSession session
+                            , Market market) {
+        List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(market);
         Double latitude = (Double) session.getAttribute("latitude");
         Double longitude = (Double) session.getAttribute("longitude");
+        model.addAttribute("listCount", marketInfoResponse.size());
         model.addAttribute("latitude", latitude);
         model.addAttribute("longitude", longitude);
         model.addAttribute("marketInfoResponse", marketInfoResponse);

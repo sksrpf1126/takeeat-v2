@@ -53,37 +53,35 @@
     <script th:inline="javascript">
         var longitude = [[${longitude}]];
         var latitude = [[${latitude}]];
+        var marketInfoResponse = /*[[${marketInfoResponse}]]*/ [];
+        var listCount = [[${listCount}]];
+
+        // 각 마켓의 위도와 경도를 배열로 저장
+        var marketCoordinates = marketInfoResponse.map(function(market) {
+            return {
+                longitude: market.longitude,
+                latitude: market.latitude
+            };
+        });
     </script>
-    <div class="line-container container">
-        <div class="list-box text-flow" onclick="location.href='#';">
-            <div class="line-container">
-                <div class="marketImageContainer"><img src="/images/pizza-logo.png" class="marketImage"></div>
-                <div class="length-container content-padding">
-                    <div class="place-name">청년피자 - 판교점</div>
-                    <div class="line-container">
-                        <div class="star">★</div>
-                        <div class="s-font-size">&nbsp;&nbsp;5.0&nbsp;|</div>
-                        <div class="s-font-size">&nbsp;리뷰&nbsp;:&nbsp;1020</div>
+    <th:block th:each="market : ${marketInfoResponse}">
+        <div class="list-container container">
+            <div class="list-box text-flow" th:onclick="|location.href='@{/{id}(id=${market.marketId})}/menu'|">
+                <div class="line-container">
+                    <div class="marketImageContainer"><img th:src="${market.marketImage}" class="marketImage"></div>
+                    <div class="length-container content-padding">
+                        <div class="place-name">[[${market.marketName}]]</div>
+                        <div class="line-container">
+                            <div class="star">★</div>
+                            <div class="s-font-size" >&nbsp;&nbsp;[[${market.marketRating}]]&nbsp;|</div>
+                            <div class="s-font-size">&nbsp;리뷰&nbsp;:&nbsp;[[${market.reviewCount}]]</div>
+                        </div>
+                        <div class="address-font">[[${market.query}]]</div>
                     </div>
-                    <div class="address-font">주소&nbsp;:&nbsp;경기도 판교로 116</div>
                 </div>
             </div>
         </div>
-        <div class="list-box text-flow" onclick="location.href='#';">
-            <div class="line-container">
-                <div class="marketImageContainer"><img src="/images/pizza-logo.png" class="marketImage"></div>
-                <div class="length-container content-padding">
-                    <div class="place-name">청년피자 - 판교점</div>
-                    <div class="line-container">
-                        <div class="star">★</div>
-                        <div class="s-font-size">&nbsp;&nbsp;5.0&nbsp;|</div>
-                        <div class="s-font-size">&nbsp;리뷰&nbsp;:&nbsp;1020</div>
-                    </div>
-                    <div class="address-font">주소&nbsp;:&nbsp;경기도 판교로 116</div>
-                </div>
-            </div>
-        </div>
-    </div>
+    </th:block>
 </div>
 <script th:inline="javascript">
     var appkey = [[${KAKAO_API_KEY}]];

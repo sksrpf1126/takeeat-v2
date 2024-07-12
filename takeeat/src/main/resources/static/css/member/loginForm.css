@@ -10,7 +10,6 @@
     text-align: center;
     align-items: center;
     justify-self: center;
-    height: calc(100vh - 100px);
 }
 
 .middle::-webkit-scrollbar {

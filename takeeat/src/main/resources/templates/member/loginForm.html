@@ -19,9 +19,9 @@
             <img src="/images/logo.png" class="logo" />
         </div>
         <form action="/login" method="post" class="login-form">
-            <input type="email" name="email" class="email" placeholder="E-mail" />
+            <input type="text" name="memberLoginId" class="email" placeholder="E-mail" />
             <div th:if="${error}">
-                <p class="login-error-font" th:text="${exception}"></p>
+                <p class="field-error" th:text="${exception}"></p>
             </div>
             <input type="password" name="password" class="password" placeholder="Password" />
 

@@ -10,60 +10,59 @@ a {
 }
 
 #contents {
-  width: 100vw;
+  width: 100%;
   max-width: 600px;
 }
 
 @media (min-width: 601px) {
   body {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
   }
+}
+
+body {
+  background-color: #f9f9f9;
 }
 
 #contents {
   display: grid;
-  grid-template-rows: 50px max-content 50px;
-  grid-template-columns: 50px auto 50px;
-  border: 1px solid #e5e5e5; /* 중심부 위치 임시 표시용*/
+  grid-template-rows: 65.075px max-content;
+  background: white;
+  justify-items: center;
 }
 
-.header {
+.member-header {
   text-align: center;
   align-content: center;
-  height: 50px;
+  height: 65.075px;
   width: 100%;
-  max-width: 598px;
+  max-width: 600px;
   position: fixed;
   top: 0;
   z-index: 1;
   background-color: white;
+  justify-items: center;
   display: grid;
   grid-template-columns: 50px auto 50px;
-  justify-items: center;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #e5e5e5; /* 헤더 위치 임시 표시용*/
 }
 
-.header > img {
+.member-header > img {
   width: 20px;
   object-fit: scale-down;
+  cursor: pointer;
 }
 
-.footer {
-  grid-row: 3/4;
-  grid-column: 1/4;
-  font-size: 12px;
-  text-align: center;
-  align-content: center;
-  margin-top: 10px;
-  border-top: 1px solid #e5e5e5; /* 풋터 위치 임시 표시용*/
+.member-header > div {
+  font-weight: bolder;
 }
 
 .middle {
   grid-row: 2/3;
-  grid-column: 2/3;
-  min-height: calc(100vh - 100px);
+  min-height: calc(100vh - 65.075px);
+  height: 100%;
 }
 
 .field-error {
@@ -71,4 +70,11 @@ a {
   color: #dc3545;
   font-size: 10px;
   padding: 5px 0 10px;
+}
+
+.caption {
+  font-weight: 400;
+  font-size: 10px;
+  color: #6e6e6e;
+  padding-bottom: 15px;
 }

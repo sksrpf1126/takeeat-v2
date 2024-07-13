@@ -1,0 +1,57 @@
+.find-contents-height {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    max-width: 600px;
+    height: 100vh;
+    border: 1px solid #e5e5e5;
+}
+
+#find-contents {
+    width: 70%;
+}
+
+#find-result-box {
+    display: flex;
+    flex-direction: column;
+    height: 100px;
+    background-color: #f3f3f3;
+    justify-content: center;
+    align-items: center;
+    margin: 25px 0px;
+}
+
+.center {
+    text-align: center;
+}
+
+#result {
+    margin-top: 10px;
+    color: #211bff;
+    font-weight: 600;
+    font-size: 23px;
+}
+
+#button-box {
+    display: flex;
+    justify-content: space-between;
+}
+
+.button-design {
+    border: none;
+    color: white;
+    width: 49%;
+    height: 60px;
+    font-weight: 600;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.login-btn {
+    background-color: gray;
+}
+
+.pw-btn {
+    background-color: #211bff;
+}

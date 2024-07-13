@@ -5,12 +5,22 @@
 #contents {
     width: 100%;
     max-width: 600px;
+    border: 1px solid lightgray;
+    padding-top: 60px;
+    min-height: 100vh;
 }
 
 #titleContainer {
     display: flex;
     align-items : center;
-    margin: 10px;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    z-index: 1;
+    background: white;
+    border: 1px solid lightgray;
+    width: 100%;
+    max-width: 600px;
 }
 
 #backIcon {
@@ -93,7 +103,6 @@ input[type="text"] {
 }
 
 #orderBtn {
-    border: 1px solid lightgray;
     height: 50px;
     display : flex;
     justify-content : center;
@@ -116,5 +125,10 @@ input[type="text"] {
     body {
         display: flex;
         justify-content: center;
+    }
+
+    #orderBtn {
+        border: 1px solid lightgray;
+        margin: 0px 10px;
     }
 }

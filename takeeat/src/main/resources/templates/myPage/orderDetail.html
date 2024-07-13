@@ -13,16 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/css/myPage/orderDetailStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
 
-<div id="contents">
+<div id="titleContainer">
+    <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+    <div id="orderDetailTitle"><strong>주문상세</strong></div>
+</div>
 
-    <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
-        <div id="orderDetailTitle"><strong>주문상세</strong></div>
-    </div>
-    <hr/>
+<div id="contents">
 
     <div class="orderInfo">
         <div id="orderStatus"><strong>[[${orderDetailResponse.getOrderStatusKR()}]]</strong></div>
@@ -68,7 +68,10 @@
     <div class="orderInfo">
         <!-- 결제 정보, 요청사항 추가 -->
     </div>
+
 </div>
+
+<div th:replace="~{fragment/footer :: copyright}"></div>
 
 <script src="/js/myPage/orderDetail.js"></script>
 </body>

@@ -14,16 +14,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/css/myPage/reviewListStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
 
-<div id="contents">
+<div id="titleContainer">
+    <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+    <div id="reviewListTitle"><strong>리뷰관리</strong></div>
+</div>
 
-    <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
-        <div id="reviewListTitle"><strong>리뷰관리</strong></div>
-    </div>
-    <hr/>
+<div id="contents">
 
     <div id="reviewCount">
         <strong>내가 쓴 총 리뷰 [[${reviewListResponses.size()}]]개</strong>
@@ -34,6 +34,10 @@
         </div>
     </div>
     <hr/>
+
+    <div id="emptyReviewList" th:if="${reviewListResponses.isEmpty()}">
+        작성된 리뷰가 없습니다
+    </div>
 
     <th:block th:each="review : ${reviewListResponses}">
         <div class="reviewContainer">
@@ -109,6 +113,8 @@
     </div>
 
 </div>
+
+<div th:replace="~{fragment/footer :: copyright}"></div>
 
 <script src="/js/myPage/reviewList.js"></script>
 </body>

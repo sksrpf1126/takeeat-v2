@@ -17,13 +17,12 @@
 </head>
 <body>
 
-<div id="contents">
+<div id="titleContainer">
+    <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+    <div id="writeReviewTitle"><strong>리뷰쓰기</strong></div>
+</div>
 
-    <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
-        <div id="writeReviewTitle"><strong>리뷰쓰기</strong></div>
-    </div>
-    <hr/>
+<div id="contents">
 
     <form id="reviewForm" action="/my/review/write" method="post" enctype="multipart/form-data">
         <div id="formContainer">

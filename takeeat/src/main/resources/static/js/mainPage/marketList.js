@@ -2,7 +2,7 @@ window.onload = function() {
     kakao.maps.load(function() {
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
             mapOption = {
-                center: new kakao.maps.LatLng(latitude, longitude), // 지도의 중심좌표
+                center: new kakao.maps.LatLng(37.5003867, 127.027994), // 지도의 중심좌표
                 level: 4 // 지도의 확대 레벨
             };
 
@@ -15,7 +15,7 @@ window.onload = function() {
 
         // 사용자의 위치 마커의 이미지정보를 가지고 있는 마커이미지를 생성합니다
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption),
-            markerPosition = new kakao.maps.LatLng(latitude, longitude); // 마커가 표시될 위치입니다
+            markerPosition = new kakao.maps.LatLng(37.5003867, 127.027994); // 마커가 표시될 위치입니다
 
         // 사용자의 위치 마커를 생성합니다
         var marker = new kakao.maps.Marker({
@@ -40,3 +40,14 @@ window.onload = function() {
 
     });
 }
+
+// default 값인 거리순 요청시 이동 주소
+document.getElementById('orderDropdown').addEventListener('change', function() {
+    const selectedOption = this.value;
+
+    if (selectedOption === 'distance') {
+        const url = `/${marketCategory}/list`;
+        window.location.href = url;
+    }
+    // 추가 옵션들 필요시 여기에서 처리
+});

@@ -15,7 +15,7 @@
         <img src="/images/member/cancel.png"/>
     </div>
     <div class="middle">
-        <form th:action="@{/member/signup}" th:object="${signupRequest}" method="post">
+        <form th:action="@{/member/signup}" th:object="${signupRequest}" method="post" enctype="multipart/form-data">
             <div class="profile-user-frame">
                 <img
                         id="profile-user-image"
@@ -24,12 +24,22 @@
                 /><br/>
                 <input
                         type="file"
-                        name="file"
+                        name="profile"
                         id="profile-user-img-save-btn"
                         accept="image/*"
                         style="display: none"
                 />
                 <input type="button" id="profile-update-btn"/>
+            </div>
+            <div class="input-title">
+                <div>
+                    <input id="user-type-member" type="radio" name="memberRoleType" value="ROLE_MEMBER" checked>
+                    <label for="user-type-member">회원</label>
+                </div>
+                <div>
+                    <input id="user-type-owner" type="radio" name="memberRoleType" value="ROLE_OWNER">
+                    <label for="user-type-owner">사장</label>
+                </div>
             </div>
             <div id="id-input-frame">
                 <div class="input-title">아이디</div>
@@ -132,5 +142,7 @@
 </div>
 
 <script src="/js/member/signup.js"></script>
+<script src="/js/member/emailAndAuthCode.js"></script>
+<script src="/js/member/profileUpload.js"></script>
 </body>
 </html>

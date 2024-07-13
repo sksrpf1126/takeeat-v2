@@ -40,33 +40,33 @@ public class S3Service {
         List<String> imgUrlList = new ArrayList<>();
 
         //파일의 수만큼 반복
-        multipartFiles.forEach(file -> {
-            //중복을 피하기 위한 새로운 파일이름 생성
-            String fileName = createFileName(file.getOriginalFilename());
-            //ObjectMetadata -> S3에 업로드되는 파일 또는 객체의 관련된 정보를 저장하는 객체
-            ObjectMetadata objectMetadata = new ObjectMetadata();
-            //S3에 업로드할 파일의 사이즈 저장
-            objectMetadata.setContentLength(file.getSize());
-            //S3에 업로드할 파일의 contentType 저장
-            objectMetadata.setContentType(file.getContentType());
-
-            //파일 데이터를 stream으로 읽어 inputStream에 저장
-            try(InputStream inputStream = file.getInputStream()) {
-                //S3를 구분할 버킷명과 파일이름, 파일의 stream데이터, ObjectMetadata를 통해 S3 버킷에 업로드
-                s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
-                        .withCannedAcl(CannedAccessControlList.PublicRead));
-
-                //S3에 파일이 업로드가 되면, 파일을 웹상에서 URL로 바로 가져가서 볼 수 있도록 URL을 만들어주는데
-                //해당 URL을 가져와서 imgUrlList에 add => 해당 URL을 DB 컬럼에 저장하여 이후 화면에서 사용
-                imgUrlList.add(s3Client.getUrl(bucket, fileName).toString());
-            }catch (IOException e) {
-                throw new RuntimeException();
-            }
-
-        });//foreach end
+        multipartFiles.forEach(file -> imgUrlList.add(this.uploadSingleFile(file)));
 
         return imgUrlList;
     }
+
+    public String uploadSingleFile(MultipartFile file) {
+        //중복을 피하기 위한 새로운 파일이름 생성
+        String fileName = createFileName(file.getOriginalFilename());
+        //ObjectMetadata -> S3에 업로드되는 파일 또는 객체의 관련된 정보를 저장하는 객체
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        //S3에 업로드할 파일의 사이즈 저장
+        objectMetadata.setContentLength(file.getSize());
+        //S3에 업로드할 파일의 contentType 저장
+        objectMetadata.setContentType(file.getContentType());
+
+        //파일 데이터를 stream으로 읽어 inputStream에 저장
+        try(InputStream inputStream = file.getInputStream()) {
+            //S3를 구분할 버킷명과 파일이름, 파일의 stream데이터, ObjectMetadata를 통해 S3 버킷에 업로드
+            s3Client.putObject(new PutObjectRequest(bucket, fileName, inputStream, objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+        }catch (IOException e) {
+            throw new RuntimeException();
+        }
+
+        return s3Client.getUrl(bucket, fileName).toString();
+    }
+
 
     public void deleteFiles(List<String> fileNames) {
         fileNames.forEach(fileName -> {

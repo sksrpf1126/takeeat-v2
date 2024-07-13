@@ -41,7 +41,24 @@ public class EmailService {
                 .authCode(authCode)
                 .build());
 
-        this.sendEmail(email, authCode);
+        this.sendEmail(email, authCode, "[TakeEat] 회원가입 이메일 인증");
+    }
+
+    @Transactional
+    public void findMemberLoginIdSendEmail(String email) {
+
+        if(!memberRepository.existsByEmail(email)) {
+            throw new BaseException(ErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        String authCode = this.createCode();
+
+        emailAuthRepository.save(EmailAuth.builder()
+                .email(email)
+                .authCode(authCode)
+                .build());
+
+        this.sendEmail(email, authCode, "[TakeEat] 아이디 찾기 인증");
     }
 
     @Transactional(readOnly = true)
@@ -59,11 +76,11 @@ public class EmailService {
     }
 
     @Async
-    public void sendEmail(String email, String authCode) {
+    public void sendEmail(String email, String authCode, String subject) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(email);
-        mailMessage.setSubject("[TakeEat] 회원가입 이메일 인증");
-        mailMessage.setText("회원가입 인증 코드는 " + authCode + " 입니다.");
+        mailMessage.setSubject(subject);
+        mailMessage.setText("인증 코드는 " + authCode + " 입니다.");
 
         log.info("{} 로 인증코드를 방송 했습니다. code : {}", email, authCode);
 

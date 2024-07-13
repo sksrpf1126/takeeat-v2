@@ -60,4 +60,8 @@ public class Member extends BaseTimeEntity {
     public void setEncryptPassword(String encryptPassword) {
         this.pwd = encryptPassword;
     }
+
+    public void profileUpload(String profile) {
+        this.profile = profile;
+    }
 }

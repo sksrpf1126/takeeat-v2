@@ -15,7 +15,7 @@
         <img src="/images/member/cancel.png" />
     </div>
     <div class="middle">
-        <form th:action="@{/member/social-signup}" th:object="${socialSignupRequest}" method="post">
+        <form th:action="@{/member/social-signup}" th:object="${socialSignupRequest}" method="post" enctype="multipart/form-data">
             <input
                     type="hidden"
                     id="email"
@@ -36,7 +36,7 @@
                 /><br />
                 <input
                         type="file"
-                        name="file"
+                        name="profile"
                         id="profile-user-img-save-btn"
                         accept="image/*"
                         style="display: none"

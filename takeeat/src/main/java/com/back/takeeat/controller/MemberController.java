@@ -6,6 +6,8 @@ import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.domain.user.ProviderType;
+import com.back.takeeat.dto.member.IdFindRequest;
+import com.back.takeeat.dto.member.PasswordFindRequest;
 import com.back.takeeat.dto.member.SignupRequest;
 import com.back.takeeat.dto.member.SocialSignupRequest;
 import com.back.takeeat.security.LoginMember;
@@ -147,6 +149,62 @@ public class MemberController {
         return "redirect:/market/info";
     }
 
+    @GetMapping("/find-id")
+    public String findId(Model model) {
+        model.addAttribute("idFindRequest", IdFindRequest.builder().build());
+
+        return "member/findId";
+    }
+
+    @PostMapping("/find-id")
+    public String findId(@Valid @ModelAttribute IdFindRequest idFindRequest, BindingResult bindingResult, Model model) {
+
+        //데이터 유효성 검증
+        if(bindingResult.hasErrors()) {
+            return "member/findId";
+        }
+
+        emailService.validateAuthCode(idFindRequest.getEmail(), idFindRequest.getAuthCode(), bindingResult);
+
+        //비즈니스 로직 검증
+        if(bindingResult.hasErrors()) {
+            return "member/findId";
+        }
+
+        String memberLoginId = memberService.findMemberLoginId(idFindRequest.getEmail());
+
+        model.addAttribute("memberLoginId", memberLoginId);
+
+        return "redirect:/member/findIdResult";
+    }
+
+    @GetMapping("/find-password")
+    public String findPassword(Model model) {
+        model.addAttribute("passwordFindRequest", PasswordFindRequest.builder().build());
+
+        return "member/findPassword";
+    }
+
+    @PostMapping("/find-password")
+    public String findPassword(@Valid @ModelAttribute PasswordFindRequest passwordFindRequest, BindingResult bindingResult, Model model) {
+
+        //데이터 유효성 검증
+        if(bindingResult.hasErrors()) {
+            return "member/findPassword";
+        }
+
+        String memberPassword = memberService.findMemberPassword(passwordFindRequest.getMemberLoginId(), bindingResult);
+
+        //비즈니스 로직 검증
+        if(bindingResult.hasErrors()) {
+            return "member/findPassword";
+        }
+
+        model.addAttribute("memberPassword", memberPassword);
+
+        return "redirect:/member/findPasswordResult";
+    }
+
     @GetMapping("/id-check")
     @ResponseBody
     public boolean idCheck(@RequestParam("memberLoginId") String memberLoginId) {
@@ -163,6 +221,13 @@ public class MemberController {
     @ResponseBody
     public String sendAuthCode(@RequestParam("email") String email) {
         emailService.authenticationEmail(email);
+        return "인증 코드를 발송했습니다.";
+    }
+
+    @PostMapping("/email-send/find-id")
+    @ResponseBody
+    public String sendAuthCodeWithFindId(@RequestParam("email") String email) {
+        emailService.findMemberLoginIdSendEmail(email);
         return "인증 코드를 발송했습니다.";
     }
 

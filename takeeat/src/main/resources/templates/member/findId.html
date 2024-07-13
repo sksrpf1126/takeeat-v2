@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <title>TakeEat</title>
+    <link rel="stylesheet" href="/css/member/member-common.css"/>
+    <link rel="stylesheet" href="/css/member/signup.css"/>
+</head>
+<body>
+<div id="contents">
+    <div class="header">
+        <img src="/images/member/left-arrow.png"/>
+        <div>아이디 찾기</div>
+        <img src="/images/member/cancel.png"/>
+    </div>
+    <div class="middle">
+        <form th:action="@{/member/find-id}" th:object="${idFindRequest}" method="post">
+            <div id="email-input-frame">
+                <div class="input-title">이메일</div>
+                <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        th:field="*{email}"
+                        th:errorclass="field-error"
+                        placeholder="이메일을 입력해주세요"
+                />
+                <button id="auth-code-btn-find-id" type="button">발송</button>
+                <div class="field-error" th:errors="*{email}">오류</div>
+                <input
+                        type="text"
+                        id="auth-code"
+                        name="authCode"
+                        th:field="*{authCode}"
+                        th:errorclass="field-error"
+                        placeholder="인증코드를 입력해주세요"
+                />
+                <div class="field-error" th:errors="*{authCode}">오류</div>
+            </div>
+            <div>
+                <input type="submit" value="아이디 찾기" class="regist-btn"/>
+            </div>
+        </form>
+    </div>
+    <div class="footer">Copyright TAKE EAT. All Rights Reserved.</div>
+</div>
+
+<script src="/js/member/emailAndAuthCode.js"></script>
+</body>
+</html>

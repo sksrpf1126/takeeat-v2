@@ -45,8 +45,9 @@ public class SignupRequest {
     private String phone;
 
     private ProviderType providerType;
+    private MemberRoleType memberRoleType;
     private String authCode;
-    
+
     private MultipartFile profile;
 
     public Member toMember() {
@@ -57,7 +58,7 @@ public class SignupRequest {
                 .name(this.name)
                 .nickname(this.nickname)
                 .phone(this.phone)
-                .role(MemberRoleType.ROLE_MEMBER)
+                .role(this.memberRoleType)
                 .build();
     }
 

@@ -56,13 +56,12 @@ function idCheckBlur(){  //focus 잃었을 때 실행되는 함수
     }
 }
 
+
 /**
  * 이메일 검증
  */
-
 let emailCheckDiv;
 let emailCheckOk = false;
-let emailInput = document.querySelector('#email');
 
 emailInput.addEventListener('blur',emailCheckBlur);  //focus 잃었을 때 이벤트
 emailInput.addEventListener('focus', emailFocus);
@@ -103,20 +102,3 @@ function emailCheckBlur(){  //focus 잃었을 때 실행되는 함수
         }
     }); //ajax 비동기
 }
-
-$("#auth-code-btn").click(function() {
-   console.log("email send!!");
-
-    $.ajax({
-        url : '/member/email-send',
-        type : 'POST',
-        data : {email : emailInput.value},
-        dataType : 'text',
-        success : function(data){
-            alert(data);
-        },
-        error: function(){
-            alert('status 500(Server Error)');
-        }
-    });
-});

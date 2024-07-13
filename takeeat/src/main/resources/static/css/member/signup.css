@@ -6,15 +6,13 @@
 .middle {
     font-weight: 600;
     font-size: 14px;
-    display: grid;
-    grid-template-columns: 100px auto;
 }
 
 .middle > form {
     display: grid;
     grid-template-rows: auto;
     align-items: center;
-    grid-column: 2/3;
+    width: 300px;
 }
 
 .input-title {
@@ -30,7 +28,14 @@ input {
     font-size: 14px;
     border: 1.5px solid var(--main-color);
     border-radius: 5px;
-    margin-top: 10px;
+    margin: 10px 0;
+}
+
+.member-type > input {
+    width: 15px;
+    height: auto;
+    padding: 0;
+    margin: 10px 0;
 }
 
 .profile-user-frame {
@@ -64,11 +69,22 @@ input {
     border: none;
 }
 
-.caption {
-    font-weight: 400;
-    font-size: 10px;
-    color: #6e6e6e;
-    padding-bottom: 15px;
+#email {
+    width: 240px;
+}
+
+#email-input-frame {
+    white-space: nowrap;
+}
+
+#auth-code-btn, #auth-code-btn-find-id {
+    height: 50px;
+    width: 60px;
+    border-radius: 5px;
+    border: 1.5px solid var(--main-color);
+    background-color: var(--main-color);
+    color: white;
+    font-weight: 600;
 }
 
 .regist-btn {

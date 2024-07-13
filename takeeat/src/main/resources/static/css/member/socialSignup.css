@@ -6,14 +6,12 @@
 .middle {
     font-weight: 600;
     font-size: 14px;
-    height: calc(100vh - 100px);
 }
 
 .middle > form {
     display: grid;
     grid-template-rows: auto;
     align-items: center;
-    justify-items: center;
 }
 
 #name,

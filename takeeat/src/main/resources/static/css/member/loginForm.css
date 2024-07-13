@@ -6,15 +6,10 @@
 /* 콘텐츠 안 전체 감싸주는 div */
 .middle {
     display: grid;
-    grid-template-rows: max-content max-content max-content max-content auto;
+    grid-template-rows: max-content max-content max-content max-content;
     text-align: center;
     align-items: center;
     justify-self: center;
-}
-
-.middle::-webkit-scrollbar {
-    display: none; /*Chrome, Safari, Opera*/
-    width: 0px;
 }
 
 /* 상단 로고 */

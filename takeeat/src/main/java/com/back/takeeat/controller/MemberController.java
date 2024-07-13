@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -156,8 +157,17 @@ public class MemberController {
         return "member/findId";
     }
 
+    @GetMapping("/find-id/result")
+    public String findIdResult(@ModelAttribute("memberLoginId") String memberLoginId, Model model) {
+        model.addAttribute("idFindRequest", IdFindRequest.builder().build());
+
+        model.addAttribute("memberLoginId", memberLoginId);
+
+        return "member/findIdResult";
+    }
+
     @PostMapping("/find-id")
-    public String findId(@Valid @ModelAttribute IdFindRequest idFindRequest, BindingResult bindingResult, Model model) {
+    public String findId(@Valid @ModelAttribute IdFindRequest idFindRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //데이터 유효성 검증
         if(bindingResult.hasErrors()) {
@@ -173,9 +183,9 @@ public class MemberController {
 
         String memberLoginId = memberService.findMemberLoginId(idFindRequest.getEmail());
 
-        model.addAttribute("memberLoginId", memberLoginId);
+        redirectAttributes.addFlashAttribute("memberLoginId", memberLoginId);
 
-        return "redirect:/member/findIdResult";
+        return "redirect:/member/find-id/result";
     }
 
     @GetMapping("/find-password")
@@ -185,8 +195,17 @@ public class MemberController {
         return "member/findPassword";
     }
 
+    @GetMapping("/find-password/result")
+    public String findPasswordResult(@ModelAttribute("memberPassword") String memberPassword, Model model) {
+        model.addAttribute("idFindRequest", IdFindRequest.builder().build());
+
+        model.addAttribute("memberPassword", memberPassword);
+
+        return "member/findIdResult";
+    }
+
     @PostMapping("/find-password")
-    public String findPassword(@Valid @ModelAttribute PasswordFindRequest passwordFindRequest, BindingResult bindingResult, Model model) {
+    public String findPassword(@Valid @ModelAttribute PasswordFindRequest passwordFindRequest, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
 
         //데이터 유효성 검증
         if(bindingResult.hasErrors()) {
@@ -200,9 +219,9 @@ public class MemberController {
             return "member/findPassword";
         }
 
-        model.addAttribute("memberPassword", memberPassword);
+        redirectAttributes.addFlashAttribute("memberPassword", memberPassword);
 
-        return "redirect:/member/findPasswordResult";
+        return "redirect:/member/find-password/result";
     }
 
     @GetMapping("/id-check")

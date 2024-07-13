@@ -13,16 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/css/myPage/myPageStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
 
-<div id="contents">
+<div id="titleContainer">
+    <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+    <div id="myPageTitle"><strong>마이페이지</strong></div>
+</div>
 
-    <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
-        <div id="myPageTitle"><strong>마이페이지</strong></div>
-    </div>
-    <hr/>
+<div id="contents">
 
     <div id="profileContainer">
         <div><img id="profileImg" src="/images/profile.jpg"/></div>
@@ -38,6 +38,8 @@
     </div>
 
 </div>
+
+<div th:replace="~{fragment/footer :: copyright}"></div>
 
 </body>
 </html>

@@ -13,16 +13,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="/css/myPage/orderListStyle.css">
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
 </head>
 <body>
 
+<div id="titleContainer">
+    <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
+    <div id="orderListTitle"><strong>주문내역</strong></div>
+</div>
+
 <div id="contents">
 
-    <div id="titleContainer">
-        <div><img id="backIcon" src="/images/back-icon.png" onclick="history.back(-1);"/></div>
-        <div id="orderListTitle"><strong>주문내역</strong></div>
+    <div id="emptyOrderList" th:if="${orderListResponse.isEmpty()}">
+        주문내역이 텅 비었어요
     </div>
-    <hr/>
 
     <div class="orderContainer" th:each="orderInfo : ${orderListResponse}">
         <div class="orderStatusContainer">
@@ -54,6 +58,8 @@
     </div>
 
 </div>
+
+<div th:replace="~{fragment/footer :: copyright}"></div>
 
 </body>
 </html>

@@ -25,7 +25,14 @@
     </div>
     <hr/>
 
-    <div id="reviewCount"><strong>내가 쓴 총 리뷰 [[${reviewListResponses.size()}]]개</strong></div>
+    <div id="reviewCount">
+        <strong>내가 쓴 총 리뷰 [[${reviewListResponses.size()}]]개</strong>
+        <div class="tip-container">
+            <div class="tip" style="margin-top: 6px;">
+                <p>신고로 인해 블라인드 처리된 리뷰는 보이지 않습니다.</p>
+            </div>
+        </div>
+    </div>
     <hr/>
 
     <th:block th:each="review : ${reviewListResponses}">

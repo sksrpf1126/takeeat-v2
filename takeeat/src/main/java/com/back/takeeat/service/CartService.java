@@ -41,10 +41,8 @@ public class CartService {
     @Transactional(readOnly = true)
     public CartListResponse getList(Long memberId) {
 
-        Cart cart = cartRepository.findByMemberIdWithMenu(memberId);
-        if (cart == null) {
-            throw new EntityNotFoundException(ErrorCode.CART_NOT_FOUND);
-        }
+        Cart cart = cartRepository.findByMemberIdWithMenu(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
 
         //장바구니에 담긴 메뉴 관련 정보
         List<CartMenuResponse> cartMenuResponses = getCartMenuResponses(cart);

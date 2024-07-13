@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface CartRepository extends JpaRepository<Cart, Long> {
 
     Cart findByMemberId(@Param("memberId") Long memberId);
@@ -16,5 +18,5 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "OUTER JOIN FETCH cm.menu mu " +
             "WHERE c.id = :memberId"
     )
-    Cart findByMemberIdWithMenu(@Param("memberId") Long memberId);
+    Optional<Cart> findByMemberIdWithMenu(@Param("memberId") Long memberId);
 }

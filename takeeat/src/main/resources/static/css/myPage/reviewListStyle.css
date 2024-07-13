@@ -9,7 +9,7 @@
 
 #titleContainer {
     display: flex;
-    align-items : center;
+    align-items: center;
     margin: 10px;
 }
 
@@ -29,6 +29,8 @@
 }
 
 #reviewCount {
+    display: flex;
+    align-items: center;
     font-size: 20px;
     margin: 10px;
 }
@@ -103,9 +105,64 @@ a {
     margin-top: 10px;
 }
 
+/*마우스 호버 시 팁 상자*/
+.tip-container {
+    margin-left: 10px;
+    margin-bottom: 2px;
+    position: relative; /* 부모 요소에 위치 설정 추가 */
+}
+
+.tip {
+    font-size: 11px;
+    background-color: #D8D8D8;
+    border-radius: 50%;
+    width: 17px;
+    height: 17px;
+    cursor: default;
+}
+
+.tip:before {
+    margin-left: 5.5px;
+    content: '?';
+    font-weight: bold;
+    color: #fff;
+}
+
+.tip:hover p {
+    visibility: visible;
+    opacity: 1;
+}
+
+.tip p {
+    opacity: 0;
+    visibility: hidden;
+
+    color: #fff;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: left;
+    background-color: #FFB36F;
+    display: inline-block;
+    padding: 12px;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2), -1px -1px 3px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    top: 30px; /* Tip 아이콘 아래에 위치하도록 설정 */
+    left: 0;
+    transition: visibility 0s, opacity 0.5s linear;
+
+    width: 180px;
+    z-index: 1;
+}
+
 @media (min-width: 601px) {
     body {
         display: flex;
         justify-content: center;
+    }
+
+    .tip p {
+        width: auto;
+        white-space: nowrap;
     }
 }

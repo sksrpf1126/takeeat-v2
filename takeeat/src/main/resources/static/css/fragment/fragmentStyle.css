@@ -34,7 +34,7 @@ header {
     width: 100px;
 }
 
-#H-logoImg:hover, #H-loginBtn:hover, #nickNameBtn:hover, #H-myPageBtn:hover,
+#H-logoImg:hover, #H-loginBtn:hover, #H-nickNameBtn:hover, #H-myPageBtn:hover,
 #H-nocationBtn:hover, #H-cartBtn:hover, #H-markerIcon:hover, #H-searchMarketBtn:hover {
     cursor: pointer;
 }

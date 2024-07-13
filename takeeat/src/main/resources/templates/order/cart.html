@@ -59,7 +59,7 @@
     </div>
 
     <div id="bottomBtnContainer">
-        <div class="addMenuBtn" th:if="${cartListResponse.marketName == null}" onclick="location.href='/'"><strong>메뉴추가</strong></div>
+        <div class="addMenuBtn" th:if="${cartListResponse.marketName == null}" onclick="history.back(-1);"><strong>메뉴추가</strong></div>
         <div class="addMenuBtn" th:if="${cartListResponse.marketName != null}" th:onclick="|location.href='@{|/${cartListResponse.marketId}/menu|}'|"><strong>메뉴추가</strong></div>
         <div id="orderBtn" onclick="checkCart()"><strong>주문하기</strong></div>
     </div>

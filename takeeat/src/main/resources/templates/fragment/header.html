@@ -19,8 +19,8 @@
 
         <th:block sec:authorize="isAuthenticated()">
             <div id="H-afterLogin">
-                <div id="H-nickNameBtn" onclick="location.href='#'"><strong>홍길동 님</strong></div>
-                <div id="H-myPageBtn" onclick="location.href='#'"><img id="H-myPageIcon" src="/images/header/myPage.svg"/></div>
+                <div id="H-nickNameBtn" onclick="location.href='/my/home'"><strong>홍길동 님</strong></div>
+                <div id="H-myPageBtn" onclick="location.href='/my/home'"><img id="H-myPageIcon" src="/images/header/myPage.svg"/></div>
                 <div id="H-notificationBtn" onclick="location.href='#'"><img id="H-notificationIcon" src="/images/header/bell.svg"/></div>
                 <div id="H-cartBtn" onclick="location.href='/cart'"><img id="H-cartIcon" src="/images/header/cart.svg"/></div>
             </div>
@@ -37,7 +37,6 @@
             <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="H-btnFoldWrap" onclick="foldDaumPostcode()" alt="접기 버튼">
         </div>
     </div>
-
 </header>
 
 </body>

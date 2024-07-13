@@ -201,7 +201,7 @@ public class MemberController {
 
         model.addAttribute("memberPassword", memberPassword);
 
-        return "member/findIdResult";
+        return "member/findPasswordResult";
     }
 
     @PostMapping("/find-password")

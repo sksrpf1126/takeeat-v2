@@ -209,6 +209,9 @@ $(document).ready(function() {
                 if (response.isEmpty) {
                     const modal = new bootstrap.Modal(document.getElementById('cantOrderModal'));
                     modal.show();
+                } else if (response.closed) {
+                    const modal = new bootstrap.Modal(document.getElementById('closedMarketModal'));
+                    modal.show();
                 } else {
                     window.location.href = '/order';
                 }

@@ -2,10 +2,16 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+body {
+    background: #f9f9f9;
+}
+
 #contents {
     width: 100%;
     max-width: 600px;
     padding-top: 60px;
+    min-height: calc(100vh - 65px);
+    background: #ffffff;
 }
 
 #gpsContainer {
@@ -73,7 +79,7 @@
 }
 
 #marketCategoryContainer {
-    margin: 30px 10px;
+    padding: 30px 10px;
 }
 
 .threeCategory {

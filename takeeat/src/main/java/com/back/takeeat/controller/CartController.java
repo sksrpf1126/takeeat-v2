@@ -126,8 +126,13 @@ public class CartController {
 
         Map<String, Boolean> response = new HashMap<>();
 
-        if (!cartService.checkCart(memberId)) {
+        int cartStatus = cartService.checkCart(memberId);
+
+        if (cartStatus == 1) {
             response.put("isEmpty", true);
+            return ResponseEntity.ok(response);
+        } else if (cartStatus == 2) {
+            response.put("closed", true);
             return ResponseEntity.ok(response);
         } else {
             response.put("isEmpty", false);

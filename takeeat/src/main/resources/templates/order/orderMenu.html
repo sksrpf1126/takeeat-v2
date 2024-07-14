@@ -307,8 +307,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
-                        <button type="button" class="btn" style="background: #ffb36f;" onclick="addToCart(this)">장바구니에 추가</button>
+                        <button type="button" class="btn" th:if="${marketMenuResponse.marketResponse.marketStatus.equals(T(com.back.takeeat.domain.market.MarketStatus).OPEN)}" data-bs-dismiss="modal" style="background: #eeeeee;">취소</button>
+                        <button type="button" class="btn" th:if="${marketMenuResponse.marketResponse.marketStatus.equals(T(com.back.takeeat.domain.market.MarketStatus).OPEN)}" style="background: #ffb36f;" onclick="addToCart(this)">장바구니에 추가</button>
+                        <button type="button" class="btn" th:if="${marketMenuResponse.marketResponse.marketStatus.equals(T(com.back.takeeat.domain.market.MarketStatus).CLOSE)}" data-bs-dismiss="modal" style="background: lightgray;">주문불가(가게 준비중)</button>
                     </div>
                 </div>
             </div>
@@ -346,6 +347,23 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn" data-bs-dismiss="modal" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="closedMarketModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    장바구니에 메뉴가 담긴 가게가 준비중입니다.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" data-bs-dismiss="modal" onclick="location.href='/cart'" style="background: #ffb36f;">장바구니 가기</button>
                 </div>
             </div>
         </div>

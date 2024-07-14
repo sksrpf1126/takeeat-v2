@@ -2,11 +2,17 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+body {
+    background: #f9f9f9;
+}
+
 #contents {
     width: 100%;
     max-width: 600px;
     margin-top: 10px;
     padding-bottom: 60px;
+    background: #ffffff;
+    min-height: calc(100vh - 50px);
 }
 
 #cartTitleContainer {
@@ -152,7 +158,16 @@ input[type=number]::-webkit-outer-spin-button {
     background: #ffb36f;
 }
 
+#closedMarketBtn {
+    background: lightgray;
+    font-size: 18px;
+}
+
 .addMenuBtn, #orderBtn {
+    font-size: 20px;
+}
+
+.addMenuBtn, #orderBtn, #closedMarketBtn {
     border: 1px solid lightgray;
     height: 50px;
     width: 50%;

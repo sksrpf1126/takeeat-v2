@@ -1,6 +1,8 @@
 package com.back.takeeat.service;
 
+import com.back.takeeat.common.exception.ClosedMarketException;
 import com.back.takeeat.domain.cart.Cart;
+import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.dto.cart.CartMenuIdAndOptionCategoryId;
 import com.back.takeeat.dto.cart.response.CartMenuResponse;
 import com.back.takeeat.dto.cart.response.CartOptionCategoryResponse;
@@ -23,9 +25,13 @@ public class OrderService {
     private final CartRepository cartRepository;
 
     @Transactional(readOnly = true)
-    public OrderResponse getOrderInfo(Long memberId) {
+    public OrderResponse getOrderInfo(Long memberId) throws ClosedMarketException {
 
         Cart cart = cartRepository.findByMemberId(memberId);
+
+        if (cart.getMarket().getMarketStatus() == MarketStatus.CLOSE) {
+            throw new ClosedMarketException();
+        }
 
         //장바구니에 담긴 메뉴 관련 정보
         List<CartMenuResponse> cartMenuResponses = cartService.getCartMenuResponses(cart);

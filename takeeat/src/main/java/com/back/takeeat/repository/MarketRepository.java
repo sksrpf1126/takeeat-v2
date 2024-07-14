@@ -89,4 +89,43 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                                                     @Param("latitude") double latitude,
                                                     @Param("longitude") double longitude,
                                                     @Param("search") String search);
+
+
+    @Query(
+            "SELECT DISTINCT new com.back.takeeat.dto.mainPage.response.MarketInfoResponse(m.id, m.marketName, m.marketImage, m.query, " +
+                    "m.addressDetail, m.latitude, m.longitude, m.marketRating, m.reviewCount) " +
+                    "FROM Market m " +
+                    "LEFT JOIN m.menuCategories mc " +
+                    "LEFT JOIN mc.menus mn " +
+                    "WHERE (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
+                    "AND m.latitude BETWEEN :minLat AND :maxLat " +
+                    "AND m.longitude BETWEEN :minLon AND :maxLon " +
+                    "ORDER BY m.reviewCount DESC"
+    )
+    List<MarketInfoResponse> findAllByMarketReviewDesc(
+
+            @Param("minLat") double minLat,
+            @Param("maxLat") double maxLat,
+            @Param("minLon") double minLon,
+            @Param("maxLon") double maxLon,
+            @Param("search") String search
+    );
+
+
+    @Query(
+            "SELECT DISTINCT new com.back.takeeat.dto.mainPage.response.MarketInfoResponse(m.id, m.marketName, m.marketImage, m.query, " +
+                    "m.addressDetail, m.latitude, m.longitude, m.marketRating, m.reviewCount) " +
+                    "FROM Market m " +
+                    "LEFT JOIN m.menuCategories mc " +
+                    "LEFT JOIN mc.menus mn " +
+                    "WHERE (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
+                    "AND m.latitude BETWEEN :minLat AND :maxLat " +
+                    "AND m.longitude BETWEEN :minLon AND :maxLon " +
+                    "ORDER BY m.marketRating DESC"
+    )
+    List<MarketInfoResponse> findAllByMarketScoreDesc(@Param("minLat") double minLat,
+                                                      @Param("maxLat") double maxLat,
+                                                      @Param("minLon") double minLon,
+                                                      @Param("maxLon") double maxLon,
+                                                      @Param("search") String search);
 }

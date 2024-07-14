@@ -41,13 +41,35 @@ window.onload = function() {
     });
 }
 
-// default 값인 거리순 요청시 이동 주소
-document.getElementById('orderDropdown').addEventListener('change', function() {
-    const selectedOption = this.value;
+function redirectToSelected() {
+    var selectElement = document.getElementById("marketDropdown");
+    var selectedValue = selectElement.value;
 
-    if (selectedOption === 'distance') {
-        const url = `/${marketCategory}/list`;
-        window.location.href = url;
+    // 선택된 값에 따라 URL을 설정합니다.
+    var url;
+    if (selectedValue === "distance") {
+      url = `/${marketCategory}/list?sort=distance`;
+    } else if (selectedValue === "review") {
+      url = `/${marketCategory}/list?sort=review`;
+    } else if (selectedValue === "score") {
+      url = `/${marketCategory}/list?sort=score`;
     }
-    // 추가 옵션들 필요시 여기에서 처리
+
+    // URL로 이동합니다.
+    if (url) {
+      window.location.href = url;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 현재 URL에서 경로를 추출하여 선택된 카테고리를 결정합니다.
+    var path = window.location.pathname;
+    var categoryLinks = document.querySelectorAll('.list li a');
+
+    // 각 링크 요소에 대해 현재 URL 경로와 일치하는 링크에 strong 태그를 추가합니다.
+    categoryLinks.forEach(link => {
+        if (link.getAttribute('href') === path) {
+            link.innerHTML = '<strong>' + link.innerHTML + '</strong>';
+        }
+    });
 });

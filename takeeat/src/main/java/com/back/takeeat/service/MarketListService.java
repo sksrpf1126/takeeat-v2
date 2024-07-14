@@ -31,26 +31,42 @@ public class MarketListService {
         double minLon = longitude - deltaLon;
         double maxLon = longitude + deltaLon;
 
-        // 검색 값이 있고 전체보기일 때
-        if (search != null && !search.isEmpty() && marketCategory.equals("0")) {
-            List<MarketInfoResponse> searchFindAllMarkets = marketRepository.findAllMarketByContaining(minLat, maxLat,
-                    minLon, maxLon, latitude, longitude, search);
-            return searchFindAllMarkets;
-            // 검색 값이 없고 전체보기일 때
-        } else if (search.isEmpty() && search.equals("") && marketCategory.equals("0")) {
-            List<MarketInfoResponse> findAllMarkets = marketRepository.findAllMarketByLatLon(minLat, maxLat, minLon,
-                    maxLon, latitude, longitude);
-            return findAllMarkets;
-            // 검색 값이 있고 특정 카테고리보기일 때
-        } else if (search != null && !search.isEmpty() && !marketCategory.equals("0")) {
-            List<MarketInfoResponse> searchFindMarkets = marketRepository.findMarketByContaining(marketCategory, minLat,
-                    maxLat, minLon, maxLon, latitude, longitude, search);
-            return searchFindMarkets;
-            // 검색 값이 없고 특정 카테고리보기일 때
+        // 다른 정렬 선택 되었을 때
+        if(sort.equals("review")) {
+            List<MarketInfoResponse> sortReviewMarkets = marketRepository.findAllByMarketReviewDesc(minLat, maxLat,
+                    minLon, maxLon, search);
+            return sortReviewMarkets;
+        } else if(sort.equals("score")) {
+            List<MarketInfoResponse> sortScoreMarkets = marketRepository.findAllByMarketScoreDesc(minLat, maxLat,
+                    minLon, maxLon, search);
+            return sortScoreMarkets;
+        // 기본 정렬인 거리순 일때
         } else {
-            List<MarketInfoResponse> findMarkets = marketRepository.findMarketByLatLon(marketCategory, minLat, maxLat,
-                    minLon, maxLon, latitude, longitude);
-            return findMarkets;
+            // 검색 값이 있고 전체보기일 때
+            if (search != null && !search.isEmpty() && marketCategory.equals("0")) {
+                List<MarketInfoResponse> searchFindAllMarkets = marketRepository.findAllMarketByContaining(minLat, maxLat,
+                        minLon, maxLon, latitude, longitude, search);
+                return searchFindAllMarkets;
+                // 검색 값이 없고 전체보기일 때
+            } else if (search.isEmpty() && search.equals("") && marketCategory.equals("0")) {
+                List<MarketInfoResponse> findAllMarkets = marketRepository.findAllMarketByLatLon(minLat, maxLat, minLon,
+                        maxLon, latitude, longitude);
+                return findAllMarkets;
+                // 검색 값이 있고 특정 카테고리보기일 때
+            } else if (search != null && !search.isEmpty() && !marketCategory.equals("0")) {
+                List<MarketInfoResponse> searchFindMarkets = marketRepository.findMarketByContaining(marketCategory, minLat,
+                        maxLat, minLon, maxLon, latitude, longitude, search);
+                return searchFindMarkets;
+                // 검색 값이 없고 특정 카테고리보기일 때
+            } else {
+                List<MarketInfoResponse> findMarkets = marketRepository.findMarketByLatLon(marketCategory, minLat, maxLat,
+                        minLon, maxLon, latitude, longitude);
+                return findMarkets;
+            }
         }
+
+
+
+
     }
 }

@@ -38,10 +38,10 @@
         </ul>
     </div>
     <div class="line-container">
-        <select class="dropdown">
-            <option selected>거리순</option>
-            <option>리뷰 많은순</option>
-            <option>별점 높은순</option>
+        <select class="dropdown" id="orderDropdown" name="sort">
+            <option value="distance" selected>거리순</option>
+            <option value="review">리뷰 많은순</option>
+            <option value="score">별점 높은순</option>
         </select>
         <form class="margin-5">
             <input type="text" class="search-box" id="search" name="search"/>
@@ -55,6 +55,7 @@
         var latitude = [[${latitude}]];
         var marketInfoResponse = /*[[${marketInfoResponse}]]*/ [];
         var listCount = [[${listCount}]];
+        var marketCategory = [[${marketCategory}]]
 
         // 각 마켓의 위도와 경도를 배열로 저장
         var marketCoordinates = marketInfoResponse.map(function(market) {

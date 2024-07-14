@@ -3,11 +3,15 @@ package com.back.takeeat.dto.market.request;
 import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.user.Member;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,8 +21,8 @@ public class MarketInfoRequest {
     @Size(min = 2, max = 20, message = "가게 이름은 2자 이상, 20자 이하로 입력해주세요.")
     private String marketName; // 가게 이름
 
-    @NotBlank(message = "가게 사진은 필수 입니다.")
-    private String marketImage; // 가게 사진
+    @NotEmpty(message = "가게 사진은 필수 입니다.")
+    private List<MultipartFile> marketImage; // 가게 사진
 
     @NotBlank(message = "가게 주소는 필수 입니다.")
     private String query; // 도로명 주소
@@ -44,6 +48,10 @@ public class MarketInfoRequest {
     private String operationTime;
 
     private String closedDays; // 휴무일
+
+    private Double latitude;
+
+    private Double longitude;
 
 
 
@@ -74,6 +82,8 @@ public class MarketInfoRequest {
                 .marketIntroduction(marketIntroduction)
                 .operationTime(openTime + " ~ " + closeTime)
                 .closedDays(closedDays)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
     }
 
@@ -81,15 +91,17 @@ public class MarketInfoRequest {
         return Market.builder()
                 .member(member)
                 .marketName(marketName)
-                .marketImage(marketImage)
+                .marketImage(String.valueOf(marketImage))
                 .query(query)
                 .addressDetail(addressDetail)
                 .businessNumber(businessNumber)
                 .marketNumber(hyphenNumber())
                 .marketCategory(marketCategory)
                 .marketIntroduction(marketIntroduction)
-                .operationTime(openTime + " ~ " + closeTime)
+                .operationTime(operationTime)
                 .closedDays(closedDays)
+                .latitude(latitude)
+                .longitude(longitude)
                 .build();
     }
 }

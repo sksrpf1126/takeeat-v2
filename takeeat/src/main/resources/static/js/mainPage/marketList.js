@@ -40,3 +40,14 @@ window.onload = function() {
 
     });
 }
+
+// default 값인 거리순 요청시 이동 주소
+document.getElementById('orderDropdown').addEventListener('change', function() {
+    const selectedOption = this.value;
+
+    if (selectedOption === 'distance') {
+        const url = `/${marketCategory}/list`;
+        window.location.href = url;
+    }
+    // 추가 옵션들 필요시 여기에서 처리
+});

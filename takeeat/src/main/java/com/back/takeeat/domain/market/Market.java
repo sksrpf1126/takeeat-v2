@@ -81,4 +81,12 @@ public class Market {
         double newRating = (double) totalReviewRating / this.reviewCount;
         this.marketRating = Math.round(newRating * 10) / 10.0;
     }
+
+    public void addMarketImage(String marketImage) {
+        this.marketImage = marketImage;
+    }
+
+    public void addMarketStatus(MarketStatus marketStatus) {
+        this.marketStatus = marketStatus;
+    }
 }

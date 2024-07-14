@@ -57,7 +57,7 @@ public class MarketService {
     }
 
     @Transactional
-    public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId) {
+    public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId, List<String> imgUrls) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoSuchElementException::new);
         Market market = marketRepository.findByMemberId(member.getId())
@@ -74,9 +74,14 @@ public class MarketService {
                 // 디버깅 포인트: 메뉴 정보 출력
                 System.out.println("메뉴 추가: " + menu.getMenuName());
 
+                for(String imgUrl : imgUrls) {
+                    menu.addMenuImage(imgUrl);
+                }
+
                 menu.addMenuCategory(menuCategory);
                 menuCategory.getMenus().add(menu);
             }
+
 
             menuCategoryRepository.save(menuCategory);
 

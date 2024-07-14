@@ -2,6 +2,7 @@ package com.back.takeeat.controller;
 
 
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
+import com.back.takeeat.dto.market.request.MarketMenuRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
@@ -84,6 +85,7 @@ public class MarketController {
     @PostMapping("/menu/save")
     @ResponseBody
     public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
+        List<String> imgUrls = new ArrayList<>();
         if (result.hasErrors()) {
             String errorMessages = result.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
@@ -91,8 +93,19 @@ public class MarketController {
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
         Long memberId = 1L;
+
+        if(menuRequest.getMenuImage() != null) {
+            List<MultipartFile> validFiles = menuRequest.getMenuImage().stream()
+                    .filter(file -> file != null && !file.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!validFiles.isEmpty()) {
+                imgUrls = s3Service.uploadFile(menuRequest.getMenuImage());
+            }
+        }
+
         try {
-            marketService.menuCategoriesRegister(menuRequest, memberId);
+            marketService.menuCategoriesRegister(menuRequest, memberId, imgUrls);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -126,6 +139,7 @@ public class MarketController {
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
         Long memberId = 1L;
+
         try {
             marketService.optionCategoriesRegister(optionRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");

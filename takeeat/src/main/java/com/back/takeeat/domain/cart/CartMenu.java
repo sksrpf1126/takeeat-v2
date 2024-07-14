@@ -39,4 +39,8 @@ public class CartMenu {
         this.cartQuantity = newQuantity;
     }
 
+    public void addQuantity(int addQuantity) {
+        this.cartQuantity += addQuantity;
+    }
+
 }

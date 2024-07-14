@@ -102,17 +102,57 @@ public class CartService {
             cart.addFirstMenu(market);
         }
 
-        //메뉴 저장
+        //새로 담은 메뉴와 동일한 메뉴의 정보 가져오기
+        List<CartMenu> cartMenus = cartMenuRepository.findAllByMenuId(addToCartRequest.getMenuId());
+
+        //담은 메뉴의 메뉴
         Menu menu = menuRepository.findById(addToCartRequest.getMenuId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MENU_NOT_FOUND));
-        CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
 
-        //옵션 저장
+        //담은 메뉴의 옵션
         List<Option> options = optionRepository.findAllById(addToCartRequest.getOptionIds());
-        List<CartOption> cartOptions = options.stream()
-                .map(option -> addToCartRequest.toCartOption(cartMenu, option))
-                .collect(Collectors.toList());
-        cartOptionRepository.saveAll(cartOptions);
+
+        boolean alreadyHaveMenu = false; //새로 다음 메뉴가 이미 장바구니에 담겨있는지 체크하는 변수
+        CartMenu updateCartMenu = null; //수량을 업데이트 해야하는 CartMenu
+        //같은 옵션이 선택된 메뉴인지 체크하기 위한 반복문
+        for (CartMenu cartMenu : cartMenus) {
+            //사이즈가 다르다면 이미 같은 옵션의 메뉴가 아님
+            if (options.size() == cartMenu.getCartOptions().size()) {
+                //옵션이 없는 메뉴
+                if (options.isEmpty()) {
+                    updateCartMenu = cartMenu;
+                    alreadyHaveMenu = true;
+                    break;
+                }
+
+                //같은 옵션의 메뉴인지 체크
+                int idx = 0;
+                int sameItems = 0;
+                for (CartOption cartOption : cartMenu.getCartOptions()) {
+                    if (options.get(idx).getId().equals(cartOption.getOption().getId())) {
+                        sameItems++;
+                        idx++;
+                        continue;
+                    }
+                }
+                if (sameItems == options.size()) {
+                    updateCartMenu = cartMenu;
+                    alreadyHaveMenu = true;
+                }
+            }
+        }
+
+        if (alreadyHaveMenu) {
+            //메뉴 수량 업데이트
+            updateCartMenu.addQuantity(addToCartRequest.getCartQuantity());
+        } else {
+            //메뉴 및 옵션 저장
+            CartMenu cartMenu = cartMenuRepository.save(addToCartRequest.toCartMenu(cart, menu));
+            List<CartOption> cartOptions = options.stream()
+                    .map(option -> addToCartRequest.toCartOption(cartMenu, option))
+                    .collect(Collectors.toList());
+            cartOptionRepository.saveAll(cartOptions);
+        }
 
     }
 

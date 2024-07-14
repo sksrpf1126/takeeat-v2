@@ -33,13 +33,26 @@ public class MarketListService {
 
         // 다른 정렬 선택 되었을 때
         if(sort.equals("review")) {
-            List<MarketInfoResponse> sortReviewMarkets = marketRepository.findAllByMarketReviewDesc(minLat, maxLat,
-                    minLon, maxLon, search);
-            return sortReviewMarkets;
+            if(marketCategory.equals("0")) {
+                List<MarketInfoResponse> sortReviewAllMarkets = marketRepository.findAllByMarketReviewDesc(minLat, maxLat,
+                        minLon, maxLon, search);
+                return sortReviewAllMarkets;
+            } else {
+                List<MarketInfoResponse> sortReviewMarkets = marketRepository.findByMarketReviewDesc(marketCategory, minLat, maxLat,
+                        minLon, maxLon, search);
+                return sortReviewMarkets;
+            }
+
         } else if(sort.equals("score")) {
-            List<MarketInfoResponse> sortScoreMarkets = marketRepository.findAllByMarketScoreDesc(minLat, maxLat,
-                    minLon, maxLon, search);
-            return sortScoreMarkets;
+            if(marketCategory.equals("0")) {
+                List<MarketInfoResponse> sortScoreAllMarkets = marketRepository.findAllByMarketScoreDesc(minLat, maxLat,
+                        minLon, maxLon, search);
+                return sortScoreAllMarkets;
+            } else {
+                List<MarketInfoResponse> sortScoreMarkets = marketRepository.findByMarketScoreDesc(marketCategory, minLat, maxLat,
+                        minLon, maxLon, search);
+                return sortScoreMarkets;
+            }
         // 기본 정렬인 거리순 일때
         } else {
             // 검색 값이 있고 전체보기일 때

@@ -2,12 +2,16 @@
     font-family: "Noto Sans KR", sans-serif;
 }
 
+body {
+    background: #f9f9f9;
+}
+
 #contents {
     width: 100%;
     max-width: 600px;
-    border: 1px solid lightgray;
     padding-top: 60px;
     min-height: 100vh;
+    background: #ffffff;
 }
 
 #titleContainer {
@@ -18,9 +22,9 @@
     top: 0;
     z-index: 1;
     background: white;
-    border: 1px solid lightgray;
     width: 100%;
     max-width: 600px;
+    background: #ffb36f;
 }
 
 #backIcon {

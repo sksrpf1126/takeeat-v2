@@ -55,12 +55,12 @@
                 </div>
             </div>
             <br/>
-            <form th:action="@{/market/info/save}" th:object="${marketInfo}" method="post">
+            <form th:action="@{/market/info/save}" th:object="${marketInfo}" method="post" enctype="multipart/form-data">
                 <div class="info-box">
                     <div class="info-text essential">가게 이름을 입력하세요.</div>
                     <div class="line-container">
                         <input type="text" th:field="*{marketName}" id="marketName" name="marketName" th:errorclass="field-error-border" class="input-box margin-top-10"/>
-                        <button type="button" class="dup-button margin-left-10">중복확인</button>
+                        <input type="button" id="name-valid" class="dup-button margin-left-10" value="중복확인"/>
                     </div>
                     <div id="nameAvailable" class="valid-feedback" style="display: none;"></div>
                     <div id="nameNotAvailable" class="invalid-feedback" style="display: none;"></div>
@@ -78,20 +78,23 @@
 
                     <div class="info-text essential">주소를 입력하세요.</div>
                     <div class="line-container">
-                    <input type="text" id="sample3_postcode" placeholder="  우편번호" class="s-input-box margin-top-10 margin-bottom-10" readonly/>
-                    <input type="text" class="l-input-box margin-top-10" id="sample3_extraAddress" readonly/>
+                    <input type="text" id="sample6_postcode" placeholder="  우편번호" class="s-input-box margin-top-10 margin-bottom-10" readonly/>
+                    <input type="text" class="l-input-box margin-top-10" id="sample6_extraAddress" readonly/>
                     </div>
+                    <input type="hidden" id="latitude" name="latitude"/>
+                    <input type="hidden" id="longitude" name="longitude"/>
                     <div class="line-container">
-                        <input type="text" id="sample3_address" th:field="*{query}" th:errorclass="field-error-border" name="query" class="input-box margin-top-10" readonly/>
-                        <input type="button" class="dup-button margin-left-10" onclick="sample3_execDaumPostcode()" value="주소찾기"/>
+                        <input type="text" id="sample6_address" th:field="*{query}" th:errorclass="field-error-border" name="query" class="input-box margin-top-10" readonly/>
+                        <input type="button" onclick="sample6_execDaumPostcode()" class="dup-button margin-left-10" value="주소찾기"/>
                     </div>
                     <div class="field-error margin-bottom-15" id="query-error" th:errors="*{query}"></div>
 
-                    <div class="info-text margin-top-10">상세주소</div>
-                    <input type="text" id="sample3_detailAddress" th:field="*{addressDetail}" name="addressDetail" class="l-input-box margin-top-10" placeholder="  동, 호수"/>
-                    <div id="wrap" style="display:none;border:1px solid;width:500px;height:300px;margin:5px 0;position:relative">
+                    <div id="wrap" style="display:none;border:1px solid;width:430px;height:300px;margin:5px 0;position:relative">
                         <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap" style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1" onclick="foldDaumPostcode()" alt="접기 버튼">
                     </div>
+
+                    <div class="info-text margin-top-10" id="sample6_detailAddress">상세주소</div>
+                    <input type="text" id="sample3_detailAddress" th:field="*{addressDetail}" name="addressDetail" class="l-input-box margin-top-10" placeholder="  동, 호수"/>
                     <hr class="hr-margin"/>
 
                     <div class="info-text essential">사업자번호</div>
@@ -104,28 +107,22 @@
                     <div class="field-error" id="marketNumberError" th:errors="*{marketNumber}" maxlength="11"></div>
                     <hr class="hr-margin"/>
 
-                    <div class="info-text essential">가게 카테고리</div>
-                    <div class="dropdown">
-                        <div class="dropdown-button margin-top-10" id="dropdownButton">
-                            <p class="dropdown-text">카테고리를 선택하세요.</p>
-                            <div class="dropdown-triangle"></div>
-                        </div>
-                        <input type="hidden" id="marketCategory" th:field="*{marketCategory}" th:errorclass="field-error-border" name="marketCategory">
-                        <!-- select option으로 추후 변경예정 -->
-                        <div class="dropdown-content" id="dropdownContent">
-                            <p onclick="selectCategory('01')">치킨</p>
-                            <p onclick="selectCategory('02')">피자·양식</p>
-                            <p onclick="selectCategory('03')">돈까스·일식</p>
-                            <p onclick="selectCategory('04')">족발·보쌈</p>
-                            <p onclick="selectCategory('05')">분식</p>
-                            <p onclick="selectCategory('06')">중식</p>
-                            <p onclick="selectCategory('07')">한식</p>
-                            <p onclick="selectCategory('08')">아시안</p>
-                            <p onclick="selectCategory('09')">버거</p>
-                            <p onclick="selectCategory('10')">카페</p>
-                            <p onclick="selectCategory('11')">찜·탕</p>
-                        </div>
-                    </div>
+                    <label for="marketCategory" class="info-text essential">가게 카테고리</label>
+                    <!-- select option으로 추후 변경예정 -->
+                    <select class="dropdown" id="marketCategory" th:field="*{marketCategory}" name="marketCategory" th:errorclass="field-error-border">
+                        <option value="0" selected>카테고리를 선택하세요.</option>
+                        <option value="1">치킨</option>
+                        <option value="2">피자·양식</option>
+                        <option value="3">돈까스·일식</option>
+                        <option value="4">족발·보쌈</option>
+                        <option value="5">분식</option>
+                        <option value="6">중식</option>
+                        <option value="7">한식</option>
+                        <option value="8">아시안</option>
+                        <option value="9">버거</option>
+                        <option value="10">카페</option>
+                        <option value="11">찜·탕</option>
+                    </select>
                     <div class="field-error" id="category-error" th:errors="*{marketCategory}"></div>
 
                     <div class="info-text margin-top-15">가게를 소개해주세요.</div>
@@ -141,20 +138,20 @@
                     <div class="info-text margin-top-15">휴무일이 있나요?</div>
                     <input type="text" id="closedDays" th:field="*{closedDays}" name="closedDays" class="l-input-box margin-top-10 margin-bottom-10" placeholder="  예)월요일 휴무"/>
                     <div class="line-container-center">
-                        <button type="submit" class="form-button-submit margin-right-10">저장</button>
+                        <button type="submit" class="form-button-submit margin-right-10" onclick="saveMenu()">저장</button>
                         <button type="reset" class="form-button-reset">취소</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
     <script th:inline="javascript">
         var appkey = [[${KAKAO_API_KEY}]];
         var script = document.createElement('script');
         script.type = "text/javascript";
         script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=" + appkey + "&autoload=false&libraries=services";
         document.head.appendChild(script);
+
     </script>
     <script src="/js/market/marketInfo.js"></script>
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

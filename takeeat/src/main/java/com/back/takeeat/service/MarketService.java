@@ -3,6 +3,7 @@ package com.back.takeeat.service;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.domain.market.Market;
+import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.review.Review;
@@ -35,11 +36,18 @@ public class MarketService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
 
-    @Transactional(readOnly = false)
-    public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId) {
+    @Transactional
+    public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId, List<String> imgUrls) {
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_SAVE));
         Market market = marketInfoRequest.toMarket(member);
+
+        for(String imgUrl : imgUrls) {
+            market.addMarketImage(imgUrl);
+        }
+        // 마켓 처음 등록시 close
+        market.addMarketStatus(MarketStatus.CLOSE);
+
         marketRepository.save(market);
     }
 

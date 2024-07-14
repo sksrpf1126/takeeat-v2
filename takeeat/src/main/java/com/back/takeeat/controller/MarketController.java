@@ -8,6 +8,7 @@ import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.service.MarketService;
 import com.back.takeeat.service.ReviewService;
+import com.back.takeeat.service.S3Service;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,7 +17,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartException;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,15 +32,15 @@ public class MarketController {
 
     private final MarketService marketService;
     private final ReviewService reviewService;
+    private final S3Service s3Service;
 
     @Value("${KAKAO_API_KEY}")
     String KAKAO_API_KEY;
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
-
-        model.addAttribute("marketInfoRequest", marketInfoRequest);
-
+        model.addAttribute("marketInfo", marketInfoRequest);
+        model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         return "market/marketInfo";
     }
 
@@ -45,12 +49,22 @@ public class MarketController {
     public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
                                 ,BindingResult result
                                 ,Model model) {
+        List<String> imgUrls = new ArrayList<>();
         if (result.hasErrors()) {
             return "market/marketInfo";
         }
         Long memberId = 1L;
+        if(marketInfoRequest.getMarketImage() != null) {
+            List<MultipartFile> validFiles = marketInfoRequest.getMarketImage().stream()
+                    .filter(file -> file != null && !file.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!validFiles.isEmpty()) {
+                imgUrls = s3Service.uploadFile(marketInfoRequest.getMarketImage());
+            }
+        }
+        marketService.marketInfoRegister(marketInfoRequest.create(), memberId, imgUrls);
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
-        marketService.marketInfoRegister(marketInfoRequest.create(), memberId);
         return "redirect:/market/menu";
     }
 
@@ -64,7 +78,7 @@ public class MarketController {
 
     @GetMapping("/menu")
     public String marketMenu() {
-        return "/market/marketMenu";
+        return "market/marketMenu";
     }
 
     @PostMapping("/menu/save")

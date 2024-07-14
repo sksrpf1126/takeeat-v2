@@ -7,6 +7,7 @@ import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.cart.CartMenu;
 import com.back.takeeat.domain.cart.CartOption;
 import com.back.takeeat.domain.market.Market;
+import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.option.Option;
 import com.back.takeeat.dto.cart.CartMenuIdAndOptionCategoryId;
@@ -54,7 +55,7 @@ public class CartService {
         Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId = getCartOptionMapByOptionCategoryId(cart);
 
         return CartListResponse.create((cart.getMarket() == null? null : cart.getMarket().getId()), (cart.getMarket() == null? null : cart.getMarket().getMarketName()),
-                cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);
+                (cart.getMarket() == null? null : cart.getMarket().getMarketStatus()), cartMenuResponses, optionCategoryByCartMenu, cartOptionMapByOptionCategoryId);
     }
 
     public List<CartMenuResponse> getCartMenuResponses(Cart cart) {
@@ -178,14 +179,19 @@ public class CartService {
     }
 
     @Transactional(readOnly = true)
-    public boolean checkCart(Long memberId) {
+    public int checkCart(Long memberId) {
 
         Cart cart = cartRepository.findByMemberId(memberId);
 
         if (cart.getCartMenus() == null || cart.getCartMenus().isEmpty()) {
-            return false;
+            //장바구니가 비어있음
+            return 1;
+        } else if (cart.getMarket().getMarketStatus() == MarketStatus.CLOSE) {
+            //가게 준비중
+            return 2;
         } else {
-            return true;
+            //주문 가능
+            return 3;
         }
     }
 }

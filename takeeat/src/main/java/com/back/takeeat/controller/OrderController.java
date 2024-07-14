@@ -1,5 +1,6 @@
 package com.back.takeeat.controller;
 
+import com.back.takeeat.common.exception.ClosedMarketException;
 import com.back.takeeat.dto.order.response.OrderResponse;
 import com.back.takeeat.service.OrderService;
 import lombok.Getter;
@@ -22,7 +23,12 @@ public class OrderController {
     public String order(Model model) {
         Long memberId = 1L; //(임시)로그인 회원
 
-        OrderResponse orderResponse = orderService.getOrderInfo(memberId);
+        OrderResponse orderResponse = null;
+        try {
+            orderResponse = orderService.getOrderInfo(memberId);
+        } catch (ClosedMarketException e) {
+            return "errorPage/NoAuthorityPage";
+        }
 
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         model.addAttribute("orderResponse", orderResponse);

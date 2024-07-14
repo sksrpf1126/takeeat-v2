@@ -158,7 +158,16 @@ input[type=number]::-webkit-outer-spin-button {
     background: #ffb36f;
 }
 
+#closedMarketBtn {
+    background: lightgray;
+    font-size: 18px;
+}
+
 .addMenuBtn, #orderBtn {
+    font-size: 20px;
+}
+
+.addMenuBtn, #orderBtn, #closedMarketBtn {
     border: 1px solid lightgray;
     height: 50px;
     width: 50%;

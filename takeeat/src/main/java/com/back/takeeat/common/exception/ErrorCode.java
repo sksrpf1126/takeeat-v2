@@ -11,8 +11,8 @@ public enum ErrorCode {
     NO_SUCH_AUTH_CODE(500, "U_007", "인증 코드 발급에 문제가 발생했습니다."),
 
     MARKET_NOT_FOUND(400, "M_001", "가게를 찾을 수 없습니다."),
-
     MARKET_NOT_SAVE(400, "M_002", "마켓을 저장할 수 없습니다."),
+    MARKET_IS_CLOSED(403, "M_003", "가게가 준비중입니다."),
 
     ORDER_NOT_FOUND(400, "O_001", "주문을 찾을 수 없습니다."),
     ORDER_STATUS_MISMATCH(400, "O_003", "주문 상태가 일치하지 않습니다."),
@@ -28,6 +28,7 @@ public enum ErrorCode {
     CARTMENU_NOT_FOUND(400, "CM_001", "장바구니 메뉴를 찾을 수 없습니다"),
 
     REVIEW_NOT_FOUND(400, "R_001", "리뷰를 찾을 수 없습니다"),
+    REVIEW_UNAUTHORIZED(403, "R_002", "해당 리뷰에 대한 권한이 없습니다"),
 
     OWNERREVIEW_NOT_FOUND(400, "OR_001", "리뷰의 답글을 찾을 수 없습니다");
 

@@ -1,6 +1,5 @@
 package com.back.takeeat.controller;
 
-import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
 import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
@@ -61,12 +60,7 @@ public class MyPageController {
     public String write(@LoginMember Member member, @RequestParam("orderId") Long orderId, Model model) {
         Long memberId = member.getId();
 
-        String marketName = null;
-        try {
-            marketName = myPageService.getOrderMarketName(memberId, orderId);
-        } catch (AccessDeniedException e) {
-            return "errorPage/noAuthorityPage";
-        }
+        String marketName = myPageService.getOrderMarketName(memberId, orderId);
 
         model.addAttribute("marketName", marketName);
         return "myPage/reviewForm";
@@ -108,12 +102,7 @@ public class MyPageController {
     public String modify(@LoginMember Member member, @RequestParam("reviewId") Long reviewId, Model model) {
         Long memberId = member.getId();
 
-        ReviewModifyFormResponse reviewModifyFormResponse = null;
-        try {
-            reviewModifyFormResponse = reviewService.getModifyForm(memberId, reviewId);
-        } catch (AccessDeniedException e) {
-            return "errorPage/noAuthorityPage";
-        }
+        ReviewModifyFormResponse reviewModifyFormResponse = reviewService.getModifyForm(memberId, reviewId);
 
         model.addAttribute("reviewModifyFormResponse", reviewModifyFormResponse);
         return "myPage/reviewModifyForm";

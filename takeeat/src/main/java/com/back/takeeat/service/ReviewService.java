@@ -1,8 +1,8 @@
 package com.back.takeeat.service;
 
-import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
+import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.review.OwnerReview;
 import com.back.takeeat.domain.review.Review;
@@ -70,14 +70,14 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public ReviewModifyFormResponse getModifyForm(Long memberId, Long reviewId) throws AccessDeniedException {
+    public ReviewModifyFormResponse getModifyForm(Long memberId, Long reviewId) {
 
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.REVIEW_NOT_FOUND));
 
         //리뷰의 작성자가 아니라면
         if (!review.getMember().getId().equals(memberId)) {
-            throw new AccessDeniedException();
+            throw new ErrorPageException(ErrorCode.REVIEW_UNAUTHORIZED);
         }
 
         return ReviewModifyFormResponse.createByReview(review);

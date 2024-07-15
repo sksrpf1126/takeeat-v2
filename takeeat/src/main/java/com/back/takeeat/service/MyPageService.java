@@ -1,8 +1,8 @@
 package com.back.takeeat.service;
 
-import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.common.exception.EntityNotFoundException;
 import com.back.takeeat.common.exception.ErrorCode;
+import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.order.OrderStatus;
@@ -87,14 +87,14 @@ public class MyPageService {
     }
 
     @Transactional(readOnly = true)
-    public String getOrderMarketName(Long memberId, Long orderId) throws AccessDeniedException {
+    public String getOrderMarketName(Long memberId, Long orderId) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_NOT_FOUND));
 
         //주문자가 아니라면, 또는 주문이 완료된 주문건이 아니라면, 또는 이미 리뷰가 존재한다면
         if (!order.getMember().getId().equals(memberId) || order.getOrderStatus() != OrderStatus.COMPLETE || order.getReview() != null) {
-            throw new AccessDeniedException();
+            throw new ErrorPageException(ErrorCode.REVIEW_UNAUTHORIZED);
         }
 
         return order.getMarket().getMarketName();

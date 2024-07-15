@@ -32,11 +32,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             <div class="line-container margin-top-20">
                                 <div class="length-container">
                                     <div class="s-info-text">옵션을 입력하세요.</div>
-                                    <input type="text" id="marketOption-${optionCount}" name="marketOption" class="m-input-box margin-top-10"/>
+                                    <input type="text" id="marketOption-${optionCount}" th:field="*{optionName}" name="marketOption" class="m-input-box margin-top-10"/>
                                 </div>
                                 <div class="length-container margin-left-10">
                                     <div class="s-info-text">가격</div>
-                                    <input type="number" id="optionPrice-${optionCount}" name="optionPrice" class="s-input-box margin-top-10"/>
+                                    <input type="number" id="optionPrice-${optionCount}" th:field="*{optionPrice}" name="optionPrice" class="s-input-box margin-top-10"/>
                                 </div>
                             </div>
                             <hr class="hr-margin"/>
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="line-container">
                                     <div class="length-container">
                                         <div class="info-text">옵션 카테고리를 입력하세요.</div>
-                                        <input type="text" id="optionCategory-${categoryCount}" name="optionCategory" class="l-input-box-option margin-top-10"/>
+                                        <input type="text" id="optionCategory-${categoryCount}" th:field="*{optionCategory}" name="optionCategory" class="l-input-box-option margin-top-10"/>
                                     </div>
                                     <div class="length-container select-option">
                                         <div class="line-container">
@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                         <div class="line-container margin-top-10">
-                                            <input type="radio" id="single-${categoryCount}" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'single')" checked/>단일
-                                            <input type="radio" id="multi-${categoryCount}" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'multi')"/>다중
+                                            <input type="radio" id="single-${categoryCount}" th:field="*{optionSelect}" th:value="'single'" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'single')" checked/>단일
+                                            <input type="radio" id="multi-${categoryCount}" th:field="*{optionSelect}" th:value="'multi'" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'multi')"/>다중
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="number" id="maxCount-${categoryCount}" name="maxCount" class="s-input-box margin-top-10" value="1" disabled/>
+                                    <input type="number" id="maxCount-${categoryCount}" th:field="*{optionMaxCount}" name="maxCount" class="s-input-box margin-top-10" value="1" disabled/>
                                 </div>
                             </div>
                             <div class="option-container">
@@ -124,18 +124,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // 초기 데이터 로드 함수
     function loadMenuData(categoryCount) {
-        $.ajax({
-            url: '/market/menus', // 서버의 엔드포인트
-            method: 'GET',
-            success: function(data) {
-                updateMenuDropdown(data, categoryCount); // 데이터를 받아서 업데이트
-            },
-            error: function(xhr, status, error) {
+        fetch('/market/menus') // 혹은 $.ajax 사용
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            })
+            .then(data => {
+                updateMenuDropdown(data, categoryCount); // 메뉴 드롭다운 업데이트
+            })
+            .catch(error => {
                 console.error('Error fetching menu data:', error);
-            }
-        });
+            });
     }
 
     // 드롭다운 메뉴 업데이트 함수
@@ -226,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-window.saveOption = function() {
+function saveOption() {
     let categories = [];
     let hasIncompleteOptionData = false; // 필수 항목 누락 여부 확인 변수
     let hasEmptyOption = false; // 빈 옵션 여부 확인 변수
@@ -307,19 +309,27 @@ window.saveOption = function() {
     // 데이터 구조와 JSON 문자열 확인 (디버깅용)
     console.log("전송할 데이터:", JSON.stringify(data, null, 2));
 
-    // AJAX 요청
-   $.ajax({
-       url: '/market/option/save',
-       method: 'POST',
-       contentType: 'application/json',
-       data: JSON.stringify(data),
-       success: function(data) {
+   // AJAX 요청
+       fetch('/market/option/save', {
+           method: 'POST',
+           headers: {
+               'Content-Type': 'application/json'
+           },
+           body: JSON.stringify(data)
+       })
+       .then(response => {
+           if (response.ok) {
+               return response.json();
+           }
+           throw new Error('Network response was not ok.');
+       })
+       .then(data => {
            alert('옵션 저장 완료');
            console.log('Response data:', data);
-       },
-       error: function(xhr, status, error) {
+           window.location.href = '/';
+       })
+       .catch(error => {
            alert('저장 실패');
            console.error('Error:', error);
-       }
-   });
-};
+       });
+   };

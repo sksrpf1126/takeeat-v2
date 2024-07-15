@@ -17,12 +17,14 @@ import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.*;
 import com.back.takeeat.repository.*;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
@@ -35,6 +37,7 @@ public class MarketService {
     private final OptionCategoryRepository optionCategoryRepository;
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final MenuRepository menuRepository;
 
     @Transactional
     public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId, List<String> imgUrls) {
@@ -94,7 +97,7 @@ public class MarketService {
     public List<MenuCategoryNameResponse> getMarketMenuName(Long memberId){
         // 회원 정보를 조회
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 마켓 정보를 조회
         Market market = marketRepository.findByMemberId(member.getId())
@@ -124,40 +127,38 @@ public class MarketService {
     }
 
     @Transactional
-    public void optionCategoriesRegister(OptionRequest optionRequest, Long memberId) {
+    public void optionCategoriesRegister(Long memberId, List<MarketOptionCategoryRequest> menuCategoryRequests) {
         // 회원 정보를 조회
         Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new NoSuchElementException("회원 정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
 
         // 마켓 정보를 조회
         Market market = marketRepository.findByMemberId(member.getId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
 
-        if (market == null) {
-            throw new NoSuchElementException("마켓 정보를 찾을 수 없습니다.");
-        }
+        // 메뉴 카테고리를 조회
+        List<MenuCategory> menuCategoryList = menuCategoryRepository.findByMarketId(market.getId());
 
-        List<MenuCategoryNameResponse> menuCategory = menuCategoryRepository.findMenuCategoriesByMarketId(market.getId());
+        for (MarketOptionCategoryRequest marketOptionCategoryRequest : menuCategoryRequests) {
+            // 적절한 메뉴를 찾기 위한 로직 필요
+            Menu menu = menuCategoryList.stream()
+                    .flatMap(mc -> menuRepository.findByMenuCategoryId(mc.getId()).stream())
+                    .filter(m -> m.getId().equals(marketOptionCategoryRequest.getMenu().getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MENU_NOT_FOUND));
 
-        for (MarketOptionCategoryRequest marketOptionCategoryRequest : optionRequest.getCategories()) {
-            OptionCategory optionCategory = marketOptionCategoryRequest.toOptionCategory();
+            OptionCategory optionCategory = marketOptionCategoryRequest.toOptionCategory(menu);
 
-            // 디버깅 포인트: 메뉴 카테고리 정보 출력
             System.out.println("옵션 카테고리 저장: " + optionCategory.getOptionCategoryName());
 
             for (MarketOptionRequest marketOptionRequest : marketOptionCategoryRequest.getOptions()) {
                 Option option = marketOptionRequest.toOption();
-
-                // 디버깅 포인트: 메뉴 정보 출력
                 System.out.println("옵션 추가: " + option.getOptionName());
-
                 option.addOptionCategory(optionCategory);
                 optionCategory.getOptions().add(option);
             }
 
             optionCategoryRepository.save(optionCategory);
-
-            // 디버깅 포인트: 저장된 메뉴 카테고리 확인
             System.out.println("메뉴 카테고리 저장 완료: " + optionCategory.getId());
         }
     }

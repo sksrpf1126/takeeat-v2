@@ -4,14 +4,15 @@ import com.back.takeeat.domain.option.Option;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
 @Builder
+@Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class MarketOptionRequest {
 
     private String optionName;
-
     private int optionPrice;
 
     public Option toOption() {
@@ -20,5 +21,4 @@ public class MarketOptionRequest {
                 .optionPrice(optionPrice)
                 .build();
     }
-
 }

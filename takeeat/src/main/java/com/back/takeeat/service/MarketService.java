@@ -7,6 +7,7 @@ import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.dto.review.response.MarketRatingResponse;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
 
@@ -190,5 +192,17 @@ public class MarketService {
         RatingCountResponse ratingCountResponse = RatingCountResponse.createByMarketRatingResponse(marketRatingResponses);
 
         return MarketReviewResponse.create(market.getMarketRating(), ratingCountResponse, reviewResponses, noAnswerOptionReviews, blindOptionReviews);
+    }
+
+    public MarketHomeResponse getMarketHome(Long memberId) {
+
+        Optional<Market> findMarket = marketRepository.findByMemberId(memberId);
+        if (findMarket.isEmpty()) {
+            return null;
+        }
+
+        Market market = findMarket.get();
+
+        return MarketHomeResponse.createByMarket(market);
     }
 }

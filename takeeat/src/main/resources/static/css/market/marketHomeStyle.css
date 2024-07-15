@@ -167,189 +167,80 @@ input[id="menuicon"]:checked + label + div {
     background-color: #fff;
 }
 
-#reviewSummaryContainer {
+.marketInfoContainer {
     width: 530px;
     border: 2px solid #D8D8D8;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px;
+    margin-bottom: 10px;
 }
 
-#reviewCount, #reviewAvgTitle {
+.marketInfo {
     font-size: 20px;
 }
 
-#reviewAvg {
-    font-size: 30px;
-    text-align: center;
+.marketDetailInfo {
+    font-size: 18px;
 }
 
-#reviewSummary {
+/* ON/OFF 토글 */
+.wrapper {
     display: flex;
-    justify-content: center;
-    margin: 5px;
+    align-items: center;
 }
 
-#ratingInfoContainer {
-    margin-left: 40px;
+#switch {
+    position: absolute;
+    /* hidden */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 
-.ratingInfo {
-    font-size: 14px;
-    display: flex;
-    align-items: end;
-}
-
-.graph {
-    width: 80px;
-    height: 5px;
-    background: #ccc;
-    border-radius: 40px;
-    margin: auto;
-    margin-left: 5px;
-}
-
-.graph span {
-    display: block;
-    width: 75%;
-    height: 5px;
-    line-height: 40px;
-    text-align: right;
-    background: #fddb41;
-    border-radius: 40px;
-}
-
-.tabmenu {
-    display: none;
-}
-
-.tabmenu + label {
-    display: inline-block;
-    padding: 15px;
-    border-right: 2px solid #D8D8D8;
+.switch_label {
+    position: relative;
     cursor: pointer;
-    flex: 1;
-    text-align: center;
+    display: inline-block;
+    width: 58px;
+    height: 28px;
+    background: #fff;
+    border: 2px solid #daa;
+    border-radius: 20px;
+    transition: 0.2s;
 }
 
-.tabmenu + label:hover {
-    background: #eeeeee;
+.switch_label:hover {
+    background: #efefef;
 }
 
-.tabmenu:checked + label {
-    border-bottom: 5px solid #ffb36f;
-    color: #ffb36f;
-}
-
-.tab_content {
-    margin-top: 20px;
-    width: 530px;
-}
-
-.tabs {
-    display: flex;
-    border-top: 2px solid #D8D8D8;
-    border-left: 2px solid #D8D8D8;
-}
-
-.conbox {
-    width: 100%;
-    margin: 0 auto;
-    display: none;
-    border: 2px solid #D8D8D8;
-    border-bottom: 0px;
-    margin-bottom: 40px;
-}
-
-.conbox.active {
-    display:block;
-}
-
-.reviewContainer {
-    margin: 10px;
-}
-
-.reviewRatingContainer {
-    display: flex;
-    align-items: start;
-}
-
-.writerAndTime {
-    display: flex;
-    align-items: center;
-}
-
-.reviewTime {
-    font-size: 14px;
-    color: #999999;
-}
-
-.yellowStar {
-    color: #fddb41;
-}
-
-.grayStar {
-    color: lightgray;
-}
-
-.reportBtn {
-    border: none;
-    background: none;
-    font-size: 14px;
-    margin: 0px;
-    padding: 0px;
-    color: black;
-}
-
-.reportBtn:hover {
-    color: #ffb36f;
-}
-
-.reviewImageContainer {
-    margin-top: 10px;
-}
-
-.reviewImage {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    text-align: center;
-    border: 1px solid lightgray;
-}
-
-.ownerReviewContainer {
-    margin: 10px;
-    display: flex;
-    align-items: end;
-}
-
-textarea {
-    width: 100%;
-    padding: 10px;
-    border-color: lightgray;
-}
-
-.ownerReviewWriteBtn {
-    border: none;
+.onf_btn {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 20px;
     background: #ffb36f;
-    margin-left: 10px;
-    font-size: 15px;
-    white-space: nowrap;
-    padding: 5px 10px;
+    transition: 0.2s;
 }
 
-.reviewAndForm {
-    border-bottom: 2px solid #D8D8D8;
+/* checking style */
+#switch:checked+.switch_label {
+    background: #ffb36f;
+    border: 2px solid #ffb36f;
 }
 
-.writeInfoAndReport {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+#switch:checked+.switch_label:hover {
+    background: #f78e31;
+    border: 2px solid #f78e31;
 }
 
-#reportReviewInfo {
-    font-size: 14px;
-    color: lightgray;
+/* move */
+#switch:checked+.switch_label .onf_btn {
+    left: 34px;
+    background: #fff;
+    box-shadow: 1px 2px 3px #00000020;
 }
 
 @media (max-width: 600px) {

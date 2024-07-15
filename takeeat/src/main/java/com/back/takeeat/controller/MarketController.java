@@ -4,6 +4,7 @@ package com.back.takeeat.controller;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
+import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
@@ -38,6 +39,28 @@ public class MarketController {
 
     @Value("${KAKAO_API_KEY}")
     String KAKAO_API_KEY;
+
+    @GetMapping("/home")
+    public String marketHome(@LoginMember Member member, Model model) {
+        Long memberId = member.getId();
+
+        MarketHomeResponse marketHomeResponse = marketService.getMarketHome(memberId);
+
+        //등록된 가게가 없다면
+        if (marketHomeResponse == null) {
+            return "redirect:/market/alert";
+        }
+
+        model.addAttribute("marketHomeResponse", marketHomeResponse);
+        return "market/marketHome";
+    }
+
+    @GetMapping("/alert")
+    public String redirectInfoPage(Model model) {
+        model.addAttribute("redirectUrl", "/market/info");
+        model.addAttribute("message", "등록된 가게가 없습니다.\n가게 등록 페이지로 이동합니다.");
+        return "market/alert";
+    }
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {

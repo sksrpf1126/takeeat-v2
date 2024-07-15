@@ -36,8 +36,9 @@ public class OrderMenu {
     private List<OrderOption> orderOptions = new ArrayList<>();
 
     @Builder
-    public OrderMenu(int orderQuantity, Menu menu) {
+    public OrderMenu(int orderQuantity, int orderPrice, Menu menu) {
         this.orderQuantity = orderQuantity;
+        this.orderPrice = orderPrice;
         this.menu = menu;
     }
 
@@ -52,6 +53,7 @@ public class OrderMenu {
 
     public void addOrderOption(OrderOption orderOption) {
         this.orderOptions.add(orderOption);
+        this.orderPrice += orderOption.getOption().getOptionPrice();
     }
 
     public void deleteOrderOption(OrderOption orderOption) {

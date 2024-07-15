@@ -16,6 +16,7 @@ import java.util.Map;
 @Builder
 public class OrderResponse {
 
+    private Long marketId;
     private String marketName;
     private String query;
     private String addressDetail;
@@ -33,6 +34,7 @@ public class OrderResponse {
                                        Map<Long, List<CartOptionCategoryResponse>> optionCategoryByCartMenu,
                                        Map<CartMenuIdAndOptionCategoryId, List<CartOptionResponse>> cartOptionMapByOptionCategoryId) {
         return OrderResponse.builder()
+                .marketId(market.getId())
                 .marketName(market.getMarketName())
                 .query(market.getQuery())
                 .addressDetail(market.getAddressDetail())

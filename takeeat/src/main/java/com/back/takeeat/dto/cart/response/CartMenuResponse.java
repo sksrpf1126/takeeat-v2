@@ -11,14 +11,16 @@ public class CartMenuResponse {
     private int cartQuantity;
     private int cartPrice;
 
+    private Long menuId;
     private String menuName;
     private int menuPrice;
 
-    public static CartMenuResponse create(Long cartMenuId, int cartQuantity, int cartPrice, String menuName, int menuPrice) {
+    public static CartMenuResponse create(Long cartMenuId, int cartQuantity, int cartPrice, Long menuId,  String menuName, int menuPrice) {
         return CartMenuResponse.builder()
                 .cartMenuId(cartMenuId)
                 .cartQuantity(cartQuantity)
                 .cartPrice(cartPrice)
+                .menuId(menuId)
                 .menuName(menuName)
                 .menuPrice(menuPrice)
                 .build();

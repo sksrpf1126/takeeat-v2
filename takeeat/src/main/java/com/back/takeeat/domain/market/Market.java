@@ -89,4 +89,8 @@ public class Market {
     public void addMarketStatus(MarketStatus marketStatus) {
         this.marketStatus = marketStatus;
     }
+
+    public void updateMarketStatus(MarketStatus marketStatus) {
+        this.marketStatus = marketStatus;
+    }
 }

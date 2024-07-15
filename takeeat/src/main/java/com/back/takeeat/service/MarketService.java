@@ -7,6 +7,7 @@ import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.dto.review.response.MarketRatingResponse;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
@@ -166,8 +168,12 @@ public class MarketService {
     @Transactional(readOnly = true)
     public MarketReviewResponse getReviewInfo(Long memberId) {
 
-        Market market = marketRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+        Optional<Market> findMarket = marketRepository.findByMemberId(memberId);
+        if (findMarket.isEmpty()) {
+            return null;
+        }
+
+        Market market = findMarket.get();
 
         //Review
         List<Review> reviews = reviewRepository.findByMarketIdForReviewList(market.getId());
@@ -196,5 +202,27 @@ public class MarketService {
         RatingCountResponse ratingCountResponse = RatingCountResponse.createByMarketRatingResponse(marketRatingResponses);
 
         return MarketReviewResponse.create(market.getMarketRating(), ratingCountResponse, reviewResponses, noAnswerOptionReviews, blindOptionReviews);
+    }
+
+    @Transactional(readOnly = true)
+    public MarketHomeResponse getMarketHome(Long memberId) {
+
+        Optional<Market> findMarket = marketRepository.findByMemberId(memberId);
+        if (findMarket.isEmpty()) {
+            return null;
+        }
+
+        Market market = findMarket.get();
+
+        return MarketHomeResponse.createByMarket(market);
+    }
+
+    @Transactional
+    public void updateStatus(Long memberId, MarketStatus marketStatus) {
+
+        Market market = marketRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        market.updateMarketStatus(marketStatus);
     }
 }

@@ -28,24 +28,30 @@
 <div class="sidebar">
     <div class="side-margin">
         <div class="line-container">
+            <img src="/images/store-icon.svg" alt="store_image" class="margin-top icon-size"/>
+            <div class="length-container">
+                <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/home'">나의 가게</div>
+            </div>
+        </div>
+        <div class="line-container">
             <img src="/images/store-icon.svg" alt="store_image" class="icon-size"/>
             <div class="length-container">
                 <div class="main-menu">가게 정보</div>
-                <div class="sub-menu">기본 정보</div>
-                <div class="sub-menu">메뉴 정보</div>
-                <div class="sub-menu margin-bottom-30">옵션 정보</div>
+                <div class="sub-menu linked-menu" onclick="location.href='/market/info'">기본 정보</div>
+                <div class="sub-menu linked-menu" onclick="location.href='/market/menu'">메뉴 정보</div>
+                <div class="sub-menu margin-bottom-30 linked-menu" onclick="location.href='/market/option'">옵션 정보</div>
             </div>
         </div>
         <div class="line-container">
             <img src="/images/order-icon.svg" alt="store_image" class="margin-top icon-size"/>
             <div class="length-container">
-                <div class="main-menu margin-bottom-30">주문</div>
+                <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='#'">주문</div>
             </div>
         </div>
         <div class="line-container">
             <img src="/images/review-icon.svg" alt="store_image" class="margin-top icon-size"/>
             <div class="length-container">
-                <div class="main-menu margin-bottom-30">리뷰</div>
+                <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/review'">리뷰</div>
             </div>
         </div>
     </div>
@@ -65,35 +71,35 @@
                     <div class="ratingInfo">
                         <div>5점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fiveStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
+                            <span th:if="${marketReviewResponse.allOptionReviews.size() != 0}" th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fiveStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.fiveStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>4점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fourStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
+                            <span th:if="${marketReviewResponse.allOptionReviews.size() != 0}" th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.fourStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.fourStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>3점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.threeStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
+                            <span th:if="${marketReviewResponse.allOptionReviews.size() != 0}" th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.threeStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.threeStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>2점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.twoStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
+                            <span th:if="${marketReviewResponse.allOptionReviews.size() != 0}" th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.twoStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.twoStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>1점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.oneStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
+                            <span th:if="${marketReviewResponse.allOptionReviews.size() != 0}" th:style="'width: ' + (${marketReviewResponse.ratingCountResponse.oneStar} / ${marketReviewResponse.allOptionReviews.size()} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketReviewResponse.ratingCountResponse.oneStar}]]</div>
                     </div>

@@ -1,11 +1,9 @@
 package com.back.takeeat.controller;
 
-import com.back.takeeat.common.exception.ClosedMarketException;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.order.response.OrderResponse;
 import com.back.takeeat.security.LoginMember;
 import com.back.takeeat.service.OrderService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -25,12 +23,7 @@ public class OrderController {
     public String order(@LoginMember Member member, Model model) {
         Long memberId = member.getId();
 
-        OrderResponse orderResponse = null;
-        try {
-            orderResponse = orderService.getOrderInfo(memberId);
-        } catch (ClosedMarketException e) {
-            return "errorPage/NoAuthorityPage";
-        }
+        OrderResponse orderResponse = orderService.getOrderInfo(memberId);
 
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
         model.addAttribute("orderResponse", orderResponse);

@@ -1,6 +1,8 @@
 package com.back.takeeat.service;
 
-import com.back.takeeat.common.exception.ClosedMarketException;
+import com.back.takeeat.common.exception.EntityNotFoundException;
+import com.back.takeeat.common.exception.ErrorCode;
+import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.dto.cart.CartMenuIdAndOptionCategoryId;
@@ -25,12 +27,13 @@ public class OrderService {
     private final CartRepository cartRepository;
 
     @Transactional(readOnly = true)
-    public OrderResponse getOrderInfo(Long memberId) throws ClosedMarketException {
+    public OrderResponse getOrderInfo(Long memberId) {
 
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
 
         if (cart.getMarket().getMarketStatus() == MarketStatus.CLOSE) {
-            throw new ClosedMarketException();
+            throw new ErrorPageException(ErrorCode.MARKET_IS_CLOSED);
         }
 
         //장바구니에 담긴 메뉴 관련 정보

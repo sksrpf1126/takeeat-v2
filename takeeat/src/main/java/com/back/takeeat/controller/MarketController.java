@@ -1,11 +1,13 @@
 package com.back.takeeat.controller;
 
-
+import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MarketOptionCategoryRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
+import com.back.takeeat.dto.market.response.MarketHomeResponse;
+import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
@@ -39,6 +41,28 @@ public class MarketController {
 
     @Value("${KAKAO_API_KEY}")
     String KAKAO_API_KEY;
+
+    @GetMapping("/home")
+    public String marketHome(@LoginMember Member member, Model model) {
+        Long memberId = member.getId();
+
+        MarketHomeResponse marketHomeResponse = marketService.getMarketHome(memberId);
+
+        //등록된 가게가 없다면
+        if (marketHomeResponse == null) {
+            return "redirect:/market/alert";
+        }
+
+        model.addAttribute("marketHomeResponse", marketHomeResponse);
+        return "market/marketHome";
+    }
+
+    @GetMapping("/alert")
+    public String redirectInfoPage(Model model) {
+        model.addAttribute("redirectUrl", "/market/info");
+        model.addAttribute("message", "등록된 가게가 없습니다.\n가게 등록 페이지로 이동합니다.");
+        return "market/alert";
+    }
 
     @GetMapping("/info")
     public String marketInfo(@ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest, Model model) {
@@ -152,6 +176,11 @@ public class MarketController {
 
         MarketReviewResponse marketReviewResponse = marketService.getReviewInfo(memberId);
 
+        //등록된 가게가 없다면
+        if (marketReviewResponse == null) {
+            return "redirect:/market/alert";
+        }
+
         model.addAttribute("marketReviewResponse", marketReviewResponse);
         return "market/marketReview";
     }
@@ -188,4 +217,23 @@ public class MarketController {
         return ResponseEntity.ok("리뷰 신고 완료");
     }
 
+
+    @ResponseBody
+    @PostMapping("/status/update")
+    public ResponseEntity<String> updateStatus(@LoginMember Member member, @RequestBody Map<String, Boolean> statusData) {
+        Long memberId = member.getId();
+
+        boolean isChecked = statusData.get("isChecked");
+
+        MarketStatus marketStatus = null;
+        if (isChecked) {
+            marketStatus = MarketStatus.OPEN;
+        } else {
+            marketStatus = MarketStatus.CLOSE;
+        }
+
+        marketService.updateStatus(memberId, marketStatus);
+
+        return ResponseEntity.ok("상태 변경 완료");
+    }
 }

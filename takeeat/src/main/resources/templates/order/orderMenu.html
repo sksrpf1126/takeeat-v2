@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,18 +27,18 @@
 
     <div id="marketCategory">
         <ul class="list">
-            <li><a href="#" class="activeCategory">전체보기</a></li>
-            <li><a href="#">치킨</a></li>
-            <li><a href="#">피자·양식</a></li>
-            <li><a href="#">돈까스·일식</a></li>
-            <li><a href="#">족발·보쌈</a></li>
-            <li><a href="#">분식</a></li>
-            <li><a href="#">중식</a></li>
-            <li><a href="#">한식</a></li>
-            <li><a href="#">아시안</a></li>
-            <li><a href="#">버거</a></li>
-            <li><a href="#">카페</a></li>
-            <li><a href="#">찜·탕</a></li>
+            <li><a href="/0/list">전체보기</a></li>
+            <li><a href="/1/list">치킨</a></li>
+            <li><a href="/2/list">피자·양식</a></li>
+            <li><a href="/3/list">돈까스·일식</a></li>
+            <li><a href="/4/list">족발·보쌈</a></li>
+            <li><a href="/5/list">분식</a></li>
+            <li><a href="/6/list">중식</a></li>
+            <li><a href="/7/list">한식</a></li>
+            <li><a href="/8/list">아시안</a></li>
+            <li><a href="/9/list">버거</a></li>
+            <li><a href="/10/list">카페</a></li>
+            <li><a href="/11/list">찜·탕</a></li>
         </ul>
     </div>
     <hr/>
@@ -50,7 +50,7 @@
             <div id="marketImageContainer"><img id="marketImage" th:src="${marketMenuResponse.marketResponse.marketImage}"/></div>
             <div id="marketInfoContainer">
                 <div class="marketRatingContainer">
-                    <div class="yellowStar">
+                    <div class="yellowStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 0}">
                         <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
                     </div>
                     <div class="grayStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 5}">
@@ -110,7 +110,7 @@
                 <div id="reviewRatingAvg">
                     <div id="reviewMarketRating" th:text="${marketMenuResponse.marketResponse.marketRating}">가게평점</div>
                     <div class="marketRatingContainer">
-                        <div class="yellowStar">
+                        <div class="yellowStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 0}">
                             <block th:each="num:${#numbers.sequence(1, marketMenuResponse.marketResponse.getYellowStarNumber())}">★</block>
                         </div>
                         <div class="grayStar" th:if="${marketMenuResponse.marketResponse.getYellowStarNumber() != 5}">
@@ -122,35 +122,35 @@
                     <div class="ratingInfo">
                         <div>5점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fiveStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
+                            <span th:if="${marketMenuResponse.marketResponse.reviewCount != 0}" th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fiveStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.fiveStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>4점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fourStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
+                            <span th:if="${marketMenuResponse.marketResponse.reviewCount != 0}" th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.fourStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.fourStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>3점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.threeStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
+                            <span th:if="${marketMenuResponse.marketResponse.reviewCount != 0}" th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.threeStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.threeStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>2점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.twoStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
+                            <span th:if="${marketMenuResponse.marketResponse.reviewCount != 0}" th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.twoStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.twoStar}]]</div>
                     </div>
                     <div class="ratingInfo">
                         <div>1점</div>
                         <div class="graph">
-                            <span th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.oneStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
+                            <span th:if="${marketMenuResponse.marketResponse.reviewCount != 0}" th:style="'width: ' + (${marketMenuResponse.ratingCountResponse.oneStar} / ${marketMenuResponse.marketResponse.reviewCount} * 100) +'%;'"> </span>
                         </div>
                         <div>&nbsp;[[${marketMenuResponse.ratingCountResponse.oneStar}]]</div>
                     </div>
@@ -239,7 +239,7 @@
         </div>
     </div>
 
-    <div id="bottomBtnContainer">
+    <div id="bottomBtnContainer" sec:authorize="isAuthenticated()">
         <div id="cartBtn" onclick="location.href='/cart'"><strong>장바구니</strong></div>
         <div id="orderBtn" onclick="checkCart()"><strong>주문하기</strong></div>
     </div>
@@ -378,6 +378,7 @@
 
 <script th:inline="javascript">
     var sessionAddr = [[${session.addr}]];
+    var marketCategory = [[${marketMenuResponse.marketResponse.marketCategory}]];
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/order/orderMenu.js"></script>

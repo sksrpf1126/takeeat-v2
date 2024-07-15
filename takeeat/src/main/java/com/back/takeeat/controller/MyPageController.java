@@ -1,7 +1,7 @@
 package com.back.takeeat.controller;
 
-import com.back.takeeat.common.exception.AccessDeniedException;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.domain.user.MemberRoleType;
 import com.back.takeeat.dto.myPage.request.ReviewFormRequest;
 import com.back.takeeat.dto.myPage.request.ReviewModifyFormRequest;
 import com.back.takeeat.dto.myPage.response.OrderDetailResponse;
@@ -14,6 +14,7 @@ import com.back.takeeat.service.ReviewService;
 import com.back.takeeat.service.S3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +35,10 @@ public class MyPageController {
     private final S3Service s3Service;
 
     @GetMapping("/home")
-    public String myPage() {
+    public String myPage(@LoginMember Member member, Model model) {
+        String nickname = member.getNickname();
+
+        model.addAttribute("nickname", nickname);
         return "myPage/myPage";
     }
 
@@ -61,12 +65,7 @@ public class MyPageController {
     public String write(@LoginMember Member member, @RequestParam("orderId") Long orderId, Model model) {
         Long memberId = member.getId();
 
-        String marketName = null;
-        try {
-            marketName = myPageService.getOrderMarketName(memberId, orderId);
-        } catch (AccessDeniedException e) {
-            return "errorPage/noAuthorityPage";
-        }
+        String marketName = myPageService.getOrderMarketName(memberId, orderId);
 
         model.addAttribute("marketName", marketName);
         return "myPage/reviewForm";
@@ -108,12 +107,7 @@ public class MyPageController {
     public String modify(@LoginMember Member member, @RequestParam("reviewId") Long reviewId, Model model) {
         Long memberId = member.getId();
 
-        ReviewModifyFormResponse reviewModifyFormResponse = null;
-        try {
-            reviewModifyFormResponse = reviewService.getModifyForm(memberId, reviewId);
-        } catch (AccessDeniedException e) {
-            return "errorPage/noAuthorityPage";
-        }
+        ReviewModifyFormResponse reviewModifyFormResponse = reviewService.getModifyForm(memberId, reviewId);
 
         model.addAttribute("reviewModifyFormResponse", reviewModifyFormResponse);
         return "myPage/reviewModifyForm";

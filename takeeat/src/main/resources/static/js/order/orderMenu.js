@@ -1,5 +1,5 @@
-//==== 탭 메뉴 ====
 document.addEventListener('DOMContentLoaded', function () {
+    //==== 탭 메뉴 ====
     const tabs = document.querySelectorAll('.tabs input');
     const contents = document.querySelectorAll('.conbox');
 
@@ -19,6 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     tabs.forEach(tab => tab.addEventListener('change', showContent));
     showContent();
+
+    //=== 로그인 여부에 따라 margin 속성을 추가하기 위함 ===
+    var bottomBtnContainer = document.getElementById('bottomBtnContainer');
+    if (bottomBtnContainer) {
+        //footer에 클래스 추가
+        var footer = document.querySelector('footer');
+        footer.classList.add('loggedIn');
+    }
 });
 
 //==== 지도 api ====

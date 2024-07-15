@@ -62,7 +62,7 @@ public class CartService {
         List<CartMenuResponse> cartMenuResponses = new ArrayList<>();
         for (CartMenu cartMenu : cart.getCartMenus()) {
             cartMenuResponses.add(CartMenuResponse.create(cartMenu.getId(), cartMenu.getCartQuantity(),
-                    cartMenu.getCartMenuPrice(), cartMenu.getMenu().getMenuName(), cartMenu.getMenu().getMenuPrice()));
+                    cartMenu.getCartMenuPrice(), cartMenu.getMenu().getId(), cartMenu.getMenu().getMenuName(), cartMenu.getMenu().getMenuPrice()));
         }
         return cartMenuResponses;
     }

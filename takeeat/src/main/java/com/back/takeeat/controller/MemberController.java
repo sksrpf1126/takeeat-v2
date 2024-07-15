@@ -51,8 +51,7 @@ public class MemberController {
             Model model
     ) {
         if(member != null &&  member.getId() != null) {
-            //@TODO 메인페이지 경로로 변경할 것
-            return "redirect:/market/info";
+            return "redirect:/";
         }
 
         model.addAttribute("error", error);
@@ -63,8 +62,7 @@ public class MemberController {
     @GetMapping("/policy-agreement")
     public String memberPolicyAgreement(@LoginMember Member member, @RequestParam(value = "loginType", required = false) String loginType, HttpServletRequest request) {
         if(member != null &&  member.getId() != null) {
-            //@TODO 메인페이지 경로로 변경할 것
-            return "redirect:/market/info";
+            return "redirect:/";
         }
 
         if(loginType == null || !loginType.equals("social")) {
@@ -77,8 +75,7 @@ public class MemberController {
     @GetMapping("/social-signup")
     public String socialSignupForm(@LoginMember Member member, Model model) {
         if(member != null &&  member.getId() != null) {
-            //@TODO 메인페이지 경로로 변경할 것
-            return "redirect:/market/info";
+            return "redirect:/";
         }
 
         model.addAttribute("socialSignupRequest", SocialSignupRequest.builder().build());
@@ -89,8 +86,7 @@ public class MemberController {
     @GetMapping("/default-signup")
     public String signupForm(@LoginMember Member member, Model model) {
         if(member != null &&  member.getId() != null) {
-            //@TODO 메인페이지 경로로 변경할 것
-            return "redirect:/market/info";
+            return "redirect:/";
         }
 
         SignupRequest signupRequest = SignupRequest.builder().build();
@@ -146,8 +142,7 @@ public class MemberController {
         validateEmailAndProviderMatch(request, member.getEmail(), signupRequest.getProviderType());
         memberService.registerSocialMember(signupRequest, member);
 
-        //@TODO 메인페이지로 리다이렉트 할 것
-        return "redirect:/market/info";
+        return "redirect:/";
     }
 
     @GetMapping("/find-id")

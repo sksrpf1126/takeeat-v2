@@ -29,6 +29,8 @@ public class Order extends BaseTimeEntity {
 
     private boolean checking;
 
+    private String orderCode;
+
     private LocalDateTime acceptedTime;
 
     private LocalDateTime completedTime;
@@ -44,7 +46,7 @@ public class Order extends BaseTimeEntity {
     @JoinColumn(name = "market_id")
     private Market market;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
@@ -55,11 +57,13 @@ public class Order extends BaseTimeEntity {
     private Review review;
 
     @Builder
-    public Order(Member member, Market market, String requirement, int totalPrice) {
+    public Order(Member member, Market market, Payment payment, String requirement, int totalPrice, String orderCode) {
         this.member = member;
         this.market = market;
+        this.payment = payment;
         this.requirement = requirement;
         this.totalPrice = totalPrice;
+        this.orderCode = orderCode;
         this.orderStatus = OrderStatus.WAIT;
         this.checking = false;
     }

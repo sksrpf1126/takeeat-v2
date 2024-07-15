@@ -167,4 +167,13 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                                                    @Param("minLon") double minLon,
                                                    @Param("maxLon") double maxLon,
                                                    @Param("search") String search);
+
+
+    @Query("SELECT COUNT(m) = :menuCount " +
+            "FROM Market m " +
+            "JOIN m.menuCategories mc " +
+            "JOIN mc.menus mn " +
+            "WHERE m.id = :marketId " +
+            "AND mn.id IN :menuIds")
+    boolean hasAllMenus(@Param("marketId") Long marketId, @Param("menuIds") List<Long> menuIds, @Param("menuCount") long menuCount);
 }

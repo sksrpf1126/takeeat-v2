@@ -1,6 +1,8 @@
 //==== 지도 api ====
 var map = null;
 
+let totalPrice;
+
 window.onload = function() {
     kakao.maps.load(function() {
         var mapContainer = document.getElementById('map'), // 지도를 표시할 div
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //=== 총 주문금액 계산 후 출력 ===
     var menuContainerElements = document.querySelectorAll('.menuContainer');
-    var totalPrice = 0;
+    totalPrice = 0;
     menuContainerElements.forEach(function(element) {
         var totalMenuPriceElement = element.querySelector('.totalMenuPrice');
 
@@ -65,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function() {
         totalPrice += (price * quantity);
     });
 
-    var totalPriceElement = document.getElementById('totalPrice');
+    var totalPriceElement = document.getElementById('total-price');
     totalPriceElement.textContent = totalPrice.toLocaleString() + '원';
 
     var orderBtnContentElement = document.getElementById('orderBtnContent');

@@ -27,18 +27,18 @@
 
     <div id="marketCategory">
         <ul class="list">
-            <li><a href="#" class="activeCategory">전체보기</a></li>
-            <li><a href="#">치킨</a></li>
-            <li><a href="#">피자·양식</a></li>
-            <li><a href="#">돈까스·일식</a></li>
-            <li><a href="#">족발·보쌈</a></li>
-            <li><a href="#">분식</a></li>
-            <li><a href="#">중식</a></li>
-            <li><a href="#">한식</a></li>
-            <li><a href="#">아시안</a></li>
-            <li><a href="#">버거</a></li>
-            <li><a href="#">카페</a></li>
-            <li><a href="#">찜·탕</a></li>
+            <li><a href="/0/list">전체보기</a></li>
+            <li><a href="/1/list">치킨</a></li>
+            <li><a href="/2/list">피자·양식</a></li>
+            <li><a href="/3/list">돈까스·일식</a></li>
+            <li><a href="/4/list">족발·보쌈</a></li>
+            <li><a href="/5/list">분식</a></li>
+            <li><a href="/6/list">중식</a></li>
+            <li><a href="/7/list">한식</a></li>
+            <li><a href="/8/list">아시안</a></li>
+            <li><a href="/9/list">버거</a></li>
+            <li><a href="/10/list">카페</a></li>
+            <li><a href="/11/list">찜·탕</a></li>
         </ul>
     </div>
     <hr/>
@@ -378,6 +378,7 @@
 
 <script th:inline="javascript">
     var sessionAddr = [[${session.addr}]];
+    var marketCategory = [[${marketMenuResponse.marketResponse.marketCategory}]];
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script src="/js/order/orderMenu.js"></script>

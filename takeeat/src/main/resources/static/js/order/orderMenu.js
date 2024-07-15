@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    //==== 탭 메뉴 ====
+    //=== 탭 메뉴 ===
     const tabs = document.querySelectorAll('.tabs input');
     const contents = document.querySelectorAll('.conbox');
 
@@ -27,9 +27,15 @@ document.addEventListener('DOMContentLoaded', function () {
         var footer = document.querySelector('footer');
         footer.classList.add('loggedIn');
     }
+
+    //=== 가게가 속한 카테고리에 activeCategory 클래스 추가 ===
+    var targetLink = document.querySelector('.list li a[href="/' + marketCategory + '/list"]');
+
+    targetLink.classList.add('activeCategory');
+
 });
 
-//==== 지도 api ====
+//=== 지도 api ===
 var map = null;
 
 window.onload = function() {
@@ -68,7 +74,7 @@ function relayout() {
     }
 }
 
-//==== 옵션 선택 모달 보여주기 ====
+//=== 옵션 선택 모달 보여주기 ===
 function showOptionModal(menuId) {
     const modal = new bootstrap.Modal(document.getElementById('optionChoiceModal' + menuId));
     modal.show();

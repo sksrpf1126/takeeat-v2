@@ -34,7 +34,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             request.getSession().setAttribute("providerType", member.getProviderType());
             getRedirectStrategy().sendRedirect(request, response, redirectURL);
         } else {
-            String redirectURL = UriComponentsBuilder.fromUriString("/market/info")
+            String redirectURL = UriComponentsBuilder.fromUriString("/")
                     .build()
                     .encode(StandardCharsets.UTF_8)
                     .toUriString();

@@ -1,13 +1,15 @@
 package com.back.takeeat.controller;
 
-
 import com.back.takeeat.domain.market.MarketStatus;
+import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
+import com.back.takeeat.dto.market.request.MarketOptionCategoryRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
+import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.security.LoginMember;
 import com.back.takeeat.service.MarketService;
@@ -21,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -110,15 +111,27 @@ public class MarketController {
     @PostMapping("/menu/save")
     @ResponseBody
     public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
+        List<String> imgUrls = new ArrayList<>();
         if (result.hasErrors()) {
             String errorMessages = result.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
-        Long memberId = 1L;
+        Long memberId = 2L;
+
+        if(menuRequest.getMenuImage() != null) {
+            List<MultipartFile> validFiles = menuRequest.getMenuImage().stream()
+                    .filter(file -> file != null && !file.isEmpty())
+                    .collect(Collectors.toList());
+
+            if (!validFiles.isEmpty()) {
+                imgUrls = s3Service.uploadFile(menuRequest.getMenuImage());
+            }
+        }
+
         try {
-            marketService.menuCategoriesRegister(menuRequest, memberId);
+            marketService.menuCategoriesRegister(menuRequest, memberId, imgUrls);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,7 +142,7 @@ public class MarketController {
     @GetMapping("/menus")
     @ResponseBody
     public List<MenuCategoryNameResponse> getMenus() {
-        Long memberId = 1L;
+        Long memberId = 2L;
         List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
         for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
             System.out.println(menuCategoryNameResponse.getMenuName());
@@ -144,16 +157,12 @@ public class MarketController {
 
     @PostMapping("/option/save")
     @ResponseBody
-    public ResponseEntity<String> saveOption(@RequestBody @Valid OptionRequest optionRequest, BindingResult result) {
-        if (result.hasErrors()) {
-            String errorMessages = result.getAllErrors().stream()
-                    .map(error -> error.getDefaultMessage())
-                    .collect(Collectors.joining(", "));
-            return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
-        }
-        Long memberId = 1L;
+    public ResponseEntity<String> saveOption(@ModelAttribute("optionRequest") OptionRequest optionRequest) {
+
+        Long memberId = 2L;
+        System.out.println("menuCategory=" + optionRequest);
         try {
-            marketService.optionCategoriesRegister(optionRequest, memberId);
+            marketService.optionCategoriesRegister(memberId, optionRequest.getMarketOptionCategoryRequestList());
             return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();

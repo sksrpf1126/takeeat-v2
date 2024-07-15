@@ -16,7 +16,12 @@ public enum ErrorCode {
 
     ORDER_NOT_FOUND(400, "O_001", "주문을 찾을 수 없습니다."),
     ORDER_STATUS_MISMATCH(400, "O_003", "주문 상태가 일치하지 않습니다."),
+    ORDER_MENUS_MISMATCH(400, "O_004", "가게에 존재하지 않는 메뉴가 포함되어 있습니다."),
     ORDER_UNAUTHORIZED(403, "O_002", "해당 주문에 대한 권한이 없습니다."),
+
+    PAYMENT_MONEY_NOT_EQUAL(400, "P_001", "결제금액이 일치하지 않습니다."),
+
+    MENU_CATEGORY_NOT_FOUND(400, "MC_001", "메뉴 카테고리를 찾을 수 없습니다."),
 
     MENU_NOT_FOUND(400, "MN_001", "메뉴를 찾을 수 없습니다."),
 

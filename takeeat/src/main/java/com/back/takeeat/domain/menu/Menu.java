@@ -3,6 +3,7 @@ package com.back.takeeat.domain.menu;
 import com.back.takeeat.domain.option.OptionCategory;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,10 @@ public class Menu {
 
     @OneToMany(mappedBy = "menu")
     private List<OptionCategory> optionCategories;
+
+    public void addMenuImage(String menuImage){
+        this.menuImage = menuImage;
+    }
 
     public void addMenuCategory(MenuCategory menuCategory) {
         this.menuCategory = menuCategory;

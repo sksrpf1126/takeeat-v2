@@ -6,6 +6,9 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,8 +20,6 @@ public class MarketMenuRequest {
 
     private String menuIntroduction;
 
-    private String menuImage;
-
     @NotBlank(message = "가격은 필수입니다.")
     @Positive(message = "메뉴 가격은 양수여야 합니다.")
     private int menuPrice;
@@ -27,17 +28,7 @@ public class MarketMenuRequest {
         return Menu.builder()
                 .menuName(menuName)
                 .menuIntroduction(menuIntroduction)
-                .menuImage(menuImage)
                 .menuPrice(menuPrice)
                 .build();
     }
-
-    /*public void addMenuCategory() {
-        //기존 메뉴와 관계를 제거
-        if (this.menuCategory !=null) {
-            this.menuCategory.getMenus();
-        }
-        this.menuCategory = menuCategory;
-        menuCategory.getMenus().add(this);
-    }*/
 }

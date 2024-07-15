@@ -1,3 +1,6 @@
+
+
+
 let menuCount = 0; // 초기 메뉴 카운트
 let categoryCount = 0; // 초기 카테고리 카운트
 
@@ -99,13 +102,19 @@ window.saveMenu = function() {
     .then(data => {
         alert('메뉴 저장 완료');
         console.log('Response data:', data);
-        window.location.href = 'market/marketOption';
+        window.location.href = '/market/option';
     })
     .catch(error => {
         alert('저장 실패');
         console.error('Error:', error);
     });
 };
+
+$(".input-file-button").on('change',function(){
+  var fileName = $(".input-file-button").val();
+  $(".file-style").val(fileName);
+});
+
 document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('save-menu-button');
     if (saveButton) {

@@ -1,11 +1,13 @@
 package com.back.takeeat.controller;
 
 
+import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
+import com.back.takeeat.security.LoginMember;
 import com.back.takeeat.service.MarketService;
 import com.back.takeeat.service.ReviewService;
 import com.back.takeeat.service.S3Service;
@@ -136,8 +138,8 @@ public class MarketController {
     }
 
     @GetMapping("/review")
-    public String marketReview(Model model) {
-        Long memberId = 1L; //(임시)로그인 회원
+    public String marketReview(@LoginMember Member member, Model model) {
+        Long memberId = member.getId();
 
         MarketReviewResponse marketReviewResponse = marketService.getReviewInfo(memberId);
 

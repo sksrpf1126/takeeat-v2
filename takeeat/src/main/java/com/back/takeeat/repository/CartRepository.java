@@ -16,7 +16,7 @@ public interface CartRepository extends JpaRepository<Cart, Long> {
             "FROM Cart c OUTER JOIN FETCH c.market m " +
             "OUTER JOIN FETCH c.cartMenus cm " +
             "OUTER JOIN FETCH cm.menu mu " +
-            "WHERE c.id = :memberId"
+            "WHERE c.member.id = :memberId"
     )
     Optional<Cart> findByMemberIdWithMenu(@Param("memberId") Long memberId);
 }

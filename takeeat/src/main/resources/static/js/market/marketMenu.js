@@ -102,7 +102,7 @@ window.saveMenu = function() {
     .then(data => {
         alert('메뉴 저장 완료');
         console.log('Response data:', data);
-        window.location.href = 'market/marketOption';
+        window.location.href = '/market/option';
     })
     .catch(error => {
         alert('저장 실패');

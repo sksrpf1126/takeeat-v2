@@ -20,8 +20,6 @@ public class MarketMenuRequest {
 
     private String menuIntroduction;
 
-    private List<MultipartFile> menuImage;
-
     @NotBlank(message = "가격은 필수입니다.")
     @Positive(message = "메뉴 가격은 양수여야 합니다.")
     private int menuPrice;
@@ -30,7 +28,6 @@ public class MarketMenuRequest {
         return Menu.builder()
                 .menuName(menuName)
                 .menuIntroduction(menuIntroduction)
-                .menuImage(String.valueOf(menuImage))
                 .menuPrice(menuPrice)
                 .build();
     }

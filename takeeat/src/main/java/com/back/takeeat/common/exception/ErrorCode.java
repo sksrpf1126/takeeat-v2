@@ -21,6 +21,8 @@ public enum ErrorCode {
 
     PAYMENT_MONEY_NOT_EQUAL(400, "P_001", "결제금액이 일치하지 않습니다."),
 
+    MENU_CATEGORY_NOT_FOUND(400, "MC_001", "메뉴 카테고리를 찾을 수 없습니다."),
+
     MENU_NOT_FOUND(400, "MN_001", "메뉴를 찾을 수 없습니다."),
 
     NOTIFICATION_NOT_FOUND(400, "NO_001", "해당 알림을 찾을 수 없습니다"),

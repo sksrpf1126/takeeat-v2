@@ -38,6 +38,7 @@ public class MarketListController {
         model.addAttribute("longitude", longitude);
         model.addAttribute("marketInfoResponse", marketInfoResponse);
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
+        model.addAttribute("gpsService", true);
         return "mainPage/marketList";
     }
 

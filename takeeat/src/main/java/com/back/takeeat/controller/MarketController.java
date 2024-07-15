@@ -1,6 +1,7 @@
 package com.back.takeeat.controller;
 
 
+import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
@@ -166,6 +167,11 @@ public class MarketController {
 
         MarketReviewResponse marketReviewResponse = marketService.getReviewInfo(memberId);
 
+        //등록된 가게가 없다면
+        if (marketReviewResponse == null) {
+            return "redirect:/market/alert";
+        }
+
         model.addAttribute("marketReviewResponse", marketReviewResponse);
         return "market/marketReview";
     }
@@ -202,4 +208,23 @@ public class MarketController {
         return ResponseEntity.ok("리뷰 신고 완료");
     }
 
+
+    @ResponseBody
+    @PostMapping("/status/update")
+    public ResponseEntity<String> updateStatus(@LoginMember Member member, @RequestBody Map<String, Boolean> statusData) {
+        Long memberId = member.getId();
+
+        boolean isChecked = statusData.get("isChecked");
+
+        MarketStatus marketStatus = null;
+        if (isChecked) {
+            marketStatus = MarketStatus.OPEN;
+        } else {
+            marketStatus = MarketStatus.CLOSE;
+        }
+
+        marketService.updateStatus(memberId, marketStatus);
+
+        return ResponseEntity.ok("상태 변경 완료");
+    }
 }

@@ -162,8 +162,12 @@ public class MarketService {
     @Transactional(readOnly = true)
     public MarketReviewResponse getReviewInfo(Long memberId) {
 
-        Market market = marketRepository.findByMemberId(memberId)
-                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+        Optional<Market> findMarket = marketRepository.findByMemberId(memberId);
+        if (findMarket.isEmpty()) {
+            return null;
+        }
+
+        Market market = findMarket.get();
 
         //Review
         List<Review> reviews = reviewRepository.findByMarketIdForReviewList(market.getId());
@@ -194,6 +198,7 @@ public class MarketService {
         return MarketReviewResponse.create(market.getMarketRating(), ratingCountResponse, reviewResponses, noAnswerOptionReviews, blindOptionReviews);
     }
 
+    @Transactional(readOnly = true)
     public MarketHomeResponse getMarketHome(Long memberId) {
 
         Optional<Market> findMarket = marketRepository.findByMemberId(memberId);
@@ -204,5 +209,14 @@ public class MarketService {
         Market market = findMarket.get();
 
         return MarketHomeResponse.createByMarket(market);
+    }
+
+    @Transactional
+    public void updateStatus(Long memberId, MarketStatus marketStatus) {
+
+        Market market = marketRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        market.updateMarketStatus(marketStatus);
     }
 }

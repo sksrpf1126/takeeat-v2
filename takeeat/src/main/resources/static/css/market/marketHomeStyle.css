@@ -4,73 +4,73 @@ input[id="menuicon"] {
 }
 
 input[id="menuicon"]+label {
-    display:block;
-    width:30px;
-    height:20px;
-    position:relative;
-    cursor:pointer;
+    display: block;
+    width: 30px;
+    height: 20px;
+    position: relative;
+    cursor: pointer;
 }
 
 input[id="menuicon"]+label span {
     margin-left: 20px;
-    disply:block;
-    position:fixed;
-    width:30px;
-    height:3px;
-    border-radius:30px;
-    background:#000;
-    transition:all .35s;
+    display: block;
+    position: fixed;
+    width: 28px;
+    height: 3px;
+    border-radius: 30px;
+    background: #000;
+    transition: all .35s;
     margin-top: 30px;
 }
 
 input[id="menuicon"]+label span:nth-child(1) {
-    top:0;
+    top: 0;
 }
 
 input[id="menuicon"]+label span:nth-child(2) {
-    top:0.97%;
-    transform:translateY(-50%);
+    top: 0.97%;
+    transform: translateY(-50%);
 }
 
 input[id="menuicon"]+label span:nth-child(3) {
-    top: 1.6%;
+    top: 1.64%;
 }
 
 input[id="menuicon"]:checked + label span {
-    z-index:2;
+    z-index: 2;
 }
 
 input[id="menuicon"]:checked + label span {
-    background:#fff;
+    background: #fff;
 }
 
 input[id="menuicon"]:checked + label span:nth-child(1) {
-    top:5px;
-    transform:translateY(-50%) rotate(45deg);
+    top: 5px;
+    transform: translateY(-50%) rotate(45deg);
 }
 
 input[id="menuicon"]:checked + label span:nth-child(2) {
-    opacity:0;
+    opacity: 0;
 }
 
 input[id="menuicon"]:checked + label span:nth-child(3) {
     top: 2.4px;
-    transform:translateY(50%) rotate(-45deg);
+    transform: translateY(50%) rotate(-45deg);
 }
 
 div[class="sidebar"] {
-    width:220px;
-    height:100%;
-    background:#222;
-    position:fixed;
-    top:0;
-    left:-300px;
-    z-index:1;
-    transition:all .35s;
+    width: 220px;
+    height: 100%;
+    background: #222;
+    position: fixed;
+    top: 0;
+    left: -300px;
+    z-index: 1;
+    transition: all .35s;
 }
 
 input[id="menuicon"]:checked + label + div {
-    left:0;
+    left: 0;
 }
 
 /*정렬*/
@@ -104,11 +104,6 @@ input[id="menuicon"]:checked + label + div {
     color: white;
 }
 
-.linked-menu:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-}
-
 .icon-size{
     width: 30px;
     height: auto;
@@ -117,6 +112,11 @@ input[id="menuicon"]:checked + label + div {
 .side-margin{
     margin-left: 35px;
     margin-top: 80px;
+}
+
+.linked-menu:hover {
+    cursor: pointer;
+    transform: scale(1.05);
 }
 
 /*마진*/
@@ -181,6 +181,17 @@ input[id="menuicon"]:checked + label + div {
 
 .marketDetailInfo {
     font-size: 18px;
+}
+
+#updateStatusBtn {
+    border: none;
+    background: #ffb36f;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+#status {
+    font-weight: bold;
 }
 
 /* ON/OFF 토글 */

@@ -75,7 +75,8 @@
                         <span class="onf_btn"></span>
                     </label>
                 </div>
-                <div class="marketInfo">영업중</div>
+                <div class="marketInfo margin-right-10">영업중</div>
+                <button id="updateStatusBtn">변경</button>
             </div>
         </div>
 
@@ -86,6 +87,25 @@
             <div class="marketDetailInfo"><strong>전화번호:</strong>&nbsp;[[${marketHomeResponse.marketNumber}]]</div>
             <div class="marketDetailInfo"><strong>운영시간:</strong>&nbsp;[[${marketHomeResponse.operationTime}]]</div>
             <div class="marketDetailInfo"><strong>휴무일:</strong>&nbsp;[[${marketHomeResponse.closedDays}]]</div>
+        </div>
+    </div>
+
+    <div class="modal" id="updateStatusModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">TAKE EAT</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="message"></div>
+                    <div id="status"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" id="cancel" style="background: #eeeeee;">취소</button>
+                    <button type="button" class="btn" id="update" style="background: #ffb36f;">확인</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

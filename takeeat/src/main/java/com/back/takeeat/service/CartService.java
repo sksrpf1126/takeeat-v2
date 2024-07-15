@@ -88,7 +88,9 @@ public class CartService {
 
     public void add(AddToCartRequest addToCartRequest) throws OtherMarketMenuException {
 
-        Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId());
+        Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
+
         //다른 가게의 메뉴가 이미 장바구니에 담겨 있는 경우
         if (cart.getMarket() != null && !cart.getMarket().getId().equals(addToCartRequest.getMarketId())) {
             throw new OtherMarketMenuException();
@@ -159,7 +161,8 @@ public class CartService {
     public void deleteAndAdd(AddToCartRequest addToCartRequest) {
 
         //기존 장바구니 삭제
-        Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId());
+        Cart cart = cartRepository.findByMemberId(addToCartRequest.getMemberId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
         cartMenuRepository.deleteByCartId(cart.getId());
 
         //가게 저장
@@ -211,7 +214,8 @@ public class CartService {
 
     public void deleteAllCartMenu(Long memberId) {
 
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));;
 
         cartMenuRepository.deleteByCartId(cart.getId());
 
@@ -221,7 +225,8 @@ public class CartService {
     @Transactional(readOnly = true)
     public int checkCart(Long memberId) {
 
-        Cart cart = cartRepository.findByMemberId(memberId);
+        Cart cart = cartRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.CART_NOT_FOUND));
 
         if (cart.getCartMenus() == null || cart.getCartMenus().isEmpty()) {
             //장바구니가 비어있음

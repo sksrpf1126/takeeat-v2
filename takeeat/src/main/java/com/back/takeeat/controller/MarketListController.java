@@ -25,7 +25,7 @@ public class MarketListController {
     @GetMapping("{marketCategory}/list")
     public String marketList(@PathVariable("marketCategory") String marketCategory
                             , @RequestParam(name = "search", required = false, defaultValue = "") String search
-                            , @RequestParam(name = "sort", required = false, defaultValue = "distance") String sort
+                            , @RequestParam(name = "sort", required = false, defaultValue = "") String sort
                             , Model model
                             , HttpSession session) {
         Double latitude = (Double) session.getAttribute("latitude");

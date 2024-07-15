@@ -138,7 +138,7 @@ public class MarketController {
         Long memberId = 2L;
         System.out.println("menuCategory=" + optionRequest);
         try {
-            marketService.optionCategoriesRegister(memberId, optionRequest.getMenuCategoryRequests());
+            marketService.optionCategoriesRegister(memberId, optionRequest.getMarketOptionCategoryRequestList());
             return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();

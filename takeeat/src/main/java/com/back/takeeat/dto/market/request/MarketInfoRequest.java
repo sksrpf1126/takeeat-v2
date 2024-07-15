@@ -53,6 +53,8 @@ public class MarketInfoRequest {
 
     private Double longitude;
 
+    private Double marketRating;
+
 
 
 
@@ -84,6 +86,7 @@ public class MarketInfoRequest {
                 .closedDays(closedDays)
                 .latitude(latitude)
                 .longitude(longitude)
+                .marketRating(0.0)
                 .build();
     }
 
@@ -102,6 +105,7 @@ public class MarketInfoRequest {
                 .closedDays(closedDays)
                 .latitude(latitude)
                 .longitude(longitude)
+                .marketRating(marketRating)
                 .build();
     }
 }

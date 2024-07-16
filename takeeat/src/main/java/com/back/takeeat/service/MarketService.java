@@ -30,6 +30,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class MarketService {
 
     private final MarketRepository marketRepository;
@@ -39,7 +40,6 @@ public class MarketService {
     private final ReviewRepository reviewRepository;
     private final MenuRepository menuRepository;
 
-    @Transactional
     public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId, List<String> imgUrls) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_SAVE));
@@ -59,7 +59,6 @@ public class MarketService {
         return marketRepository.existsByMarketName(marketName);
     }
 
-    @Transactional
     public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoSuchElementException::new);
@@ -89,7 +88,6 @@ public class MarketService {
         }
     }
 
-    @Transactional
     public List<MenuCategoryNameResponse> getMarketMenuName(Long memberId){
         // 회원 정보를 조회
         Member member = memberRepository.findById(memberId)
@@ -122,8 +120,7 @@ public class MarketService {
         return menuCategoryNameResponses;
     }
 
-    @Transactional
-    public void optionCategoriesRegister(Long memberId, List<MarketOptionCategoryRequest> menuCategoryRequests) {
+    public void optionCategoriesRegister(OptionRequest optionRequest, Long memberId) {
         // 회원 정보를 조회
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MEMBER_NOT_FOUND));
@@ -135,11 +132,11 @@ public class MarketService {
         // 메뉴 카테고리를 조회
         List<MenuCategory> menuCategoryList = menuCategoryRepository.findByMarketId(market.getId());
 
-        for (MarketOptionCategoryRequest marketOptionCategoryRequest : menuCategoryRequests) {
+        for (MarketOptionCategoryRequest marketOptionCategoryRequest : optionRequest.getCategories()) {
             // 적절한 메뉴를 찾기 위한 로직 필요
             Menu menu = menuCategoryList.stream()
                     .flatMap(mc -> menuRepository.findByMenuCategoryId(mc.getId()).stream())
-                    .filter(m -> m.getId().equals(marketOptionCategoryRequest.getMenu().getId()))
+                    .filter(m -> m.getId().equals(marketOptionCategoryRequest.getMenuId()))
                     .findFirst()
                     .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MENU_NOT_FOUND));
 
@@ -211,7 +208,6 @@ public class MarketService {
         return MarketHomeResponse.createByMarket(market);
     }
 
-    @Transactional
     public void updateStatus(Long memberId, MarketStatus marketStatus) {
 
         Market market = marketRepository.findByMemberId(memberId)
@@ -220,7 +216,6 @@ public class MarketService {
         market.updateMarketStatus(marketStatus);
     }
 
-    @Transactional
     public void menuImageRegister(List<String> imgUrls, Long memberId) {
         // 마켓 정보를 조회
         Market market = marketRepository.findByMemberId(memberId)

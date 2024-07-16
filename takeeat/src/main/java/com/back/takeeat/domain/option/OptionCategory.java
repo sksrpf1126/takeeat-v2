@@ -29,7 +29,7 @@ public class OptionCategory {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    @OneToMany(mappedBy = "optionCategory")
+    @OneToMany(mappedBy = "optionCategory", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<Option> options;
 
     public void addOptions(List<Option> options) {

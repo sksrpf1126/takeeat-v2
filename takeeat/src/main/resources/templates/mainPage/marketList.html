@@ -47,7 +47,7 @@
             <option value="score">별점 높은순</option>
         </select>
         <form class="margin-5">
-            <input type="text" class="search-box" id="search" name="search"/>
+            <input type="text" class="search-box" th:value="${search}" id="search" name="search"/>
             <button type="submit" class="search-button">검색</button>
         </form>
     </div>

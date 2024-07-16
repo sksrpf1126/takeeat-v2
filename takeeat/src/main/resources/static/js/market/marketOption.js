@@ -3,10 +3,10 @@ function handleOptionSelect(categoryCount, optionType) {
     console.log(`Clicked: ${optionType}`);
     const maxCountInput = document.getElementById(`maxCount-${categoryCount}`);
 
-    if (optionType === 'single') {
+    if (optionType === 'SINGLE') {
         maxCountInput.value = 1;
         maxCountInput.disabled = true;
-    } else if (optionType === 'multi') {
+    } else if (optionType === 'MULTI') {
         maxCountInput.disabled = false;
     }
 }
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const optionContainer = target.closest('.category-container').querySelector('.option-container');
 
             const optionHtml = `
-                <div id="option-${optionCount}">
+                <div class="option-item" id="option-${optionCount}">
                     <ul class='no_dot'>
                         <li>
                             <button class="delete-option-button del-button" data-option-id="${optionCount}">옵션 삭제</button>
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <div class="line-container">
                                     <div class="length-container">
                                         <div class="info-text">옵션 카테고리를 입력하세요.</div>
-                                        <input type="text" id="optionCategory-${categoryCount}" th:field="*{optionCategory}" name="optionCategory" class="l-input-box-option margin-top-10"/>
+                                        <input type="text" id="optionCategory-${categoryCount}" th:field="*{optionCategory}" name="optionCategory" class="option-category l-input-box-option margin-top-10"/>
                                     </div>
                                     <div class="length-container select-option">
                                         <div class="line-container">
@@ -76,8 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                         <div class="line-container margin-top-10">
-                                            <input type="radio" id="single-${categoryCount}" th:field="*{optionSelect}" th:value="'single'" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'single')" checked/>단일
-                                            <input type="radio" id="multi-${categoryCount}" th:field="*{optionSelect}" th:value="'multi'" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'multi')"/>다중
+                                            <input type="radio" id="single-${categoryCount}" th:field="*{optionSelect}" value="SINGLE" class="option-select" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'SINGLE')"/>단일
+                                            <input type="radio" id="multi-${categoryCount}" th:field="*{optionSelect}" value="MULTI" class="option-select" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'MULTI')"/>다중
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                     </div>
-                                    <input type="number" id="maxCount-${categoryCount}" th:field="*{optionMaxCount}" name="maxCount" class="s-input-box margin-top-10" value="1" disabled/>
+                                    <input type="number" id="maxCount-${categoryCount}" th:field="*{optionMaxCount}" name="maxCount" class="option-max-count s-input-box margin-top-10" value="1" disabled/>
                                 </div>
                             </div>
                             <div class="option-container">
@@ -152,6 +152,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 이미 선택된 메뉴가 아닌 경우에만 추가
             if (!selectedMenuValues.includes(menu.menuName) || menu.menuName === currentSelected) {
                 const option = $('<option>').val(menu.menuName).text(menu.menuName);
+                option.attr('menuId', menu.menuId);
                 if (menu.menuName === currentSelected) {
                     option.attr('selected', 'selected'); // 현재 선택된 옵션 유지
                 }
@@ -237,10 +238,13 @@ function saveOption() {
     // 모든 카테고리와 옵션 정보 수집
     document.querySelectorAll('.category-container').forEach(categoryContainer => {
         let options = [];
+        const selectBox = document.querySelector('.dropdown');
+        const selectedOption = selectBox.options[selectBox.selectedIndex];
+        const menuId = selectedOption.getAttribute('menuId');
+
         const optionCategoryName = categoryContainer.querySelector('.option-category').value;
         const optionMaxCount = categoryContainer.querySelector('.option-max-count').value;
-        const optionSelect = categoryContainer.querySelector('.option-select').value;
-
+        const optionSelect = categoryContainer.querySelector('input[name^="select"]:checked').value;
         if (optionCategoryName) {
             hasNoCategories = false; // 카테고리가 입력되었음을 표시
         }
@@ -269,7 +273,8 @@ function saveOption() {
                 optionCategoryName: optionCategoryName,
                 optionMaxCount: optionMaxCount,
                 optionSelect: optionSelect,
-                options: options
+                options: options,
+                menuId: menuId
             });
         } else if ((optionCategoryName && options.length === 0) || optionCategoryName === null) {
             console.warn("옵션이 없습니다:", categoryContainer);

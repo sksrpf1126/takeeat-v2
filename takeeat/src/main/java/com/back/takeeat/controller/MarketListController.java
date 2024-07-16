@@ -24,10 +24,10 @@ public class MarketListController {
 
     @GetMapping("{marketCategory}/list")
     public String marketList(@PathVariable("marketCategory") String marketCategory
-                            , @RequestParam(name = "search", required = false, defaultValue = "") String search
-                            , @RequestParam(name = "sort", required = false, defaultValue = "") String sort
-                            , Model model
-                            , HttpSession session) {
+                            ,@RequestParam(name = "search", required = false, defaultValue = "") String search
+                            ,@RequestParam(name = "sort", required = false, defaultValue = "") String sort
+                            ,Model model
+                            ,HttpSession session) {
         Double latitude = (Double) session.getAttribute("latitude");
         Double longitude = (Double) session.getAttribute("longitude");
         List<MarketInfoResponse> marketInfoResponse = marketListService.getMarketInfo(marketCategory, latitude, longitude, search, sort);
@@ -38,6 +38,7 @@ public class MarketListController {
         model.addAttribute("longitude", longitude);
         model.addAttribute("marketInfoResponse", marketInfoResponse);
         model.addAttribute("KAKAO_API_KEY", KAKAO_API_KEY);
+        model.addAttribute("search", search);
         model.addAttribute("gpsService", true);
         return "mainPage/marketList";
     }

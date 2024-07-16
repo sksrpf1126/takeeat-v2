@@ -101,6 +101,15 @@ public class MarketController {
         return ResponseEntity.ok(isAvailable);
     }
 
+    // 중복검사 결과 제출 직전 서버 확인
+    @GetMapping("/submit/check")
+    public ResponseEntity<Boolean> checkMarketIsExist(@LoginMember Member member
+                                                     ,@RequestParam(value="marketName") String marketName){
+        Long id = member.getId();
+        boolean isExist = marketService.checkMarketIsExist(id,marketName);
+        return ResponseEntity.ok(isExist);
+    }
+
     @GetMapping("/menu")
     public String marketMenu() {
         return "market/marketMenu";
@@ -108,24 +117,15 @@ public class MarketController {
 
     @PostMapping("/menu/save")
     @ResponseBody
-    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
+    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result
+                                            ,@LoginMember Member member) {
         if (result.hasErrors()) {
             String errorMessages = result.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
-        Long memberId = 1L;
-
-        /*if(menuRequest.getMenuImage() != null) {
-            List<MultipartFile> validFiles = menuRequest.getMenuImage().stream()
-                    .filter(file -> file != null && !file.isEmpty())
-                    .collect(Collectors.toList());
-
-            if (!validFiles.isEmpty()) {
-                imgUrls = s3Service.uploadFile(menuRequest.getMenuImage());
-            }
-        }*/
+        Long memberId = member.getId();
 
         try {
             marketService.menuCategoriesRegister(menuRequest, memberId);
@@ -137,10 +137,11 @@ public class MarketController {
     }
 
     @PostMapping("/menu/save/images")
-    public ResponseEntity<String> saveMenuImages(@RequestParam("menuImages") List<MultipartFile> menuImages) {
+    public ResponseEntity<String> saveMenuImages(@RequestParam("menuImages") List<MultipartFile> menuImages
+                                                ,@LoginMember Member member) {
         // 이미지 파일 리스트를 받아와서 처리
         System.out.println("이미지 수: " + menuImages.size());
-        Long memberId = 1L;
+        Long memberId = member.getId();
         List<String> imgUrls = s3Service.uploadFile(menuImages);
         // 이미지 저장 로직 등 수행
         marketService.menuImageRegister(imgUrls, memberId);
@@ -149,11 +150,11 @@ public class MarketController {
 
     @GetMapping("/menus")
     @ResponseBody
-    public List<MenuCategoryNameResponse> getMenus() {
-        Long memberId = 1L;
+    public List<MenuCategoryNameResponse> getMenus(@LoginMember Member member) {
+        Long memberId = member.getId();
         List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
         for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
-            System.out.println(menuCategoryNameResponse.getMenuName());
+            System.out.println(menuCategoryNameResponse.getMenuId());
         }
         return menuResponses;
     }
@@ -165,12 +166,14 @@ public class MarketController {
 
     @PostMapping("/option/save")
     @ResponseBody
-    public ResponseEntity<String> saveOption(@ModelAttribute("optionRequest") OptionRequest optionRequest) {
+    public ResponseEntity<String> saveOption(@RequestBody OptionRequest optionRequest
+                                            ,@LoginMember Member member) {
 
-        Long memberId = 1L;
-        System.out.println("menuCategory=" + optionRequest);
+        Long memberId = member.getId();
+        System.out.println("menuCategory=" + optionRequest.getCategories().get(0).getOptionCategoryName());
+
         try {
-            marketService.optionCategoriesRegister(memberId, optionRequest.getMarketOptionCategoryRequestList());
+            marketService.optionCategoriesRegister(optionRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"옵션 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();

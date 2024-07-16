@@ -37,8 +37,10 @@ public class MyPageController {
     @GetMapping("/home")
     public String myPage(@LoginMember Member member, Model model) {
         String nickname = member.getNickname();
+        String profile = member.getProfile();
 
         model.addAttribute("nickname", nickname);
+        model.addAttribute("profile", profile);
         return "myPage/myPage";
     }
 

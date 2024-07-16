@@ -17,9 +17,9 @@ public class MarketOptionCategoryRequest {
 
     private String optionCategoryName;
     private int optionMaxCount;
-    private OptionSelect optionSelect;
+    private String optionSelect;
     private List<MarketOptionRequest> options;
-    private Menu menu;
+    private Long menuId;
 
     public OptionCategory toOptionCategory(Menu menu) {
         List<Option> optionList = options.stream()
@@ -30,7 +30,7 @@ public class MarketOptionCategoryRequest {
                 .menu(menu)
                 .optionCategoryName(optionCategoryName)
                 .optionMaxCount(optionMaxCount)
-                .optionSelect(optionSelect)
+                .optionSelect(OptionSelect.valueOf(optionSelect))
                 .build();
     }
 }

@@ -9,7 +9,7 @@ const paymentOrderRequest = {
 
 // 각 메뉴에 대한 정보 추출
 document.querySelectorAll('.menuContainer').forEach(menuContainer => {
-    const menuId = parseInt(menuContainer.querySelector('.option-id').getAttribute('data-menu-id'));
+    const menuId = parseInt(menuContainer.querySelector('.menu-id').getAttribute('data-menu-id'));
     // option-id 클래스를 가진 input 태그들에서 데이터 추출
     const optionIds = Array.from(menuContainer.querySelectorAll('.option-id')).map(option => parseInt(option.getAttribute('data-option-id')));
 
@@ -38,7 +38,7 @@ $("#orderBtn").on("click", () => {
 
             paymentOrderRequest.amount = totalPrice;
             paymentOrderRequest.orderCode = rsp.merchant_uid;
-            paymentOrderRequest.requirement = $("#member-requirement").text();
+            paymentOrderRequest.requirement = $("#member-requirement").val();
 
             $.ajax({
                 type: 'POST',

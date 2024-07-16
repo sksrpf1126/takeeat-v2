@@ -29,7 +29,7 @@
         <div id="marketName"><strong>[[${orderDetailResponse.marketName}]]</strong></div>
         <div id="orderTime">주문일시 : [[${orderDetailResponse.getOrderDate()}]]</div>
         <div>주문번호 : [[${orderDetailResponse.orderCode}]]</div>
-        <div>가게 사장님께 : [[${orderDetailResponse.requirement}]]</div>
+        <div>가게 사장님께 : <th:block th:text="${orderDetailResponse.requirement != null} ? ${orderDetailResponse.requirement} : '요청사항 없음'"></th:block></div>
     </div>
 
     <hr class="hrDotted"/>

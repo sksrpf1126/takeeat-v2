@@ -33,7 +33,7 @@ public class WebSecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/market/*/order").hasAuthority("ROLE_OWNER")
+                        .requestMatchers("/market/**").hasAuthority("ROLE_OWNER")
                         .requestMatchers("/my/**").hasAnyAuthority("ROLE_MEMBER", "ROLE_OWNER", "ROLE_ADMIN")
                         .requestMatchers("/error/**").permitAll()
                         .anyRequest().permitAll()

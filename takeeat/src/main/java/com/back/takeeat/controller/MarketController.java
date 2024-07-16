@@ -100,6 +100,15 @@ public class MarketController {
         return ResponseEntity.ok(isAvailable);
     }
 
+    // 중복검사 결과 제출 직전 서버 확인
+    @GetMapping("/submit/check")
+    public ResponseEntity<Boolean> checkMarketIsExist(@LoginMember Member member
+                                                     ,@RequestParam(value="marketName") String marketName){
+        Long id = member.getId();
+        boolean isExist = marketService.checkMarketIsExist(id,marketName);
+        return ResponseEntity.ok(isExist);
+    }
+
     @GetMapping("/menu")
     public String marketMenu() {
         return "market/marketMenu";

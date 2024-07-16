@@ -232,4 +232,12 @@ public class MarketService {
             }
         }
     }
+    // 마켓 존재 여부와 마켓 이름 중복 여부
+    public boolean checkMarketIsExist(Long id, String marketName) {
+        if(marketRepository.existsByMarketName(marketName) || marketRepository.existsByMemberId(id) ){
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

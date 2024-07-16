@@ -16,6 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -245,5 +246,12 @@ public class MarketController {
         marketService.updateStatus(memberId, marketStatus);
 
         return ResponseEntity.ok("상태 변경 완료");
+    }
+
+    @PreAuthorize("hasRole('OWNER')")
+    @GetMapping("/id")
+    @ResponseBody
+    public Long marketIdGet(@LoginMember Member member) {
+        return marketService.findMarketId(member.getId());
     }
 }

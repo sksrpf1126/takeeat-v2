@@ -10,6 +10,7 @@ import com.back.takeeat.domain.order.Order;
 import com.back.takeeat.domain.order.OrderMenu;
 import com.back.takeeat.domain.order.OrderOption;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.payment.request.PaymentOrderMenuRequest;
 import com.back.takeeat.dto.payment.request.PaymentOrderRequest;
 import com.back.takeeat.repository.MarketOrderRepository;
@@ -32,7 +33,7 @@ public class PaymentService {
     private final OptionRepository optionRepository;
     private final CartService cartService;
 
-    public Long registerPayment(Member member, PaymentOrderRequest paymentOrderRequest) {
+    public MarketOrdersResponse registerPayment(Member member, PaymentOrderRequest paymentOrderRequest) {
 
         Market findMarket = marketRepository.findById(paymentOrderRequest.getMarketId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
@@ -67,7 +68,7 @@ public class PaymentService {
         orderMenus.forEach((orderMenu -> orderMenu.associateOrder(order)));
         marketOrderRepository.save(order);
         cartService.deleteAllCartMenu(member.getId());
-        return order.getId();
+        return MarketOrdersResponse.of(order);
     }
 
     private List<OrderMenu> createOrderMenus(List<PaymentOrderMenuRequest> orderMenuRequests) {

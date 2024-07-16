@@ -106,10 +106,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
             categoryContainer.insertAdjacentHTML('beforeend', categoryHtml);
 
-            // 드롭다운 메뉴에서 선택 변경 시 이벤트 처리
+            /*// 드롭다운 메뉴에서 선택 변경 시 이벤트 처리
             document.getElementById(`menuNameDropdown-${categoryCount}`).addEventListener('change', function() {
                 updateSelectedMenuValues();
-            });
+            });*/
 
             // 새로 추가된 카테고리에 메뉴 데이터 로드
             loadMenuData(categoryCount);
@@ -165,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // 선택된 메뉴 값을 업데이트하는 함수
+    /*// 선택된 메뉴 값을 업데이트하는 함수
     function updateSelectedMenuValues() {
         selectedMenuValues = []; // 배열 초기화
 
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const categoryId = $(this).attr('id').split('-')[1];
             loadMenuData(categoryId);
         });
-    }
+    }*/
 
     function deleteOption(optionId) {
         // 옵션 삭제 처리 함수
@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         } else {
             optionElement.remove();
-            updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트
+            /*updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트*/
         }
     }
 
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             event.preventDefault();
         } else {
             categoryElement.remove();
-            updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트
+            /*updateSelectedMenuValues(); // 선택된 옵션 값을 업데이트*/
         }
     }
 });

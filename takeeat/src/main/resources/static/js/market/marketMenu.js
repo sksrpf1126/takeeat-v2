@@ -6,13 +6,15 @@ let categoryCount = 0; // 초기 카테고리 카운트
 
 window.saveMenu = function() {
     let categories = [];
+    let menuImages = [];
     let hasIncompleteMenuData = false; // 필수 항목 누락 여부 확인 변수
     let hasEmptyMenu = false; // 빈 메뉴 여부 확인 변수
     let hasNoCategories = true; // 카테고리 입력 여부 확인 변수
-
+    var formData = new FormData();
     // 모든 카테고리와 메뉴 정보 수집
     document.querySelectorAll('.category-container').forEach(categoryContainer => {
         let menus = [];
+
         const menuCategoryName = categoryContainer.querySelector('.menu-category').value;
 
         if (menuCategoryName) {
@@ -24,22 +26,30 @@ window.saveMenu = function() {
             const menuName = menuItem.querySelector('.m-input-box').value;
             const menuPrice = menuItem.querySelector('.s-input-box').value;
             const menuIntroduction = menuItem.querySelector('.menu-introduction').value;
-            const menuImage = menuItem.querySelector('.file-style').files[0] ? menuItem.querySelector('.file-style').files[0].name : ""; // 이미지 파일 처리는 별도로 구현해야 함
+            const menuImage = menuItem.querySelector('.file-style').files[0];
+
+
 
             // 메뉴 데이터가 모두 올바르게 수집되었는지 확인
             if (menuName && menuPrice) {
                 let menuObject = {
                     menuName: menuName,
                     menuIntroduction: menuIntroduction,
-                    menuImage: menuImage,
                     menuPrice: parseInt(menuPrice)
                 };
                 menus.push(menuObject);
+                formData.append('menuImages', menuImage);
+
+                console.log("메뉴이미지:"+menuImages);
             } else {
                 console.warn("메뉴 데이터가 완전하지 않습니다:", menuItem);
                 hasIncompleteMenuData = true;
             }
         });
+        // FormData 객체 생성
+
+
+
 
         // 현재 카테고리 정보를 categories 배열에 추가
         if (menuCategoryName && menus.length > 0) {
@@ -84,8 +94,32 @@ window.saveMenu = function() {
 
     // 데이터 구조와 JSON 문자열 확인 (디버깅용)
     console.log("전송할 데이터:", JSON.stringify(data, null, 2));
+    console.log("사진데이터:"+menuImages);
 
-    // AJAX 요청
+    function saveMenuImages(menuImages, successCallback, errorCallback) {
+
+
+        $.ajax({
+            url: '/market/menu/save/images', // 서버 측 파일 경로
+            type: 'POST', // HTTP 요청 방식
+            data: formData, // FormData 직접 전송
+            processData: false, // 필수: 데이터 처리 방식 지정
+            contentType: false, // 필수: 컨텐츠 타입 false로 설정
+            success: function(response){
+                if (typeof successCallback === 'function') {
+                    successCallback(response);
+                    window.location.href = '/market/option';
+                }
+            },
+            error: function(xhr, status, error){
+                if (typeof errorCallback === 'function') {
+                    errorCallback(error);
+                }
+            }
+        });
+    }
+
+    // 첫 번째 Ajax 요청 (Fetch API 사용)
     fetch('/market/menu/save', {
         method: 'POST',
         headers: {
@@ -102,13 +136,24 @@ window.saveMenu = function() {
     .then(data => {
         alert('메뉴 저장 완료');
         console.log('Response data:', data);
-        window.location.href = '/market/option';
+
+        // 두 번째 Ajax 요청
+        saveMenuImages([], function(response) {
+            console.log('두 번째 Ajax 요청 성공:', response);
+            // 추가적인 처리 가능
+        }, function(error) {
+            console.error('두 번째 Ajax 요청 실패:', error);
+        });
+
+        /*window.location.href = '/market/option';*/
     })
     .catch(error => {
         alert('저장 실패');
         console.error('Error:', error);
     });
 };
+
+
 
 $(".input-file-button").on('change',function(){
   var fileName = $(".input-file-button").val();

@@ -468,3 +468,7 @@
     border: solid 2px #A4A4A4;
     height: 35px;
 }
+.linked-menu:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+}

@@ -122,21 +122,6 @@ function sample6_execDaumPostcode() {
         // 커서를 상세주소 필드로 이동한다.
         document.getElementById("sample6_detailAddress").focus();
 
-        /*kakao.maps.load(function () {
-            // 주소-좌표 변환 객체를 생성합니다
-            var geocoder = new kakao.maps.services.Geocoder();
-
-            // 주소로 좌표를 검색합니다
-            geocoder.addressSearch(addr, function(result, status) {
-                // 정상적으로 검색이 완료됐으면
-                if (status === kakao.maps.services.Status.OK) {
-                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-                    var message = 'latlng: new kakao.maps.LatLng(' + result[0].y + ', ';
-                    message += result[0].x + ')';
-                    console.log(message);
-                }
-            })
-        })*/
     },
     width : '100%',
     height : '100%'
@@ -167,31 +152,33 @@ function getCoord(result, status) {
     }
 }
 
+// 클릭 이벤트 처리 함수
+function checkMarketAndSubmit(event) {
+    event.preventDefault();  // 기본 폼 제출 동작 막기
 
+    var marketName = $("#marketNameInput").val();  // 입력된 마켓 이름 가져오기
 
-/*// 전화번호, 사업자번호 창 입력시 에러 해제
-document.addEventListener('DOMContentLoaded', function () {
-    var businessNumberInput = document.getElementById('businessNumber');
-    var businessNumberError = document.getElementById('businessNumberError');
-    var marketNumberInput = document.getElementById('marketNumber');
-    var marketNumberError = document.getElementById('marketNumberError');
-
-    function validateInput(input, errorElement) {
-        if (input.value.trim() === '') {
-            errorElement.style.display = 'block';
-        } else {
-            errorElement.style.display = 'none';
+    // AJAX 요청 보내기
+    $.ajax({
+        type: "GET",  // HTTP 요청 방식 설정
+        url: "/market/submit/check",  // 요청을 보낼 URL
+        data: {
+            marketName: $('#marketName').val()  // 요청 시 함께 보낼 데이터
+        },
+        success: function(response) {
+            // 서버에서 응답을 성공적으로 받았을 때 처리할 내용
+            if (response === true || response === null) {
+                // 마켓이 이미 존재하거나 중복검사를 수행하지 않았을 때
+                alert("마켓이 이미 존재하거나 이름 중복검사를 수행하지 않았습니다.");
+            } else {
+                // 폼 제출하기
+                $('form').submit();
+            }
+        },
+        error: function(xhr, status, error) {
+            // 요청이 실패했을 때 처리할 내용
+            console.error("AJAX 요청 실패: " + status, error);
+            alert("서버 요청 실패");
         }
-    }
-
-    businessNumberInput.addEventListener('input', function () {
-        validateInput(businessNumberInput, businessNumberError);
     });
-
-    marketNumberInput.addEventListener('input', function () {
-        validateInput(marketNumberInput, marketNumberError);
-    });
-
-
-});*/
-
+}

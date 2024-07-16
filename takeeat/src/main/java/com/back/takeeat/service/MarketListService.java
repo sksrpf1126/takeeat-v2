@@ -77,9 +77,5 @@ public class MarketListService {
                 return findMarkets;
             }
         }
-
-
-
-
     }
 }

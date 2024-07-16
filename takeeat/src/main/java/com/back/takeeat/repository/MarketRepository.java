@@ -1,7 +1,6 @@
 package com.back.takeeat.repository;
 
 import com.back.takeeat.domain.market.Market;
-import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.dto.mainPage.response.MarketInfoResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -101,7 +100,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     "WHERE (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
                     "AND m.latitude BETWEEN :minLat AND :maxLat " +
                     "AND m.longitude BETWEEN :minLon AND :maxLon " +
-                    "ORDER BY m.reviewCount DESC"
+                    "ORDER BY m.reviewCount DESC "
     )
     List<MarketInfoResponse> findAllByMarketReviewDesc(
 
@@ -122,7 +121,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     "WHERE (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
                     "AND m.latitude BETWEEN :minLat AND :maxLat " +
                     "AND m.longitude BETWEEN :minLon AND :maxLon " +
-                    "ORDER BY m.marketRating DESC"
+                    "ORDER BY m.marketRating DESC "
     )
     List<MarketInfoResponse> findAllByMarketScoreDesc(@Param("minLat") double minLat,
                                                       @Param("maxLat") double maxLat,
@@ -141,7 +140,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     "AND (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
                     "AND m.latitude BETWEEN :minLat AND :maxLat " +
                     "AND m.longitude BETWEEN :minLon AND :maxLon " +
-                    "ORDER BY m.reviewCount DESC"
+                    "ORDER BY m.reviewCount DESC "
     )
     List<MarketInfoResponse> findByMarketReviewDesc(@Param("marketCategory") String marketCategory,
                                                     @Param("minLat") double minLat,
@@ -160,7 +159,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     "AND (m.marketName LIKE %:search% OR mn.menuName LIKE %:search%) " +
                     "AND m.latitude BETWEEN :minLat AND :maxLat " +
                     "AND m.longitude BETWEEN :minLon AND :maxLon " +
-                    "ORDER BY m.marketRating DESC"
+                    "ORDER BY m.marketRating DESC "
     )
     List<MarketInfoResponse> findByMarketScoreDesc(@Param("marketCategory") String marketCategory,
                                                    @Param("minLat") double minLat,
@@ -169,12 +168,15 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                                                    @Param("maxLon") double maxLon,
                                                    @Param("search") String search);
 
-
-    @Query("SELECT COUNT(m) = :menuCount " +
+    @Query(
+            "SELECT COUNT(m) = :menuCount " +
             "FROM Market m " +
             "JOIN m.menuCategories mc " +
             "JOIN mc.menus mn " +
             "WHERE m.id = :marketId " +
-            "AND mn.id IN :menuIds")
+            "AND mn.id IN :menuIds "
+    )
     boolean hasAllMenus(@Param("marketId") Long marketId, @Param("menuIds") List<Long> menuIds, @Param("menuCount") long menuCount);
+
+    boolean existsByMemberId(Long id);
 }

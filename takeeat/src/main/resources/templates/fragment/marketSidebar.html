@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--@TODO sideBar 관련 CSS만 있는 파일로 분류하기 -->
+    <link rel="stylesheet" type="text/css" href="/css/market/marketHomeStyle.css">
+</head>
+<body>
+<sidebar th:fragment="sidebar">
+    <input type="checkbox" id="menuicon">
+    <label for="menuicon" class="margin-top-20">
+        <span></span>
+        <span></span>
+        <span></span>
+    </label>
+    <div class="sidebar">
+        <div class="side-margin">
+            <div class="line-container">
+                <img src="/images/store-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/home'">나의 가게</div>
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/store-icon.svg" alt="store_image" class="icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu">가게 정보</div>
+                    <div class="sub-menu linked-menu" onclick="location.href='/market/info'">기본 정보</div>
+                    <div class="sub-menu linked-menu" onclick="location.href='/market/menu'">메뉴 정보</div>
+                    <div class="sub-menu margin-bottom-30 linked-menu" onclick="location.href='/market/option'">옵션 정보</div>
+                </div>
+            </div>
+            <div id="order-box" class="line-container">
+<!--                <img src="/images/order-icon.svg" alt="store_image" class="margin-top icon-size"/>-->
+                <div id="order-text-box" class="length-container">
+<!--                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='#'">주문</div>-->
+                </div>
+            </div>
+            <div class="line-container">
+                <img src="/images/review-icon.svg" alt="store_image" class="margin-top icon-size"/>
+                <div class="length-container">
+                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/review'">리뷰</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/fragment/marketSidebar.js"></script>
+</sidebar>
+</body>
+</html>

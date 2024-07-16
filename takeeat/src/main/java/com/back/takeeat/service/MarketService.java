@@ -237,4 +237,12 @@ public class MarketService {
             }
         }
     }
+
+    @Transactional(readOnly = true)
+    public Long findMarketId(Long memberId) {
+        Market findMarket = marketRepository.findByMemberId(memberId)
+                                        .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        return findMarket.getId();
+    }
 }

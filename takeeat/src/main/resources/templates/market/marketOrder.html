@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <link rel="stylesheet" href="/css/market/marketOrder.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <th:block th:replace="fragment/marketSidebar :: head"></th:block>
+    <link rel="stylesheet" href="/css/market/marketOrder.css" />
 </head>
 <body>
     <div class="main-container">
         <div class="market-order-header-div">
+            <div th:replace="~{fragment/marketSidebar :: sidebar}"></div>
         </div>
         <div class="market-order-contents-div">
             <div class="sidebar">

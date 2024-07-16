@@ -6,29 +6,27 @@ import com.back.takeeat.domain.market.Market;
 import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.menu.Menu;
 import com.back.takeeat.domain.menu.MenuCategory;
+import com.back.takeeat.domain.option.Option;
+import com.back.takeeat.domain.option.OptionCategory;
 import com.back.takeeat.domain.review.Review;
+import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.dto.market.request.*;
 import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.dto.review.response.MarketRatingResponse;
 import com.back.takeeat.dto.review.response.RatingCountResponse;
 import com.back.takeeat.dto.review.response.ReviewResponse;
-import com.back.takeeat.domain.option.Option;
-import com.back.takeeat.domain.option.OptionCategory;
-import com.back.takeeat.domain.user.Member;
-import com.back.takeeat.dto.market.request.*;
 import com.back.takeeat.repository.*;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +60,7 @@ public class MarketService {
     }
 
     @Transactional
-    public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId, List<String> imgUrls) {
+    public void menuCategoriesRegister(MenuRequest menuRequest, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(NoSuchElementException::new);
         Market market = marketRepository.findByMemberId(member.getId())
@@ -78,10 +76,6 @@ public class MarketService {
 
                 // 디버깅 포인트: 메뉴 정보 출력
                 System.out.println("메뉴 추가: " + menu.getMenuName());
-
-                for(String imgUrl : imgUrls) {
-                    menu.addMenuImage(imgUrl);
-                }
 
                 menu.addMenuCategory(menuCategory);
                 menuCategory.getMenus().add(menu);
@@ -224,5 +218,23 @@ public class MarketService {
                 .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
 
         market.updateMarketStatus(marketStatus);
+    }
+
+    @Transactional
+    public void menuImageRegister(List<String> imgUrls, Long memberId) {
+        // 마켓 정보를 조회
+        Market market = marketRepository.findByMemberId(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+        List<MenuCategory> menuCategories = market.getMenuCategories();
+        System.out.println("카테고리"+menuCategories);
+        int idx = 0;
+        for(MenuCategory menuCategory : menuCategories) {
+            List<Menu> menus = menuCategory.getMenus();
+            System.out.println("메뉴"+menus);
+            for(Menu menu : menus) {
+                menu.addMenuImage(imgUrls.get(idx));
+                idx++;
+            }
+        }
     }
 }

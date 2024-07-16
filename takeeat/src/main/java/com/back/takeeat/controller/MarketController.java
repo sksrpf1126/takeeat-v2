@@ -1,14 +1,11 @@
 package com.back.takeeat.controller;
 
 import com.back.takeeat.domain.market.MarketStatus;
-import com.back.takeeat.domain.menu.MenuCategory;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
-import com.back.takeeat.dto.market.request.MarketOptionCategoryRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
-import com.back.takeeat.dto.market.response.MarketHomeResponse;
-import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.request.OptionRequest;
+import com.back.takeeat.dto.market.response.MarketHomeResponse;
 import com.back.takeeat.dto.market.response.MarketReviewResponse;
 import com.back.takeeat.dto.market.response.MenuCategoryNameResponse;
 import com.back.takeeat.security.LoginMember;
@@ -26,8 +23,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Controller
@@ -111,16 +108,15 @@ public class MarketController {
     @PostMapping("/menu/save")
     @ResponseBody
     public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result) {
-        List<String> imgUrls = new ArrayList<>();
         if (result.hasErrors()) {
             String errorMessages = result.getAllErrors().stream()
                     .map(error -> error.getDefaultMessage())
                     .collect(Collectors.joining(", "));
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패: " + errorMessages + "\"}");
         }
-        Long memberId = 2L;
+        Long memberId = 1L;
 
-        if(menuRequest.getMenuImage() != null) {
+        /*if(menuRequest.getMenuImage() != null) {
             List<MultipartFile> validFiles = menuRequest.getMenuImage().stream()
                     .filter(file -> file != null && !file.isEmpty())
                     .collect(Collectors.toList());
@@ -128,10 +124,10 @@ public class MarketController {
             if (!validFiles.isEmpty()) {
                 imgUrls = s3Service.uploadFile(menuRequest.getMenuImage());
             }
-        }
+        }*/
 
         try {
-            marketService.menuCategoriesRegister(menuRequest, memberId, imgUrls);
+            marketService.menuCategoriesRegister(menuRequest, memberId);
             return ResponseEntity.ok("{\"message\": \"메뉴 저장 성공\"}");
         } catch (Exception e) {
             e.printStackTrace();
@@ -139,10 +135,21 @@ public class MarketController {
         }
     }
 
+    @PostMapping("/menu/save/images")
+    public ResponseEntity<String> saveMenuImages(@RequestParam("menuImages") List<MultipartFile> menuImages) {
+        // 이미지 파일 리스트를 받아와서 처리
+        System.out.println("이미지 수: " + menuImages.size());
+        Long memberId = 1L;
+        List<String> imgUrls = s3Service.uploadFile(menuImages);
+        // 이미지 저장 로직 등 수행
+        marketService.menuImageRegister(imgUrls, memberId);
+        return ResponseEntity.ok("{\"message\": \"메뉴 이미지 저장 성공\"}");
+    }
+
     @GetMapping("/menus")
     @ResponseBody
     public List<MenuCategoryNameResponse> getMenus() {
-        Long memberId = 2L;
+        Long memberId = 1L;
         List<MenuCategoryNameResponse> menuResponses = marketService.getMarketMenuName(memberId);
         for(MenuCategoryNameResponse menuCategoryNameResponse : menuResponses) {
             System.out.println(menuCategoryNameResponse.getMenuName());
@@ -159,7 +166,7 @@ public class MarketController {
     @ResponseBody
     public ResponseEntity<String> saveOption(@ModelAttribute("optionRequest") OptionRequest optionRequest) {
 
-        Long memberId = 2L;
+        Long memberId = 1L;
         System.out.println("menuCategory=" + optionRequest);
         try {
             marketService.optionCategoriesRegister(memberId, optionRequest.getMarketOptionCategoryRequestList());

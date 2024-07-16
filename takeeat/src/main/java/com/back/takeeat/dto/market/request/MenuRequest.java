@@ -8,5 +8,5 @@ import java.util.List;
 @Getter
 public class MenuRequest {
     private List<MarketMenuCategoryRequest> categories;
-    private List<MultipartFile> menuImage;
+
 }

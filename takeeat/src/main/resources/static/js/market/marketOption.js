@@ -331,7 +331,7 @@ function saveOption() {
        .then(data => {
            alert('옵션 저장 완료');
            console.log('Response data:', data);
-           window.location.href = '/';
+           window.location.href = '/market/home';
        })
        .catch(error => {
            alert('저장 실패');

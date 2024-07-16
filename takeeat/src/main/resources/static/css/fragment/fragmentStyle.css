@@ -35,7 +35,7 @@ header {
 }
 
 #H-logoImg:hover, #H-loginBtn:hover, .H-nickNameBtn:hover, .H-myPageBtn:hover,
-#H-notificationBtn:hover, #H-cartBtn:hover, #H-markerIcon:hover, #H-searchMarketBtn:hover {
+#bell-icon:hover, #H-cartBtn:hover, #H-markerIcon:hover, #H-searchMarketBtn:hover {
     cursor: pointer;
 }
 
@@ -54,7 +54,7 @@ header {
     margin-right: 10px;
 }
 
-#H-notificationIcon, #H-cartIcon, .H-myPageIcon {
+#user-notification, #H-cartIcon, .H-myPageIcon {
     width: 30px;
     margin-right: 10px;
 }
@@ -180,7 +180,7 @@ header {
         align-items: center;
     }
 
-    #H-notificationIcon, #H-cartIcon {
+    #user-notification, #H-cartIcon {
         width: 35px;
     }
 
@@ -205,3 +205,78 @@ header {
         width: 500px;
     }
 }
+
+/*알림 CSS*/
+.notification-dot {
+    position: absolute;
+    top: 20px;
+    right: 75px;
+    width: 7px;
+    height: 7px;
+    background-color: red;
+    border-radius: 50%;
+    display: none; /* 기본적으로 숨김 */
+}
+.bell-icon.has-notification .notification-dot {
+    display: block; /* 알림이 있을 때 표시 */
+}
+
+.notification-panel {
+    display: none;
+    position: absolute;
+    width: 300px;
+    height: 430px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1000;
+    right: 0px;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+.notification-header span {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.notification-panel .notification {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+.notification-panel .notification:last-child {
+    border-bottom: none;
+}
+.notification-panel .notification-time {
+    font-size: 12px;
+    color: #888;
+}
+.notification-panel .notification-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.notification-body {
+    margin-bottom: 12px !important;
+    font-size: 13px;
+}
+
+.notification.unwatched {
+    background-color: #e4eaff;
+}
+
+.notification-time-delete-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+/*알림 CSS 끝*/

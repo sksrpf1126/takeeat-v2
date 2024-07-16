@@ -10,8 +10,6 @@ function connect() {
         stompClient.subscribe('/topic/notification-market/' +  marketId, function (data) {
             const responseData = JSON.parse(data.body);
 
-            console.log("responseData Object : ", responseData);
-
             const orderList = $('.order-list');
             const newOrderItem = createOrderItem(responseData);
             orderList.prepend(newOrderItem);

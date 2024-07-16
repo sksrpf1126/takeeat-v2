@@ -1,9 +1,10 @@
 package com.back.takeeat.controller;
 
+import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.notification.request.MarketMessageRequest;
-import com.back.takeeat.dto.notification.request.TestOrderRequest;
 import com.back.takeeat.dto.notification.response.ReceiveMessageResponse;
+import com.back.takeeat.security.LoginMember;
 import com.back.takeeat.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +12,12 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -25,14 +28,12 @@ public class NotificationController {
     private final NotificationService notificationService;
     private final SimpMessagingTemplate messagingTemplate;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/notification/member")
-    public String notificationMember(Model model) {
-        //@Todo 해당 페이지를 접근할 때 로그인한 사용자가 존재하는 경우에만 읽지않은 알림 여부 로직 호출
-        Long memberId = 1L;
-        if(memberId != null) {
-            model.addAttribute("notifiactionsReadYn", notificationService.existsNotificationsNotRead(memberId));
-        }
-        return "notification/notificationMember";
+    @ResponseBody
+    public Boolean notificationMember(@LoginMember Member member) {
+
+        return notificationService.existsNotificationsNotRead(member.getId());
     }
 
     @GetMapping("/notification/{memberId}/exists")
@@ -52,35 +53,37 @@ public class NotificationController {
 
     @MessageMapping("/send-market/{marketId}")
     @SendTo("/topic/notification-market/{marketId}")
-    public MarketOrdersResponse marketNotification(@DestinationVariable("marketId") Long marketId, @RequestBody TestOrderRequest orderRequest) {
-        log.info("Member({memberId}) send a message to the Market({marketId})", orderRequest.getMemberId(), marketId);
+    public MarketOrdersResponse marketNotification(Principal principal, @DestinationVariable("marketId") Long marketId, @RequestBody MarketOrdersResponse ordersResponse) {
 
-        return notificationService.registerMarketOrder(marketId, orderRequest);
+        if(principal == null || principal.getName() == null) {
+            throw new AccessDeniedException("접근 권한이 없습니다.");
+        }
+
+        return ordersResponse;
     }
 
-    @GetMapping("/notification/scroll/{memberId}")
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/notification/scroll")
     @ResponseBody
-    public List<ReceiveMessageResponse> notificationScroll(@PathVariable("memberId") Long memberId) {
+    public List<ReceiveMessageResponse> notificationScroll(@LoginMember Member member) {
 
-        return notificationService.findAllNotification(memberId);
+        return notificationService.findAllNotification(member.getId());
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/notification/{notificationId}/read")
     @ResponseBody
-    public String notificationRead(@PathVariable("notificationId") Long notificationId) {
-        //@TODO 알림을 읽는 자가 본인의 알림인지 판단할 것
-        Long memberId = 1L;
+    public String notificationRead(@LoginMember Member member, @PathVariable("notificationId") Long notificationId) {
 
-        return notificationService.readNotification(memberId, notificationId);
+        return notificationService.readNotification(member.getId(), notificationId);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/notification/{notificationId}/delete")
     @ResponseBody
-    public void notificationDelete(@PathVariable("notificationId") Long notificationId) {
-        //@TODO 알림을 삭제하는 자가 본인의 알림인지 판단할 것
-        Long memberId = 1L;
+    public void notificationDelete(@LoginMember Member member, @PathVariable("notificationId") Long notificationId) {
 
-        notificationService.deleteNotification(memberId, notificationId);
+        notificationService.deleteNotification(member.getId(), notificationId);
     }
 
 }

@@ -56,8 +56,8 @@
                     <input type="text" id="sample6_postcode" placeholder="  우편번호" class="s-input-box margin-top-10 margin-bottom-10" readonly/>
                     <input type="text" class="l-input-box margin-top-10" id="sample6_extraAddress" readonly/>
                     </div>
-                    <input type="hidden" id="latitude" name="latitude"/>
-                    <input type="hidden" id="longitude" name="longitude"/>
+                    <input type="hidden" id="latitude" th:field="*{latitude}" name="latitude"/>
+                    <input type="hidden" id="longitude" th:field="*{longitude}" name="longitude"/>
                     <div class="line-container">
                         <input type="text" id="sample6_address" th:field="*{query}" th:errorclass="field-error-border" name="query" class="input-box margin-top-10" readonly/>
                         <input type="button" onclick="sample6_execDaumPostcode()" class="dup-button margin-left-10" value="주소찾기"/>

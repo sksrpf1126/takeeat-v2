@@ -122,6 +122,9 @@ input[id="menuicon"]:checked + label + div {
 .margin-top-20 {
     margin-top: 20px;
 }
+.margin-bottom-10 {
+    margin-bottom: 10px;
+}
 .margin-bottom-15 {
     margin-bottom: 15px;
 }

@@ -193,7 +193,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                         </div>
                         <div class="s-info-text margin-top-10">메뉴를 설명해주세요.</div>
-                        <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction l-input-box margin-top-10"/>
+                        <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction ll-input-box margin-top-10"/>
                         <div class="s-info-text margin-top-10 essential">메뉴 사진 등록</div>
 
                         <div class="line-container">

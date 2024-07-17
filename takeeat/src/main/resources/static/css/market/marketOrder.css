@@ -47,17 +47,17 @@ input[id="menuicon"]+label span:nth-child(3) {
     height: 99.5vh;
     flex-direction: column;
 }
-.sidebar {
+.order-sidebar {
     height: 100%;
     width: 5%;
 }
 
-.sidebar ul {
+.order-sidebar ul {
     list-style-type: none;
     height: 100%;
 }
 
-.sidebar li {
+.order-sidebar li {
     height: 25%;
     background-color: black;
     cursor: pointer;
@@ -74,7 +74,7 @@ input[id="menuicon"]+label span:nth-child(3) {
     background-color: #343434;
 }
 
-.sidebar li.active {
+.order-sidebar li.active {
     color:  white;
     background-color: #343434;
 }

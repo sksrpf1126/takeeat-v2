@@ -71,14 +71,15 @@ public class MarketController {
 
 
     @PostMapping("/info/save")
-    public String saveMarketInfo(@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
+    public String saveMarketInfo(@LoginMember Member member
+                                ,@Valid @ModelAttribute("marketInfo") MarketInfoRequest marketInfoRequest
                                 ,BindingResult result
                                 ,Model model) {
         List<String> imgUrls = new ArrayList<>();
         if (result.hasErrors()) {
             return "market/marketInfo";
         }
-        Long memberId = 1L;
+        Long memberId = member.getId();
         if(marketInfoRequest.getMarketImage() != null) {
             List<MultipartFile> validFiles = marketInfoRequest.getMarketImage().stream()
                     .filter(file -> file != null && !file.isEmpty())

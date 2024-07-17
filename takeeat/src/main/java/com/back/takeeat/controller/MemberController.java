@@ -16,12 +16,15 @@ import com.back.takeeat.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -263,6 +266,13 @@ public class MemberController {
 
         request.getSession().removeAttribute("email");
         request.getSession().removeAttribute("providerType");
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/nickname")
+    @ResponseBody
+    public String getNickname(@LoginMember Member member) {
+        return member.getNickname();
     }
 
 }

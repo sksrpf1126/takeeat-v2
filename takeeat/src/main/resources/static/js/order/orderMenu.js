@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var targetLink = document.querySelector('.list li a[href="/' + marketCategory + '/list"]');
 
     targetLink.classList.add('activeCategory');
-
+    targetLink.scrollIntoView({ inline: 'center', behavior: 'smooth' });
 });
 
 //=== 지도 api ===

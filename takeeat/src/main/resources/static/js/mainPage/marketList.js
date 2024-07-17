@@ -132,6 +132,7 @@ document.addEventListener('DOMContentLoaded', function() {
     categoryLinks.forEach(link => {
         if (link.getAttribute('href') === path) {
             link.innerHTML = '<strong>' + link.innerHTML + '</strong>';
+            link.scrollIntoView({ inline: 'center' });
         }
     });
 });

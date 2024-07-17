@@ -13,12 +13,14 @@ import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.payment.request.PaymentOrderMenuRequest;
 import com.back.takeeat.dto.payment.request.PaymentOrderRequest;
+import com.back.takeeat.dto.payment.response.PaymentResultResponse;
 import com.back.takeeat.repository.MarketOrderRepository;
 import com.back.takeeat.repository.MarketRepository;
 import com.back.takeeat.repository.MenuRepository;
 import com.back.takeeat.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -33,6 +35,7 @@ public class PaymentService {
     private final OptionRepository optionRepository;
     private final CartService cartService;
 
+    @Transactional
     public MarketOrdersResponse registerPayment(Member member, PaymentOrderRequest paymentOrderRequest) {
 
         Market findMarket = marketRepository.findById(paymentOrderRequest.getMarketId())
@@ -69,6 +72,14 @@ public class PaymentService {
         marketOrderRepository.save(order);
         cartService.deleteAllCartMenu(member.getId());
         return MarketOrdersResponse.of(order);
+    }
+
+    @Transactional(readOnly = true)
+    public PaymentResultResponse findPaymentResult(Long orderId, Long memberId) {
+        Order findOrder = marketOrderRepository.findOrderWithPayment(orderId, memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorCode.ORDER_UNAUTHORIZED));
+
+        return PaymentResultResponse.of(findOrder.getMarket(), findOrder, findOrder.getPayment());
     }
 
     private List<OrderMenu> createOrderMenus(List<PaymentOrderMenuRequest> orderMenuRequests) {

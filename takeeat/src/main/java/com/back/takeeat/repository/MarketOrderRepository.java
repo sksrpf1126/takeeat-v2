@@ -29,4 +29,14 @@ public interface MarketOrderRepository extends JpaRepository<Order, Long>, Marke
     )
     Optional<Order> findWithOrderMenus(@Param("orderId") Long orderId);
 
+    @Query(
+            "SELECT o " +
+                    "FROM Order o INNER JOIN FETCH o.member m " +
+                    "INNER JOIN FETCH o.market mk " +
+                    "INNER JOIN FETCH o.payment p " +
+                    "WHERE o.id = :orderId " +
+                    "AND m.id = :memberId "
+    )
+    Optional<Order> findOrderWithPayment(@Param("orderId") Long orderId, @Param("memberId") Long memberId);
+
 }

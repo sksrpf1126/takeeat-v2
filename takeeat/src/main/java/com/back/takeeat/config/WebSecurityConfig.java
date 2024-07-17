@@ -36,6 +36,7 @@ public class WebSecurityConfig {
                         .requestMatchers("/market/**").hasAuthority("ROLE_OWNER")
                         .requestMatchers("/my/**").hasAnyAuthority("ROLE_MEMBER", "ROLE_OWNER", "ROLE_ADMIN")
                         .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/payment/result/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin // form기반의 로그인인 경우

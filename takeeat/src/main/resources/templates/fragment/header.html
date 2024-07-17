@@ -25,13 +25,13 @@
         <th:block sec:authorize="isAuthenticated()">
             <div id="H-afterLogin">
                 <th:block sec:authorize="hasRole('MEMBER') or hasRole('ADMIN')">
-                    <div class="H-nickNameBtn" onclick="location.href='/my/home'"><strong>홍길동 님</strong></div>
+                    <div class="H-nickNameBtn" onclick="location.href='/my/home'"><strong></strong></div>
                     <div class="H-myPageBtn" onclick="location.href='/my/home'"><img class="H-myPageIcon" src="/images/header/myPage.svg"/></div>
                 </th:block>
 
                 <th:block sec:authorize="hasRole('OWNER')">
                     <div id="H-dropdownContainer">
-                        <div class="H-nickNameBtn"><strong>홍길동 님</strong></div>
+                        <div class="H-nickNameBtn"><strong></strong></div>
                         <div class="H-myPageBtn"><img class="H-myPageIcon" src="/images/header/myPage.svg"/></div>
 
                         <div id="H-dropMenu">
@@ -56,6 +56,7 @@
                 <div id="H-cartBtn" onclick="location.href='/cart'"><img id="H-cartIcon" src="/images/header/cart.svg"/></div>
             </div>
             <script src="/js/notification/notificationHeader.js"></script>
+            <script src="/js/fragment/nicknameHeader.js"></script>
         </th:block>
     </div>
 

@@ -18,6 +18,8 @@ public class OrderDetailResponse {
     private OrderStatus orderStatus;
     private String marketName;
     private LocalDateTime createdTime;
+    private String orderCode;
+    private String requirement;
 
     private List<OrderMenuResponse> orderMenuResponses;
 
@@ -31,6 +33,8 @@ public class OrderDetailResponse {
                 .orderStatus(order.getOrderStatus())
                 .marketName(order.getMarket().getMarketName())
                 .createdTime(order.getCreatedTime())
+                .orderCode(order.getOrderCode())
+                .requirement(order.getRequirement())
                 .orderMenuResponses(orderMenuResponses)
                 .optionCategoryByOrderMenu(optionCategoryByOrderMenu)
                 .orderOptionMapByOptionCategoryId(orderOptionMapByOptionCategoryId)

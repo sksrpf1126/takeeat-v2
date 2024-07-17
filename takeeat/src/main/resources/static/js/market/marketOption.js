@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             <button class="delete-option-button del-button" data-option-id="${optionCount}">옵션 삭제</button>
                             <div class="line-container margin-top-20">
                                 <div class="length-container">
-                                    <div class="s-info-text">옵션을 입력하세요.</div>
+                                    <div class="s-info-text essential">옵션을 입력하세요.</div>
                                     <input type="text" id="marketOption-${optionCount}" th:field="*{optionName}" name="marketOption" class="m-input-box margin-top-10"/>
                                 </div>
                                 <div class="length-container margin-left-10">
@@ -63,12 +63,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </select>
                                 <div class="line-container">
                                     <div class="length-container">
-                                        <div class="info-text">옵션 카테고리를 입력하세요.</div>
+                                        <div class="info-text essential">옵션 카테고리를 입력하세요.</div>
                                         <input type="text" id="optionCategory-${categoryCount}" th:field="*{optionCategory}" name="optionCategory" class="option-category l-input-box-option margin-top-10"/>
                                     </div>
                                     <div class="length-container select-option">
                                         <div class="line-container">
-                                            <div class="info-text">옵션선택방법</div>
+                                            <div class="info-text essential">옵션선택방법</div>
                                             <div class="tip-container">
                                                 <div class="tip">
                                                     <p>옵션의 선택 방법을 알려주세요.<br>옵션을 여러 개 선택 할 수 있으면 다중선택입니다.</p>
@@ -76,14 +76,14 @@ document.addEventListener('DOMContentLoaded', function() {
                                             </div>
                                         </div>
                                         <div class="line-container margin-top-10">
-                                            <input type="radio" id="single-${categoryCount}" th:field="*{optionSelect}" value="SINGLE" class="option-select" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'SINGLE')"/>단일
+                                            <input type="radio" id="single-${categoryCount}" th:field="*{optionSelect}" value="SINGLE" class="option-select" name="select-${categoryCount}" onclick="handleOptionSelect(${categoryCount}, 'SINGLE')" selected/>단일
                                             <input type="radio" id="multi-${categoryCount}" th:field="*{optionSelect}" value="MULTI" class="option-select" name="select-${categoryCount}" style="margin-left:11px;" onclick="handleOptionSelect(${categoryCount}, 'MULTI')"/>다중
                                         </div>
                                     </div>
                                 </div>
                                 <div class="length-container margin-top-10">
                                     <div class="line-container">
-                                        <div class="s-info-text">옵션최대수량</div>
+                                        <div class="s-info-text essential">옵션최대수량</div>
                                         <div class="tip-container-center">
                                             <div class="tip">
                                                 <p>선택 가능한 최대 수량을 제시해주세요.<br>단일선택은 1개만 가능합니다.</p>

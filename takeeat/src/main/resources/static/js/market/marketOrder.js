@@ -6,8 +6,8 @@ let status = 'WAIT';
 
 function showTab(tabId) {
     // 사이드바 탭 활성화
-    $('.sidebar li').removeClass('active');
-    $('.sidebar li[onclick="showTab(\'' + tabId + '\')"]').addClass('active');
+    $('.order-sidebar li').removeClass('active');
+    $('.order-sidebar li[onclick="showTab(\'' + tabId + '\')"]').addClass('active');
 
     // AJAX 요청을 통해 데이터 가져오기
     if (tabId === 'pending') {
@@ -45,7 +45,7 @@ function renderSearchFormNotSearchList() {
         $(this).addClass('active');
         sortOrder = $(this).attr('id') === 'latest' ? 'latest' : 'oldest';
         // 선택된 탭 다시 로드
-        const activeTab = $('.sidebar li.active').attr('onclick').match(/showTab\('(\w+)'\)/)[1];
+        const activeTab = $('.order-sidebar li.active').attr('onclick').match(/showTab\('(\w+)'\)/)[1];
         showTab(activeTab);
     });
 }

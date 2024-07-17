@@ -16,6 +16,7 @@ import com.back.takeeat.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -243,6 +244,13 @@ public class MemberController {
     public String sendAuthCodeWithFindId(@RequestParam("email") String email) {
         emailService.findMemberLoginIdSendEmail(email);
         return "인증 코드를 발송했습니다.";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/id")
+    @ResponseBody
+    public Long getMemberId(@LoginMember Member member) {
+        return member.getId();
     }
 
     private void validateEmailAndProviderMatch(HttpServletRequest request, String inputEmail, ProviderType inputProvider) {

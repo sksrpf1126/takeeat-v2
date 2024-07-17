@@ -2,11 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>TakeEat</title>
+    <link rel="stylesheet" type="text/css" href="/css/fragment/fragmentStyle.css">
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body>
 
 <header th:fragment="navbar">
+
     <div id="H-navbarTop">
         <div id="H-logoContainer">
             <div><img id="H-logoImg" src="/images/logo.png" onclick="location.href='/'"/></div>
@@ -36,9 +41,21 @@
                     </div>
                 </th:block>
 
-                <div id="H-notificationBtn" onclick="location.href='#'"><img id="H-notificationIcon" src="/images/header/bell.svg"/></div>
+                <div id="bell-icon" class="bell-icon">
+                    <img id="user-notification" src="/images/header/bell.svg"/>
+                    <div class="notification-dot" id="notification-dot"></div>
+                    <div class="notification-panel" id="notification-panel">
+                        <div class="notification-header">
+                            <span>알림</span>
+                        </div>
+                        <div class="notification-list">
+                            <!-- 알림 아이템들이 여기에 추가됩니다 -->
+                        </div>
+                    </div>
+                </div>
                 <div id="H-cartBtn" onclick="location.href='/cart'"><img id="H-cartIcon" src="/images/header/cart.svg"/></div>
             </div>
+            <script src="/js/notification/notificationHeader.js"></script>
         </th:block>
     </div>
 

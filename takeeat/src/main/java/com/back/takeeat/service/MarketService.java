@@ -232,6 +232,16 @@ public class MarketService {
             }
         }
     }
+
+
+    @Transactional(readOnly = true)
+    public Long findMarketId(Long memberId) {
+        Market findMarket = marketRepository.findByMemberId(memberId)
+                                        .orElseThrow(() -> new EntityNotFoundException(ErrorCode.MARKET_NOT_FOUND));
+
+        return findMarket.getId();
+    }
+
     // 마켓 존재 여부와 마켓 이름 중복 여부
     public boolean checkMarketIsExist(Long id, String marketName) {
         if(marketRepository.existsByMarketName(marketName) || marketRepository.existsByMemberId(id) ){
@@ -240,4 +250,5 @@ public class MarketService {
             return false;
         }
     }
+      
 }

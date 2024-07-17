@@ -47,7 +47,7 @@ document.getElementById('update').addEventListener('click', function () {
         }),
         contentType: 'application/json',
         success: function(response) {
-/*            $('#updateStatusModal').modal('hide');*/
+            alert('상태를 변경하였습니다');
             location.reload();
         },
         error: function(error) {

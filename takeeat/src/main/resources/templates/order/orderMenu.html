@@ -162,7 +162,7 @@
             <th:block th:each="review : ${marketMenuResponse.reviewResponses}">
                 <div class="reviewContainer">
                     <div class="reviewInfoContainer">
-                        <div class="profileContainer"><img class="profile" th:src="${review.profile}"/></div>
+                        <div class="profileContainer"><img class="profile" th:src="${review.profile != null} ? ${review.profile} : '/images/profile.jpg'"/></div>
                         <div>
                             <div class="reviewWriterContainer">
                                 <div><strong>[[${review.nickname}]] 님</strong></div>

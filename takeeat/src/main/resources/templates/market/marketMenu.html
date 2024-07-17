@@ -8,47 +8,14 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <th:block th:replace="fragment/marketSidebar :: head"></th:block>
     <link rel="stylesheet" type="text/css" href="/css/market/marketMenuStyle.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-    <input type="checkbox" id="menuicon">
-    <label for="menuicon" class="margin-top-20">
-        <span></span>
-        <span></span>
-        <span></span>
-    </label>
-    <div class="sidebar">
-        <div class="side-margin">
-            <div class="line-container">
-                <img src="/images/store-icon.svg" alt="store_image" class="margin-top icon-size"/>
-                <div class="length-container">
-                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/home'">나의 가게</div>
-                </div>
-            </div>
-            <div class="line-container">
-                <img src="/images/registration-icon.svg" alt="store_image" class="icon-size"/>
-                <div class="length-container">
-                    <div class="main-menu">가게 등록</div>
-                    <div class="sub-menu linked-menu" onclick="location.href='/market/info'">기본 정보</div>
-                    <div class="sub-menu linked-menu" onclick="location.href='/market/menu'">메뉴 정보</div>
-                    <div class="sub-menu margin-bottom-30 linked-menu" onclick="location.href='/market/option'">옵션 정보</div>
-                </div>
-            </div>
-            <div class="line-container">
-                <img src="/images/order-icon.svg" alt="store_image" class="margin-top icon-size"/>
-                <div class="length-container">
-                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='#'">주문</div>
-                </div>
-            </div>
-            <div class="line-container">
-                <img src="/images/review-icon.svg" alt="store_image" class="margin-top icon-size"/>
-                <div class="length-container">
-                    <div class="main-menu margin-bottom-30 linked-menu" onclick="location.href='/market/review'">리뷰</div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- sidebar -->
+<div th:replace="~{fragment/marketSidebar :: sidebar}"></div>
+<!-- content -->
     <div id="container">
         <div class="length-container">
             <div class="line-container">

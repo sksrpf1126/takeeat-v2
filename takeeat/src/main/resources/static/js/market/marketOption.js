@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 </div>
                                 <div class="length-container margin-left-10">
                                     <div class="s-info-text">가격</div>
-                                    <input type="number" id="optionPrice-${optionCount}" th:field="*{optionPrice}" name="optionPrice" class="s-input-box margin-top-10"/>
+                                    <input type="number" id="optionPrice-${optionCount}" value="0" th:field="*{optionPrice}" name="optionPrice" class="s-input-box margin-top-10"/>
                                 </div>
                             </div>
                             <hr class="hr-margin"/>
@@ -159,10 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 selectElement.append(option);
             }
         });
-        // 선택된 메뉴가 있으면 해당 드롭다운 비활성화
+        /*// 선택된 메뉴가 있으면 해당 드롭다운 비활성화
         if (currentSelected) {
             selectElement.prop('disabled', true);
-        }
+        }*/
     }
 
     /*// 선택된 메뉴 값을 업데이트하는 함수
@@ -238,9 +238,11 @@ function saveOption() {
     // 모든 카테고리와 옵션 정보 수집
     document.querySelectorAll('.category-container').forEach(categoryContainer => {
         let options = [];
-        const selectBox = document.querySelector('.dropdown');
+        const selectBox = categoryContainer.querySelector('.dropdown');
+        console.log(selectBox);
         const selectedOption = selectBox.options[selectBox.selectedIndex];
         const menuId = selectedOption.getAttribute('menuId');
+        console.log(menuId);
 
         const optionCategoryName = categoryContainer.querySelector('.option-category').value;
         const optionMaxCount = categoryContainer.querySelector('.option-max-count').value;

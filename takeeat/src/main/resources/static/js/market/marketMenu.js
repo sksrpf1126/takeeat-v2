@@ -148,7 +148,7 @@ window.saveMenu = function() {
         /*window.location.href = '/market/option';*/
     })
     .catch(error => {
-        alert('저장 실패');
+        alert('저장 실패. 등록된 가게정보가 없습니다.');
         console.error('Error:', error);
     });
 };
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             <div class="length-container margin-left-10">
                                 <div class="s-info-text">가격</div>
-                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" class="s-input-box margin-top-10"/>
+                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" value="0" class="s-input-box margin-top-10"/>
                             </div>
                         </div>
                         <div class="line-container margin-top-20">

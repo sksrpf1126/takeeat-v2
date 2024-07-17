@@ -8,6 +8,7 @@ import com.back.takeeat.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -18,7 +19,10 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/result/{orderId}")
-    public String before(@PathVariable("orderId") Long orderId) {
+    public String before(@PathVariable("orderId") Long orderId, @LoginMember Member member, Model model) {
+        //@TODO 본인의 결제완료 페이지만 볼 수 있도록 예외처리
+        model.addAttribute("orderId", orderId);
+        model.addAttribute("paymentResultResponse", paymentService.findPaymentResult(orderId, member.getId()));
         return "/payment/orderPaymentResult";
     }
 

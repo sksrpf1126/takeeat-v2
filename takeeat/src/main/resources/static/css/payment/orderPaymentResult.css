@@ -9,10 +9,16 @@ a {
     text-decoration: none;
 }
 
+body {
+    background: #f9f9f9;
+}
+
 #contents {
     width: 100%;
     max-width: 600px;
-    height: 100vh;
+    display: grid;
+    grid-template-rows: 75.08px max-content auto;
+    background: #ffffff;
 }
 
 @media (min-width: 601px) {
@@ -25,17 +31,68 @@ a {
 }
 
 .payment-result-box {
-    height: 100%;
+    grid-row: 2/3;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    min-height: calc(100vh - 189.08px);
 }
 
 
 .payment-result-box > img {
-    width: 50%;
+    width: 20%;
     object-fit: scale-down;
     cursor: pointer;
 }
 
+.payment-complete-comment {
+    font-weight: bold;
+    margin-top: 25px;
+    text-align: center;
+    font-size: 19px;
+    line-height: 1.5;
+}
+
+.order-information-box {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.order-information-list {
+    display: flex;
+    justify-content: space-between;
+    color: #8e8e8e;
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0px 30px;
+}
+
+.payment-button-box {
+    grid-row: 3/4;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.payment-button {
+    border: none;
+    width: 49%;
+    height: 50px;
+}
+
+.order-detail-btn {
+    background: #ffb36f;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.main-page-btn {
+    background: #4b4b4b;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+}

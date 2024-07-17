@@ -188,16 +188,12 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <input type="text" id="marketMenu-${menuCount}" th:field="*{marketMenu}" name="marketMenu" class="market-menu m-input-box margin-top-10"/>
                             </div>
                             <div class="length-container margin-left-10">
-                                <div class="s-info-text">가격</div>
+                                <div class="s-info-text essential">가격</div>
                                 <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" value="0" class="s-input-box margin-top-10"/>
                             </div>
                         </div>
-                        <div class="line-container margin-top-20">
-                            <div class="length-container">
-                                <div class="s-info-text">메뉴를 설명해주세요.</div>
-                                <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction l-input-box margin-top-10"/>
-                            </div>
-                        </div>
+                        <div class="s-info-text margin-top-10">메뉴를 설명해주세요.</div>
+                        <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction l-input-box margin-top-10"/>
                         <div class="s-info-text margin-top-10 essential">메뉴 사진 등록</div>
 
                         <div class="line-container">

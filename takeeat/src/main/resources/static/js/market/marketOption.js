@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                     <input type="text" id="marketOption-${optionCount}" th:field="*{optionName}" name="marketOption" class="m-input-box margin-top-10"/>
                                 </div>
                                 <div class="length-container margin-left-10">
-                                    <div class="s-info-text">가격</div>
+                                    <div class="s-info-text essential">가격</div>
                                     <input type="number" id="optionPrice-${optionCount}" value="0" th:field="*{optionPrice}" name="optionPrice" class="s-input-box margin-top-10"/>
                                 </div>
                             </div>

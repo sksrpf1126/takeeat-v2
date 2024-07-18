@@ -47,7 +47,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "WHERE r.market.id = :marketId " +
             "AND (r.reviewStatus = ReviewStatus.ACTIVE OR r.reviewStatus = ReviewStatus.MODIFY OR r.reviewStatus = ReviewStatus.REPORT) "
     )
-    int getTotalReviewRating(@Param("marketId") Long marketId);
+    Integer getTotalReviewRating(@Param("marketId") Long marketId);
 
     @Query(
             "SELECT r " +

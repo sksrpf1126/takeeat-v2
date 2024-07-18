@@ -124,8 +124,12 @@ public class ReviewService {
 
         review.delete();
 
-        int totalReviewRating = reviewRepository.getTotalReviewRating(review.getMarket().getId());
-        review.getMarket().deleteReview(totalReviewRating);
+        Integer totalReviewRating = reviewRepository.getTotalReviewRating(review.getMarket().getId());
+        int totalRating = 0;
+        if (totalReviewRating != null) {
+            totalRating = totalReviewRating;
+        }
+        review.getMarket().deleteReview(totalRating);
     }
 
     public String writeOwnerReview(Long reviewId, String ownerReviewContent) {

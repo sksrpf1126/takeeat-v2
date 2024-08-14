@@ -139,19 +139,6 @@ public class MarketController {
         }
     }
 
-    @PostMapping("/menu/save/images")
-    public ResponseEntity<String> saveMenuImages(@RequestParam("menuImages") List<MultipartFile> menuImages
-                                                ,@LoginMember Member member) {
-        // 이미지 파일 리스트를 받아와서 처리
-        System.out.println("이미지 수: " + menuImages.size());
-        Long memberId = member.getId();
-        List<String> imgUrls = s3Service.uploadFile(menuImages);
-        // 이미지 저장 로직 등 수행
-        marketService.menuImageRegister(imgUrls, memberId);
-
-        return ResponseEntity.ok("{\"message\": \"메뉴 이미지 저장 성공\"}");
-    }
-
     @GetMapping("/menus")
     @ResponseBody
     public List<MenuCategoryNameResponse> getMenus(@LoginMember Member member) {

@@ -24,11 +24,19 @@ public class MarketMenuRequest {
     @Positive(message = "메뉴 가격은 양수여야 합니다.")
     private int menuPrice;
 
+    private String menuImage;
+
+    public void menuImageToUrl(String menuImage){
+        this.menuImage = menuImage;
+    }
+
+
     public Menu toMenu() {
         return Menu.builder()
                 .menuName(menuName)
                 .menuIntroduction(menuIntroduction)
                 .menuPrice(menuPrice)
+                .menuImage(menuImage)
                 .build();
     }
 }

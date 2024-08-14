@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -108,6 +106,28 @@ public class S3Service {
 
         return fileName.substring(lastDotIndex);
 
+    }
+
+    public String uploadBase64Image(String base64Image) throws IOException {
+        // Base64 문자열에서 바이트 배열로 디코딩
+        byte[] imageBytes = decodeBase64(base64Image);
+
+        // S3에 업로드할 키 생성 (UUID를 사용하여 고유한 이름을 생성)
+        String key = "images/" + UUID.randomUUID() + ".jpg";
+
+        // PutObjectRequest 생성
+        PutObjectRequest putObjectRequest = new PutObjectRequest(bucket, key,
+                new ByteArrayInputStream(imageBytes), null);
+
+        // 객체를 S3에 업로드
+        s3Client.putObject(putObjectRequest);
+
+        // 업로드한 객체의 URL 반환
+        return s3Client.getUrl(bucket, key).toString();
+    }
+
+    private byte[] decodeBase64(String base64Image) {
+            return Base64.getDecoder().decode(base64Image);
     }
 
 }

@@ -110,6 +110,7 @@ function sendData(categories) {
         success: function(response) {
             alert('메뉴 저장 완료');
             console.log('Response data:', response);
+            window.location.href = '/market/option';
         },
         error: function(jqXHR, textStatus, errorThrown) {
             alert('저장 실패. 등록된 가게정보가 없습니다.');

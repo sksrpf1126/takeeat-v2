@@ -76,9 +76,7 @@ public class MarketService {
 
                 // base64 이미지를 S3에 업로드 한 뒤 생성된 URL로 이미지 이름 변경
                 try {
-                    System.out.println("base64="+marketMenuRequest.getMenuImage());
                     String imgUrls = s3Service.uploadBase64Image(marketMenuRequest.getMenuImage());
-                    System.out.println("imgUrls="+imgUrls);
                     marketMenuRequest.menuImageToUrl(imgUrls);
                 } catch (IOException e) {
                     throw new RuntimeException(e);

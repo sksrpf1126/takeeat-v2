@@ -47,6 +47,7 @@ dependencies {
 	implementation 'org.webjars:stomp-websocket:2.3.3'
 
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' //AWS S3
+
 }
 
 tasks.named('test') {

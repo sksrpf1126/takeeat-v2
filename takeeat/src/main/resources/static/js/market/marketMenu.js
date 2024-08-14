@@ -1,157 +1,122 @@
-
-
-
 let menuCount = 0; // 초기 메뉴 카운트
 let categoryCount = 0; // 초기 카테고리 카운트
+let hasIncompleteMenuData = false; // 필수 항목 누락 여부 확인 변수
+let hasEmptyMenu = false; // 빈 메뉴 여부 확인 변수
 
 window.saveMenu = function() {
     let categories = [];
-    let menuImages = [];
-    let hasIncompleteMenuData = false; // 필수 항목 누락 여부 확인 변수
-    let hasEmptyMenu = false; // 빈 메뉴 여부 확인 변수
-    let hasNoCategories = true; // 카테고리 입력 여부 확인 변수
-    var formData = new FormData();
+    const categoryElements = document.querySelectorAll('.category-container');
+
+    let categoryPromises = [];
+
     // 모든 카테고리와 메뉴 정보 수집
-    document.querySelectorAll('.category-container').forEach(categoryContainer => {
-        let menus = [];
+    categoryElements.forEach(categoryItem => {
+        let menus = [];  // 해당 카테고리에 포함된 메뉴들을 저장할 배열
+        const menuCategoryName = categoryItem.querySelector('.menu-category').value; // 카테고리 이름
 
-        const menuCategoryName = categoryContainer.querySelector('.menu-category').value;
-
-        if (menuCategoryName) {
-            hasNoCategories = false; // 카테고리가 입력되었음을 표시
+        // 카테고리 이름이 비어있으면 경고 메시지 표시
+        if (!menuCategoryName) {
+            hasIncompleteMenuData = true;
+            return;
         }
 
-        // 현재 카테고리의 메뉴들 수집
-        categoryContainer.querySelectorAll('.menu-item').forEach(menuItem => {
-            const menuName = menuItem.querySelector('.m-input-box').value;
-            const menuPrice = menuItem.querySelector('.s-input-box').value;
-            const menuIntroduction = menuItem.querySelector('.menu-introduction').value;
-            const menuImage = menuItem.querySelector('.file-style').files[0];
+        const menuElements = categoryItem.querySelectorAll('.menu-item');  // 각 카테고리의 모든 메뉴
 
+        let menuPromises = Array.from(menuElements).map(menuItem => {
+            return new Promise((resolve, reject) => {
+                const menuName = menuItem.querySelector('.market-menu').value;
+                const menuIntroduction = menuItem.querySelector('.menu-introduction').value;
+                const menuPrice = menuItem.querySelector('.menu-price').value;
+                const menuImageElement = menuItem.querySelector('.file-style');
 
+                // 메뉴 이름, 가격이 비어있으면 경고 메시지 표시
+                if (!menuName || !menuPrice) {
+                    hasIncompleteMenuData = true;
+                    resolve(); // 계속 진행하도록 resolve 호출
+                    return;
+                }
 
-            // 메뉴 데이터가 모두 올바르게 수집되었는지 확인
-            if (menuName && menuPrice) {
-                let menuObject = {
-                    menuName: menuName,
-                    menuIntroduction: menuIntroduction,
-                    menuPrice: parseInt(menuPrice)
+                // 이미지가 선택되지 않은 경우 경고 메시지 표시
+                if (!menuImageElement.files[0]) {
+                    alert('이미지를 선택하세요.');
+                    hasIncompleteMenuData = true;
+                    resolve(); // 계속 진행하도록 resolve 호출
+                    return;
+                }
+
+                // 파일 리더 사용하여 이미지를 Base64로 인코딩
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const base64Image = event.target.result.split(',')[1]; // Base64 문자열만 추출
+                    menus.push({
+                        menuName: menuName,
+                        menuIntroduction: menuIntroduction,
+                        menuPrice: parseInt(menuPrice),
+                        menuImage: base64Image
+                    });
+                    resolve(); // 메뉴 처리 완료 후 resolve 호출
                 };
-                menus.push(menuObject);
-                formData.append('menuImages', menuImage);
-
-                console.log("메뉴이미지:"+menuImages);
-            } else {
-                console.warn("메뉴 데이터가 완전하지 않습니다:", menuItem);
-                hasIncompleteMenuData = true;
-            }
-        });
-        // FormData 객체 생성
-
-
-
-
-        // 현재 카테고리 정보를 categories 배열에 추가
-        if (menuCategoryName && menus.length > 0) {
-            categories.push({
-                menuCategoryName: menuCategoryName,
-                menus: menus
+                reader.readAsDataURL(menuImageElement.files[0]);
             });
-        } else if ((menuCategoryName && menus.length === 0) || menuCategoryName === null) {
-            console.warn("메뉴가 없습니다:", categoryContainer);
-            hasEmptyMenu = true;
-        } else {
-            console.warn("카테고리가 없습니다:", categoryContainer);
-            hasNoCategories = true;
-        }
+        });
+
+        categoryPromises.push(Promise.all(menuPromises).then(() => {
+            // 모든 메뉴가 처리된 후 카테고리 배열에 추가
+            if (menus.length > 0) {
+                categories.push({
+                    menuCategoryName: menuCategoryName,
+                    menus: menus
+                });
+            } else {
+                hasEmptyMenu = true;
+            }
+        }));
     });
 
+    Promise.all(categoryPromises).then(() => {
+        finalizeValidation(categories);
+    });
+};
+
+function finalizeValidation(categories) {
     if (hasIncompleteMenuData) {
-        alert("필수항목을 입력하세요.");
+        alert("필수 항목을 입력하세요.");
         return;
     }
 
-    // 경고 메시지 표시
-    if (hasEmptyMenu) {
-        alert("메뉴를 입력하세요.");
-        return;
-    }
-
-    if (categories.length === 0) {
+    if (hasEmptyMenu || categories.length === 0) {
         alert("하나 이상의 카테고리 또는 메뉴를 입력하세요.");
         return;
     }
 
-    if (hasNoCategories) {
-        alert("카테고리를 입력하세요.")
-        return;
-    }
+    // 모든 유효성 검사를 통과하면 추가 작업 수행
+    console.log("모든 입력이 완료되었습니다.", categories);
+    sendData(categories); // 데이터를 서버로 전송
+}
 
+function sendData(categories) {
     // 전체 데이터를 하나의 객체로 준비
     const data = {
         categories: categories
     };
-
-    // 데이터 구조와 JSON 문자열 확인 (디버깅용)
     console.log("전송할 데이터:", JSON.stringify(data, null, 2));
-    console.log("사진데이터:"+menuImages);
 
-    function saveMenuImages(menuImages, successCallback, errorCallback) {
-
-
-        $.ajax({
-            url: '/market/menu/save/images', // 서버 측 파일 경로
-            type: 'POST', // HTTP 요청 방식
-            data: formData, // FormData 직접 전송
-            processData: false, // 필수: 데이터 처리 방식 지정
-            contentType: false, // 필수: 컨텐츠 타입 false로 설정
-            success: function(response){
-                if (typeof successCallback === 'function') {
-                    successCallback(response);
-                    window.location.href = '/market/option';
-                }
-            },
-            error: function(xhr, status, error){
-                if (typeof errorCallback === 'function') {
-                    errorCallback(error);
-                }
-            }
-        });
-    }
-
-    // 첫 번째 Ajax 요청 (Fetch API 사용)
-    fetch('/market/menu/save', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
+    // 첫 번째 Ajax 요청 (jQuery 사용)
+    $.ajax({
+        url: '/market/menu/save',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function(response) {
+            alert('메뉴 저장 완료');
+            console.log('Response data:', response);
         },
-        body: JSON.stringify(data)
-    })
-    .then(response => {
-        if (response.ok) {
-            return response.json();
+        error: function(jqXHR, textStatus, errorThrown) {
+            alert('저장 실패. 등록된 가게정보가 없습니다.');
+            console.error('Error:', textStatus, errorThrown);
         }
-        throw new Error('Network response was not ok.');
-    })
-    .then(data => {
-        alert('메뉴 저장 완료');
-        console.log('Response data:', data);
-
-        // 두 번째 Ajax 요청
-        saveMenuImages([], function(response) {
-            console.log('두 번째 Ajax 요청 성공:', response);
-            // 추가적인 처리 가능
-        }, function(error) {
-            console.error('두 번째 Ajax 요청 실패:', error);
-        });
-
-        /*window.location.href = '/market/option';*/
-    })
-    .catch(error => {
-        alert('저장 실패. 등록된 가게정보가 없습니다.');
-        console.error('Error:', error);
     });
-};
+}
 
 
 
@@ -189,11 +154,11 @@ document.addEventListener('DOMContentLoaded', function() {
                             </div>
                             <div class="length-container margin-left-10">
                                 <div class="s-info-text essential">가격</div>
-                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" value="0" class="s-input-box margin-top-10"/>
+                                <input type="number" id="menuPrice-${menuCount}" th:field="*{menuPrice}" name="menuPrice" value="0" class="menu-price s-input-box margin-top-10"/>
                             </div>
                         </div>
                         <div class="s-info-text margin-top-10">메뉴를 설명해주세요.</div>
-                        <input type="text" id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction ll-input-box margin-top-10"/>
+                        <textarea id="menuIntro-${menuCount}" th:field="*{menuIntro}" name="menuIntro" class="menu-introduction ll-input-box margin-top-10"></textarea>
                         <div class="s-info-text margin-top-10 essential">메뉴 사진 등록</div>
 
                         <div class="line-container">

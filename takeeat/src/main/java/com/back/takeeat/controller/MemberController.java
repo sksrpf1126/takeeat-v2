@@ -16,15 +16,12 @@ import com.back.takeeat.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
@@ -33,6 +30,18 @@ public class MemberController {
 
     private final MemberService memberService;
     private final EmailService emailService;
+
+    @PostMapping("/find/authcode/mysql")
+    @ResponseBody
+    public String testAuthCode(@RequestParam("email") String email) {
+        return emailService.findAuthCode(email);
+    }
+
+    @PostMapping("/find/authcode/redis")
+    @ResponseBody
+    public String testAuthCodeWithRedis(@RequestParam("email") String email) {
+        return emailService.findAuthCodeWithRedis(email);
+    }
 
     //@TODO 테스트 후 지울 것
     @GetMapping("/test")
@@ -235,10 +244,17 @@ public class MemberController {
         return memberService.duplicateEmail(email);
     }
 
+    @PostMapping("/email-send2")
+    @ResponseBody
+    public String sendAuthCode2(@RequestParam("email") String email) {
+        emailService.authenticationEmail(email);
+        return "인증 코드를 발송했습니다.";
+    }
+
     @PostMapping("/email-send")
     @ResponseBody
     public String sendAuthCode(@RequestParam("email") String email) {
-        emailService.authenticationEmail(email);
+        emailService.authenticationEmailWithRedis(email);
         return "인증 코드를 발송했습니다.";
     }
 

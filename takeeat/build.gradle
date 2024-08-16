@@ -46,6 +46,7 @@ dependencies {
 	implementation 'org.webjars:sockjs-client:1.0.2'
 	implementation 'org.webjars:stomp-websocket:2.3.3'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis' //redis
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE' //AWS S3
 
 }

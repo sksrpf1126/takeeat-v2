@@ -22,10 +22,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,6 +40,7 @@ public class MarketService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final MenuRepository menuRepository;
+    private final S3Service s3Service;
 
     public void marketInfoRegister(MarketInfoRequest marketInfoRequest, Long memberId, List<String> imgUrls) {
         Member member = memberRepository.findById(memberId)
@@ -71,6 +73,15 @@ public class MarketService {
             System.out.println("메뉴 카테고리 저장: " + menuCategory.getMenuCategoryName());
 
             for (MarketMenuRequest marketMenuRequest : marketMenuCategoryRequest.getMenus()) {
+
+                // base64 이미지를 S3에 업로드 한 뒤 생성된 URL로 이미지 이름 변경
+                try {
+                    String imgUrls = s3Service.uploadBase64Image(marketMenuRequest.getMenuImage());
+                    marketMenuRequest.menuImageToUrl(imgUrls);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
                 Menu menu = marketMenuRequest.toMenu();
 
                 // 디버깅 포인트: 메뉴 정보 출력
@@ -80,7 +91,7 @@ public class MarketService {
                 menuCategory.getMenus().add(menu);
             }
 
-
+            // 데이터 베이스 저장
             menuCategoryRepository.save(menuCategory);
 
             // 디버깅 포인트: 저장된 메뉴 카테고리 확인

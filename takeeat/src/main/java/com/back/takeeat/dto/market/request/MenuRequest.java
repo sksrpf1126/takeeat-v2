@@ -9,4 +9,5 @@ import java.util.List;
 public class MenuRequest {
     private List<MarketMenuCategoryRequest> categories;
 
+
 }

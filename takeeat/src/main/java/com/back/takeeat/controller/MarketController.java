@@ -3,6 +3,7 @@ package com.back.takeeat.controller;
 import com.back.takeeat.domain.market.MarketStatus;
 import com.back.takeeat.domain.user.Member;
 import com.back.takeeat.dto.market.request.MarketInfoRequest;
+import com.back.takeeat.dto.market.request.MarketMenuRequest;
 import com.back.takeeat.dto.market.request.MenuRequest;
 import com.back.takeeat.dto.market.request.OptionRequest;
 import com.back.takeeat.dto.market.response.MarketHomeResponse;
@@ -118,7 +119,8 @@ public class MarketController {
 
     @PostMapping("/menu/save")
     @ResponseBody
-    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest, BindingResult result
+    public ResponseEntity<String> saveMenu(@RequestBody @Valid MenuRequest menuRequest
+                                            , BindingResult result
                                             ,@LoginMember Member member) {
         if (result.hasErrors()) {
             String errorMessages = result.getAllErrors().stream()
@@ -135,18 +137,6 @@ public class MarketController {
             e.printStackTrace();
             return ResponseEntity.badRequest().body("{\"message\": \"메뉴 저장 실패\"}");
         }
-    }
-
-    @PostMapping("/menu/save/images")
-    public ResponseEntity<String> saveMenuImages(@RequestParam("menuImages") List<MultipartFile> menuImages
-                                                ,@LoginMember Member member) {
-        // 이미지 파일 리스트를 받아와서 처리
-        System.out.println("이미지 수: " + menuImages.size());
-        Long memberId = member.getId();
-        List<String> imgUrls = s3Service.uploadFile(menuImages);
-        // 이미지 저장 로직 등 수행
-        marketService.menuImageRegister(imgUrls, memberId);
-        return ResponseEntity.ok("{\"message\": \"메뉴 이미지 저장 성공\"}");
     }
 
     @GetMapping("/menus")

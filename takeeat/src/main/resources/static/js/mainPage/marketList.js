@@ -42,12 +42,12 @@ window.onload = function() {
         var mapContainer = document.getElementById('map');
         var mapOption = {
             center: new kakao.maps.LatLng(latitude, longitude),
-            level: 4
+            level: 5
         };
         var map = new kakao.maps.Map(mapContainer, mapOption);
 
         var imageSrc = '/images/red-dot.png';
-        var imageSize = new kakao.maps.Size(20, 20);
+        var imageSize = new kakao.maps.Size(18, 18);
         var imageOption = { offset: new kakao.maps.Point(10, 10) };
         var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize, imageOption);
 

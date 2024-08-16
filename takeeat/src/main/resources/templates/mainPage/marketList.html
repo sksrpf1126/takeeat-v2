@@ -52,8 +52,13 @@
             <button type="submit" class="search-button">검색</button>
         </form>
     </div>
-    <div id="map"></div>
-
+    <div class="map_wrap">
+        <div id="map"></div>
+        <div class="hAddr">
+            <span class="title">반경 4km 이내의 매장만 검색됩니다.</span>
+            <span id="centerAddr"></span>
+        </div>
+    </div>
     <script th:inline="javascript">
         var longitude = [[${longitude}]];
         var latitude = [[${latitude}]];

@@ -22,6 +22,7 @@ public class EmailService {
 
     private final MemberRepository memberRepository;
     private final EmailAuthRepository emailAuthRepository;
+    private final RedisService redisService;
     private final AsyncService asyncService;
 
     @Transactional
@@ -33,10 +34,32 @@ public class EmailService {
 
         String authCode = this.createCode();
 
+        long startTime = System.currentTimeMillis();
         emailAuthRepository.save(EmailAuth.builder()
                 .email(email)
                 .authCode(authCode)
                 .build());
+        long endTime = System.currentTimeMillis(); // 끝난 시간 기록
+
+        log.info("RDB 저장 시간 {}ms", endTime - startTime);
+
+        asyncService.sendEmail(email, authCode, "[TakeEat] 회원가입 이메일 인증");
+    }
+
+    @Transactional
+    public void authenticationEmailWithRedis(String email) {
+
+        if(memberRepository.existsByEmail(email)) {
+            throw new BaseException(ErrorCode.MEMBER_EXISTS);
+        }
+
+        String authCode = this.createCode();
+
+        long startTime = System.currentTimeMillis();
+        redisService.setCode(email, authCode);
+        long endTime = System.currentTimeMillis(); // 끝난 시간 기록
+
+        log.info("Redis 저장 시간 {}ms", endTime - startTime);
 
         asyncService.sendEmail(email, authCode, "[TakeEat] 회원가입 이메일 인증");
     }
@@ -70,6 +93,29 @@ public class EmailService {
             bindingResult.rejectValue("authCode", "required", "인증코드 유효시간이 지났습니다.");
         }
 
+    }
+
+    @Transactional(readOnly = true)
+    public void validateAuthCodewithRedis(String email, String authCode, BindingResult bindingResult) {
+        String findEmailAuthCode = redisService.getCode(email);
+
+        if(findEmailAuthCode == null) {
+            bindingResult.rejectValue("authCode", "required", "인증코드 유호시간이 지났거나 발급이 되지 않았습니다.");
+        }else if(!findEmailAuthCode.equals(authCode)) {
+            bindingResult.rejectValue("authCode", "required", "인증코드를 다시 확인해 주세요.");
+        }
+
+    }
+
+    @Transactional(readOnly = true)
+    public String findAuthCode(String email) {
+        EmailAuth findEmailAuth = emailAuthRepository.findTop1ByEmailOrderByCreatedTimeDesc(email).orElse(null);
+        return findEmailAuth.getAuthCode();
+    }
+
+    @Transactional(readOnly = true)
+    public String findAuthCodeWithRedis(String email) {
+        return redisService.getCode(email);
     }
 
     private String createCode() {

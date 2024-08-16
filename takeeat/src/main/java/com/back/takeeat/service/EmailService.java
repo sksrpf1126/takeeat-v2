@@ -7,9 +7,6 @@ import com.back.takeeat.repository.EmailAuthRepository;
 import com.back.takeeat.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -25,7 +22,7 @@ public class EmailService {
 
     private final MemberRepository memberRepository;
     private final EmailAuthRepository emailAuthRepository;
-    private final JavaMailSender javaMailSender;
+    private final AsyncService asyncService;
 
     @Transactional
     public void authenticationEmail(String email) {
@@ -41,7 +38,7 @@ public class EmailService {
                 .authCode(authCode)
                 .build());
 
-        this.sendEmail(email, authCode, "[TakeEat] 회원가입 이메일 인증");
+        asyncService.sendEmail(email, authCode, "[TakeEat] 회원가입 이메일 인증");
     }
 
     @Transactional
@@ -58,7 +55,7 @@ public class EmailService {
                 .authCode(authCode)
                 .build());
 
-        this.sendEmail(email, authCode, "[TakeEat] 아이디 찾기 인증");
+        asyncService.sendEmail(email, authCode, "[TakeEat] 아이디 찾기 인증");
     }
 
     @Transactional(readOnly = true)
@@ -73,18 +70,6 @@ public class EmailService {
             bindingResult.rejectValue("authCode", "required", "인증코드 유효시간이 지났습니다.");
         }
 
-    }
-
-    @Async
-    public void sendEmail(String email, String authCode, String subject) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(email);
-        mailMessage.setSubject(subject);
-        mailMessage.setText("인증 코드는 " + authCode + " 입니다.");
-
-        log.info("{} 로 인증코드를 방송 했습니다. code : {}", email, authCode);
-
-        javaMailSender.send(mailMessage);
     }
 
     private String createCode() {

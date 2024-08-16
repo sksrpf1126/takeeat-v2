@@ -46,7 +46,8 @@
                     <div class="line-container">
                         <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview">
                         <label class="input-file-button" for="input-file">이미지 업로드</label>
-                        <input type="file" id="input-file" th:field="*{marketImage}" th:errorclass="field-error-border" name="marketImage" class="file-style" style="display:none">
+                        <input type="file" id="input-file" th:field="*{marketImage}" th:errorclass="field-error-border" name="marketImage" class="file-style" style="display:none" onchange="showFileName(event)">
+                        <span id="file-name" class="file-name"></span>
                     </div>
                     <div class="field-error" id="image-error" th:errors="*{marketImage}"></div>
                     <hr class="hr-margin"/>

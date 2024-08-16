@@ -182,3 +182,17 @@ function checkMarketAndSubmit(event) {
         }
     });
 }
+
+// 첨부파일 이름 표시
+function showFileName(event) {
+    var input = event.target;
+    if (input.files && input.files.length > 0) {
+        var fileName = input.files[0].name; // 선택된 파일의 이름을 가져옴
+        var fileNameElement = document.getElementById("file-name"); // 파일 이름을 표시할 요소 찾기
+        if (fileNameElement) {
+            fileNameElement.textContent = fileName; // 파일 이름을 요소에 표시
+        } else {
+            console.error("File name element not found"); // 요소가 없을 때 오류 로그
+        }
+    }
+}

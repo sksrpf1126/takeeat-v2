@@ -361,3 +361,9 @@ div .essential:before {
     cursor: pointer;
     transform: scale(1.05);
 }
+.file-name {
+    margin-top: auto;
+    margin-left: 10px;
+    font-size: 12px;
+    color: #6E6E6E;
+}

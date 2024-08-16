@@ -165,7 +165,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="line-container">
                             <img src="/images/no-image.jpg" class="img-style margin-top-15" id="img-preview-${menuCount}"/>
                             <label class="input-file-button" for="input-file-${menuCount}">이미지 업로드</label>
-                            <input type="file" id="input-file-${menuCount}" th:field="*{menuImage}" name="menuImage" class="file-style" onchange="previewImage(event, ${menuCount})" style="display:none">
+                            <input type="file" id="input-file-${menuCount}" th:field="*{menuImage}" name="menuImage" class="file-style" onchange="previewImage(event, ${menuCount}); showFileName(event, ${menuCount});" style="display:none">
+                            <span id="file-name-${menuCount}" class="file-name"></span>
                         </div>
                         <hr class="hr-margin"/>
                     </li>
@@ -243,4 +244,18 @@ function previewImage(event, count) {
         output.src = reader.result;
     };
     reader.readAsDataURL(event.target.files[0]);
+}
+
+// 첨부파일 이름 표시
+function showFileName(event, menuCount) {
+    var input = event.target;
+    if (input.files && input.files.length > 0) {
+        var fileName = input.files[0].name;
+        var fileNameElement = document.getElementById("file-name-" + menuCount);
+        if (fileNameElement) {
+            fileNameElement.textContent = fileName;
+        } else {
+            console.error("File name element not found");
+        }
+    }
 }

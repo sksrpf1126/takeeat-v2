@@ -101,7 +101,7 @@ function sendData(categories) {
     };
     console.log("전송할 데이터:", JSON.stringify(data, null, 2));
 
-    // 첫 번째 Ajax 요청 (jQuery 사용)
+    // Ajax 요청 (jQuery 사용)
     $.ajax({
         url: '/market/menu/save',
         type: 'POST',

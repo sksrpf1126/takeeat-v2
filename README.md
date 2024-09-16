@@ -40,6 +40,18 @@ src─|
 
 ## 💻 담당한 기능 및 페이지 소개
 
+### 담당한 기능
+
+- ERD 및 Figma를 통한 화면 설계
+- Redis 기반 이메일 인증을 통한 회원가입  
+- Spring Security의 Session 기반 Form Login 및 OAuth2 로그인
+- WebSocket + STOMP를 통한 회원 알림 기능 및 가게 주문 접수 처리
+- 결제 외부 API를 통한 주문 결제 처리
+- 인증, 인가 예외 및 공통 예외 처리
+- AWS S3 기반 이미지 업로드 공통 로직 구현
+
+### 담당한 페이지
+
  <table>
 	<tbody>
 		<tr>

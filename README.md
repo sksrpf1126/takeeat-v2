@@ -51,137 +51,137 @@ src─|
 			<td><img width="650px" src="https://github.com/user-attachments/assets/92bbf0ab-c0f4-47dd-b31a-671ed152f782" alt="다크모드 기능"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
-			<td>- 모든 페이지에서 다크모드 지원</td>
+			<td>- 사장님일 경우의 로그인 기능<br>- 사장님 계정만이 가게를 등록할 수 있다.</td>
+			<td>- 사장님일 경우의 회원가입 기능</td>
 		</tr>	
 		<tr>
 			<th>일반회원 가입 및 로그인</th>
 			<th>가게 등록</th>
 		</tr>
 		<tr>
-		<td><img width="400px" src="public/readme-images/login.gif" alt="로그인 기능"/></td>
-			<td><img width="400px" src="public/readme-images/register.gif" alt="회원가입 기능"/></td>
+		<td><img width="650px" src="https://github.com/user-attachments/assets/a03f1819-4717-4757-bfdb-000cee50a7b2" alt="로그인 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/ebe6443f-1265-40df-bb08-5fd30cb176b3" alt="회원가입 기능"/></td>
 		</tr>
 		<tr>
-			<td>- 로그인 반응형 모달<br>- 소셜 로그인 기능</td>
-			<td>- 회원가입 기능<br>-  기능</td>
+			<td>- 일반회원 가입 및 로그인 기능</td>
+			<td>- 사장님일 경우 가게 등록하는 페이지<br>- 가게의 여러 정보를 설정</td>
 		</tr>
 		<tr>
 			<th>메뉴 등록</th>
 			<th>메뉴 옵션 저장</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/mypage.gif" alt="마이 페이지"/></td>
-			<td><img width="400px" src="public/readme-images/mypage-edit.gif" alt="프로필 변경하기"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8532d981-b224-419f-960c-2f58330abcd9" alt="마이 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/dab5d89e-83ba-48d7-9f75-21156b83b5eb" alt="프로필 변경하기"/></td>
 		</tr>
 		<tr>
-			<td>- 개인 프로필 관리<br>- 관심 게시글 및 작성 게시물 모아보기<br>- 지원 현황 및 상태 확인<br>- 계정 탈퇴 기능</td>
-			<td>- 아바타 이미지 변경 기능<br>- 본인을 나타내는 해시태그<br>- 포지션, 경력 등의 정보 추가 및 수정 기능</td>
+			<td>- 가게 등록 이후 메뉴를 설정하는 페이지<br>- 메뉴 카테고리 및 메뉴정보를 등록</td>
+			<td>- 메뉴 등록 이후 메뉴 옵션을 설정하는 페이지<br>메뉴 하나에 들어갈 수 있는 여러 옵션을 설정</td>
 		</tr>
 		<tr>
 			<th>GPS기반 주변 가게 검색</th>
 			<th>주소 입력을 통한 가게 검색</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/post-project.gif" alt="프로젝트 자랑 게시글 작성"/></td>
-			<td><img width="400px" src="public/readme-images/detail-recruit.gif" alt="모집 게시글 상세 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8731911c-33e1-4b62-a988-a9408bbafb9a" alt="프로젝트 자랑 게시글 작성"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/d32ca467-e89f-4bac-a873-085faca2761f" alt="모집 게시글 상세 페이지"/></td>
 		</tr>
 		<tr>
-			<td>- 잘못된 데이터 입력을 에러 메시지로 경고<br>- 프로젝트 대표이미지 등록 가능</td>
-			<td>- 모집중인 포지션에 지원 가능<br>- 게시글 작성자인 경우 수정/삭제 가능<br>- 댓글 등록 및 수정, 삭제 가능</td>
+			<td>- 디바이스의 GPS를 통한 주변 가게 검색 페이지<br>- 일정 거리에 포함된 가게를 검색</td>
+			<td>- 특정 주소를 기준으로 가게를 검색</td>
 		</tr>
 		<tr>
 			<th>카테고리, 거리, 리뷰를 통한 가게 검색</th>
 			<th>가게 정보 및 리뷰 상세 보기</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/recruits-page.gif" alt="팀원 모집 게시판"/></td>
-			<td><img width="400px" src="public/readme-images/post-recruit.gif" alt="팀원 모집 게시글 작성"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8eec7fc4-2336-4e7c-8d9a-a4cd6a65f3b2" alt="팀원 모집 게시판"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/96682543-90a6-4969-871d-e4211c0860d6" alt="팀원 모집 게시글 작성"/></td>
 		</tr>
 		<tr>
-			<td>- 게시글을 무한 스크롤 형태로 빠르게 로딩<br>- 원하는 기술 태그 또는 내용의 게시글 검색</td>
-			<td>- 팀원 모집 게시글 작성 기능<br>- 모집할 포지션 설정 및 기술 태그 검색 후 추가</td>
+			<td>- 원하는 카테고리, 거리, 리뷰를 통해 원하는 가게를 검색</td>
+			<td>- 가게의 상세 정보를 확인<br>- 가게에 작성된 리뷰를 확인</td>
 		</tr>
 				<tr>
 			<th>장바구니 메뉴 추가 및 수정</th>
 			<th>결제 및 주문상세 내역보기</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/alarm.gif" alt="알람 이벤트"/></td>
-			<td><img width="400px" src="public/readme-images/like-board.gif" alt="게시물 관심목록 추가"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/6edc2034-b20b-4c1e-90ec-b2969d1fefd7" alt="알람 이벤트"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/28db64ea-cf84-487d-8df8-ddb1f637231b" alt="게시물 관심목록 추가"/></td>
 		</tr>
 		<tr>
-			<td>- 댓글 발생 알람 기능<br>- 모집 게시판 참여자 발생 알람 기능</td>
-			<td>- 마이페이지 관심 목록 추가 기능</td>
+			<td>- 장바구니에 메뉴를 추가<br>- 장바구니에 넣어둔 메뉴를 수정</td>
+			<td>- 장바구니에 담긴 메뉴 결제<br>- 결제이후 주문상세 내역 보기</td>
 		</tr>
 		<tr>
 			<th>사장님 - 주문 접수 페이지</th>
 			<th>주문접수 및 알림</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/teamManage.gif" alt="팀관리 모달"/></td>
-			<td><img width="400px" src="public/readme-images/skeleton.gif" alt="스켈레톤 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/e181e4f8-806e-4fba-8c48-3e1e8b8c673a" alt="팀관리 모달"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/46e135c0-eaad-4e3c-94fa-85b90bd311a9" alt="스켈레톤 기능"/></td>
     	<tr>
     	<tr>
-    		<td>- 지원자 관리 및 팀원 관리 반응형 모달</td>
-			<td>- 레이아웃 시프트 방지를 위한 스켈레톤 컴포넌트</td>
+    		<td>- 가게에 접수된 주문을 접수하고 처리하는 페이지</td>
+			<td>- 주문을 접수함과 동시에 고객에게 알림 전송</td>
     	</tr>
     <tr>
 			<th>주문완료 및 알림</th>
 			<th>사장님 주문 조회</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/landing-page.gif" alt="랜딩 페이지"/></td>
-			<td><img width="400px" src="public/readme-images/darkmode.gif" alt="다크모드 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/03f4591b-c617-4a5b-a6d8-9859a9fe1851" alt="랜딩 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/7556b731-a214-481b-9199-f36d22f7157c" alt="다크모드 기능"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
-			<td>- 모든 페이지에서 다크모드 지원</td>
+			<td>- 가게에서 주문을 완료함과 동시에 고객에게 알림 전송</td>
+			<td>- 대기, 거절, 취소, 완료 등 주문상태에 따라 주문을 조회</td>
 		</tr>
     <tr>
 			<th>마이페이지 주문 내역</th>
 			<th>고객 - 리뷰 작성</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/landing-page.gif" alt="랜딩 페이지"/></td>
-			<td><img width="400px" src="public/readme-images/darkmode.gif" alt="다크모드 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/e0f545b1-5620-4d6b-b8ef-cedf947bfb1a" alt="랜딩 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/458563ac-1659-4576-b896-f023a74982c6" alt="다크모드 기능"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
-			<td>- 모든 페이지에서 다크모드 지원</td>
+			<td>- 가게에 주문한 내역을 모아서 볼 수 있는 페이지<br>한 가게당 하나의 리뷰만 작성 가능</td>
+			<td>- 주문한 가게에 리뷰를 작성하는 페이지</td>
 		</tr>	
     <tr>
 			<th>고객 - 리뷰 관리</th>
 			<th>사장님 - 리뷰 작성</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/landing-page.gif" alt="랜딩 페이지"/></td>
-			<td><img width="400px" src="public/readme-images/darkmode.gif" alt="다크모드 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/bb34fb40-b209-4913-b77a-543302e77fc2" alt="랜딩 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/61eea9e9-2042-4b03-b9f4-cc386c54371c" alt="다크모드 기능"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
-			<td>- 모든 페이지에서 다크모드 지원</td>
+			<td>- 자신이 작성한 리뷰를 삭제 또는 수정할 수 있는 페이지</td>
+			<td>- 사장님이 가게에 등록되어 있는 리뷰에 대해 답글 형식으로 작성</td>
 		</tr>	
     <tr>
 			<th>사장님 - 리뷰 답글 관리</th>
 			<th>가게 상태 변경</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/landing-page.gif" alt="랜딩 페이지"/></td>
-			<td><img width="400px" src="public/readme-images/darkmode.gif" alt="다크모드 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/9effa372-a31c-4b7a-9cb4-ba0b735477c5" alt="랜딩 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/856595b4-b584-4ed6-a44f-0b5def5cc5a0" alt="다크모드 기능"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
-			<td>- 모든 페이지에서 다크모드 지원</td>
+			<td>- 답글로 작성한 리뷰에 대하여 수정 또는 삭제를 할 수 있는 페이지</td>
+			<td>- 가게의 사정에 따라 오픈 여부 결정 가능</td>
 		</tr>	
     <tr>
 			<th>준비중인 가게 주문 불가</th>
 		</tr>
 		<tr>
-			<td><img width="400px" src="public/readme-images/landing-page.gif" alt="랜딩 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/44913e37-6f09-430b-9069-f30a97057dc9" alt="랜딩 페이지"/></td>
 		</tr>		
 		<tr>
-			<td>- 모든 페이지에서 반응형 UI 지원<br>- 해당 서비스의 특징 및 사용법 안내<br>- 실시간 인기게시글 확인</td>
+			<td>- 오픈이 되지 않은 가게에 대해서는 주문 불가</td>
 		</tr>	
     </tbody>
 

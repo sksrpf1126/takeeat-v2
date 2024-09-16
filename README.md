@@ -38,9 +38,11 @@ src─|
 
 ```
 
-## 💻 주요 기능 및 페이지 소개
+## 💻 기능 및 페이지 소개
 
-<table>
+<details>
+	<summary>담당한 기능 및 페이지</summary>
+ <table>
 	<tbody>
 		<tr>
 			<th>사장님 로그인</th>
@@ -53,65 +55,17 @@ src─|
 		<tr>
 			<td>- 사장님일 경우의 로그인 기능<br>- 사장님 계정만이 가게를 등록할 수 있다.</td>
 			<td>- 사장님일 경우의 회원가입 기능</td>
-		</tr>	
+		</tr>
 		<tr>
 			<th>일반회원 가입 및 로그인</th>
-			<th>가게 등록</th>
-		</tr>
-		<tr>
-		<td><img width="650px" src="https://github.com/user-attachments/assets/a03f1819-4717-4757-bfdb-000cee50a7b2" alt="로그인 기능"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/ebe6443f-1265-40df-bb08-5fd30cb176b3" alt="회원가입 기능"/></td>
-		</tr>
-		<tr>
-			<td>- 일반회원 가입 및 로그인 기능</td>
-			<td>- 사장님일 경우 가게 등록하는 페이지<br>- 가게의 여러 정보를 설정</td>
-		</tr>
-		<tr>
-			<th>메뉴 등록</th>
-			<th>메뉴 옵션 저장</th>
-		</tr>
-		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8532d981-b224-419f-960c-2f58330abcd9" alt="마이 페이지"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/dab5d89e-83ba-48d7-9f75-21156b83b5eb" alt="프로필 변경하기"/></td>
-		</tr>
-		<tr>
-			<td>- 가게 등록 이후 메뉴를 설정하는 페이지<br>- 메뉴 카테고리 및 메뉴정보를 등록</td>
-			<td>- 메뉴 등록 이후 메뉴 옵션을 설정하는 페이지<br>메뉴 하나에 들어갈 수 있는 여러 옵션을 설정</td>
-		</tr>
-		<tr>
-			<th>GPS기반 주변 가게 검색</th>
-			<th>주소 입력을 통한 가게 검색</th>
-		</tr>
-		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8731911c-33e1-4b62-a988-a9408bbafb9a" alt="프로젝트 자랑 게시글 작성"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/d32ca467-e89f-4bac-a873-085faca2761f" alt="모집 게시글 상세 페이지"/></td>
-		</tr>
-		<tr>
-			<td>- 디바이스의 GPS를 통한 주변 가게 검색 페이지<br>- 일정 거리에 포함된 가게를 검색</td>
-			<td>- 특정 주소를 기준으로 가게를 검색</td>
-		</tr>
-		<tr>
-			<th>카테고리, 거리, 리뷰를 통한 가게 검색</th>
-			<th>가게 정보 및 리뷰 상세 보기</th>
-		</tr>
-		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8eec7fc4-2336-4e7c-8d9a-a4cd6a65f3b2" alt="팀원 모집 게시판"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/96682543-90a6-4969-871d-e4211c0860d6" alt="팀원 모집 게시글 작성"/></td>
-		</tr>
-		<tr>
-			<td>- 원하는 카테고리, 거리, 리뷰를 통해 원하는 가게를 검색</td>
-			<td>- 가게의 상세 정보를 확인<br>- 가게에 작성된 리뷰를 확인</td>
-		</tr>
-				<tr>
-			<th>장바구니 메뉴 추가 및 수정</th>
 			<th>결제 및 주문상세 내역보기</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/6edc2034-b20b-4c1e-90ec-b2969d1fefd7" alt="알람 이벤트"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/a03f1819-4717-4757-bfdb-000cee50a7b2" alt="로그인 기능"/></td>
 			<td><img width="650px" src="https://github.com/user-attachments/assets/28db64ea-cf84-487d-8df8-ddb1f637231b" alt="게시물 관심목록 추가"/></td>
 		</tr>
 		<tr>
-			<td>- 장바구니에 메뉴를 추가<br>- 장바구니에 넣어둔 메뉴를 수정</td>
+			<td>- 일반회원 가입 및 로그인 기능</td>
 			<td>- 장바구니에 담긴 메뉴 결제<br>- 결제이후 주문상세 내역 보기</td>
 		</tr>
 		<tr>
@@ -121,12 +75,12 @@ src─|
 		<tr>
 			<td><img width="650px" src="https://github.com/user-attachments/assets/e181e4f8-806e-4fba-8c48-3e1e8b8c673a" alt="팀관리 모달"/></td>
 			<td><img width="650px" src="https://github.com/user-attachments/assets/46e135c0-eaad-4e3c-94fa-85b90bd311a9" alt="스켈레톤 기능"/></td>
-    	<tr>
-    	<tr>
-    		<td>- 가게에 접수된 주문을 접수하고 처리하는 페이지</td>
+	    	<tr>
+	    	<tr>
+    			<td>- 가게에 접수된 주문을 접수하고 처리하는 페이지</td>
 			<td>- 주문을 접수함과 동시에 고객에게 알림 전송</td>
-    	</tr>
-    <tr>
+	    	</tr>
+	    	<tr>
 			<th>주문완료 및 알림</th>
 			<th>사장님 주문 조회</th>
 		</tr>
@@ -138,7 +92,70 @@ src─|
 			<td>- 가게에서 주문을 완료함과 동시에 고객에게 알림 전송</td>
 			<td>- 대기, 거절, 취소, 완료 등 주문상태에 따라 주문을 조회</td>
 		</tr>
-    <tr>
+      </tbody>
+
+</table>
+
+</details>
+<details>
+	<summary>그 외 전체적인 기능 및 페이지</summary>
+
+
+</details>
+
+## 💻 주요 기능 및 페이지 소개
+
+<table>
+	<tbody>
+		<tr>
+			<th>가게 등록</th>
+			<th>메뉴 등록</th>
+		</tr>
+		<tr>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/ebe6443f-1265-40df-bb08-5fd30cb176b3" alt="회원가입 기능"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8532d981-b224-419f-960c-2f58330abcd9" alt="마이 페이지"/></td>
+		</tr>
+		<tr>
+			<td>- 가게 등록 이후 메뉴를 설정하는 페이지<br>- 메뉴 카테고리 및 메뉴정보를 등록</td>
+			<td>- 사장님일 경우 가게 등록하는 페이지<br>- 가게의 여러 정보를 설정</td>
+		</tr>
+		<tr>
+			<th>메뉴 옵션 저장</th>
+			<th>GPS기반 주변 가게 검색</th>
+		</tr>
+		<tr>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/dab5d89e-83ba-48d7-9f75-21156b83b5eb" alt="프로필 변경하기"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8731911c-33e1-4b62-a988-a9408bbafb9a" alt="프로젝트 자랑 게시글 작성"/></td>
+		</tr>
+		<tr>
+			<td>- 메뉴 등록 이후 메뉴 옵션을 설정하는 페이지<br>메뉴 하나에 들어갈 수 있는 여러 옵션을 설정</td>
+			<td>- 디바이스의 GPS를 통한 주변 가게 검색 페이지<br>- 일정 거리에 포함된 가게를 검색</td>
+		</tr>
+		<tr>
+			<th>주소 입력을 통한 가게 검색</th>
+			<th>카테고리, 거리, 리뷰를 통한 가게 검색</th>
+		</tr>
+		<tr>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/d32ca467-e89f-4bac-a873-085faca2761f" alt="모집 게시글 상세 페이지"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/8eec7fc4-2336-4e7c-8d9a-a4cd6a65f3b2" alt="팀원 모집 게시판"/></td>
+		</tr>
+		<tr>
+			<td>- 특정 주소를 기준으로 가게를 검색</td>
+			<td>- 원하는 카테고리, 거리, 리뷰를 통해 원하는 가게를 검색</td>
+		</tr>
+		<tr>
+			<th>가게 정보 및 리뷰 상세 보기</th>
+			<th>장바구니 메뉴 추가 및 수정</th>
+		</tr>
+		<tr>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/96682543-90a6-4969-871d-e4211c0860d6" alt="팀원 모집 게시글 작성"/></td>
+			<td><img width="650px" src="https://github.com/user-attachments/assets/6edc2034-b20b-4c1e-90ec-b2969d1fefd7" alt="알람 이벤트"/></td>
+		</tr>
+		<tr>
+			<td>- 가게의 상세 정보를 확인<br>- 가게에 작성된 리뷰를 확인</td>
+			<td>- 장바구니에 메뉴를 추가<br>- 장바구니에 넣어둔 메뉴를 수정</td>
+		</tr>
+    		<tr>
 			<th>마이페이지 주문 내역</th>
 			<th>고객 - 리뷰 작성</th>
 		</tr>

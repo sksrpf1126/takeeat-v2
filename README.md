@@ -38,10 +38,8 @@ src─|
 
 ```
 
-## 💻 기능 및 페이지 소개
+## 💻 담당한 기능 및 페이지 소개
 
-<details>
-	<summary>담당한 기능 및 페이지</summary>
  <table>
 	<tbody>
 		<tr>
@@ -96,14 +94,12 @@ src─|
 
 </table>
 
-</details>
+<br>
+
+### 💻 그 외 전체적인 기능 및 페이지
+
 <details>
-	<summary>그 외 전체적인 기능 및 페이지</summary>
-
-
-</details>
-
-## 💻 주요 기능 및 페이지 소개
+	<summary>기능 및 페이지 보기</summary>
 
 <table>
 	<tbody>
@@ -203,6 +199,8 @@ src─|
     </tbody>
 
 </table>
+
+</details>
 
 <br>
 

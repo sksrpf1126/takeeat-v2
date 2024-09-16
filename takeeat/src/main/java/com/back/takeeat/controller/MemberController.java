@@ -31,18 +31,6 @@ public class MemberController {
     private final MemberService memberService;
     private final EmailService emailService;
 
-    @PostMapping("/find/authcode/mysql")
-    @ResponseBody
-    public String testAuthCode(@RequestParam("email") String email) {
-        return emailService.findAuthCode(email);
-    }
-
-    @PostMapping("/find/authcode/redis")
-    @ResponseBody
-    public String testAuthCodeWithRedis(@RequestParam("email") String email) {
-        return emailService.findAuthCodeWithRedis(email);
-    }
-
     //@TODO 테스트 후 지울 것
     @GetMapping("/test")
     public String test(@RequestParam("errorType") String errorType) {
@@ -244,16 +232,9 @@ public class MemberController {
         return memberService.duplicateEmail(email);
     }
 
-    @PostMapping("/email-send2")
-    @ResponseBody
-    public String sendAuthCode2(@RequestParam("email") String email) {
-        emailService.authenticationEmail(email);
-        return "인증 코드를 발송했습니다.";
-    }
-
     @PostMapping("/email-send")
     @ResponseBody
-    public String sendAuthCode(@RequestParam("email") String email) {
+    public String sendAuthCode2(@RequestParam("email") String email) {
         emailService.authenticationEmailWithRedis(email);
         return "인증 코드를 발송했습니다.";
     }

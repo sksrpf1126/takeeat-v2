@@ -9,6 +9,7 @@ public enum ErrorCode {
     MEMBER_UNAUTHORIZED(403, "U_005", "로그인이 필요한 서비스입니다."),
     MEMBER_ROLE_NOT_EXISTS(403, "U_006", "해당 계정은 권한이 존재하지 않습니다"),
     NO_SUCH_AUTH_CODE(500, "U_007", "인증 코드 발급에 문제가 발생했습니다."),
+    FAIL_CONVERT(500, "U_008", "비정상적인 접근입니다."),
 
     MARKET_NOT_FOUND(400, "M_001", "가게를 찾을 수 없습니다."),
     MARKET_NOT_SAVE(400, "M_002", "마켓을 저장할 수 없습니다."),

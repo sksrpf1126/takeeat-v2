@@ -58,4 +58,17 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     public Member getMember() {
         return member;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if(o instanceof PrincipalDetails) {
+            return this.member.getId().equals(((PrincipalDetails) o).member.getId());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return this.member.getId().hashCode();
+    }
 }

@@ -5,6 +5,8 @@ import com.back.takeeat.dto.marketorder.response.MarketOrdersResponse;
 import com.back.takeeat.dto.notification.request.MarketMessageRequest;
 import com.back.takeeat.dto.notification.response.ReceiveMessageResponse;
 import com.back.takeeat.security.LoginMember;
+import com.back.takeeat.security.oauth.PrincipalDetails;
+import com.back.takeeat.service.MemberService;
 import com.back.takeeat.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +19,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.List;
 
 @Slf4j
@@ -27,6 +28,7 @@ public class NotificationController {
 
     private final NotificationService notificationService;
     private final SimpMessagingTemplate messagingTemplate;
+    private final MemberService memberService;
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/notification/member")
@@ -53,9 +55,14 @@ public class NotificationController {
 
     @MessageMapping("/send-market/{marketId}")
     @SendTo("/topic/notification-market/{marketId}")
-    public MarketOrdersResponse marketNotification(Principal principal, @DestinationVariable("marketId") Long marketId, @RequestBody MarketOrdersResponse ordersResponse) {
+    public MarketOrdersResponse marketNotification(
+            PrincipalDetails principalDetails,
+            @DestinationVariable("marketId") Long marketId,
+            @RequestBody MarketOrdersResponse ordersResponse) {
 
-        if(principal == null || principal.getName() == null) {
+        Member loginMember = principalDetails.getMember();
+
+        if(loginMember == null || loginMember.getId() == null) {
             throw new AccessDeniedException("접근 권한이 없습니다.");
         }
 

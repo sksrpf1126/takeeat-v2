@@ -2,7 +2,10 @@ package com.back.takeeat.config;
 
 import com.back.takeeat.security.CustomOAuth2UserService;
 import com.back.takeeat.security.UserDetailsServiceImpl;
-import com.back.takeeat.security.handler.*;
+import com.back.takeeat.security.handler.CustomAccessDeniedHandler;
+import com.back.takeeat.security.handler.CustomAuthenticationEntryPoint;
+import com.back.takeeat.security.handler.LoginFailureHandler;
+import com.back.takeeat.security.handler.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +17,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -61,10 +66,17 @@ public class WebSecurityConfig {
                 .sessionManagement((session) -> session //Spring Security가 제공하는 세션방식 설정
                         .maximumSessions(1) //최대 세션 수 1개로 제한
                         .maxSessionsPreventsLogin(false) // 동시 로그인 차단, false인 경우 기존 세션 만료하고 로그인 진행
-                        .expiredUrl("/session-expired")) // 세션이 만료된 경우 이동 할 페이지
-                .exceptionHandling(handler -> handler.authenticationEntryPoint(new CustomAuthenticationEntryPoint())) //위 authorizeHttpRequests에 대한 인증(로그인 여부) 실패 시 실행되는 메서드
+                        .expiredUrl("/member/login") // 세션이 만료된 경우 이동 할 페이지
+                        .sessionRegistry(sessionRegistry()))
+                 .exceptionHandling(handler -> handler.authenticationEntryPoint(new CustomAuthenticationEntryPoint())) //위 authorizeHttpRequests에 대한 인증(로그인 여부) 실패 시 실행되는 메서드
                 .exceptionHandling((handler) -> handler.accessDeniedHandler(new CustomAccessDeniedHandler())); //위 authorizeHttpRequests에 대한 인가(ROLE 권한) 실패 시 실행되는 메서드
         return http.build();
+    }
+
+    // logout 후 login할 때 정상동작을 위함
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 
     /**

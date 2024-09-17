@@ -11,6 +11,15 @@
 
 <br>
 
+## 📃 ERD
+
+[ERD 링크](https://www.erdcloud.com/d/2s4ga5PPwZtm8bnDM)  
+
+  <p align = "center">
+  <img src="https://github.com/user-attachments/assets/365e4e75-2287-4654-a04b-c59e784b3b41" width = 100%>  
+
+<br>
+
 ## 🌳 폴더 구조
 
 ```

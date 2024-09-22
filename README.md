@@ -7,7 +7,7 @@
 
 ## 🛠️ 기술 스택
 
-<p align ="center"><img src="https://github.com/user-attachments/assets/ec94dea6-fba4-4fc2-b18f-63f0f7216f7c" width = 100%></p> 
+<p align ="center"><img src="https://github.com/user-attachments/assets/30b5ff6a-ae1e-4977-97c9-f9aa5ae2b044" width = 100%></p> 
 
 <br>
 

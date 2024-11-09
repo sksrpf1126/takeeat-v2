@@ -41,8 +41,8 @@
 			<th>사장님 회원가입</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/3639d98e-0667-470e-af0c-c064f083c31f" alt="사장님 로그인"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/92bbf0ab-c0f4-47dd-b31a-671ed152f782" alt="사장님 회원가입"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/3639d98e-0667-470e-af0c-c064f083c31f" alt="사장님 로그인"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/92bbf0ab-c0f4-47dd-b31a-671ed152f782" alt="사장님 회원가입"/></td>
 		</tr>		
 		<tr>
 			<td>- 사장님일 경우의 로그인 기능<br>- 사장님 계정만이 가게를 등록할 수 있다.</td>
@@ -53,8 +53,8 @@
 			<th>결제 및 주문상세 내역보기</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/a03f1819-4717-4757-bfdb-000cee50a7b2" alt="일반회원 가입 및 로그인"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/28db64ea-cf84-487d-8df8-ddb1f637231b" alt="결제 및 주문상세 내역보기"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/a03f1819-4717-4757-bfdb-000cee50a7b2" alt="일반회원 가입 및 로그인"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/28db64ea-cf84-487d-8df8-ddb1f637231b" alt="결제 및 주문상세 내역보기"/></td>
 		</tr>
 		<tr>
 			<td>- 일반회원 가입 및 로그인 기능</td>
@@ -65,8 +65,8 @@
 			<th>주문접수 및 알림</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/e181e4f8-806e-4fba-8c48-3e1e8b8c673a" alt="사장님 - 주문 접수 페이지"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/46e135c0-eaad-4e3c-94fa-85b90bd311a9" alt="주문접수 및 알림"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/e181e4f8-806e-4fba-8c48-3e1e8b8c673a" alt="사장님 - 주문 접수 페이지"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/46e135c0-eaad-4e3c-94fa-85b90bd311a9" alt="주문접수 및 알림"/></td>
 	    	<tr>
 	    	<tr>
     			<td>- 가게에 접수된 주문을 접수하고 처리하는 페이지</td>
@@ -77,8 +77,8 @@
 			<th>사장님 주문 조회</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/03f4591b-c617-4a5b-a6d8-9859a9fe1851" alt="주문완료 및 알림"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/7556b731-a214-481b-9199-f36d22f7157c" alt="사장님 주문 조회"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/03f4591b-c617-4a5b-a6d8-9859a9fe1851" alt="주문완료 및 알림"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/7556b731-a214-481b-9199-f36d22f7157c" alt="사장님 주문 조회"/></td>
 		</tr>		
 		<tr>
 			<td>- 가게에서 주문을 완료함과 동시에 고객에게 알림 전송</td>
@@ -102,8 +102,8 @@
 			<th>메뉴 등록</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/ebe6443f-1265-40df-bb08-5fd30cb176b3" alt="가게 등록"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8532d981-b224-419f-960c-2f58330abcd9" alt="메뉴 등록"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/ebe6443f-1265-40df-bb08-5fd30cb176b3" alt="가게 등록"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/8532d981-b224-419f-960c-2f58330abcd9" alt="메뉴 등록"/></td>
 		</tr>
 		<tr>
 			<td>- 가게 등록 이후 메뉴를 설정하는 페이지<br>- 메뉴 카테고리 및 메뉴정보를 등록</td>
@@ -114,8 +114,8 @@
 			<th>GPS기반 주변 가게 검색</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/dab5d89e-83ba-48d7-9f75-21156b83b5eb" alt="메뉴 옵션 저장"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8731911c-33e1-4b62-a988-a9408bbafb9a" alt="GPS기반 주변 가게 검색"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/dab5d89e-83ba-48d7-9f75-21156b83b5eb" alt="메뉴 옵션 저장"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/8731911c-33e1-4b62-a988-a9408bbafb9a" alt="GPS기반 주변 가게 검색"/></td>
 		</tr>
 		<tr>
 			<td>- 메뉴 등록 이후 메뉴 옵션을 설정하는 페이지<br>메뉴 하나에 들어갈 수 있는 여러 옵션을 설정</td>
@@ -126,8 +126,8 @@
 			<th>카테고리, 거리, 리뷰를 통한 가게 검색</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/d32ca467-e89f-4bac-a873-085faca2761f" alt="주소 입력을 통한 가게 검색"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/8eec7fc4-2336-4e7c-8d9a-a4cd6a65f3b2" alt="카테고리, 거리, 리뷰를 통한 가게 검색"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/d32ca467-e89f-4bac-a873-085faca2761f" alt="주소 입력을 통한 가게 검색"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/8eec7fc4-2336-4e7c-8d9a-a4cd6a65f3b2" alt="카테고리, 거리, 리뷰를 통한 가게 검색"/></td>
 		</tr>
 		<tr>
 			<td>- 특정 주소를 기준으로 가게를 검색</td>
@@ -138,8 +138,8 @@
 			<th>장바구니 메뉴 추가 및 수정</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/96682543-90a6-4969-871d-e4211c0860d6" alt="가게 정보 및 리뷰 상세 보기"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/6edc2034-b20b-4c1e-90ec-b2969d1fefd7" alt="장바구니 메뉴 추가 및 수정"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/96682543-90a6-4969-871d-e4211c0860d6" alt="가게 정보 및 리뷰 상세 보기"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/6edc2034-b20b-4c1e-90ec-b2969d1fefd7" alt="장바구니 메뉴 추가 및 수정"/></td>
 		</tr>
 		<tr>
 			<td>- 가게의 상세 정보를 확인<br>- 가게에 작성된 리뷰를 확인</td>
@@ -150,8 +150,8 @@
 			<th>고객 - 리뷰 작성</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/e0f545b1-5620-4d6b-b8ef-cedf947bfb1a" alt="마이페이지 주문 내역"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/458563ac-1659-4576-b896-f023a74982c6" alt="고객 - 리뷰 작성"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/e0f545b1-5620-4d6b-b8ef-cedf947bfb1a" alt="마이페이지 주문 내역"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/458563ac-1659-4576-b896-f023a74982c6" alt="고객 - 리뷰 작성"/></td>
 		</tr>		
 		<tr>
 			<td>- 가게에 주문한 내역을 모아서 볼 수 있는 페이지<br>한 가게당 하나의 리뷰만 작성 가능</td>
@@ -162,8 +162,8 @@
 			<th>사장님 - 리뷰 작성</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/bb34fb40-b209-4913-b77a-543302e77fc2" alt="고객 - 리뷰 관리"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/61eea9e9-2042-4b03-b9f4-cc386c54371c" alt="사장님 - 리뷰 작성"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/bb34fb40-b209-4913-b77a-543302e77fc2" alt="고객 - 리뷰 관리"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/61eea9e9-2042-4b03-b9f4-cc386c54371c" alt="사장님 - 리뷰 작성"/></td>
 		</tr>		
 		<tr>
 			<td>- 자신이 작성한 리뷰를 삭제 또는 수정할 수 있는 페이지</td>
@@ -174,8 +174,8 @@
 			<th>가게 상태 변경</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/9effa372-a31c-4b7a-9cb4-ba0b735477c5" alt="사장님 - 리뷰 답글 관리"/></td>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/856595b4-b584-4ed6-a44f-0b5def5cc5a0" alt="가게 상태 변경"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/9effa372-a31c-4b7a-9cb4-ba0b735477c5" alt="사장님 - 리뷰 답글 관리"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/856595b4-b584-4ed6-a44f-0b5def5cc5a0" alt="가게 상태 변경"/></td>
 		</tr>		
 		<tr>
 			<td>- 답글로 작성한 리뷰에 대하여 수정 또는 삭제를 할 수 있는 페이지</td>
@@ -185,7 +185,7 @@
 			<th>준비중인 가게 주문 불가</th>
 		</tr>
 		<tr>
-			<td><img width="650px" src="https://github.com/user-attachments/assets/44913e37-6f09-430b-9069-f30a97057dc9" alt="준비중인 가게 주문 불가"/></td>
+			<td><img width="400px" src="https://github.com/user-attachments/assets/44913e37-6f09-430b-9069-f30a97057dc9" alt="준비중인 가게 주문 불가"/></td>
 		</tr>		
 		<tr>
 			<td>- 오픈이 되지 않은 가게에 대해서는 주문 불가</td>

@@ -10,8 +10,9 @@ $("#auth-code-btn").click(function() {
         success : function(data){
             alert(data);
         },
-        error: function(){
-            alert('status 500(Server Error)');
+        error: function (xhr, status, error) {
+            const responseText = JSON.parse(xhr.responseText);
+            alert(responseText.message);
         }
     });
 });
@@ -26,8 +27,9 @@ $("#auth-code-btn-find-id").click(function() {
         success : function(data){
             alert(data);
         },
-        error: function(){
-            alert('status 500(Server Error)');
+        error: function(xhr, status, error){
+            const responseText = JSON.parse(xhr.responseText);
+            alert(responseText.message);
         }
     });
 });

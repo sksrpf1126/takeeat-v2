@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 
 import java.security.NoSuchAlgorithmException;
@@ -75,14 +76,12 @@ public class EmailService {
 
     @Transactional(readOnly = true)
     public void validateAuthCode(String email, String authCode, BindingResult bindingResult) {
-        EmailAuth findEmailAuth = emailAuthRepository.findTop1ByEmailOrderByCreatedTimeDesc(email).orElse(null);
+        String redisAuthCode = redisService.getAuthCode(email);
 
-        if(findEmailAuth == null) {
-            bindingResult.rejectValue("authCode", "required", "해당 이메일로 인증코드가 발송되지 않았습니다.");
-        }else if(!findEmailAuth.getAuthCode().equals(authCode)) {
+        if(!StringUtils.hasText(redisAuthCode)) {
+            bindingResult.rejectValue("authCode", "required", "해당 이메일로 인증코드가 발송되지 않았거나 만료되었습니다.");
+        }else if(!redisAuthCode.equals(authCode)) {
             bindingResult.rejectValue("authCode", "required", "인증코드를 다시 확인해 주세요.");
-        }else if(findEmailAuth.expireCheck()) {
-            bindingResult.rejectValue("authCode", "required", "인증코드 유효시간이 지났습니다.");
         }
 
     }

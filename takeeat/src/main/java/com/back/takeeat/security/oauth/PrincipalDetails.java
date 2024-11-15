@@ -61,14 +61,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof PrincipalDetails) {
-            return this.member.getId().equals(((PrincipalDetails) o).member.getId());
-        }
-        return false;
+        if (this == o) return true;
+        if (!(o instanceof PrincipalDetails)) return false;
+        if((this.member.getEmail() == null) || (((PrincipalDetails) o).getMember().getEmail() == null)) return false;
+
+        return this.member.getEmail().equals(((PrincipalDetails) o).member.getEmail());
     }
 
     @Override
     public int hashCode() {
-        return this.member.getId().hashCode();
+        return (member != null && member.getEmail() != null) ? this.member.getEmail().hashCode() : 0;
     }
 }

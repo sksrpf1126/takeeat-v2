@@ -3,10 +3,7 @@ package com.back.takeeat.config;
 import com.back.takeeat.security.CustomOAuth2UserService;
 import com.back.takeeat.security.RedisOAuth2AuthorizedClientService;
 import com.back.takeeat.security.UserDetailsServiceImpl;
-import com.back.takeeat.security.handler.CustomAccessDeniedHandler;
-import com.back.takeeat.security.handler.CustomAuthenticationEntryPoint;
-import com.back.takeeat.security.handler.LoginFailureHandler;
-import com.back.takeeat.security.handler.OAuth2LoginSuccessHandler;
+import com.back.takeeat.security.handler.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +29,7 @@ public class WebSecurityConfig {
     private final CustomOAuth2UserService customOAuth2UserService;
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
+    private final CustomLogoutHandler customLogoutHandler;
     private final LoginFailureHandler loginFailureHandler;
     private final RedisOAuth2AuthorizedClientService redisOAuth2AuthorizedClientService;
 
@@ -57,6 +55,7 @@ public class WebSecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/member/logout") // 로그아웃 처리 URL
+                        .addLogoutHandler(customLogoutHandler)
                         .logoutSuccessUrl("/") //로그아웃 성공 후 이동페이지
                 )
                 .httpBasic(AbstractHttpConfigurer::disable) //Spring Security가 기본적으로 제공해주는 httpBasic 로그인 방식 disable

@@ -1,6 +1,7 @@
 package com.back.takeeat.config;
 
 import com.back.takeeat.security.CustomOAuth2UserService;
+import com.back.takeeat.security.RedisOAuth2AuthorizedClientService;
 import com.back.takeeat.security.UserDetailsServiceImpl;
 import com.back.takeeat.security.handler.CustomAccessDeniedHandler;
 import com.back.takeeat.security.handler.CustomAuthenticationEntryPoint;
@@ -32,6 +33,7 @@ public class WebSecurityConfig {
     private final UserDetailsServiceImpl userDetailsServiceImpl;
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final LoginFailureHandler loginFailureHandler;
+    private final RedisOAuth2AuthorizedClientService redisOAuth2AuthorizedClientService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -60,6 +62,7 @@ public class WebSecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable) //Spring Security가 기본적으로 제공해주는 httpBasic 로그인 방식 disable
                 .oauth2Login((oauth2) -> oauth2 // OAuth2기반의 로그인인 경우
                         .loginPage("/member/login") //인증이 필요한 URL에 접근하면 /member/login으로 이동
+                        .authorizedClientService(redisOAuth2AuthorizedClientService)
                         .userInfoEndpoint(userInfoEndpointConfig -> userInfoEndpointConfig
                                 .userService(customOAuth2UserService)) //인증절차를 진행하는 메서드
                         .successHandler(oAuth2LoginSuccessHandler)) //인증 성공시에 싱행되는 메서드

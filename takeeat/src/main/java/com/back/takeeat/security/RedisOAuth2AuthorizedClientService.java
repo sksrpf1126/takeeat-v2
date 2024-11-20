@@ -20,7 +20,7 @@ public class RedisOAuth2AuthorizedClientService implements OAuth2AuthorizedClien
 
     @Override
     public <T extends OAuth2AuthorizedClient> T loadAuthorizedClient(String clientRegistrationId, String principalName) {
-        String key = "auth:email:" + principalName;
+        String key = "oauth:email:" + principalName;
 
         String accessToken = redisTemplate.opsForValue().get(key);
 
@@ -55,7 +55,7 @@ public class RedisOAuth2AuthorizedClientService implements OAuth2AuthorizedClien
 
     @Override
     public void removeAuthorizedClient(String clientRegistrationId, String principalName) {
-        String key = "ouath:" + principalName;
+        String key = "oauth:" + principalName;
         redisTemplate.delete(key);
     }
 }

@@ -5,6 +5,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +18,12 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class RedisOAuth2AuthorizedClientService implements OAuth2AuthorizedClientService {
 
+    private final ClientRegistrationRepository clientRegistrationRepository;
     private final RedisTemplate<String, String> redisTemplate;
 
     @Override
     public <T extends OAuth2AuthorizedClient> T loadAuthorizedClient(String clientRegistrationId, String principalName) {
-        String key = "oauth:email:" + principalName;
+        String key = "oauth:" + principalName;
 
         String accessToken = redisTemplate.opsForValue().get(key);
 
@@ -31,8 +34,10 @@ public class RedisOAuth2AuthorizedClientService implements OAuth2AuthorizedClien
                     Instant.now(),
                     Instant.now().plus(1, ChronoUnit.HOURS));
 
+            ClientRegistration clientRegistration = clientRegistrationRepository.findByRegistrationId(clientRegistrationId);
+
             return (T) new OAuth2AuthorizedClient(
-                    null, // ClientRegistration 객체 필요
+                    clientRegistration,
                     principalName,
                     token
             );

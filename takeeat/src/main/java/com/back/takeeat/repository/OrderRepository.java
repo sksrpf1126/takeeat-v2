@@ -1,6 +1,7 @@
 package com.back.takeeat.repository;
 
 import com.back.takeeat.domain.order.Order;
+import com.back.takeeat.domain.order.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,4 +21,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     )
     List<Order> findByMemberIdForOrderList(@Param("memberId") Long memberId);
 
+    boolean existsByMemberIdAndOrderStatusIn(Long memberId, List<OrderStatus> statuses);
 }

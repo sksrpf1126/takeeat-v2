@@ -266,6 +266,14 @@ public class MemberController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public String deleteMember(@LoginMember Member member) {
+        memberService.socialMemberDelete(member);
+        return member.getNickname();
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/nickname")
     @ResponseBody
     public String getNickname(@LoginMember Member member) {

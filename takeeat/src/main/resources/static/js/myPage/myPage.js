@@ -9,8 +9,17 @@ $("#delete-member").on("click", function () {
                 window.location.href = "/";
             },
             error: function (xhr, status, error) {
-                alert("회원탈퇴에 실패하였습니다: " + xhr.responseText);
-                console.error("Error:", error);
+                const responseText = JSON.parse(xhr.responseText);
+
+                if(responseText.code === "U_010") {
+                    alert(
+                        "소셜 정보가 만료되었습니다. \n"
+                        +
+                        "회원탈퇴를 원하시면 로그아웃 후 다시 로그인해주세요."
+                    );
+                }else {
+                    alert(responseText.message);
+                }
             }
         });
     } else {

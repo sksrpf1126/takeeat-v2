@@ -130,6 +130,13 @@ public class MemberService {
         oAuth2AuthorizedClientService.removeAuthorizedClient(memberProviderType.toString(), member.getEmail());
     }
 
+    @Transactional
+    public void formMemberDelete(Member member) {
+        List<OrderStatus> statuses = List.of(OrderStatus.WAIT, OrderStatus.ACCEPT);
+        validateExistsOrders(member.getId(), statuses);
+        memberRepository.delete(member);
+    }
+
     /**
      * @param email 소셜 회원 이메일
      * @return Access Token

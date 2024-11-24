@@ -6,7 +6,7 @@ $("#delete-member").on("click", function () {
             contentType: "application/json",
             success: function (response) {
                 alert("회원탈퇴가 완료되었습니다.");
-                window.location.href = "/";
+                window.location.href = "/member/logout";
             },
             error: function (xhr, status, error) {
                 const responseText = JSON.parse(xhr.responseText);

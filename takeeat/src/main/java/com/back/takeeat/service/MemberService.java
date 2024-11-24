@@ -7,6 +7,7 @@ import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.cart.Cart;
 import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.domain.user.ProviderType;
 import com.back.takeeat.dto.member.SignupRequest;
 import com.back.takeeat.dto.member.SocialSignupRequest;
 import com.back.takeeat.repository.CartRepository;
@@ -39,6 +40,7 @@ public class MemberService {
     private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final RestTemplate restTemplate;
     private final BCryptPasswordEncoder encoder;
+
 
     @Transactional
     public void registerMember(SignupRequest signupRequest) {
@@ -114,12 +116,18 @@ public class MemberService {
         //대기중이거나, 수락상태인 주문이 존재할 경우 탈퇴 불가
         validateExistsOrders(member.getId(), statuses);
 
+        memberRepository.delete(member);
+
         String accessToken = this.getSocialMemberAccessToken(member.getEmail());
 
-//        googleOAuthUnlink(accessToken);
-        kakaoOAuthUnlink(accessToken);
+        ProviderType memberProviderType = member.getProviderType();
 
-        log.info("test");
+        //소셜 연결 끊기
+        if(ProviderType.GOOGLE == memberProviderType) googleOAuthUnlink(accessToken);
+        else if(ProviderType.KAKAO == memberProviderType) kakaoOAuthUnlink(accessToken);
+
+        //Access Token 제거
+        oAuth2AuthorizedClientService.removeAuthorizedClient(memberProviderType.toString(), member.getEmail());
     }
 
     /**

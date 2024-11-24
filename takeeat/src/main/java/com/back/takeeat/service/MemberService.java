@@ -1,21 +1,32 @@
 package com.back.takeeat.service;
 
 import com.back.takeeat.common.exception.AuthException;
+import com.back.takeeat.common.exception.BaseException;
 import com.back.takeeat.common.exception.ErrorCode;
 import com.back.takeeat.common.exception.ErrorPageException;
 import com.back.takeeat.domain.cart.Cart;
+import com.back.takeeat.domain.order.OrderStatus;
 import com.back.takeeat.domain.user.Member;
+import com.back.takeeat.domain.user.ProviderType;
 import com.back.takeeat.dto.member.SignupRequest;
 import com.back.takeeat.dto.member.SocialSignupRequest;
 import com.back.takeeat.repository.CartRepository;
 import com.back.takeeat.repository.MemberRepository;
+import com.back.takeeat.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.net.URI;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -23,9 +34,13 @@ import org.springframework.web.multipart.MultipartFile;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final OrderRepository orderRepository;
     private final CartRepository cartRepository;
     private final S3Service s3Service;
+    private final OAuth2AuthorizedClientService oAuth2AuthorizedClientService;
+    private final RestTemplate restTemplate;
     private final BCryptPasswordEncoder encoder;
+
 
     @Transactional
     public void registerMember(SignupRequest signupRequest) {
@@ -93,6 +108,103 @@ public class MemberService {
         findMember.setEncryptPassword(encoder.encode(newPassword));
 
         return newPassword;
+    }
+
+    @Transactional
+    public void socialMemberDelete(Member member) {
+        List<OrderStatus> statuses = List.of(OrderStatus.WAIT, OrderStatus.ACCEPT);
+        //대기중이거나, 수락상태인 주문이 존재할 경우 탈퇴 불가
+        validateExistsOrders(member.getId(), statuses);
+
+        memberRepository.delete(member);
+
+        String accessToken = this.getSocialMemberAccessToken(member.getEmail());
+
+        ProviderType memberProviderType = member.getProviderType();
+
+        //소셜 연결 끊기
+        if(ProviderType.GOOGLE == memberProviderType) googleOAuthUnlink(accessToken);
+        else if(ProviderType.KAKAO == memberProviderType) kakaoOAuthUnlink(accessToken);
+
+        //Access Token 제거
+        oAuth2AuthorizedClientService.removeAuthorizedClient(memberProviderType.toString(), member.getEmail());
+    }
+
+    @Transactional
+    public void formMemberDelete(Member member) {
+        List<OrderStatus> statuses = List.of(OrderStatus.WAIT, OrderStatus.ACCEPT);
+        validateExistsOrders(member.getId(), statuses);
+        memberRepository.delete(member);
+    }
+
+    /**
+     * @param email 소셜 회원 이메일
+     * @return Access Token
+     */
+    private String getSocialMemberAccessToken(String email) {
+        OAuth2AuthorizedClient oAuth2AuthorizedClient = oAuth2AuthorizedClientService.loadAuthorizedClient("google", email);
+
+        if(oAuth2AuthorizedClient == null) {
+            throw new AuthException(ErrorCode.SOCIAL_NOT_TOKEN);
+        }
+        return oAuth2AuthorizedClient.getAccessToken().getTokenValue();
+    }
+
+    private void kakaoOAuthUnlink(String accessToken) {
+        try {
+            URI uri = new URI("https://kapi.kakao.com/v1/user/unlink");
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            headers.set("Authorization", "Bearer " + accessToken);
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(headers);
+
+            ResponseEntity<Object> response = restTemplate.exchange(uri, HttpMethod.POST, requestEntity, Object.class);
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("카카오 연동 해제에 성공했습니다.");
+            } else {
+                log.error("카카오 연동 해제 실패. 상태 코드: {}", response.getStatusCode());
+                throw new BaseException(ErrorCode.DELETE_MEMBER_ERROR);
+            }
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+
+            // 1 -> 카카오 서버 문제, 2 -> URL, 인자 정보에 문제, 401 -> 유효하지 않은 토큰인 경우
+            if (errorMessage != null && errorMessage.contains("401")) {
+                throw new AuthException(ErrorCode.SOCIAL_NOT_TOKEN);
+            } else {
+                throw new BaseException(ErrorCode.DELETE_MEMBER_ERROR);
+            }
+        }
+    }
+
+    private void googleOAuthUnlink(String accessToken) {
+        try{
+            URI uri = new URI("https://oauth2.googleapis.com/revoke?token="+accessToken);
+            ResponseEntity<Object> response = restTemplate.exchange(uri, HttpMethod.POST, null, Object.class);
+
+            // 상태 코드 확인
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("구글 연동 해제에 성공했습니다.");
+            }
+
+        } catch (Exception e) {
+            String errorMessage = e.getMessage();
+
+            if(errorMessage != null && errorMessage.contains("invalid_token")) {
+                throw new AuthException(ErrorCode.SOCIAL_NOT_TOKEN);
+            } else {
+                throw new BaseException(ErrorCode.DELETE_MEMBER_ERROR);
+            }
+        }
+    }
+
+    private void validateExistsOrders(Long memberId, List<OrderStatus> statuses) {
+        boolean existsOrders = orderRepository.existsByMemberIdAndOrderStatusIn(memberId, statuses);
+
+        if(existsOrders) throw new BaseException(ErrorCode.MEMBER_ORDER_EXISTS);
     }
 
     /**

@@ -266,6 +266,21 @@ public class MemberController {
     }
 
     @PreAuthorize("isAuthenticated()")
+    @DeleteMapping("/delete")
+    @ResponseBody
+    public void deleteMember(@LoginMember Member member) {
+
+        //providerType이 존재하지 않는다면 예외 발생
+        if(member.getProviderType() == null) throw new AuthException(ErrorCode.FAIL_CONVERT);
+
+        if(ProviderType.DEFAULT == member.getProviderType()) {
+            memberService.formMemberDelete(member);
+        }else {
+            memberService.socialMemberDelete(member);
+        }
+    }
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/nickname")
     @ResponseBody
     public String getNickname(@LoginMember Member member) {
